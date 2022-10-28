@@ -1,0 +1,138 @@
+
+    {% extends "super_admin/base.html" %}
+
+
+    {% block content %}
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+
+                    <div class="page-title-left">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Property Management</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li>
+
+                        </ol>
+                        <div class="margn">
+                            <a><button type="button" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                                    Save
+                                </button></a>
+                            <a href="#!"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                                </button></a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row pay-main">
+        
+            <div class="col-md-3 mb-3">
+                <label for="fruit">Property Name</label>
+                <div class="controls">
+
+                 <input type="text" class="form-control">
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Property No (ID)</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="floatLabel form-select"
+                        aria-placeholder="Employee">
+                        <option value="Employee" selected>Select No</option>
+                        {% for i in data_no %}
+
+                        <option value="">{{i}}</option>
+
+                        {% endfor %}
+                    </select>
+
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Phone No </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="basiInput">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Unit No</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Block No </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="basiInput">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Unit Area</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Land Area </h6>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        
+                            <input type="text" class="form-control" id="basiInput">
+                        
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>U. Type</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Price </h6>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        
+                            <input type="text" class="form-control" id="basiInput">
+                        
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Bank</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Status </h6>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        
+                        <select class="floatLabel form-select"
+                        aria-placeholder="Employee">
+                        <option value="Employee" selected>Select Current status</option>
+                        <option value="0">Available</option>
+                        <option value="1">Booked</option>
+                        <option value="2">Reserved</option>
+                    </select>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

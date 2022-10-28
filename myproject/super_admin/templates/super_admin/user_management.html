@@ -1,0 +1,467 @@
+
+    {% extends "super_admin/base.html" %}
+
+
+    {% block content %}
+    <div class="container-fluid mt-4">
+        <div class="tab-content">
+            <div class="tab-pane active" id="home1" role="tabpanel">
+        
+                <div
+                    class="d-flex align-items-center justify-content-between px-2">
+                    <div class="col-md-4 px-0">
+                        <a href="create_user"><button type="button"
+                                class="btn btn-prim add-btn create-button"><i
+                                    class="fas fa-plus"></i>
+                                Create
+                            </button></a>
+        
+                        <button type="button"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Import">
+                            <i class="fas fa-upload"></i>
+                        </button>
+                        <button type="button"  style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Export">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button type="button"  style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Favourite">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button type="button"  style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Print">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Archive">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+        
+                    </div>
+        
+        
+                    <div class="d-flex align-items-center">
+        
+        
+                        <i
+                            class="fas fa-caret-left mr-1 pagintn text-muted"></i><span
+                            class="text-muted"> 1 0f
+                            10</span><i
+                            class="fas fa-caret-right ml-1 pagintn text-muted"></i>
+                        <input type="text" class="form-cont ml-2"
+                            placeholder="Search..." autocomplete="off"
+                            id="search-options" value="">
+        
+        
+        
+                        <div class="btn-group fitr">
+                            <button type="button" class="btn btn-prim"> <i
+                                    class="fas fa-filter"></i>
+                                Filters
+                            </button>
+        
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Draft</a>
+                                <a class="dropdown-item" href="#">Waiting</a>
+                                <a class="dropdown-item" href="#">Done</a>
+                                <a class="dropdown-item" href="#">Rejected</a>
+        
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Add Custom
+                                    Filter</a>
+                            </div>
+                        </div>
+                        <div class="btn-group grpby">
+                            <button type="button" class="btn btn-prim mx-1"> <i
+                                    class="fas fa-bars"></i>
+                                Group By
+                            </button>
+        
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Employees</a>
+                                <a class="dropdown-item" href="#">PaySlip
+                                    Batch</a>
+                                <a class="dropdown-item" href="#">Companies</a>
+                                <a class="dropdown-item" href="#">States</a>
+        
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Add Custom
+                                    Group</a>
+                            </div>
+                        </div>
+                        <ul class="nav nav-tabs nav-ta" role="tablist">
+                            <li class="nav-item mx-1">
+                                <a class="nav-link kan-tab active"
+                                    data-toggle="tab" href="#ho" role="tab"
+                                    aria-selected="false">
+                                    <i class="fas fa-list"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link kan-tab" data-toggle="tab"
+                                    href="#pro" role="tab"
+                                    aria-selected="false">
+                                    <i class="fas fa-th-large"></i>
+                                </a>
+                            </li>
+        
+                        </ul>
+        
+                    </div>
+        
+        
+                </div>
+        
+        
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="ho" role="tabpanel">
+                        <div class="table-responsive mb-1  mt-2">
+                            <table class="table table-nowrap align-middle"
+                                id="orderTable">
+                                <thead class="table-light">
+                                    <tr class="text-uppercase">
+                                        <th scope="col" style="width: 25px;">
+                                            <div class="checkall">
+                                                <input class="form-check-input checkField"
+                                                    type="checkbox"
+                                                    data-checkall-trigger="group1">
+                                            </div>
+                                        </th>
+                                        <th class="sort" data-sort="id">
+                                            S/No</th>
+                                        <th class="sort"
+                                            data-sort="customer_name">
+                                            Name</th>
+                                        <th class="sort"
+                                            data-sort="product_name">
+                                           Phone
+                                        </th>
+                                        <th class="sort" data-sort="date">Email</th>
+                                        <th class="sort" data-sort="date">Address</th>
+                                        <!-- <th class="sort" data-sort="amount">Amount</th>
+                                                    <th class="sort" data-sort="payment">Payment Method</th> -->
+        
+                                        <th class="sort" data-sort="company">
+                                           Mobile
+                                        </th>
+                                        <th class="sort" data-sort="company">
+                                           Created At
+                                        </th>
+                                        
+                                        <!-- <th class="sort" data-sort="action">Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody class="list form-check-all">
+                                    <tr>
+                                        <th scope="row">
+                                            <input
+                                                class="form-check-input checkField"
+                                                type="checkbox"
+                                                data-checkall-group="group1"
+                                                id="checkbox1-1">
+                                        </th>
+                                        <td class="id"><a href="#"
+                                                class="fw-medium link-primary">SLIP/001</a>
+                                        </td>
+                                        <td class="customer_name">Administrator
+                                        </td>
+                                        <td class="product_name">Salary Slip of
+                                            Administrator
+                                            for March-2022</td>
+                                        <td class="date">01/03/2022</td>
+                                        <td class="date">31/03/2022</td>
+                                        <td class="company">Saudi Mohammed Jafar
+                                            Al
+                                            Hadad
+                                            General Cont. Co.</td>
+                                        <td class="status"><span
+                                                class="badge badge-soft-success text-uppercase">Done</span>
+                                        </td>
+        
+                                    </tr>
+                                
+                                
+                                </tbody>
+                            </table>
+                           
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="pro" role="tabpanel">
+                        <div class='app'>
+                            <main class='project'>
+        
+                                <div class='project-tasks'>
+                                    <div class='project-column'>
+                                        <div class='project-column-heading'>
+                                            <h2
+                                                class='project-column-heading__title'>
+                                                DRAFT</h2><button
+                                                class='project-column-heading__options'>
+                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                            </button>
+                                        </div>
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Nettie Deloatch</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+        
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Diana Kohler</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+                                    </div>
+                                    <div class='project-column'>
+                                        <div class='project-column-heading'>
+                                            <h2
+                                                class='project-column-heading__title'>
+                                                WAITING</h2><button
+                                                class='project-column-heading__options'>
+                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                            </button>
+                                        </div>
+        
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>James Price</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+        
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Jane Prik</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Nancy Martino</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+        
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Henry Baird</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+        
+                                    </div>
+                                    <div class='project-column'>
+                                        <div class='project-column-heading'>
+                                            <h2
+                                                class='project-column-heading__title'>
+                                                DONE</h2><button
+                                                class='project-column-heading__options'>
+                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                            </button>
+                                        </div>
+        
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Administrator</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+                                        <div class='task' draggable='true'>
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Thomas Taylor</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Alex Morgan</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Donald Palmer</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+                                    </div>
+                                    <div class='project-column'>
+                                        <div class='project-column-heading'>
+                                            <h2
+                                                class='project-column-heading__title'>
+                                                REJECTED</h2><button
+                                                class='project-column-heading__options'>
+                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                            </button>
+                                        </div>
+        
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Alexis Clarke</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+        
+                                        <div class='task' draggable='true'>
+        
+        
+                                            <div
+                                                class="d-flex justify-content-between">
+                                                <h6>Daniel James</h6>
+                                                <p class="txt-p">
+                                                    <span>01/03/2022</span>
+                                                    - <span>31/03/2022</span>
+                                                </p>
+                                            </div>
+        
+                                            <p>Salary Slip of Administrator for
+                                                March-2022</p>
+        
+                                        </div>
+        
+                                    </div>
+        
+                                </div>
+                            </main>
+        
+                        </div>
+                    </div>
+        
+                </div>
+        
+        
+        
+        
+            </div>
+       
+        </div>
+        </div>
+
+    {% endblock %}
