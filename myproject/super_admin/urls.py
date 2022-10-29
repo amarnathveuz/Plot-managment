@@ -18,6 +18,11 @@ urlpatterns = [
     path('property_list_api',views.property_list_api,name='property_list_api'),
     path('property_list_api/<int:pk>',views.property_list_api1,name='property_list_api1'),
     path('property_update',views.property_update,name='property_update'),
+    path('user_edit',views.user_edit,name='user_edit'),
+    path('update_user_action',views.update_user_action,name='update_user_action'),
+    path('login_action',views.login_action,name='login_action'),
+    
+
     
 
     

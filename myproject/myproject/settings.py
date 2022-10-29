@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'super_admin',
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

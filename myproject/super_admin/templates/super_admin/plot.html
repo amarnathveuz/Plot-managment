@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 {% load static %}
 <html lang="en">
 
@@ -6,16 +7,16 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Plot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
     rel="stylesheet">
+  <link rel="shortcut icon" type="image/x-icon" href="v">
   <link rel="stylesheet" href="{% static 'plot/css/bootstrap.min.css' %}">
-
   <link rel="stylesheet" href="{% static 'plot/css/style.css' %}">
-
+  <script src="https://kit.fontawesome.com/16b0815225.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -32,7 +33,7 @@
           <line class="st0" x1="73.6" y1="277.8" x2="327" y2="277.8" />
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="grp3" class="wht">
-              <rect x="73.7" y="454.3" class="st1 red" width="253.3" height="173.9" />
+              <rect x="73.7" y="454.3" class="st1" width="253.3" height="173.9" />
               <text transform="matrix(1 0 0 1 187.9712 554.5854)" class="st2 st3">3</text>
             </g>
           </a>
@@ -49,13 +50,13 @@
               <text transform="matrix(1 0 0 1 188.9714 727.2808)" class="st2 st3">4</text>
             </g>
           </a>
-          <a href="#!" id="" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
+          <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="grp2" class="wht">
               <rect x="73.7" y="279.6" class="st1" width="253.3" height="173.9" />
               <text transform="matrix(1 0 0 1 187.9716 380.5864)" class="st2 st3">2</text>
             </g>
           </a>
-          <a href="#!" id="1" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
+          <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="grp1" class="wht">
               <polygon class="st1" points="73.6,117.5 86.6,105.5 327.1,104 327.1,278.7 73.8,278.7 	" />
               <text transform="matrix(1 0 0 1 190.1687 207.9081)" class="st2 st3">1</text>
@@ -81,7 +82,7 @@
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="bx207" class="wht">
-              <polygon class="st1" points="464,398 548.1,398 548.1,364 464.1,364 	" />
+              <polygon class="st1 gray" points="464,398 548.1,398 548.1,364 464.1,364 	" />
               <text transform="matrix(1 0 0 1 488.7078 388.2793)" class="st2 st5">207</text>
             </g>
           </a>
@@ -99,7 +100,7 @@
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="bx206" class="wht">
-              <polygon class="st1" points="379.2,398 464.1,398 464,430.5 379.2,430.5 	" />
+              <polygon class="st1 orng" points="379.2,398 464.1,398 464,430.5 379.2,430.5 	" />
               <text transform="matrix(1 0 0 1 406.0178 421.0309)" class="st2 st5">206</text>
             </g>
           </a>
@@ -123,13 +124,13 @@
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="bx202" class="wht">
-              <polygon class="st1" points="379.2,495.3 464.1,495.3 464.3,462.7 379.2,463.1 	" />
+              <polygon class="st1 orng" points="379.2,495.3 464.1,495.3 464.3,462.7 379.2,463.1 	" />
               <text transform="matrix(1 0 0 1 405.8078 485.9977)" class="st2 st5">202</text>
             </g>
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="bx199" class="wht">
-              <rect x="464.1" y="495.5" class="st1" width="84" height="32.5" />
+              <rect x="464.1" y="495.5" class="st1 red" width="84" height="32.5" />
               <text transform="matrix(1 0 0 1 487.6693 519.2623)" class="st2 st5">199</text>
             </g>
           </a>
@@ -909,9 +910,9 @@
             </g>
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
-            <g id="bx11_00000018239415969298353990000009073062989182790785_" class="wht">
-              <polygon class="st1" points="379.1,188.8 421.8,188.8 421.8,104.1 393.6,104 379.1,119 	" />
-              <text transform="matrix(1 0 0 1 389.5034 156.7812)" class="st2 st5">11</text>
+            <g id="bx11_00000018239415969298353990000009073062989182790785_" class="wht " >
+              <polygon class="st1 {% if data.0.current_status == '0' %}green {% elif data.0.current_status == '1' %}orng {% elif data.0.current_status == '2' %}red{% else %} {% endif %}" points="379.1,188.8 421.8,188.8 421.8,104.1 393.6,104 379.1,119 	" />
+              <text transform="matrix(1 0 0 1 389.5034 156.7812)" class="st2 st5">{{data.0.UnitNo}} </text>
             </g>
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
@@ -1372,7 +1373,7 @@
           <rect x="847.2" y="715.1" class="st1" width="16.9" height="8.6" />
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
             <g id="bx211" class="wht">
-              <path id="box1" onclick="function1(455)" class="st1 green"
+              <path id="box1" class="st1"
                 d="M687.9,759.9c0,0,2.1-19.5,6.2-35.7l-86.4-18.9c0,0-5.2,19.8-8.1,45.6l9.2,9.1H687.9z" />
               <text transform="matrix(1 0 0 1 630.0257 742.106)" class="st2 st12">211</text>
             </g>
@@ -1409,7 +1410,7 @@
             <g id="bx216" class="wht">
               <path id="box6" class="st1"
                 d="M765.6,563.1c0,0,5.6-7.9,27.1-33l-66.9-55.7c0,0-23.7,26-32.7,39.7L765.6,563.1z" />
-              <text transform="matrix(1 0 0 1 725.8148 525.5973)" class="st2 st12">216 c</text>
+              <text transform="matrix(1 0 0 1 725.8148 525.5973)" class="st2 st12">216</text>
             </g>
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom">
@@ -3445,72 +3446,168 @@
         </svg>
 
       </div>
-     
+
       <div class="popover-content">
 
         <div id="popover-card">
           <div class="card">
-            <div class="card-header h4">
-              452111
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h4 class="mb-0 plotNumber"></h4>
+              <span class="badge ">Available</span>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-5">
-                  <h6>Property Name</h6>
-                </div>
-                <div class="col-7">
-                  <span>: Name</span>
-                </div>
-                <div class="col-5">
-                  <h6>Price</h6>
-                </div>
-                <div class="col-7">
-                  <span>: 50 SAR</span>
-                </div>
-                <div class="col-5">
-                  <h6>Measurement</h6>
-                </div>
-                <div class="col-7">
-                  <span>: 10 sq ft</span>
+
+            <div class="popup-show">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-5">
+                    <h6>Unit Type</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="unit_type"> </span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Unit Area</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="unit_area"> </span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Land Area</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="land_area"> </span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Price</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="price"> </span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Attached Files</h6>
+                  </div>
+                  <div class="col-7 attachmnt">
+                    <span>: <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
+                      <a href="#" target="_blank" class="fas fa-file-image ml-2"
+                        download></a></span>
+                  </div>
                 </div>
               </div>
+              <div class="card-footer book-div text-right">
 
+                <a href="#!" class="btn btn-light cls">Close</a>
+                <a href="#!" class="btn btn-dark book-btn">Book</a>
+              </div>
             </div>
-            <div class="card-footer text-right">
-              <a href="#!" class="btn btn-secondary cls">Close</a>
+            <div class="info" style="display: none;">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-5">
+                    <h6>Unit Type</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="unit_type"> </span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Unit Area</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="unit_area"> </span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Land Area</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="land_area"> </span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Price</h6>
+                  </div>
+                  <div class="col-7">
+                    <span class="price"></span>
+                  </div>
+                  <div class="col-5">
+                    <h6>Attached Files</h6>
+                  </div>
+                  <div class="col-7 attachmnt">
+                    <span>: <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
+                      <a href="#" target="_blank" class="fas fa-file-image ml-2"
+                        download></a></span>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                  <div class="col-3">
+                    <h6>Name</h6>
+                  </div>
+                  <div class="col-9">
+                    <span class="d-flex">: <input type="text" id="plot-name" class="form-control ml-1 mb-2 plot-name" ></span>
+                  </div>
+                  <div class="col-3">
+                    <h6>ID</h6>
+                  </div>
+                  <div class="col-9">
+                    <span class="d-flex">: <input type="text" class="form-control ml-1 mb-2 plot-id"></span>
+                  </div>
+                  <div class="col-3">
+                    <h6>Phone</h6>
+                  </div>
+                  <div class="col-9">
+                    <span class="d-flex">: <input type="text" class="form-control ml-1 mb-2 phone"></span>
+                  </div>
+                  <div class="col-3">
+                    <h6>Bank</h6>
+                  </div>
+                  <div class="col-9">
+                    <span class="d-flex">: <textarea name="" id="" cols="36" rows="3"
+                        class="ml-1 w-100 bank"></textarea></span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer text-right">
+
+                <a href="#!" class="btn btn-light cls">Close</a>
+                <a href="#!" class="btn btn-dark cls submit-booking">Submit</a>
+              </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
+
     </div>
   </div>
+  </div>
 
-  <script src="{% static 'plot/js/jquery.slim.min.js' %}"></script>
-  <script src="{% static 'plot/js/umd/popper.min.js' %}"></script>
-  <script src="{% static 'plot/js/bootstrap.bundle.min.js' %}"></script>
-  <script
-    src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js">
-  </script>
-  <script src="https://cdpn.io/cpe/boomboom/pen.js?key=pen.js-df98745c-9b7c-6fa0-7c46-8763693dfd3c"></script>
+  <script src="{% static 'plot/js/jquery.min.js' %}"></script>
+  <script src="{% static 'plot/js/popper.min.js' %}"></script>
+  <script src="{% static 'plot/js/bootstrap.min.js' %}"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <!-- <script>
     $(".redbg").click(function () {
       $('.redbg  .st1').css("fill", "white");
       $(this).find('.st1').css("fill", "red");
     });
   </script> -->
+
+
+  <script>
+    var domailUrl = 'http://10.10.10.119:8000';
+    $(document).on('click', ".book-btn", function () {
+      $('.popup-show').hide();
+      $('.info').show();
+    });
+  </script>
   <script>
     $(document).ready(function () {
       // popoverExicution();
       // popover show 
       $('.popClass').popover({
-        
         html: true,
         content: function () {
           var id = $(this).attr('id')
-          alert(id)
           return $('#po' + id).html();
-
         }
       });
     });
@@ -3525,12 +3622,20 @@
 
     // first click show 
     $(document).on('click', '.popClass', function (e) {
+      // get plotId id 
+      var plotId = $(this).find('.st2').html();
+      $('.plotNumber').html(plotId)
+      // pass plot id in plotDetail function 
+      plotDetail(plotId)
+
+      $('.info').hide();
       $('.allPoperHide').popover('hide');
       $('.popHideClass').popover('hide');
       $(this).addClass('popHideClass');
       $(this).popover('show');
       $(this).removeClass('popClass');
       $(this).addClass('allPoperHide');
+      $('.popup-show').show();
 
     });
 
@@ -3551,6 +3656,97 @@
       $('.popHideClass').popover('hide');
       $(this).popover('show');
     });
+
+    // plot detail (pass plot id )
+    function plotDetail(id) {
+      axios({
+        method: 'get',
+        url: domailUrl+'/property_list_api/' + id,
+        data: {}
+      }).then(function (response) {
+        // console.log(response.data);
+        var data = response.data;
+        console.log(data.UType);
+        $('.unit_type').html(":" + data.UType);
+        $('.unit_area').html(":" + data.UnitArea);
+        $('.land_area').html(":" + data.LandArea);
+        $('.price').html(":" + data.Price);
+        $('.file-value').attr('href',domailUrl+data.attached_file);
+
+        $('.badge').removeClass('badge-green');
+        $('.badge').removeClass('badge-orng');
+        $('.badge').removeClass('badge-gray');
+        $('.badge').removeClass('badge-red');
+        $('.book-div').show();
+
+        if (data.current_status == "0") {
+          $('.badge').html('Available')
+          $('.badge').addClass('badge-green');
+        } else if (data.current_status == "1") {
+          $('.badge').html('Price Quotation')
+          $('.badge').addClass('badge-orng');
+
+        } else if (data.current_status == "2") {
+          $('.badge').html('Sold')
+          $('.badge').addClass('badge-red');
+          $('.book-div').hide();
+        } else if (data.current_status == "3") {
+          $('.badge').html('Cancelled')
+          $('.badge').addClass('badge-gray');
+        }
+
+      });
+    }
+    // submit booking 
+    $(document).on('click', '.submit-booking',function()
+    {
+      var name = $('#plot-name');
+      console.log(name);
+      var plotId = $('.plot-id').val();
+      var phone = $('.phone').val();
+      var bank = $('.bank').val();
+      var form = {
+        name:name,
+        plotId:plotId,
+        phone:phone,
+        bank:bank
+      }
+      axios({
+        method:"post",
+        url:domailUrl+'/property_create',
+        data:form,
+      }).then(function (response)
+      {
+
+      })
+
+    })
+
+    $(document).ready(function () {
+      //get all property ploat list
+      axios({
+        method: 'get',
+        url: domailUrl+'/property_list_api',
+        data: {}
+      }).then(function (response) {
+        var data = response.data;
+        $( data ).map(function(index,value) {
+          console.log(index,value.UnitNo_primary);
+    // return this.id;
+         });
+      });
+
+      // var lineValues = $(".st2")
+      //           .map(function() {
+      //               return parseFloat($(this).val());
+      //           }).get();
+      //           console.log(lineValues);
+      // var divAll = $('.redbg').find('.st2').eq(0);
+      //   var divValue = divAll.html()
+      // console.log(divValue);
+    });
+
+    
   </script>
 
 </body>

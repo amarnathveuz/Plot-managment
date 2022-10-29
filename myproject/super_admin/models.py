@@ -1,3 +1,4 @@
+from secrets import choice
 from django.db import models
 
 # Create your models here.
@@ -40,8 +41,38 @@ class common(models.Model):  # COMM0N
         abstract = True
 
 
+password_generate_option = (
+    ("Automatic","Automatic"),
+    ("Manual","Manual"),
+)
+
+login_user_type = (
+    ("manager","manager"),
+    ("salesman","salesman")
+)
+
+
 class user_Details(common):
     auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="auth_user_login_id", null=True)
     name = models.CharField(max_length=255,null=True)
-    
+    phone = models.CharField(max_length=255,null=True)
+    email = models.EmailField(null=True)
+    mobile = models.CharField(max_length=255,null=True)
+    emp_id = models.CharField(max_length=255,null=True)
+    address1 = models.CharField(max_length=255,null=True)
+    address2 = models.CharField(max_length=255,null=True)
+    city = models.CharField(max_length=255,null=True)
+    state = models.CharField(max_length=255,null=True)
+    country = models.CharField(max_length=255,null=True)
+    zip = models.CharField(max_length=255,null=True)
+    password_geration_type = models.CharField(max_length=255,choices=password_generate_option,null=True)
+    user_type = models.CharField(max_length=255,choices=login_user_type,null=True)
+    atatchment = models.FileField(upload_to="user_image",null=True)
+    created_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name="added_by_user_id", null=True)
+
+
+class user_manger_mapping(common):
+    user_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_manger_mapping_user_login_id", null=True)
+    user_auth_id = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_manger_mapping_auth_id", null=True)
+    manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_manger_mapping_manager_id", null=True)
 

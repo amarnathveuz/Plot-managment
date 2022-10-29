@@ -3,7 +3,13 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 # Create your views here.
 from .models import *
-
+from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import Intractive_mapSerializer
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request,'super_admin/index.html')
 
@@ -13,8 +19,6 @@ def plot(request):
     return render(request,'super_admin/plot.html')
 
 
-def home(request):
-    return render(request,'super_admin/home.html')
 
 def property_management(request):
     data = intractive_map.objects.all()
@@ -38,10 +42,120 @@ def create_property(request):
     return render(request,'super_admin/create_property.html',context)
 
 def user_management(request):
-    return render(request,'super_admin/user_management.html')
+    user_data = user_Details.objects.all()
+    context = {
+        'user_data':user_data
+    }
+    return render(request,'super_admin/user_management.html',context)
 
 def create_user(request):
-    return render(request,'super_admin/create_user.html')
+    if request.method == "POST":
+        name = request.POST.get("name",False)
+        attachment = None
+        try:
+            attachment = request.FILES['attachment']
+        except:
+            pass
+        user_type = request.POST.get("user_type",False)
+        phone = request.POST.get("phone",False)
+        mobile = request.POST.get("mobile",False)
+        email = request.POST.get("email",False)
+        empid = request.POST.get("empid",False)
+        address1 = request.POST.get("address1",False)
+        address2 = request.POST.get("address2",False)
+        city = request.POST.get("city",False)
+        state = request.POST.get("state",False)
+        country = request.POST.get("country",False)
+        zip = request.POST.get("zip",False)
+        password_select = request.POST.get("password_select",False)
+        password = ""
+        if password_select == "Automatic":
+            import string    
+            import random
+            S = 10
+            password = ''.join(random.choices(string.ascii_uppercase + string.digits, k = S))
+        elif password_select == "Manual":
+            password = request.POST.get("password",False)
+        if user_type == "manager":
+            if User.objects.filter(username=email).exists():
+                messages.warning(request,str("An account with the given username alredy exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            else:
+                user = User.objects.create_user(email, email, password)
+                user.save()
+                data1 = Token.objects.create(user=user)
+                save_user_data = user_Details(
+                    auth_user = user,
+                    name = name,
+                    phone = phone,
+                    email = email,
+                    mobile = mobile,
+                    emp_id = empid,
+                    address1 = address1,
+                    address2 = address2,
+                    city = city,
+                    state = state,
+                    country = country,
+                    zip = zip,
+                    password_geration_type = password_select,
+                    user_type = user_type,
+                    atatchment =  attachment,
+                    created_by = request.user
+
+                )
+                save_user_data.save()
+                messages.success(request,str("password:"+str(password)))
+                return redirect(request.META['HTTP_REFERER'])
+        elif user_type == "salesman":
+            if User.objects.filter(username=email).exists():
+                messages.warning(request,str("An account with the given username alredy exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            else:
+                user = User.objects.create_user(email, email, password)
+                user.save()
+                data1 = Token.objects.create(user=user)
+                save_user_data = user_Details.objects.create(
+                    auth_user = user,
+                    name = name,
+                    phone = phone,
+                    email = email,
+                    mobile = mobile,
+                    emp_id = empid,
+                    address1 = address1,
+                    address2 = address2,
+                    city = city,
+                    state = state,
+                    country = country,
+                    zip = zip,
+                    password_geration_type = password_select,
+                    user_type = user_type,
+                    atatchment =  attachment,
+                    created_by = request.user
+
+                )
+                manager = request.POST.get("manager")
+                save_manager = user_manger_mapping(
+                    user_id_id = save_user_data.id,
+                    user_auth_id = save_user_data.auth_user,
+                    manager_id_id = manager
+                )
+                save_manager.save()
+                messages.success(request,str("password:"+str(password)))
+                return redirect(request.META['HTTP_REFERER'])
+
+            pass
+
+
+
+    
+
+        pass
+    else:
+        manager_data = user_Details.objects.filter(user_type="manager")
+        context = {
+            'manager_data':manager_data
+        }
+        return render(request,'super_admin/create_user.html',context)
 
 
 
@@ -81,10 +195,7 @@ def simple_upload(request):
 
                 print(data)
 
-from django.http import JsonResponse
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .serializers import Intractive_mapSerializer
+
 @api_view(['GET','POST'])
 def property_list_api(request):
 
@@ -152,3 +263,125 @@ def property_update(request):
             'data':data
         }
         return render(request,'super_admin/property_update.html',context)
+
+
+
+def user_edit(request):
+    id = request.GET.get("id",False)
+    data = user_Details.objects.get(id=id)
+
+
+    all_manger = user_Details.objects.filter(user_type="manager")
+    user_manger = ''
+    try:
+        user_manger = user_manger_mapping.objects.get(user_id_id=id)
+    except:
+        pass
+    
+    context = {
+        'data':data,
+        'all_manger':all_manger,
+        'user_manger':user_manger
+    }
+    return render(request,'super_admin/user_edit.html',context)
+
+
+
+def update_user_action(request):
+    if request.method == "POST":
+        updated_id = request.POST.get("updated_id",False)
+        name = request.POST.get("name",False)
+        user_type = request.POST.get("user_type",False)
+        phone = request.POST.get("phone",False)
+        mobile = request.POST.get("mobile",False)
+        email = request.POST.get("email",False)
+        empid = request.POST.get("empid",False)
+        address1 = request.POST.get("address1",False)
+        address2 = request.POST.get("address2",False)
+        city = request.POST.get("city",False)
+        state = request.POST.get("state",False)
+        country = request.POST.get("country",False)
+        zip = request.POST.get("zip",False)
+        password_select = request.POST.get("password_select",False)
+        manager = request.POST.get("manager",False)
+        try:
+            attachment = request.FILES['attachment']
+            data_update_attch = user_Details.objects.get(id=updated_id)
+            data_update_attch.atatchment = attachment
+            data_update_attch.save()
+        except:
+            pass
+        update_user_details = user_Details.objects.filter(id=updated_id).update(
+            name=name,
+            phone = phone,
+            email = email,
+            mobile = mobile,
+            emp_id = empid,
+            address1 = address1,
+            address2 = address2,
+            city = city,
+            state = state,
+            country = country,
+            zip = zip,
+            user_type = user_type
+
+
+        )
+        print("password_select:::::",str(password_select))
+        if password_select == "yes":
+            user_data = user_Details.objects.get(id=updated_id)
+            password = request.POST.get("password",False)
+            u = User.objects.get(id=user_data.auth_user.id)
+            u.set_password(password)
+            u.save()
+        if user_type == "salesman":
+            user_data = user_Details.objects.get(id=updated_id)
+            try:
+                check_manger = user_manger_mapping.objects.get(user_id_id=user_data.id)
+                update_manager = user_manger_mapping.objects.filter(user_id_id=user_data.id).update(manager_id_id=manager)
+            except:
+                
+                insert_manger = user_manger_mapping(
+                    user_id_id = user_data.id,
+                    user_auth_id_id = user_data.auth_user.id,
+                    manager_id_id=manager
+                )
+                insert_manger.save()
+                pass
+
+        messages.success(request,"updated")
+        return redirect(request.META['HTTP_REFERER'])
+        
+def login_action(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            user = authenticate(username=username, password=password)
+            st = user.is_superuser
+            if st == True:
+                print("helloooooo")
+                login(request, user)
+                return redirect('home')
+            else:
+                user_data = user_Details.objects.get(auth_user=user)
+                if user_data.user_type == "salesman":
+                    login(request, user)
+                    return redirect("plot")
+        except:
+            messages.warning(request,"invalid username and password")
+            return redirect(request.META['HTTP_REFERER'])
+
+
+@login_required(login_url='/')
+def home(request):
+    return render(request,'super_admin/home.html')
+
+
+
+def plot(request):
+    data = intractive_map.objects.all()
+    context = {
+        'data':data
+    }
+    return render(request,'super_admin/plot.html',context)

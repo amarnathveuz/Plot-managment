@@ -20,9 +20,77 @@
     fill:orange !important;
 }
 
-.wht:hover .st0{
-    fill:red !important;
+.wht .gray{
+    fill: gray !important;
 }
+
+.attachmnt a{
+    color: rgb(22, 22, 22);
+}
+
+.attachmnt a:hover{
+    color: black;
+}
+
+.popover input{
+    display: block;
+}
+
+.popover-body .badge{
+    display: flex;
+    padding: 0.4em 0.8em !important;
+    font-size: 13px;
+    height: 26px;
+    font-weight: 400;
+    text-align: center;
+    cursor: default;
+}
+
+.badge-orng {
+    color: #fff;
+    background-color: orange;
+}
+
+.badge-green {
+    color: #fff;
+    background-color: #008000;
+}
+
+.badge-gray {
+    color: #fff;
+    background-color: gray;
+}
+
+.badge-red{
+    color: #fff;
+    background-color: #e40000;
+}
+
+
+.popover-body .form-control{
+    height: calc(1.5rem + 2px) !important;
+    padding: 0.35rem 0.5rem !important;
+    font-size: 14px !important;
+    border-radius: 0.2rem !important;
+}
+
+.popover-body textarea:focus{
+    color: #495057;
+    background-color: #fff;
+    border-color: #a1d6f4;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgb(47 164 231 / 25%);
+    box-shadow: 0 0 0 0.2rem rgb(47 164 231 / 25%);
+}
+
+.popover-body textarea{
+    border: 1px solid #ced4da;
+    border-radius: 0.2rem !important;
+}
+
+/* .wht:hover .st0{
+    fill:red !important;
+} */
 
 #myModal .modal-body table{
     width: 45%;

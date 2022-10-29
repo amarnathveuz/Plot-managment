@@ -143,8 +143,7 @@
                                                     data-checkall-trigger="group1">
                                             </div>
                                         </th>
-                                        <th class="sort" data-sort="id">
-                                            S/No</th>
+                                       
                                         <th class="sort"
                                             data-sort="customer_name">
                                             Name</th>
@@ -161,13 +160,20 @@
                                            Mobile
                                         </th>
                                         <th class="sort" data-sort="company">
+                                            Type
+                                         </th>
+                                        <th class="sort" data-sort="company">
                                            Created At
+                                        </th>
+                                        <th>
+                                            Action
                                         </th>
                                         
                                         <!-- <th class="sort" data-sort="action">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody class="list form-check-all">
+                                    {% for i in user_data  %}
                                     <tr>
                                         <th scope="row">
                                             <input
@@ -177,25 +183,32 @@
                                                 id="checkbox1-1">
                                         </th>
                                         <td class="id"><a href="#"
-                                                class="fw-medium link-primary">SLIP/001</a>
+                                                class="fw-medium link-primary">{{i.name}}</a>
                                         </td>
-                                        <td class="customer_name">Administrator
+                                        <td class="customer_name">{{i.phone}}
                                         </td>
-                                        <td class="product_name">Salary Slip of
-                                            Administrator
-                                            for March-2022</td>
-                                        <td class="date">01/03/2022</td>
-                                        <td class="date">31/03/2022</td>
-                                        <td class="company">Saudi Mohammed Jafar
-                                            Al
-                                            Hadad
-                                            General Cont. Co.</td>
-                                        <td class="status"><span
-                                                class="badge badge-soft-success text-uppercase">Done</span>
+                                        <td class="product_name">{{i.email}}</td>
+                                        <td class="date">{{i.address1}}</td>
+                                        <td class="date">{{i.mobile}}</td>
+                                        <td class="company">
+                                            {% if i.user_type == "manager" %}
+                                            <span
+                                                class="badge badge-soft-success text-uppercase">Manager</span>
+                                            {% elif i.user_type == "salesman"  %}
+                                            <span style="color: red!important"
+                                                class="badge badge-soft-success text-uppercase">Salesman</span>
+
+                                            {% endif %}
+                                            </td>
+                                        <td class="status">{{i.dt}}
+                                        </td>
+                                        <td>
+                                            <a href="user_edit?id={{i.id}}"><i style="color: black;" class="fas fa-edit"></i></a>
                                         </td>
         
                                     </tr>
                                 
+                                    {% endfor %}
                                 
                                 </tbody>
                             </table>
