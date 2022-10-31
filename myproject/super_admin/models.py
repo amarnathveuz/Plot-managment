@@ -1,4 +1,6 @@
+from email.policy import default
 from secrets import choice
+from unittest.mock import DEFAULT
 from django.db import models
 
 # Create your models here.
@@ -75,4 +77,18 @@ class user_manger_mapping(common):
     user_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_manger_mapping_user_login_id", null=True)
     user_auth_id = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_manger_mapping_auth_id", null=True)
     manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_manger_mapping_manager_id", null=True)
+
+
+
+class user_request_plot(common):
+    auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_request_plot_login_id", null=True)
+    user_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_request_plot_user_login_id", null=True)
+    property_mapping_id = models.ForeignKey(intractive_map,on_delete=models.CASCADE,related_name="user_request_plot_user_login_id", null=True)
+    name = models.CharField(max_length=255,null=True)
+    booking_id = models.CharField(max_length=255,null=True)
+    phone = models.CharField(max_length=255,null=True)
+    bank = models.CharField(max_length=255,null=True)
+    manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_request_plot_manager_id", null=True)
+    read_status = models.IntegerField(default=0)
+
 

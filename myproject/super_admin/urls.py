@@ -22,6 +22,8 @@ urlpatterns = [
     path('update_user_action',views.update_user_action,name='update_user_action'),
     path('login_action',views.login_action,name='login_action'),
     path('booking_action',views.booking_action,name='booking_action'),
+    path('view_all_activity',views.view_all_activity,name='view_all_activity'),
+    path('booking_more_details',views.booking_more_details,name='booking_more_details'),
     
 
     

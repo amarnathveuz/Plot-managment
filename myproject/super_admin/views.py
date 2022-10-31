@@ -368,6 +368,9 @@ def login_action(request):
                 if user_data.user_type == "salesman":
                     login(request, user)
                     return redirect("plot")
+                elif user_data.user_type == "manager":
+                    login(request,user) 
+                    return redirect("home")
         except:
             messages.warning(request,"invalid username and password")
             return redirect(request.META['HTTP_REFERER'])
@@ -390,5 +393,47 @@ def plot(request):
 
 def booking_action(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        print("name:::::",str(name))
+        name = request.POST.get("name",False)
+        plot_id_mapping_id = request.POST.get("plot_id_mapping_id",False)
+        b_id = request.POST.get("b_id",False)
+        phone = request.POST.get("phone",False)
+        bank = request.POST.get("bank",False)
+        data_user = user_Details.objects.get(auth_user=request.user)
+        data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
+        data_save = user_request_plot.objects.create(
+            auth_user=request.user,
+            user_id_id = data_user.id,
+            property_mapping_id_id = plot_id_mapping_id,
+            name = name,
+            booking_id = b_id,
+            phone = phone,
+            bank = bank,
+            manager_id_id = data_user_manger.manager_id.id,
+            read_status = 0
+
+        )
+        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1)
+        messages.success(request,"You successfully created your booking")
+        return redirect(request.META['HTTP_REFERER'])
+
+
+
+
+def view_all_activity(request):
+    data_user = user_Details.objects.get(auth_user=request.user)
+    data = user_request_plot.objects.filter(manager_id_id=data_user.id).order_by("-id")
+    context = {
+        'data':data
+    }
+    return render(request,'super_admin/view_all_activity.html',context)
+
+
+
+def booking_more_details(request):
+
+    id = request.GET.get("id")
+    data = user_request_plot.objects.get(id=id)
+    context = {
+        'data':data
+    }
+    return render(request,'super_admin/booking_more_details.html',context)

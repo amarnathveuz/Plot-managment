@@ -202,6 +202,7 @@
                     </div>
                     <div class="col-md-4">
                        <select name="manager"  class="form-control select2">
+                        <option value="select">select manager</option>
 {% for i in manager_data %}
 
 <option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
