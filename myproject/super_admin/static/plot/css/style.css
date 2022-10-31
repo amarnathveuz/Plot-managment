@@ -13,7 +13,7 @@
 }
 
 .wht .green{
-    fill:green !important;
+    fill:#8ec750 !important;
 }
 
 .wht .orng{
@@ -21,7 +21,7 @@
 }
 
 .wht .gray{
-    fill: gray !important;
+    fill: #b7b7b7 !important;
 }
 
 .attachmnt a{
@@ -152,7 +152,7 @@
 .tab1 .st2{font-family: 'Roboto', sans-serif;}
 .tab1 .st3{font-size:45px;}
 .tab1 .st4{fill:#FFFFFF;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
-.tab1 .st5{font-size:18px;}
+.tab1 .st5{font-size:14px;}
 .tab1 .st6{fill:#FFFFFF;stroke:#000000;stroke-width:0.75;stroke-miterlimit:10;}
 .tab1 .st7{fill:none;}
 .tab1 .st8{fill:none;stroke:#000000;stroke-width:0.75;stroke-miterlimit:10;}

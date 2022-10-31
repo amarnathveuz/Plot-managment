@@ -385,3 +385,10 @@ def plot(request):
         'data':data
     }
     return render(request,'super_admin/plot.html',context)
+
+
+
+def booking_action(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        print("name:::::",str(name))

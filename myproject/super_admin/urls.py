@@ -21,6 +21,7 @@ urlpatterns = [
     path('user_edit',views.user_edit,name='user_edit'),
     path('update_user_action',views.update_user_action,name='update_user_action'),
     path('login_action',views.login_action,name='login_action'),
+    path('booking_action',views.booking_action,name='booking_action'),
     
 
     
