@@ -68,6 +68,7 @@ def create_user(request):
         country = request.POST.get("country",False)
         zip = request.POST.get("zip",False)
         password_select = request.POST.get("password_select",False)
+        plot_list_view = request.POST.get("plot_list_view",False)
         password = ""
         if password_select == "Automatic":
             import string    
@@ -100,7 +101,8 @@ def create_user(request):
                     password_geration_type = password_select,
                     user_type = user_type,
                     atatchment =  attachment,
-                    created_by = request.user
+                    created_by = request.user,
+                    plot_list_view = plot_list_view
 
                 )
                 save_user_data.save()
@@ -130,7 +132,8 @@ def create_user(request):
                     password_geration_type = password_select,
                     user_type = user_type,
                     atatchment =  attachment,
-                    created_by = request.user
+                    created_by = request.user,
+                    plot_list_view = plot_list_view
 
                 )
                 manager = request.POST.get("manager")
@@ -201,6 +204,7 @@ def property_list_api(request):
 
     data1 = intractive_map.objects.all()
     serializer = Intractive_mapSerializer(data1,many=True)
+    
     return Response(serializer.data)
                 
                 
@@ -210,6 +214,8 @@ def property_list_api1(request,pk):
     print("id:::::",str(pk))
     data1 = intractive_map.objects.get(UnitNo_primary=pk)
     serializer = Intractive_mapSerializer(data1)
+    
+    
     return Response(serializer.data)
 
 
@@ -229,11 +235,21 @@ def property_update(request):
         Bank = request.POST.get("Bank")
         current_status = request.POST.get("current_status")
         attachment = None
+        
+        
         try:
-            attachment = request.FILES['attachment']
-            data_update_attch = intractive_map.objects.get(id=id)
-            data_update_attch.attached_file = attachment
-            data_update_attch.save()
+            data_file = request.FILES.getlist('attachment')
+            for i in data_file:
+                import os
+                extesion = os.path.splitext(str(i))[1]
+                data_save = intractive_map_multiple_image(
+                    mapping_id_id= id,
+                    attached_file = i,
+                    image_type = extesion[1:],
+                    status = "True",
+                    image_name= i.name
+                )
+                data_save.save()
 
         except:
             pass
@@ -259,8 +275,10 @@ def property_update(request):
     else:    
         id = request.GET.get("id")
         data = intractive_map.objects.get(id=id)
+        multiple_image_data = intractive_map_multiple_image.objects.filter(mapping_id_id=id)
         context = {
-            'data':data
+            'data':data,
+            'multiple_image_data':multiple_image_data
         }
         return render(request,'super_admin/property_update.html',context)
 
@@ -409,7 +427,8 @@ def booking_action(request):
             phone = phone,
             bank = bank,
             manager_id_id = data_user_manger.manager_id.id,
-            read_status = 0
+            read_status = 0,
+            booking_status = 1
 
         )
         data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1)
@@ -437,3 +456,42 @@ def booking_more_details(request):
         'data':data
     }
     return render(request,'super_admin/booking_more_details.html',context)
+
+
+def approve_booking_action(request):
+    id = request.GET.get("id")
+    print("idddd::::",id)
+    data = user_request_plot.objects.get(id=id)
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=2)
+    data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=2,read_status=1)
+
+    messages.success(request,"You successfully approved")
+    return redirect(request.META['HTTP_REFERER'])
+
+
+def cancel_booking_action(request):
+    id  = request.GET.get("id")
+    data = user_request_plot.objects.get(id=id)
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=3)
+    data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=3,read_status=1)
+
+    messages.success(request,"You successfully cancelled")
+    return redirect(request.META['HTTP_REFERER'])
+
+
+
+def rest_to_available_booking_action(request):
+    id  = request.GET.get("id")
+    data = user_request_plot.objects.get(id=id)
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0)
+    
+
+    messages.success(request,"You successfully Reset")
+    return redirect(request.META['HTTP_REFERER'])
+
+
+def delete_image_action(request):
+    id = request.GET.get("id")
+    data_delete = intractive_map_multiple_image.objects.filter(id=id).delete()
+    messages.success(request,"success")
+    return redirect(request.META['HTTP_REFERER'])

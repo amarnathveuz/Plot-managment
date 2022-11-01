@@ -24,7 +24,13 @@
                             <p style="    font-size: 11px!important;" class="card-text">Name : {{i.user_id.name|title}}</p>
                             <p style="    font-size: 11px!important;">Email : {{i.user_id.email|title}}</p>
                             <p style="    font-size: 11px!important;">Property No : <span style="color: red!important">{{i.property_mapping_id.BlockNo}}{{i.property_mapping_id.UnitNo}}</span></p>
-                           
+                           {% if i.read_status == 0 %}
+
+                           <span style="font-size: 10px;
+                           font-weight: bold;
+                           color: #ff3535;;">New</span>
+                           {% else %}
+                           {% endif %}
                         </div>
                     </div>
                     </a>

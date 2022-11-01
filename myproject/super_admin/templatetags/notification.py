@@ -13,5 +13,5 @@ def get_notifications(value,args):
         pass
     else:
         user_data = user_Details.objects.get(auth_user=value.id)
-        data_count = user_request_plot.objects.filter(manager_id_id=user_data.id).count()
+        data_count = user_request_plot.objects.filter(manager_id_id=user_data.id,read_status=0).count()
     return data_count

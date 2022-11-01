@@ -30,6 +30,17 @@ class intractive_map(models.Model):
             url = ''
         return url
 
+class intractive_map_multiple_image(models.Model):
+    mapping_id = models.ForeignKey(intractive_map,on_delete=models.CASCADE,related_name="intractive_map_multiple_image_id", null=True)
+    attached_file = models.FileField(upload_to="property_multiple_image",null=True)
+    image_type = models.CharField(max_length=255,null=True)
+    image_name = models.CharField(max_length=255,null=True)
+    dt = models.DateField(auto_now_add=True)
+    tm = models.TimeField(auto_now_add=True)
+    status = models.CharField(max_length=255,null=True)
+    
+
+
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -71,6 +82,7 @@ class user_Details(common):
     user_type = models.CharField(max_length=255,choices=login_user_type,null=True)
     atatchment = models.FileField(upload_to="user_image",null=True)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name="added_by_user_id", null=True)
+    plot_list_view = models.CharField(max_length=255,null=True)
 
 
 class user_manger_mapping(common):
@@ -90,5 +102,6 @@ class user_request_plot(common):
     bank = models.CharField(max_length=255,null=True)
     manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_request_plot_manager_id", null=True)
     read_status = models.IntegerField(default=0)
+    booking_status = models.IntegerField(null=True)
 
 

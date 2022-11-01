@@ -24,6 +24,12 @@ urlpatterns = [
     path('booking_action',views.booking_action,name='booking_action'),
     path('view_all_activity',views.view_all_activity,name='view_all_activity'),
     path('booking_more_details',views.booking_more_details,name='booking_more_details'),
+    path('approve_booking_action',views.approve_booking_action,name='approve_booking_action'),
+    path('cancel_booking_action',views.cancel_booking_action,name='cancel_booking_action'),
+    path('rest_to_available_booking_action',views.rest_to_available_booking_action,name='rest_to_available_booking_action'),
+    path('delete_image_action',views.delete_image_action,name='delete_image_action'),
+    
+
     
 
     

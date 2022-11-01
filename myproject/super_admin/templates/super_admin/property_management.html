@@ -223,8 +223,24 @@
                                     {% if i.current_status == "0" %}
                                     
                                     <span
-                                        class="badge badge-soft-success text-uppercase">Available</span>
+                                        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                        background-color: #008000;">Available</span>
 
+{% elif i.current_status == "1" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+    background-color: orange;">Price Quotation</span>
+
+
+    
+{% elif i.current_status == "2" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+        background-color: #e40000;">Sold</span>
+        {% elif i.current_status == "3" %}
+        <span
+        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                   background-color: gray;">Cancelled</span>
                                         {% else %}
 
                                         {% endif %}

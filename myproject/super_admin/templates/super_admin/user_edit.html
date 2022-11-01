@@ -22,7 +22,7 @@
                                 <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
                                         Update
                                     </button></a>
-                                <a href="#!"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                                <a href="user_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
                                     </button></a>
                             </div>
     
@@ -99,6 +99,14 @@
                                
     
                         </div>
+
+
+                        <div id="selected_image1" style="display: none">
+
+                            <span onclick="image_remove_action()"><i   style="margin-left:25px; cursor: pointer;width: 20%;
+                             height: 1%;    margin: -21px 39px;color:red;    font-weight: bold;" class="fa fa-times" aria-hidden="true"></i></span>
+                         </div>
+
                         {% if data.atatchment == ''  %}
 
                         {% else %}
@@ -153,64 +161,20 @@
                             <input name="empid" value="{{data.emp_id}}" type="text" class="form-control" id="basiInput">
                         </div>
                         <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Address 1</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <textarea name="address1" type="text" class="form-control" id="basiInput">{{data.address1}}</textarea>
-                        </div>
-                        
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Address 2 </h6>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-center">
-                            
-                                <textarea name="address2" type="text" class="form-control" id="basiInput">{{data.address2}}</textarea>
-                            
-                        </div>
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>City</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input name="city" type="text" value="{{data.city}}" class="form-control" id="basiInput">
-                        </div>
-                        
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>State </h6>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-center">
-                            
-                                <input name="state" value="{{data.state}}" type="text" class="form-control" id="basiInput">
-                            
-                        </div>
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Country</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input name="country" value="{{data.country}}" type="text" class="form-control" id="basiInput">
-                        </div>
-                        
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Zip </h6>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-center">
-                            
-                            <input name="zip" value="{{data.zip}}" type="text" class="form-control" id="basiInput">
-                            
-                        </div>
-                        <div class="col-md-2 br-right d-flex align-items-center">
                             <h6>Password change confirmation</h6>
                         </div>
                         <div class="col-md-4">
-                            <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked> &nbsp;no
-                            &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio" >&nbsp; yes
+                            <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked> &nbsp;No
+                            &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio" >&nbsp; Yes
                             <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter new password" class="form-control mt-2">
                         </div>
+                        
+                    </div>
+                   
+                 
+                    <div class="row mt-2">
+                        
+                       
                        
                           
                      
@@ -321,6 +285,21 @@
         function remove_image_fun(){
             $('#image_div').hide();
             $('#selected_image0').show();
+        }
+
+        $('#files').change(function(){
+
+            document.getElementById("selected_image0").style.display = "none"
+    document.getElementById("selected_image1").style.display = "block"
+
+
+
+        })
+
+
+        function image_remove_action(){
+            document.getElementById("selected_image0").style.display = "block"
+    document.getElementById("selected_image1").style.display = "none"
         }
     </script>
         {% endblock %}
