@@ -28,6 +28,10 @@ urlpatterns = [
     path('cancel_booking_action',views.cancel_booking_action,name='cancel_booking_action'),
     path('rest_to_available_booking_action',views.rest_to_available_booking_action,name='rest_to_available_booking_action'),
     path('delete_image_action',views.delete_image_action,name='delete_image_action'),
+    path("export_excel/", views.export_data_to_excel, name="export_excel"),
+    path('plot_table_view',views.plot_table_view,name='plot_table_view'),
+    path('user_based_property_delete',views.user_based_property_delete,name='user_based_property_delete'),
+    
     
 
     

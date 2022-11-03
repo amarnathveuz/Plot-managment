@@ -2,25 +2,31 @@
 
 {% load static %}
 {% block content %}
+<link
+href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css">
+<div class="content">
+    <div class="container-fluid px-0 customer-contact">
 
-    {% csrf_token %}
-    <div class="container-fluid mt-4">
+
         <div class="row">
             <div class="col-12 px-0">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
 
-                    <div class="page-title-left">
+
+                    <div class="page-title-left w-100">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Activity</a>
                             </li>
-                            <li class="breadcrumb-item active"><a href="javascript: void(0);">Booking More Details</a>
-                            </li>
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">Booking More
+                                    Details</a></li>
 
                         </ol>
-                        <div class="margn">
-
-                            {% if data.booking_status == 3   %}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="margn">
+                                {% if data.booking_status == 3   %}
                             <a href="#"  onclick="available_button_action()"><button style="padding: 5px 10px !important;background-color: #008000;
                                 color: white;
                                 border: none;" type="button"
@@ -36,7 +42,7 @@
                             <a href="#" onclick="sold_button_action()">
                                 <button  style="padding: 5px 10px !important;"
                                         class="btn btn-prim pay">
-                                        Sold
+                                        Confirm & Sell
                                     </button>
                                 </a>
 
@@ -47,170 +53,302 @@
 
                                 {% endif %}
 
+                            </div>
+                            <div class="contact-pag d-flex align-items-center">
+                                <!-- <i class="fas fa-caret-left mr-1 pagintn text-muted"
+                                            aria-hidden="true"></i><span class="text-muted"> 1 0f
+                                            10</span><i class="fas fa-caret-right ml-1 pagintn text-muted"
+                                            aria-hidden="true"></i> -->
 
+
+                                            <a href="#!"><button style="padding: 5px 10px !important;border: none; {% if data.booking_status == 1 %} color: #fff;
+                                                background-color: orange; {% elif data.booking_status == 2   %}     color: #fff;
+                        background-color: #e40000;  {% elif data.booking_status == 3   %}     color: #fff;
+                        background-color: gray; {% endif %}" type="button" class="btn btn-pri pay discard-payroll">
+                    
+                    
+                                                {% if data.booking_status == 1 %}
+                                                Price Quotation
+                    
+                                                {% elif data.booking_status == 0  %}
+                                                Available
+                    
+                                                {% elif data.booking_status == 2  %}
+                                                Confirmed
+                    
+                                                {% elif data.booking_status == 3  %}
+                                                Cancelled
+                                                {% else %}
+                    
+                                                {% endif %}
+                                            </button></a>
+                            </div>
                         </div>
 
 
                     </div>
-                    <a href="#!"><button style="padding: 5px 10px !important;border: none; {% if data.booking_status == 1 %} color: #fff;
-                            background-color: orange; {% elif data.booking_status == 2   %}     color: #fff;
-    background-color: #e40000;  {% elif data.booking_status == 3   %}     color: #fff;
-    background-color: gray; {% endif %}" type="button" class="btn btn-pri pay discard-payroll">
 
-
-                            {% if data.booking_status == 1 %}
-                            Price Quotation
-
-                            {% elif data.booking_status == 0  %}
-                            Available
-
-                            {% elif data.booking_status == 2  %}
-                            Sold
-
-                            {% elif data.booking_status == 3  %}
-                            Cancelled
-                            {% else %}
-
-                            {% endif %}
-                        </button></a>
                 </div>
             </div>
         </div>
-        <div class="row pay-main">
 
 
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Name</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input style="background: #8080802e;" readonly name="name" value="{{data.name}}" required
-                            type="text" class="form-control">
+        <div class="row">
+            <div class="col-lg-12 px-0">
+                <div class="card noti-card" id="orderList">
+
+
+                    <div class="card-body bb-0 pt-0 p-0">
+                        <div>
+
+                            <div class="payslip mb-5">
+
+                                <div class="row pay-main mb-2">
+
+                                    <div class="customer-head mb-4 col-md-10">
+                                        <div class="cust-logo"
+                                            style="background-image: url({% static 'admin/img/users/avatar-1.jpg' %});">
+
+                                        </div>
+                                        <div class="cust-name row">
+                                            <div class="col-md-1">
+                                                <input type="radio" id="individual" value="individual"
+                                                    name="catgry" > <label
+                                                    for="Individual" {% if data.user_id.user_type == "manager" %} checked {% endif %}>Manager</label><br>
+                                            </div>
+                                            <div class="col">
+                                                <input type="radio" id="company" value="company"
+                                                    name="catgry" {% if data.user_id.user_type == "salesman" %} checked {% endif %}><label
+                                                    for="company">Salesman</label><br>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h3 class="m-0">{{data.property_mapping_id.BlockNo}}{{data.property_mapping_id.UnitNo}}</h3>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Name</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <p class="mb-0">{{data.name|title}}</p>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Phone</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <p class="mb-0">{{data.phone}}</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Emp ID </h6>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p class="mb-0">{{data.user_id.emp_id}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>ID </h6>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p class="mb-0"> {{data.booking_id}}</p>
+                                               
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Email</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <p class="mb-0">{{data.user_id.email}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Mobile</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <p class="mb-0">{{data.user_id.mobile}}</p>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Bank</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <p class="mb-0">{{data.bank}}</p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
 
                     </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>User Type </h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input readonly type="radio" {% if data.user_id.user_type == "manager" %} checked {% endif %}
-                            name="user_type" value="manager"> &nbsp;Manager
-                        &nbsp;&nbsp;<input readonly {% if data.user_id.user_type == "salesman" %} checked {% endif %}
-                            name="user_type" type="radio" value="salesman">&nbsp; Salesman
-                    </div>
-
                 </div>
-                <div class="row mt-2">
 
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Phone No</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input style="background: #8080802e;" name="phone" value="{{data.phone}}" readonly required
-                            type="number" class="form-control">
+                <div  style="    
+                padding: 1px 24px;">
+                    <p style="font-weight: bold;">Logs</p>
+                   
 
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Mobile </h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input style="background: #8080802e;" name="mobile" required type="number" readonly
-                            value="{{data.user_id.mobile}}" class="form-control" id="basiInput">
-                    </div>
+                    <div class="row">
+                        {% for i in booking_log1 %}
 
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class='project-column mt-2'>
+                                        <a style="text-decoration: none;color: black" href="booking_more_details?id={{i.id}}">
+                                        <div class="customer-bx">
+                                            {% if i.user_type == "administrator" %}
+
+                                            <div class="cust-img" style="background-image: url('{% static 'adminicon.jpg' %}');">
+
+                                            </div>
+                                            {% else %}
+
+                                            {% if i.assigned_user_id.atatchment == '' %}
+                                            <div class="cust-img" style="background-image: url('{% static 'adminicon.jpg' %}');">
+
+                                            </div>
+
+                                            {% else %}
+                                            <div class="cust-img" style="background-image: url('../media/{{i.assigned_user_id.atatchment}}');">
+
+                                            </div>
+
+                                            {% endif %}
+
+                                            {% endif %}
+
+                                            <div class="customer-content">
+                                                <h5></i> </h5>
+                                                <span class="d-flex"><h6>
+                                                    {% if i.user_type == "administrator" %}
+                                                    {{i.user_type|title}} </h6>
+                                                    {% else %}
+
+                                                    {{i.auth_user.email|title}}
+
+                                                    {% endif %}
+                                                   </span>
+                                                <span class="d-flex"><p>{{i.d_text}} </p> </span>
+                                                <span class="d-flex"><p style="font-weight: bold;
+                                                    color: #2c3785;">{{i.status_content}}</p> </span>
+                                              
+                                            </div>
+
+                                        </div>
+                                        </a>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <br>
+                    <br>
+                    <br>
                 </div>
-                <div class="row mt-2">
+                <!-- <div class="row pay-main" data-select2-id="6">
+                    <input type="hidden" name="updated_id" value="9">
 
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Email</h6>
+                    <div class="col-md-12" data-select2-id="5">
+                        <div class="row">
+                            <div class="col-md-2 br-right d-flex align-items-center">
+                                <h6>Name</h6>
+                            </div>
+                            <div class="col-md-4 multipick">
+                                <select class="selectpicker" multiple aria-label="Default select example"
+                                    data-live-search="true">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                    <option value="4">Four</option>
+                                </select>
+
+                            </div>
+                            <style>
+      
+
+                                .multipick .bootstrap-select>.dropdown-toggle.bs-placeholder {
+                                    padding: 6px 6px;
+                                    font-size: 14px;
+                                    border: 1px solid #d0d0d0;
+                                }
+                                .multipick .bootstrap-select button{
+                                    padding: 6px 6px;
+                                    font-size: 14px;
+                                    border: 1px solid #d0d0d0;
+                                }
+                                .multipick .bootstrap-select .dropdown-menu li a{
+                                    color: black;
+                                }
+                            </style>
+
+                            <div class="col-md-2 br-right d-flex align-items-center">
+                                <h6>Name</h6>
+                            </div>
+                            <div class="col-md-4">
+                                <input name="name" value="amaraa" required="" type="text"
+                                    class="form-control">
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+
                     </div>
-                    <div class="col-md-4">
-                        <input style="background: #8080802e;" name="email" required readonly
-                            value="{{data.user_id.email}}" type="email" class="form-control" id="basiInput">
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Emp ID</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input style="background: #8080802e;" name="empid" readonly value="{{data.user_id.email}}"
-                            type="text" class="form-control" id="basiInput">
-                    </div>
-
-                </div>
-                <div class="row mt-2">
-
-
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Property No</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input style="color: red !important;
-                                font-weight: bold;background: #8080802e;" name="empid" readonly
-                            value="{{data.property_mapping_id.BlockNo}}{{data.property_mapping_id.UnitNo}}" type="text"
-                            class="form-control" id="basiInput">
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Bank</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input style="background: #8080802e;" name="empid" readonly value="{{data.bank}}" type="text"
-                            class="form-control" id="basiInput">
-                    </div>
-
-
-
-                </div>
-
-                <div class="row mt-2">
-
-
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>ID</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input style="background: #8080802e;" name="empid" readonly value="{{data.booking_id}}"
-                            type="text" class="form-control" id="basiInput">
-                    </div>
-
-
-
-                </div>
-
+                </div> -->
 
             </div>
+
         </div>
+
+
+
     </div>
+</div>
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
-<script>
-    $(document).ready(function () {
-        $('.select2').select2({
-            closeOnSelect: false
-        });
-    });
+<script src="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
 
-    function visible_manager(data) {
-        if (data == "manager") {
-            var x = document.getElementById('manager_select_div').style.display = "none";
-        } else {
-            var x = document.getElementById('manager_select_div').style.display = "block";
-        }
-
-    }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js">
 </script>
-
-<script>
-    function password_select_function(data) {
-        if (data == "manual") {
-            var y = document.getElementById('manual_password_field').style.display = "block"
-
-        } else {
-            var y = document.getElementById('manual_password_field').style.display = "none"
-        }
-    }
-</script>
-
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {% if messages %}
@@ -269,4 +407,6 @@
 
     }
 </script>
+
+
 {% endblock %}

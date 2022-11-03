@@ -19,11 +19,20 @@ def plot(request):
     return render(request,'super_admin/plot.html')
 
 
-
+from django.core.paginator import Paginator
 def property_management(request):
+    page_obj = ""
+    page_number = request.GET.get("page")
     data = intractive_map.objects.all()
+    data_paginator = Paginator(data,500)
+    try:
+        page_obj = data_paginator.get_page(page_number)  
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
     context = {
-        'data':data
+        "data":data,
+        'page_obj': page_obj
+
     }
     return render(request,'super_admin/property_management.html',context)
 
@@ -69,7 +78,12 @@ def create_user(request):
         zip = request.POST.get("zip",False)
         password_select = request.POST.get("password_select",False)
         plot_list_view = request.POST.get("plot_list_view",False)
+        price_visibility = request.POST.get("price_visibility",False)
         password = ""
+        property_access = request.POST.get("property_access",False)
+        
+        
+        # selected_property_list = request.POST.getlist("selected_property_list[]",False)
         if password_select == "Automatic":
             import string    
             import random
@@ -85,7 +99,8 @@ def create_user(request):
                 user = User.objects.create_user(email, email, password)
                 user.save()
                 data1 = Token.objects.create(user=user)
-                save_user_data = user_Details(
+                
+                save_user_data = user_Details.objects.create(
                     auth_user = user,
                     name = name,
                     phone = phone,
@@ -102,10 +117,23 @@ def create_user(request):
                     user_type = user_type,
                     atatchment =  attachment,
                     created_by = request.user,
-                    plot_list_view = plot_list_view
+                    plot_list_view = plot_list_view,
+                    price_visibility = price_visibility,
+                    property_access = property_access
 
                 )
-                save_user_data.save()
+                if property_access == 'plot_based':
+                    selected_property_list = request.POST.getlist("selected_property_list[]",False)
+                    for i in selected_property_list:
+                        data_save_property = user_access_property_mapping(
+                            auth_user = user,
+                            mapping_id_id = save_user_data.id,
+                            property_mapping_id_id = i,
+
+                        )
+                        data_save_property.save()
+
+                
                 messages.success(request,str("password:"+str(password)))
                 return redirect(request.META['HTTP_REFERER'])
         elif user_type == "salesman":
@@ -133,7 +161,9 @@ def create_user(request):
                     user_type = user_type,
                     atatchment =  attachment,
                     created_by = request.user,
-                    plot_list_view = plot_list_view
+                    plot_list_view = plot_list_view,
+                    price_visibility = price_visibility,
+                    property_access = "all"
 
                 )
                 manager = request.POST.get("manager")
@@ -155,8 +185,10 @@ def create_user(request):
         pass
     else:
         manager_data = user_Details.objects.filter(user_type="manager")
+        data_property = intractive_map.objects.all()
         context = {
-            'manager_data':manager_data
+            'manager_data':manager_data,
+            'data_property':data_property
         }
         return render(request,'super_admin/create_user.html',context)
 
@@ -191,7 +223,8 @@ def simple_upload(request):
                     Price = data[9],
                     Bank = data[10],
                     Status = data[11],
-                    current_status = 0
+                    current_status = 0,
+                    currency = "SAR"
 
                 )
                 data.save()
@@ -234,6 +267,7 @@ def property_update(request):
         Price = request.POST.get("Price")
         Bank = request.POST.get("Bank")
         current_status = request.POST.get("current_status")
+        currency = request.POST.get("currency")
         attachment = None
         
         
@@ -263,7 +297,8 @@ def property_update(request):
             UType= UType,
             Price= Price,
             Bank =Bank,
-             current_status = current_status
+             current_status = current_status,
+             currency = currency
         )
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
@@ -287,6 +322,7 @@ def property_update(request):
 def user_edit(request):
     id = request.GET.get("id",False)
     data = user_Details.objects.get(id=id)
+    user_property = user_access_property_mapping.objects.filter(mapping_id_id=id)
 
 
     all_manger = user_Details.objects.filter(user_type="manager")
@@ -299,7 +335,8 @@ def user_edit(request):
     context = {
         'data':data,
         'all_manger':all_manger,
-        'user_manger':user_manger
+        'user_manger':user_manger,
+        'user_property':user_property
     }
     return render(request,'super_admin/user_edit.html',context)
 
@@ -322,6 +359,9 @@ def update_user_action(request):
         zip = request.POST.get("zip",False)
         password_select = request.POST.get("password_select",False)
         manager = request.POST.get("manager",False)
+        plot_list_view = request.POST.get("plot_list_view",False)
+        price_visibility = request.POST.get("price_visibility",False)
+        property_access = request.POST.get("property_access",False)
         try:
             attachment = request.FILES['attachment']
             data_update_attch = user_Details.objects.get(id=updated_id)
@@ -341,7 +381,10 @@ def update_user_action(request):
             state = state,
             country = country,
             zip = zip,
-            user_type = user_type
+            user_type = user_type,
+            plot_list_view = plot_list_view,
+            price_visibility = price_visibility,
+            property_access = property_access
 
 
         )
@@ -402,8 +445,10 @@ def home(request):
 
 def plot(request):
     data = intractive_map.objects.all()
+    user_data = user_Details.objects.get(auth_user=request.user)
     context = {
-        'data':data
+        'data':data,
+        'user_data':user_data
     }
     return render(request,'super_admin/plot.html',context)
 
@@ -439,8 +484,13 @@ def booking_action(request):
 
 
 def view_all_activity(request):
-    data_user = user_Details.objects.get(auth_user=request.user)
-    data = user_request_plot.objects.filter(manager_id_id=data_user.id).order_by("-id")
+    user = User.objects.get(id=request.user.id)
+    st = user.is_superuser
+    if st == True:
+        data = user_request_plot.objects.all().order_by("-id")
+    else:
+        data_user = user_Details.objects.get(auth_user=request.user)
+        data = user_request_plot.objects.filter(manager_id_id=data_user.id).order_by("-id")
     context = {
         'data':data
     }
@@ -452,8 +502,10 @@ def booking_more_details(request):
 
     id = request.GET.get("id")
     data = user_request_plot.objects.get(id=id)
+    booking_log1 = booking_log.objects.filter(booking_id_id=id).order_by("-id")
     context = {
-        'data':data
+        'data':data,
+        'booking_log1':booking_log1
     }
     return render(request,'super_admin/booking_more_details.html',context)
 
@@ -462,6 +514,30 @@ def approve_booking_action(request):
     id = request.GET.get("id")
     print("idddd::::",id)
     data = user_request_plot.objects.get(id=id)
+    auth_user = User.objects.get(id=request.user.id)
+    user_type = auth_user.is_superuser
+    if user_type == True:
+        assigned_user_name = data.manager_id.name
+        assigned_user_id = data.manager_id.id
+        current_status = data.booking_status
+        print("type:::::",type(current_status))
+        if current_status == 1:
+            current_status = 'Price Quotation'
+        text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
+        status_content = current_status+"-->"+"Approved"
+        save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
+        save_log.save()
+    elif user_type == False:
+        current_status = data.booking_status
+        assigned_user_name = data.manager_id.name
+        assigned_user_id = data.manager_id.id
+        if current_status == 1:
+            current_status = 'Price Quotation'
+        text_content = "Booking report approval done ("+assigned_user_name+")"
+        status_content = current_status+"-->"+"Approved"
+        save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
+        save_log.save()
+
     data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=2)
     data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=2,read_status=1)
 
@@ -472,6 +548,32 @@ def approve_booking_action(request):
 def cancel_booking_action(request):
     id  = request.GET.get("id")
     data = user_request_plot.objects.get(id=id)
+    auth_user = User.objects.get(id=request.user.id)
+    user_type = auth_user.is_superuser
+    if user_type == True:
+        assigned_user_name = data.manager_id.name
+        assigned_user_id = data.manager_id.id
+        current_status = data.booking_status
+        print("type:::::",type(current_status))
+        if current_status == 2:
+            current_status = 'Price Quotation'
+        text_content = "Booking report Cancelled done (originally assigned to "+assigned_user_name+")"
+        status_content = current_status+"-->"+"Cancelled"
+        save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
+        save_log.save()
+    elif user_type == False:
+        current_status = data.booking_status
+        assigned_user_name = data.manager_id.name
+        assigned_user_id = data.manager_id.id
+        print("current_status::::",str(current_status))
+        if current_status == 2:
+            current_status = 'Price Quotation'
+        text_content = "Booking report Cancelled done ("+assigned_user_name+")"
+        status_content = current_status+"-->"+"Cancelled"
+        save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
+        save_log.save()
+
+
     data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=3)
     data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=3,read_status=1)
 
@@ -483,6 +585,31 @@ def cancel_booking_action(request):
 def rest_to_available_booking_action(request):
     id  = request.GET.get("id")
     data = user_request_plot.objects.get(id=id)
+    auth_user = User.objects.get(id=request.user.id)
+    user_type = auth_user.is_superuser
+    if user_type == True:
+        assigned_user_name = data.manager_id.name
+        assigned_user_id = data.manager_id.id
+        current_status = data.booking_status
+        print("type:::::",type(current_status))
+        if current_status == 3:
+            current_status = 'Cancelled'
+        text_content = "Booking report Reset to Available done (originally assigned to "+assigned_user_name+")"
+        status_content = current_status+"-->"+" Reset to Available"
+        save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
+        save_log.save()
+    elif user_type == False:
+        current_status = data.booking_status
+        print("current_status::::",str(current_status))
+        assigned_user_name = data.manager_id.name
+        assigned_user_id = data.manager_id.id
+        if current_status == 3:
+            current_status = 'Cancelled'
+        text_content = "Booking report Reset to Available done ("+assigned_user_name+")"
+        status_content = current_status+"-->"+" Reset to Available"
+        save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
+        save_log.save()
+
     data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0)
     
 
@@ -494,4 +621,64 @@ def delete_image_action(request):
     id = request.GET.get("id")
     data_delete = intractive_map_multiple_image.objects.filter(id=id).delete()
     messages.success(request,"success")
+    return redirect(request.META['HTTP_REFERER'])
+
+import xlwt
+
+from django.http import HttpResponse
+from django.db.models import Case, Value, When
+def export_data_to_excel(request):
+    print("hellooooo")
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="property.xls"'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Property details') 
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['Name', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area' ,'U Type','Price',' Status']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style) 
+
+    font_style = xlwt.XFStyle()
+    exportid=request.GET.getlist('selected_data')
+    # print("exportid:::::::::::",str(exportid))
+    li = list(exportid[0].split(","))
+    cleanedList = [x for x in li if x != 'NaN']
+
+    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values_list('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','statusnew')
+    # print("rows:::::",rows)
+   
+    
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    wb.save(response)
+    return response
+
+
+
+def plot_table_view(request):
+    page_obj = ""
+    page_number = request.GET.get("page")
+    data = intractive_map.objects.all()
+    data_paginator = Paginator(data,500)
+    try:
+        page_obj = data_paginator.get_page(page_number)  
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+    context = {
+        "data":data,
+        'page_obj': page_obj
+
+    }
+    return render(request,'super_admin/plot_table_view.html',context)
+
+
+
+def user_based_property_delete(request):
+    id = request.GET.get("id",False)
+    data_delete = user_access_property_mapping.objects.filter(id=id).delete()
+    messages.success(request,"successfully deleted")
     return redirect(request.META['HTTP_REFERER'])

@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(intractive_map)
 admin.site.register(user_Details)
 admin.site.register(intractive_map_multiple_image)
+admin.site.register(booking_log)

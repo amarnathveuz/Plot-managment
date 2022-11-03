@@ -1,9 +1,8 @@
 
-
-    {% extends "super_admin/base.html" %}
-
-
+{% extends "super_admin/base.html" %}
 {% block content %}
+
+
 <div class="container-fluid mt-4">
 <div class="tab-content">
     <div class="tab-pane active" id="home1" role="tabpanel">
@@ -17,53 +16,30 @@
                         Create
                     </button></a>
 
-                <button type="button"
-                    class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns"
-                    data-toggle="tooltip" data-bs-trigger="hover"
-                    data-bs-placement="top" title=""
-                    data-bs-original-title="Import">
-                    <i class="fas fa-upload"></i>
-                </button>
-                <button type="button"  style="display:none;"
+                    <button type="button" onclick="Export()" style="display:none;"
                     class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
                     data-toggle="tooltip" data-bs-trigger="hover"
                     data-bs-placement="top" title=""
                     data-bs-original-title="Export">
                     <i class="fas fa-download"></i>
-                </button>
-                <button type="button"  style="display:none;"
-                    class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
-                    data-toggle="tooltip" data-bs-trigger="hover"
-                    data-bs-placement="top" title=""
-                    data-bs-original-title="Favourite">
-                    <i class="fas fa-star"></i>
-                </button>
-                <button type="button"  style="display:none;"
-                    class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
-                    data-toggle="tooltip" data-bs-trigger="hover"
-                    data-bs-placement="top" title=""
-                    data-bs-original-title="Print">
-                    <i class="fas fa-print"></i>
-                </button>
-                <button type="button" style="display:none;"
-                    class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
-                    data-toggle="tooltip" data-bs-trigger="hover"
-                    data-bs-placement="top" title=""
-                    data-bs-original-title="Archive">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-
+                    </button>
             </div>
 
 
             <div class="d-flex align-items-center">
-
-
-                <i
-                    class="fas fa-caret-left mr-1 pagintn text-muted"></i><span
-                    class="text-muted"> 1 0f
-                    10</span><i
-                    class="fas fa-caret-right ml-1 pagintn text-muted"></i>
+                <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i><span class="text-muted"> 
+                    {% if page_obj.has_previous %}
+                <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a> 
+                {% endif %}
+                <span>{{page_obj.number}}</span> 
+                
+                {% if page_obj.has_next %} 
+                   <!-- <a    style="color: black;" href="?page={{page_obj.next_page_number}}">Next - {{page_obj.next_page_number}}</a> -->
+                    <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                {% endif %}
+                </span>
+                <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
+                    
                 <input type="text" class="form-cont ml-2"
                     placeholder="Search..." autocomplete="off"
                     id="search-options" value="">
@@ -128,7 +104,7 @@
 
         </div>
 
-
+        <input type="hidden" id="pagination_count" name="">
         <!-- Tab panes -->
         <div class="tab-content">
             <div class="tab-pane active" id="ho" role="tabpanel">
@@ -138,13 +114,14 @@
                         <thead class="table-light">
                             <tr class="text-uppercase">
                                 <th scope="col" style="width: 25px;">
+
                                     <div class="checkall">
-                                        <input class="form-check-input checkField"
-                                            type="checkbox"
+                                        <input class="form-check-input checkField check-all"
+                                            type="checkbox" onclick="check()"
                                             data-checkall-trigger="group1">
                                     </div>
+                                   
                                 </th>
-                               
                                 <th class="sort"
                                     data-sort="customer_name">
                                     Name</th>
@@ -176,17 +153,17 @@
                                 <!-- <th class="sort" data-sort="action">Action</th> -->
                             </tr>
                         </thead>
-                        <tbody class="list form-check-all">
-                          
-                            {% for i in data %}
-                            <tr>
-                                <th scope="row">
-                                    <input
-                                        class="form-check-input checkField"
-                                        type="checkbox"
-                                        data-checkall-group="group1"
-                                        id="checkbox1-1">
-                                </th>
+               
+                                <tbody class="list form-check-all append_search_result">
+                                    {% for i in page_obj.object_list %}
+                                        <tr>
+                                            <th scope="row">
+                                                <input
+                                                    class="form-check-input checkField messageCheckbox"
+                                                    type="checkbox" value="{{i.id}}"
+                                                    data-checkall-group="group1"
+                                                    onclick="check_action(`{{i.id}}`)" id="check_btn{{i.id}}">
+                                            </th>
                                
                                 <td class="id"><a href="#"
                                         class="fw-medium link-primary">
@@ -217,7 +194,7 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {{i.Price}}
+                                  {{i.currency}}  {{i.Price}}
                                 </td>
                                 <td class="status">
                                     {% if i.current_status == "0" %}
@@ -259,267 +236,162 @@ class="badge badge-soft-success text-uppercase" style="    color: #fff;
                    
                 </div>
             </div>
-            <div class="tab-pane" id="pro" role="tabpanel">
-                <div class='app'>
-                    <main class='project'>
-
-                        <div class='project-tasks'>
-                            <div class='project-column'>
-                                <div class='project-column-heading'>
-                                    <h2
-                                        class='project-column-heading__title'>
-                                        DRAFT</h2><button
-                                        class='project-column-heading__options'>
-                                        <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                    </button>
-                                </div>
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Nettie Deloatch</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Diana Kohler</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-                            </div>
-                            <div class='project-column'>
-                                <div class='project-column-heading'>
-                                    <h2
-                                        class='project-column-heading__title'>
-                                        WAITING</h2><button
-                                        class='project-column-heading__options'>
-                                        <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                    </button>
-                                </div>
-
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>James Price</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Jane Prik</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Nancy Martino</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Henry Baird</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-
-                            </div>
-                            <div class='project-column'>
-                                <div class='project-column-heading'>
-                                    <h2
-                                        class='project-column-heading__title'>
-                                        DONE</h2><button
-                                        class='project-column-heading__options'>
-                                        <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                    </button>
-                                </div>
-
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Administrator</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-                                <div class='task' draggable='true'>
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Thomas Taylor</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Alex Morgan</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Donald Palmer</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-                            </div>
-                            <div class='project-column'>
-                                <div class='project-column-heading'>
-                                    <h2
-                                        class='project-column-heading__title'>
-                                        REJECTED</h2><button
-                                        class='project-column-heading__options'>
-                                        <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                    </button>
-                                </div>
-
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Alexis Clarke</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-
-                                <div class='task' draggable='true'>
-
-
-                                    <div
-                                        class="d-flex justify-content-between">
-                                        <h6>Daniel James</h6>
-                                        <p class="txt-p">
-                                            <span>01/03/2022</span>
-                                            - <span>31/03/2022</span>
-                                        </p>
-                                    </div>
-
-                                    <p>Salary Slip of Administrator for
-                                        March-2022</p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </main>
-
-                </div>
-            </div>
-
+            
         </div>
         <br>
         <br>
-
-
-
-
     </div>
 
 </div>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<!-- delete check box  -->
+<script>
+    $('.check-all').on('click', function () {
+        if( $('.check-all').is(':checked') ) {
+            $('.selectIcon').show();
+        }
+        else {
+            $('.selectIcon').hide();
+        }
+    })
+</script>
+
+<script>
+    $('.messageCheckbox').on('click', function () {
+    if( $('.messageCheckbox').is(':checked') ) {
+            $('.selectIcon').show();
+        }
+        else {
+            $('.selectIcon').hide();
+        }
+       })
+</script>
+
+
+
+
+
+
+
+<script>
+    check_list = []
+pagination_count = 1
+    $(".pagination_add").click(function () {
+        pagination_count = pagination_count + 1
+        $("#pagination_count").val(pagination_count)
+
+        var url = "property_management";
+        $.ajax({
+            url: url,
+            data: {
+                'pagination_count': pagination_count
+            },
+        });
+    })
+
+    $(".pagination_minus").click(function () {
+        pagination_count = pagination_count - 1
+        $("#pagination_count").val(pagination_count)
+
+        var url = "property_management";
+        $.ajax({
+            url: url,
+            data: {
+                'pagination_count': pagination_count
+            },
+        });
+    })
+    </script>
+
+
+
+<script>
+   
+    function check_action(count){
+        var checkBox = document.getElementById("check_btn"+count);
+        if (checkBox.checked == true){
+            check_list.push(count)
+        } else {
+           var index = check_list.indexOf(count);
+           if (index > -1) {
+                check_list.splice(index, 1);
+            }
+        }
+    }
+</script>
+
+<script>
+    $(".next_page_action").click(function(){
+        alert("ll")
+        var url =$(this).attr('data-url')
+        alert(url)
+        
+        $.ajax({
+            url: url,
+            data:{
+
+                'check_list[]':check_list
+            },
+        success: function (data) {
+            alert(data)
+            $("#append_datas_property").empty().append(data);
+        }
+    })
+    })
+</script>
+
+
+<script>
+    function check() {
+    
+        // Get all triggers
+        const checkAll = document.querySelectorAll('[data-checkall-trigger]');
+
+        // Check / Uncheck all matching checkboxes
+        function toggleCheckboxGroup(checked, checkboxGroup) {
+            let matchingCheckboxes = document.querySelectorAll('[data-checkall-group="' + checkboxGroup + '"]');
+            var inputElements = document.getElementsByClassName('messageCheckbox');
+            for(var i=0; i<inputElements.length; i++){
+                checkedValue = inputElements[i].value;
+                check_list.push(checkedValue)
+            }
+           
+            matchingCheckboxes.forEach(function (el) {
+                if (checked !== el.checked) {
+                    el.checked = !el.checked;
+                }
+            });
+        };
+
+        // Get all checkboxes of a group
+        checkAll.forEach(function (el) {
+            el.addEventListener('change', function () {
+                let checkboxGroup = el.dataset.checkallTrigger;
+                let checked = el.checked ? true : false;
+                toggleCheckboxGroup(checked, checkboxGroup);
+            });
+        });
+    };
+    
+</script>
+
+
+
+
+
+<script>
+
+function Export() {
+    alert("hy")
+    url=check_list
+    alert("check_list"+check_list)
+    window.location.href = "/export_excel/?selected_data="+url 
+}
+</script>
+
 {% endblock %}

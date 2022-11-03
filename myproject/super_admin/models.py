@@ -21,6 +21,9 @@ class intractive_map(models.Model):
     tm = models.TimeField(auto_now_add=True)
     current_status = models.CharField(max_length=255,null=True)
     attached_file = models.FileField(upload_to="property_image",null=True)
+    currency = models.CharField(max_length=255,null=True,default="SAR")
+    
+    
 
     @property
     def imageURL(self):
@@ -63,7 +66,10 @@ login_user_type = (
     ("manager","manager"),
     ("salesman","salesman")
 )
-
+property_access_option =(
+    ("all","all"),
+    ("plot_based","plot_based")
+)
 
 class user_Details(common):
     auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="auth_user_login_id", null=True)
@@ -83,6 +89,13 @@ class user_Details(common):
     atatchment = models.FileField(upload_to="user_image",null=True)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name="added_by_user_id", null=True)
     plot_list_view = models.CharField(max_length=255,null=True)
+    price_visibility = models.IntegerField(null=True,default=1)
+    property_access =  models.CharField(max_length=255,choices=property_access_option,null=True)
+
+class user_access_property_mapping(common):
+    auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_access_property_mapping_auth_id", null=True)
+    mapping_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_access_property_mapping_id", null=True)
+    property_mapping_id  = models.ForeignKey(intractive_map,on_delete=models.CASCADE,related_name="user_access_property_mapping_property_id", null=True)
 
 
 class user_manger_mapping(common):
@@ -103,5 +116,22 @@ class user_request_plot(common):
     manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_request_plot_manager_id", null=True)
     read_status = models.IntegerField(default=0)
     booking_status = models.IntegerField(null=True)
+
+
+
+login_user_type = (
+    ("administrator","administrator"),
+    ("staff","staff")
+)
+
+class booking_log(common):
+    booking_id = models.ForeignKey(user_request_plot,on_delete=models.CASCADE,related_name="booking_log_id", null=True)
+    action_appy_user = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="booking_log_user_login_id", null=True)
+    auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="booking_log_auth_login_id", null=True)
+    user_type = models.CharField(max_length=255,choices=login_user_type,null=True)
+    d_text = models.TextField(null=True)
+    status_content = models.TextField(null=True)
+    log_type = models.CharField(max_length=255,choices=login_user_type,null=True)
+    assigned_user_id =  models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="booking_log_assign_user_login_id", null=True)
 
 

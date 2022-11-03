@@ -174,12 +174,39 @@
                  
                     <div class="row mt-2">
                         
-                       
+                        <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                            <h6>Plot Listview : </h6>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                           <input type="radio" name="plot_list_view" {% if data.plot_list_view == "no" %} checked {% else %} {% endif %} value="no">&nbsp;No &nbsp;<input name="plot_list_view" type="radio" {% if data.plot_list_view == "yes" %} checked {% else %} {% endif %} value="yes">&nbsp;Yes 
+                        </div>
                        
                           
-                     
+                        <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                            <h6>Price Visibility : </h6>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                           <input type="radio" name="price_visibility" {% if data.price_visibility == 1 %} checked {% else %} {% endif %} value=1>&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" {% if data.price_visibility == 0 %} checked {% else %} {% endif %} value=0>&nbsp;No 
+                        </div>
+                       
                        
                     </div>
+
+                    <div class="row mt-2">
+                        
+                        <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                            <h6>Property Access : </h6>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                          
+                            <input type="radio" onclick="function_access_property('full_access')" name="property_access" value="all"   {% if data.property_access == 'all' %} checked {% else %} {% endif %}> &nbsp;All access
+                            &nbsp;  <input  type="radio" onclick="function_access_property('property_based')"  name="property_access" {% if data.property_access == 'plot_based' %} checked {% else %} {% endif %} value="plot_based"> &nbsp;Plot based access
+                        </div>
+                       
+                       
+                       
+                    </div>
+    
     
                     <div class="row mt-2" id="manager_select_div" {% if data.user_type == 'salesman' %} {% else %} style="display: none" {% endif %}>
                         <div class="col-md-2 br-right d-flex align-items-center">
@@ -213,6 +240,38 @@
             </div>
         </div>
     </form>
+    {% if data.property_access == 'plot_based' %}
+<div class="container-fluid mt-4">
+    <table class="table table-bordered" border="3">
+        <thead>
+          <tr>
+            <th scope="col">PROPERTY NAME</th>
+            <th scope="col">	UNIT NO</th>
+           
+            <th scope="col">BLOCK NO</th>
+            <th scope="col"> ACTION</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+            {% for j in user_property %}
+          <tr>
+            <th scope="row">{{j.property_mapping_id.Name}}</th>
+            <td>{{j.property_mapping_id.UnitNo}}</td>
+            <td>{{j.property_mapping_id.BlockNo}}</td>
+            <td>
+
+                <a href="user_based_property_delete?id={{j.id}}" ><i style="color: black" class="fa fa-trash" aria-hidden="true"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        
+        </tbody>
+      </table>
+</div>
+{% else %}
+
+{% endif %}
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
         <script>

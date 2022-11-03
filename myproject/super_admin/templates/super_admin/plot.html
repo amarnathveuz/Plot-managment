@@ -22,6 +22,17 @@
 <body>
 
   <div class="container-fluid px-0 tables">
+ 
+   {% if user_data.plot_list_view == "yes" %}
+   <br>
+    <a href="plot_table_view" style="padding: 6px 8px;
+    background: #4f93d9;
+    color: white;
+    float: right;
+    font-size: 13px;">Plot Tableview</a>
+    {% else %}
+
+    {% endif %}
     <div class="row">
       <div class="col-md-12 tab1 popover-block-container">
 
@@ -3477,19 +3488,25 @@
                   <div class="col-7">
                     <span class="land_area"> </span>
                   </div>
+                  {% if user_data.price_visibility == 1 %}
                   <div class="col-5">
                     <h6>Price</h6>
                   </div>
                   <div class="col-7">
                     <span class="price"> </span>
                   </div>
+                  {% else %}
+
+                  {% endif %}
                   <div class="col-5">
                     <h6>Attached Files</h6>
                   </div>
                   <div class="col-7 attachmnt">
-                    <span>: <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
+                    <span>: 
+                      <!-- <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
                       <a href="#" target="_blank" class="fas fa-file-image ml-2"
-                        download></a></span>
+                        download></a> -->
+                      </span>
                   </div>
                 </div>
               </div>
@@ -3521,19 +3538,26 @@
                   <div class="col-7">
                     <span class="land_area"> </span>
                   </div>
+              
+                  {% if user_data.price_visibility == 1 %}
                   <div class="col-5">
                     <h6>Price</h6>
                   </div>
                   <div class="col-7">
-                    <span class="price"></span>
+                    <span class="price"> </span>
                   </div>
+                  {% else %}
+
+                  {% endif %}
                   <div class="col-5">
                     <h6>Attached Files</h6>
                   </div>
                   <div class="col-7 attachmnt">
-                    <span>: <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
+                    <span>: 
+                      <!-- <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
                       <a href="#" target="_blank" class="fas fa-file-image ml-2"
-                        download></a></span>
+                        download></a> -->
+                      </span>
                   </div>
                 </div>
 
@@ -3626,6 +3650,10 @@
 
     // first click show 
     $(document).on('click', '.popClass', function (e) {
+      $('.popClass').popover('hide');
+      $('.popHideClass').popover('hide');
+      $('.popHideClass').addClass('popClass')
+      $('.popClass').removeClass('popHideClass');
       // get plotId id 
       var plotId = $(this).data('id');
       $('.plotNumber').html(plotId)
@@ -3670,6 +3698,7 @@
       }).then(function (response) {
         // console.log(response.data);
         var data = response.data;
+        var attachmentFiles = response.data.attachement_multiple_filea;
         console.log(data.UType);
         $('.plotNumber').html(data.BlockNo+data.UnitNo)
         $('.unit_type').html(":" + data.UType);
@@ -3677,8 +3706,80 @@
         $('.land_area').html(":" + data.LandArea);
         $('.price').html(":" + data.Price);
         $(".plot_id_mapping_id").val(data.id);
-        $('.file-value').attr('href',domailUrl+data.attached_file);
-
+        $('.result-attachment').remove();
+        // file attachment 
+        var attachedFileHtml = "";
+        var imageFile = "";
+        var pdfFile = "";
+        var vedioFile ="";
+        $( attachmentFiles ).map(function(index,value) {
+          console.log(value.image_name.length);
+          var name = value.image_name;
+          var nameLength = value.image_name.length;
+          if(nameLength > 15)
+          {
+            name = value.image_name.substring(0,14) + '.....';
+          }
+         
+          if(value.image_type == 'pdf')
+          {
+           pdfFile =  `<div class="col-6 pr-1 mb-2 result-attachment">
+                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" class="" download="" target="_blank" alt="pdf" title="`+value.image_name+`">
+                      <div class="attach-bx">
+                        <div class="float-left">
+                          <span class="o_image float-left">
+                            <img src="https://20665521-15-0-all.runbot134.odoo.com/web/static/img/mimetypes/pdf.svg" alt="">
+                          </span>
+                          <span class="float-left">
+                              <h6>`+name+`</h6>
+                              <span>`+value.image_type+`</span>
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div> `;
+                  $(pdfFile).insertAfter('.attachmnt');
+          }
+          else if(value.image_type =='mp4')
+          {
+            vedioFile =  `<div class="col-6 pr-1 mb-2 result-attachment">
+                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" class="" download="" target="_blank" alt="pdf" title="`+value.image_name+`">
+                      <div class="attach-bx">
+                        <div class="float-left">
+                          <span class="o_image float-left">
+                            <img src="https://20665521-15-0-all.runbot134.odoo.com/web/static/img/mimetypes/video.svg" alt="">
+                          </span>
+                          <span class="float-left">
+                              <h6>`+name+`</h6>
+                              <span>`+value.image_type+`</span>
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div> `;
+                  $(vedioFile).insertAfter('.attachmnt');
+          }
+          else
+          {
+          // console.log(index,value.image_type);
+          imageFile = `<div class="col-6 pr-1 mb-2 result-attachment">
+                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" target="_blank" class="" download="" title="`+value.image_name+`">
+                      <div class="attach-bx">
+                        <div class="float-left">
+                          <span class="o_image float-left">
+                            <img src="https://20665521-15-0-all.runbot134.odoo.com/web/static/img/mimetypes/image.svg" alt="">
+                          </span>
+                          <span class="float-left">
+                              <h6>`+name+`</h6>
+                              <span>`+value.image_type+`</span>
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>`;
+                  $(imageFile).insertAfter('.attachmnt');
+                }
+              });
         $('.badge').removeClass('badge-green');
         $('.badge').removeClass('badge-orng');
         $('.badge').removeClass('badge-gray');
