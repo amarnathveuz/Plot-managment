@@ -211,6 +211,19 @@ def simple_upload(request):
                 i = i + 1
                 pass
             else:
+                status_new = 0
+                print("data[11]:::::",str(data[11]))
+                if data[11] == 'تم الربط':
+                    status_new = 2
+                elif data[11] == 'عرض سعر':
+                    status_new = 1
+                elif data[11] == 'متاح':
+                    status_new = 0
+
+
+                print("status:::::",str(status_new))
+
+
                 data = intractive_map(
                     Name = data[1],
                     Phoneno = data[3],
@@ -223,7 +236,7 @@ def simple_upload(request):
                     Price = data[9],
                     Bank = data[10],
                     Status = data[11],
-                    current_status = 0,
+                    current_status = status_new,
                     currency = "SAR"
 
                 )
@@ -442,7 +455,7 @@ def home(request):
     return render(request,'super_admin/home.html')
 
 
-
+@login_required(login_url='/')
 def plot(request):
     data = intractive_map.objects.all()
     user_data = user_Details.objects.get(auth_user=request.user)
@@ -453,7 +466,7 @@ def plot(request):
     return render(request,'super_admin/plot.html',context)
 
 
-
+@login_required(login_url='/')
 def booking_action(request):
     if request.method == "POST":
         name = request.POST.get("name",False)
@@ -482,7 +495,7 @@ def booking_action(request):
 
 
 
-
+@login_required(login_url='/')
 def view_all_activity(request):
     user = User.objects.get(id=request.user.id)
     st = user.is_superuser
@@ -490,14 +503,16 @@ def view_all_activity(request):
         data = user_request_plot.objects.all().order_by("-id")
     else:
         data_user = user_Details.objects.get(auth_user=request.user)
-        data = user_request_plot.objects.filter(manager_id_id=data_user.id).order_by("-id")
+        user_access_property_list = user_access_property_mapping.objects.filter(mapping_id_id=data_user.id)
+        user_access_property_list_id = list(user_access_property_list.values_list('property_mapping_id',flat=True))
+        data = user_request_plot.objects.filter(property_mapping_id__in=user_access_property_list_id,manager_id_id=data_user.id).order_by("-id")
     context = {
         'data':data
     }
     return render(request,'super_admin/view_all_activity.html',context)
 
 
-
+@login_required(login_url='/')
 def booking_more_details(request):
 
     id = request.GET.get("id")
@@ -509,7 +524,7 @@ def booking_more_details(request):
     }
     return render(request,'super_admin/booking_more_details.html',context)
 
-
+@login_required(login_url='/')
 def approve_booking_action(request):
     id = request.GET.get("id")
     print("idddd::::",id)
@@ -544,7 +559,7 @@ def approve_booking_action(request):
     messages.success(request,"You successfully approved")
     return redirect(request.META['HTTP_REFERER'])
 
-
+@login_required(login_url='/')
 def cancel_booking_action(request):
     id  = request.GET.get("id")
     data = user_request_plot.objects.get(id=id)
@@ -581,7 +596,7 @@ def cancel_booking_action(request):
     return redirect(request.META['HTTP_REFERER'])
 
 
-
+@login_required(login_url='/')
 def rest_to_available_booking_action(request):
     id  = request.GET.get("id")
     data = user_request_plot.objects.get(id=id)
@@ -616,7 +631,7 @@ def rest_to_available_booking_action(request):
     messages.success(request,"You successfully Reset")
     return redirect(request.META['HTTP_REFERER'])
 
-
+@login_required(login_url='/')
 def delete_image_action(request):
     id = request.GET.get("id")
     data_delete = intractive_map_multiple_image.objects.filter(id=id).delete()
@@ -627,6 +642,8 @@ import xlwt
 
 from django.http import HttpResponse
 from django.db.models import Case, Value, When
+
+@login_required(login_url='/')
 def export_data_to_excel(request):
     print("hellooooo")
     response = HttpResponse(content_type='application/ms-excel')
@@ -658,7 +675,7 @@ def export_data_to_excel(request):
     return response
 
 
-
+@login_required(login_url='/')
 def plot_table_view(request):
     page_obj = ""
     page_number = request.GET.get("page")
@@ -676,7 +693,7 @@ def plot_table_view(request):
     return render(request,'super_admin/plot_table_view.html',context)
 
 
-
+@login_required(login_url='/')
 def user_based_property_delete(request):
     id = request.GET.get("id",False)
     data_delete = user_access_property_mapping.objects.filter(id=id).delete()

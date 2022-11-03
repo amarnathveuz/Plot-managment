@@ -241,6 +241,8 @@
         </div>
     </form>
     {% if data.property_access == 'plot_based' %}
+
+    {% if user_property %}
 <div class="container-fluid mt-4">
     <table class="table table-bordered" border="3">
         <thead>
@@ -269,6 +271,8 @@
         </tbody>
       </table>
 </div>
+
+{% endif %}
 {% else %}
 
 {% endif %}
