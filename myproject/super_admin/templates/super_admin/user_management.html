@@ -1,12 +1,11 @@
-
-    {% extends "super_admin/base.html" %}
+ {% extends "super_admin/base.html" %}
 
 
     {% block content %}
     <div class="container-fluid mt-4">
-        <div class="tab-content">
+        <div class="tab-content contnt" id="demo_result_employee">
             <div class="tab-pane active" id="home1" role="tabpanel">
-        
+
                 <div
                     class="d-flex align-items-center justify-content-between px-2">
                     <div class="col-md-4 px-0">
@@ -15,9 +14,9 @@
                                     class="fas fa-plus"></i>
                                 Create
                             </button></a>
-        
-                        <button type="button"
-                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns"
+
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
                             data-toggle="tooltip" data-bs-trigger="hover"
                             data-bs-placement="top" title=""
                             data-bs-original-title="Import">
@@ -51,59 +50,89 @@
                             data-bs-original-title="Archive">
                             <i class="fas fa-trash-alt"></i>
                         </button>
-        
+
                     </div>
-        
-        
+
+
                     <div class="d-flex align-items-center">
-        
-        
-                        <i
-                            class="fas fa-caret-left mr-1 pagintn text-muted"></i><span
-                            class="text-muted"> 1 0f
-                            10</span><i
-                            class="fas fa-caret-right ml-1 pagintn text-muted"></i>
+                        <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i>
+                        <span class="text-muted">
+                            {% if page_obj.has_previous %}
+                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a>
+                            {% endif %}
+                            <span>{{page_obj.number}}</span>
+                            {% if page_obj.has_next %}
+                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                            {% endif %}
+                        </span>
+                        <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
                         <input type="text" class="form-cont ml-2"
                             placeholder="Search..." autocomplete="off"
-                            id="search-options" value="">
-        
-        
-        
-                        <div class="btn-group fitr">
-                            <button type="button" class="btn btn-prim"> <i
-                                    class="fas fa-filter"></i>
+                            id="search_value" value="" onkeyup="myFunction()">
+
+                        <div class="dropdown btn-group fitr">
+                            <button type="button" class="btn btn-prim dropdown-toggle" data-toggle="dropdown">
+                                <i class="fas fa-filter"></i>
                                 Filters
                             </button>
-        
+
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Draft</a>
-                                <a class="dropdown-item" href="#">Waiting</a>
-                                <a class="dropdown-item" href="#">Done</a>
-                                <a class="dropdown-item" href="#">Rejected</a>
-        
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Add Custom
-                                    Filter</a>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Name</a>
+                                    <div class="drpdwn-menu">
+                                       <input id="filter_value1" type="text" class="form-control" placeholder="Name">
+                                       <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('name')">
+                                        Apply
+                                        </button>
+                                    </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Email</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value2" type="email" class="form-control" placeholder="Email">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('email')">
+                                         Apply
+                                         </button>
+                                     </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Mobile</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value3" type="number" class="form-control" placeholder="Mobile">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('mobile')">
+                                         Apply
+                                         </button>
+                                     </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Created Date</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value4" type="date" class="form-control" placeholder="Date">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                         Apply
+                                         </button>
+                                     </div></li>
+
                             </div>
                         </div>
-                        <div class="btn-group grpby">
-                            <button type="button" class="btn btn-prim mx-1"> <i
+
+                        <div class="dropdown btn-group grpby">
+                            <button type="button" class="btn btn-prim mx-1 dropdown-toggle" data-toggle="dropdown"> <i
                                     class="fas fa-bars"></i>
                                 Group By
                             </button>
-        
+
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Employees</a>
-                                <a class="dropdown-item" href="#">PaySlip
-                                    Batch</a>
-                                <a class="dropdown-item" href="#">Companies</a>
-                                <a class="dropdown-item" href="#">States</a>
-        
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Add Custom
-                                    Group</a>
+                                <a class="dropdown-item" href="#"><div class="form-check">
+                                    <label class="form-check-label" for="radio1">
+                                      <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio1" name="optradio" value="salesman">Salesman
+                                    </label>
+                                  </div></a>
+                                  <a class="dropdown-item" href="#"><div class="form-check">
+                                    <label class="form-check-label" for="radio2">
+                                      <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio2" name="optradio" value="manager">Manager
+                                    </label>
+                                  </div></a>
+
                             </div>
                         </div>
+
                         <ul class="nav nav-tabs nav-ta" role="tablist">
                             <li class="nav-item mx-1">
                                 <a class="nav-link kan-tab active"
@@ -119,15 +148,10 @@
                                     <i class="fas fa-th-large"></i>
                                 </a>
                             </li>
-        
                         </ul>
-        
                     </div>
-        
-        
                 </div>
-        
-        
+                 <input type="hidden" id="pagination_count" name="">
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane active" id="ho" role="tabpanel">
@@ -136,14 +160,7 @@
                                 id="orderTable">
                                 <thead class="table-light">
                                     <tr class="text-uppercase">
-                                        <th scope="col" style="width: 25px;">
-                                            <div class="checkall">
-                                                <input class="form-check-input checkField"
-                                                    type="checkbox"
-                                                    data-checkall-trigger="group1">
-                                            </div>
-                                        </th>
-                                       
+
                                         <th class="sort"
                                             data-sort="customer_name">
                                             Name</th>
@@ -152,10 +169,8 @@
                                            Phone
                                         </th>
                                         <th class="sort" data-sort="date">Email</th>
-                                       
-                                        <!-- <th class="sort" data-sort="amount">Amount</th>
-                                                    <th class="sort" data-sort="payment">Payment Method</th> -->
-        
+
+
                                         <th class="sort" data-sort="company">
                                            Mobile
                                         </th>
@@ -165,30 +180,18 @@
                                         <th class="sort" data-sort="company">
                                            Created At
                                         </th>
-                                        <th>
-                                            Action
-                                        </th>
-                                        
-                                        <!-- <th class="sort" data-sort="action">Action</th> -->
                                     </tr>
                                 </thead>
-                                <tbody class="list form-check-all">
-                                    {% for i in user_data  %}
-                                    <tr>
-                                        <th scope="row">
-                                            <input
-                                                class="form-check-input checkField"
-                                                type="checkbox"
-                                                data-checkall-group="group1"
-                                                id="checkbox1-1">
-                                        </th>
-                                        <td class="id"><a href="#"
+                                <tbody class="list form-check-all append_search_result">
+                                    {% for i in page_obj  %}
+                                    <tr onclick="window.location='user_edit?id={{i.id}}'">
+                                        <td class="id"><a href="user_edit?id={{i.id}}"
                                                 class="fw-medium link-primary">{{i.name}}</a>
                                         </td>
                                         <td class="customer_name">{{i.phone}}
                                         </td>
                                         <td class="product_name">{{i.email}}</td>
-                                      
+
                                         <td class="date">{{i.mobile}}</td>
                                         <td class="company">
                                             {% if i.user_type == "manager" %}
@@ -202,279 +205,155 @@
                                             </td>
                                         <td class="status">{{i.dt}}
                                         </td>
-                                        <td>
-                                            <a href="user_edit?id={{i.id}}"><i style="color: black;" class="fas fa-edit"></i></a>
-                                        </td>
-        
                                     </tr>
-                                
                                     {% endfor %}
-                                
                                 </tbody>
                             </table>
-                           
                         </div>
                     </div>
+
+
                     <div class="tab-pane" id="pro" role="tabpanel">
                         <div class='app'>
-                            <main class='project'>
-        
-                                <div class='project-tasks'>
+                            <main class='project1'>
+                                <div class='project-tasks1 mb-1'>
+                                {% for i in user_data %}
                                     <div class='project-column'>
-                                        <div class='project-column-heading'>
-                                            <h2
-                                                class='project-column-heading__title'>
-                                                DRAFT</h2><button
-                                                class='project-column-heading__options'>
-                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                            </button>
-                                        </div>
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Nettie Deloatch</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
+                                        <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                        <div class="customer-bx">
+                                            <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+
+                                                        </div>
+                                            <div class="customer-content">
+                                                <h5>{{i.name}}</h5>
+                                                <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
+                                                <span class="d-flex"><h6>Email : </h6> {{i.email}}</span>
+                                                <span class="d-flex"><h6>Mobile : </h6> {{i.mobile}}</span>
+                                                <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
+                                                {% if i.user_type == "salesman" %}
+                                                    <span class="badge badge-success text-uppercase">{{i.user_type}}</span>
+                                                {% else %}
+                                                    <span class="badge badge-info text-uppercase">{{i.user_type}}</span>
+                                                {% endif %}
                                             </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
                                         </div>
-        
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Diana Kohler</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
+                                    </a>
                                     </div>
-                                    <div class='project-column'>
-                                        <div class='project-column-heading'>
-                                            <h2
-                                                class='project-column-heading__title'>
-                                                WAITING</h2><button
-                                                class='project-column-heading__options'>
-                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                            </button>
-                                        </div>
-        
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>James Price</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-        
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Jane Prik</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Nancy Martino</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-        
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Henry Baird</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-        
-                                    </div>
-                                    <div class='project-column'>
-                                        <div class='project-column-heading'>
-                                            <h2
-                                                class='project-column-heading__title'>
-                                                DONE</h2><button
-                                                class='project-column-heading__options'>
-                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                            </button>
-                                        </div>
-        
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Administrator</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-                                        <div class='task' draggable='true'>
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Thomas Taylor</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Alex Morgan</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Donald Palmer</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-                                    </div>
-                                    <div class='project-column'>
-                                        <div class='project-column-heading'>
-                                            <h2
-                                                class='project-column-heading__title'>
-                                                REJECTED</h2><button
-                                                class='project-column-heading__options'>
-                                                <!-- <i class="fas fa-ellipsis-h"></i> -->
-                                            </button>
-                                        </div>
-        
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Alexis Clarke</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-        
-                                        <div class='task' draggable='true'>
-        
-        
-                                            <div
-                                                class="d-flex justify-content-between">
-                                                <h6>Daniel James</h6>
-                                                <p class="txt-p">
-                                                    <span>01/03/2022</span>
-                                                    - <span>31/03/2022</span>
-                                                </p>
-                                            </div>
-        
-                                            <p>Salary Slip of Administrator for
-                                                March-2022</p>
-        
-                                        </div>
-        
-                                    </div>
-        
+                                {% endfor %}
                                 </div>
                             </main>
-        
                         </div>
                     </div>
-        
-                </div>
-        
-        
-        
-        
-            </div>
-       
-        </div>
-        </div>
 
-    {% endblock %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function myFunction(){
+            var x = document.getElementById("search_value").value;
+            redirect_url = "user_search_result"
+            $.ajax({
+                url : redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+                $(".append_search_result").empty().append(data)
+                }
+            })
+        }
+    </script>
+
+    <script>
+        $(".next_page_action").click(function(){
+            var url =$(this).attr('data-url')
+            $.ajax({
+                url: url,
+                data:{
+
+                },
+                success: function (data) {
+                    $("#demo_result_employee").empty().append(data);
+                }
+            })
+        })
+    </script>
+
+    <script>
+
+        pagination_count = 1
+        $(".pagination_add").click(function () {
+            pagination_count = pagination_count + 1
+            $("#pagination_count").val(pagination_count)
+
+
+        })
+
+        $(".pagination_minus").click(function () {
+            pagination_count = pagination_count - 1
+            $("#pagination_count").val(pagination_count)
+
+
+        })
+    </script>
+
+
+
+    <script>
+        $(".group").click(function(){
+
+            var listCheck = [];
+            $("input[name='optradio']:checked").each(function() {
+                listCheck .push($(this).val());
+            });
+            var url =$(this).attr('data-url')
+            $.ajax({
+                url: url,
+                data:{
+                    'grouping[]': listCheck
+                },
+                success: function (data) {
+                    $(".append_search_result").empty().append(data);
+                }
+            })
+        })
+    </script>
+
+
+
+    <script>
+        function submit_filter(type){
+        if (type == "name") {
+            var x = document.getElementById("filter_value1").value;
+        }
+        else if (type == "email") {
+            var x = document.getElementById("filter_value2").value;
+        }
+        else if (type == "mobile") {
+            var x = document.getElementById("filter_value3").value;
+        }
+        else {
+            var x = document.getElementById("filter_value4").value;
+        }
+            redirect_url = "filtering_user"
+            $.ajax({
+                url : redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+                $(".append_search_result").empty().append(data)
+                }
+            })
+        }
+    </script>
+
+
+
+
+{% endblock %}

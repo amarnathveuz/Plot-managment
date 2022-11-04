@@ -36,6 +36,13 @@ urlpatterns = [
     path("property_filter_function",views.property_filter_function, name="property_filter_function"),
     path("property_groupby_action",views.property_groupby_action,name="property_groupby_action"),
     path("property_search_result/", views.property_search_result, name="property_search_result"),
+
+    # ------jiyad update------
+    path('user_search_result',views.user_search_result,name="user_search_result"),
+    path('next_page_action_url_user', views.next_page_action_url_user, name="next_page_action_url_user"),
+    path('grouping_user', views.grouping_user, name="grouping_user"),
+    path('filtering_user', views.filtering_user, name="filtering_user"),
+    path('logout',auth_views.LogoutView.as_view(),name="logout"),
     
 
     

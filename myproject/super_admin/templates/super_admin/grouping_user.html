@@ -1,0 +1,38 @@
+{% for i in data  %}
+<tr>
+<!--    <th scope="row">-->
+<!--        <input-->
+<!--            class="form-check-input checkField"-->
+<!--            type="checkbox"-->
+<!--            data-checkall-group="group1"-->
+<!--            id="checkbox1-1">-->
+<!--    </th>-->
+    <td class="id"><a href="user_edit?id={{i.id}}"
+            class="fw-medium link-primary">{{i.name}}</a>
+    </td>
+    <td class="customer_name">{{i.phone}}
+    </td>
+    <td class="product_name">{{i.email}}</td>
+
+    <td class="date">{{i.mobile}}</td>
+    <td class="company">
+        {% if i.user_type == "manager" %}
+        <span
+            class="badge badge-soft-success text-uppercase">Manager</span>
+        {% elif i.user_type == "salesman"  %}
+        <span style="color: red!important"
+            class="badge badge-soft-success text-uppercase">Salesman</span>
+
+        {% endif %}
+        </td>
+    <td class="status">{{i.dt}}
+    </td>
+<!--    <td>-->
+<!--        <a href="user_edit?id={{i.id}}"><i style="color: black;" class="fas fa-edit"></i></a>-->
+<!--    </td>-->
+
+</tr>
+
+{% endfor %}
+
+

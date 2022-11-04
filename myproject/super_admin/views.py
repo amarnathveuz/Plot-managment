@@ -54,11 +54,18 @@ def create_property(request):
     return render(request,'super_admin/create_property.html',context)
 
 def user_management(request):
+    page_number = request.GET.get("page")
     user_data = user_Details.objects.all()
+    data_paginator = Paginator(user_data, 10)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
     context = {
-        'user_data':user_data
+        'user_data': user_data,
+        'page_obj': page_obj
     }
-    return render(request,'super_admin/user_management.html',context)
+    return render(request, 'super_admin/user_management.html', context)
 
 def create_user(request):
     if request.method == "POST":
@@ -599,8 +606,12 @@ def cancel_booking_action(request):
     auth_user = User.objects.get(id=request.user.id)
     user_type = auth_user.is_superuser
     if user_type == True:
-        assigned_user_name = data.manager_id.name
-        assigned_user_id = data.manager_id.id
+        assigned_user_id = None
+        try:
+            assigned_user_name = data.manager_id.name
+            assigned_user_id = data.manager_id.id
+        except:
+            assigned_user_name = ''
         current_status = data.booking_status
         print("type:::::",type(current_status))
         print("current_status::::",str(current_status))
@@ -609,7 +620,11 @@ def cancel_booking_action(request):
         elif current_status == 1:
             current_status = 'Price Quotation'
 
-        text_content = "Booking report Cancelled done (originally assigned to "+assigned_user_name+")"
+        if assigned_user_name == '':
+            text_content = "Booking report approval done (Administrator)"
+        else:
+
+            text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
@@ -642,13 +657,21 @@ def rest_to_available_booking_action(request):
     auth_user = User.objects.get(id=request.user.id)
     user_type = auth_user.is_superuser
     if user_type == True:
-        assigned_user_name = data.manager_id.name
-        assigned_user_id = data.manager_id.id
+        assigned_user_id = None
+        try:
+            assigned_user_name = data.manager_id.name
+            assigned_user_id = data.manager_id.id
+        except:
+            assigned_user_name = ''
         current_status = data.booking_status
         print("type:::::",type(current_status))
         if current_status == 3:
             current_status = 'Cancelled'
-        text_content = "Booking report Reset to Available done (originally assigned to "+assigned_user_name+")"
+        if assigned_user_name == '':
+            text_content = "Booking report approval done (Administrator)"
+        else:
+
+            text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
         status_content = current_status+"-->"+" Reset to Available"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
@@ -776,3 +799,47 @@ def property_search_result(request):
     check_list = request.GET.getlist("check_list[]")
     data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
     return render(request, 'super_admin/property_search_result.html', {'data': data,'check_list':check_list})
+
+
+
+
+# ---jiyad update-----
+
+def user_search_result(request):
+    data_value = request.GET.get("data_value")
+    data = user_Details.objects.filter(name__contains=data_value) or user_Details.objects.filter(phone__contains=data_value) or user_Details.objects.filter(email__contains=data_value) or user_Details.objects.filter(mobile__contains=data_value) or user_Details.objects.filter(user_type__contains=data_value) or user_Details.objects.filter(dt__contains=data_value)
+    return render(request,'super_admin/user_search_result.html', {'data': data})
+
+def next_page_action_url_user(request):
+    page_number = request.GET.get("page")
+    data = user_Details.objects.all()
+    data_paginator = Paginator(data, 10)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+    context = {
+        "data": data,
+        'page_obj': page_obj
+    }
+    return render(request, 'super_admin/demo_result_user.html', context)
+
+def grouping_user(request):
+    list = request.GET.getlist("grouping[]")
+    print(list)
+    data = user_Details.objects.filter(user_type__in=list)
+
+    context = {
+        "data": data,
+    }
+    return render(request, 'super_admin/grouping_user.html', context)
+
+
+def filtering_user(request):
+    try:
+        data_value = request.GET.get("data_value")
+        data = user_Details.objects.filter(name=data_value) or user_Details.objects.filter(email=data_value) or user_Details.objects.filter(mobile=data_value) or user_Details.objects.filter(dt=data_value)
+        return render(request,'super_admin/filtering_user.html', {'data': data})
+    except:
+        data1="No Datas Found For Your Search"
+        return render(request,'super_admin/filtering_user.html', {'data1': data1})

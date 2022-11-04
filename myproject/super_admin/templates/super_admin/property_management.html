@@ -242,7 +242,7 @@
                        
                                         <tbody class="list form-check-all append_search_result append_filterfunctn_result append_groupby_result">
                                             {% for i in page_obj.object_list %}
-                                            <tr onclick="window.location='property_update?id={{i.id}}'">
+                                            <tr >
                                                     <th scope="row">
                                                         <input
                                                             class="form-check-input checkField messageCheckbox"
@@ -251,7 +251,7 @@
                                                             onclick="check_action({{i.id}})" id="check_btn{{i.id}}">
                                                     </th>
                                        
-                                        <td class="id">
+                                        <td class="id" onclick="window.location='property_update?id={{i.id}}'">
                                             <a  class="fw-medium link-primary">
             
                                                 {% if i.Name == None %}
@@ -260,17 +260,17 @@
                                                 {% endif %}
                                             </a>
                                         </td>
-                                        <td class="customer_name">
+                                        <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
                                             {% if i.Phoneno == None %}
                                             {% else %}
                                             {{i.Phoneno}}
                                             {% endif %}
                                         </td>
-                                        <td class="product_name">{{i.UnitNo}}</td>
-                                        <td class="date">{{i.BlockNo}}</td>
-                                        <td class="date">{{i.UnitArea}}</td>
-                                        <td class="company">{{i.LandArea}}</td>
-                                        <td>
+                                        <td onclick="window.location='property_update?id={{i.id}}'" class="product_name">{{i.UnitNo}}</td>
+                                        <td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.BlockNo}}</td>
+                                        <td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.UnitArea}}</td>
+                                        <td onclick="window.location='property_update?id={{i.id}}'" class="company">{{i.LandArea}}</td>
+                                        <td onclick="window.location='property_update?id={{i.id}}'">
                                             {% if i.UType == None %}
                                             {% else %}
                                             {{i.UType}}
@@ -320,10 +320,36 @@
                                 <div class='project-tasks1 mb-1'>
                                 {% for i in data %}
                                     <div class='project-column'>
+                                        <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
                                         <div class='customer-bx'>
                                             <div class="customer-content">
-                                                <h5>{{i.Name}} <span
-                                                    class="badge badge-success text-uppercase float-right tag-badg">Salesman</span></h5>
+                                                <h5>{{i.Name}}
+                                                    
+                                                    
+                                                    
+                                                    {% if i.current_status == "0" %}
+                                                   
+                                           
+                                            <span
+                                                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                background-color: #008000;">Available</span>
+        
+                                            {% elif i.current_status == "1" %}
+                                            <span
+                                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                background-color: orange;">Price Quotation</span>
+        
+                                            {% elif i.current_status == "2" %}
+                                            <span
+                                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                    background-color: #e40000;">Sold</span>
+                                                    {% elif i.current_status == "3" %}
+                                                    <span
+                                                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                            background-color: gray;">Cancelled</span>
+                                                {% else %}
+                                                {% endif %}
+                                                   </h5>
                                                 <span class="d-flex">
                                                     <h6>Phone : </h6>{{i.Phoneno}}
                                                 </span>
@@ -353,6 +379,7 @@
                                                 </div>                                                           
                                             </div>
                                         </div>
+                                    </a>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -433,24 +460,62 @@
             if (groupfunctn.checked == true){
                 group_by_id.push(2)
             }
+            else{
+                
+                var index = group_by_id.indexOf(2);
+
+if (index > -1) {
+
+    group_by_id.splice(index, 1);
+
+}
+            }
         }
         else if (status == "Price") {
             groupfunctn = document.getElementById("radio2");
             if (groupfunctn.checked == true){
                 group_by_id.push(1)
             }
+            else{
+                
+                var index = group_by_id.indexOf(1);
+
+if (index > -1) {
+
+    group_by_id.splice(index, 1);
+}
+}
         }
         else if (status == "Available") {
             groupfunctn = document.getElementById("radio3");
             if (groupfunctn.checked == true){
                 group_by_id.push(0)
             }
+            else{
+                
+                var index = group_by_id.indexOf(0);
+
+if (index > -1) {
+
+    group_by_id.splice(index, 1);
+}
+}
+            
         }
         else if (status == "Cancelled") {
             groupfunctn = document.getElementById("radio4");
             if (groupfunctn.checked == true){
                 group_by_id.push(3)
             }
+            else{
+                
+                var index = group_by_id.indexOf(3);
+
+if (index > -1) {
+
+    group_by_id.splice(index, 1);
+}
+}
         }        
         redirect_url = "property_groupby_action"
         $.ajax({

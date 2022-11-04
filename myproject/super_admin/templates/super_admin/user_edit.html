@@ -1,281 +1,375 @@
-
-    {% extends "super_admin/base.html" %}
-
-    {% load static %}
-        {% block content %}
+{% extends "super_admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid mt-4">
     <form action="update_user_action" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12 px-0">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <!-- <h4 class="mb-sm-0">Payroll</h4> -->
-    
-                        <div class="page-title-left">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a>
-                                </li>
-                                <li class="breadcrumb-item active"><a href="javascript: void(0);">Update User</a></li>
-    
-                            </ol>
-                            <div class="margn">
-                                <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
-                                        Update
-                                    </button></a>
-                                <a href="user_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
-                                    </button></a>
-                            </div>
-    
+        <div class="row edit" style="display:none;">
+            <div class="col-12 px-0">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+                    <div class="page-title-left">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">Update User</a></li>
+                        </ol>
+                        <div class="margn">
+                            <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                                    Update
+                                </button></a>
+                            <a href="#"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll discard_button"> Discard
+                                </button></a>
                         </div>
-    
-                    </div>
-                </div>
-            </div>
-            <div class="row pay-main">
-            <input type="hidden" name="updated_id" value="{{data.id}}">
-                
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Name</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input name="name" value="{{data.name}}" required type="text" class="form-control">
-    
-                        </div>
-                        <style>
-    
-                            #files::-webkit-file-upload-button {
-                        
-                                visibility: hidden;
-                        
-                                user-select: none;
-                        
-                            }
-                        
-                        
-                        
-                            .file-input1 {
-                        
-                                display: none;
-                        
-                                user-select: none;
-                        
-                            }
-                        
-                        
-                        
-                            #files {
-                        
-                                display: none;
-                        
-                            }
-                            </style>
-
-                        <div id="selected_image0" {% if data.atatchment == '' %} {% else %} style="display: none" {% endif %}>
-                          
-                            <label for="files">
-    
-
-                             
-
-
-                             
-                                <img height="23px" width="23px"
-    
-                                    style="margin-left:25px; cursor: pointer;width: 20%;
-                                    height: 1%;    margin: -21px 39px;"
-    
-                                    src="{% static 'file_select.png' %}">
-    
-                            </label>
-    
-                            <input class="file-input1" data-count=0 id="files"
-    
-                                name="attachment" type="file"
-    
-                                 />
-
-                               
-    
-                        </div>
-
-
-                        <div id="selected_image1" style="display: none">
-
-                            <span onclick="image_remove_action()"><i   style="margin-left:25px; cursor: pointer;width: 20%;
-                             height: 1%;    margin: -21px 39px;color:red;    font-weight: bold;" class="fa fa-times" aria-hidden="true"></i></span>
-                         </div>
-
-                        {% if data.atatchment == ''  %}
-
-                        {% else %}
-
-                       <div id="image_div">
-                        <img style="    margin-top: -14px!important;        width: 34%;" src="./media/{{data.atatchment}}">
-                        <br>
-                        <span onclick="remove_image_fun()" style="color: red;cursor: pointer;
-                        font-weight: bold;    margin-left: 22px;"><i style="margin: 4px  7px!important;" class="fa fa-times" aria-hidden="true"></i></span>
-                       </div>
-
-                        {% endif %}
-                        
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>User Type </h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="radio" onclick="visible_manager('manager')" {% if data.user_type == 'manager' %} checked  {% endif %} name="user_type" value="manager"> &nbsp;Manager
-                            &nbsp;&nbsp;<input onclick="visible_manager('salesman')" {% if data.user_type == 'salesman' %} checked  {% endif %} name="user_type" type="radio"  value="salesman">&nbsp; Salesman
-                        </div>
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Phone No</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input name="phone" value="{{data.phone}}" required type="number" class="form-control">
-    
-                        </div>
-                       
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Mobile </h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input name="mobile" value="{{data.mobile}}" required type="number" class="form-control" id="basiInput">
-                        </div>
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Email</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input name="email" value="{{data.email}}" required type="email" class="form-control" id="basiInput">
-                        </div>
-                       
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Emp ID</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input name="empid" value="{{data.emp_id}}" type="text" class="form-control" id="basiInput">
-                        </div>
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Password change confirmation</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked> &nbsp;No
-                            &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio" >&nbsp; Yes
-                            <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter new password" class="form-control mt-2">
-                        </div>
-                        
-                    </div>
-                   
-                 
-                    <div class="row mt-2">
-                        
-                        <div class="col-md-2 br-right d-flex align-items-center mt-4">
-                            <h6>Plot Listview : </h6>
-                        </div>
-                        <div class="col-md-4 mt-4">
-                           <input type="radio" name="plot_list_view" {% if data.plot_list_view == "no" %} checked {% else %} {% endif %} value="no">&nbsp;No &nbsp;<input name="plot_list_view" type="radio" {% if data.plot_list_view == "yes" %} checked {% else %} {% endif %} value="yes">&nbsp;Yes 
-                        </div>
-                       
-                          
-                        <div class="col-md-2 br-right d-flex align-items-center mt-4">
-                            <h6>Price Visibility : </h6>
-                        </div>
-                        <div class="col-md-4 mt-4">
-                           <input type="radio" name="price_visibility" {% if data.price_visibility == 1 %} checked {% else %} {% endif %} value=1>&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" {% if data.price_visibility == 0 %} checked {% else %} {% endif %} value=0>&nbsp;No 
-                        </div>
-                       
-                       
-                    </div>
-
-                    <div class="row mt-2">
-                        
-                        <div class="col-md-2 br-right d-flex align-items-center mt-4">
-                            <h6>Property Access : </h6>
-                        </div>
-                        <div class="col-md-4 mt-4">
-                          
-                            <input type="radio" onclick="function_access_property('full_access')" name="property_access" value="all"   {% if data.property_access == 'all' %} checked {% else %} {% endif %}> &nbsp;All access
-                            &nbsp;  <input  type="radio" onclick="function_access_property('property_based')"  name="property_access" {% if data.property_access == 'plot_based' %} checked {% else %} {% endif %} value="plot_based"> &nbsp;Plot based access
-                        </div>
-                       
-                       
-                       
-                    </div>
-    
-    
-                    <div class="row mt-2" id="manager_select_div" {% if data.user_type == 'salesman' %} {% else %} style="display: none" {% endif %}>
-                        <div class="col-md-2 br-right d-flex align-items-center">
-                            <h6>Select Manger</h6>
-                        </div>
-                        <div class="col-md-4">
-                           <select name="manager"  class="form-control select2">
-                            {% if user_manger %}
-                            <option value="{{user_manger.manager_id.id}}">{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})</option>
-
-                            
-                            {% else %}
-                            <option value="">select manager</option>
-                            {% endif %}
-                            
-    {% for i in all_manger %}
-    
-    {% if user_manger.manager_id.id == i.id %}
-
-    {% else %}
-    <option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
-    
-    {% endif %}
-    {% endfor %}
-    
-                           </select>
-                        </div>
-                       
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row pay-main edit" style="display:none;">
+            <input type="hidden" name="updated_id" value="{{data.id}}">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Name</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="name" value="{{data.name}}" required type="text" class="form-control">
+                    </div>
+                    <style>
+                        #files::-webkit-file-upload-button {
+                            visibility: hidden;
+                            user-select: none;
+                        }
+                        .file-input1 {
+                            display: none;
+                            user-select: none;
+                        }
+                        #files {
+                            display: none;
+                        }
+                    </style>
+                    <div id="selected_image0" {% if data.atatchment == '' %} {% else %} style="display: none" {% endif %}>
+                        <label for="files">
+                            <img height="23px" width="23px"
+                                style="margin-left:25px; cursor: pointer;width: 20%;
+                                height: 1%;    margin: -21px 39px;"
+                                src="{% static 'file_select.png' %}">
+                        </label>
+                        <input class="file-input1" data-count=0 id="files"
+                            name="attachment" type="file"/>
+                    </div>
+                    <div id="selected_image1" style="display: none">
+                        <span onclick="image_remove_action()"><i   style="margin-left:25px; cursor: pointer;width: 20%;
+                         height: 1%;    margin: -21px 39px;color:red;    font-weight: bold;" class="fa fa-times" aria-hidden="true"></i></span>
+                    </div>
+                    {% if data.atatchment == ''  %}
+                    {% else %}
+                    <div id="image_div" class="col-md-6 ">
+                        <img style="    margin-top: -14px!important;        width: 8%;" src="./media/{{data.atatchment}}">
+                        <br>
+                        <span onclick="remove_image_fun()" style="color: red;cursor: pointer;
+                    font-weight: bold;    margin-left: 22px;"><i style="margin: 4px  7px!important;" class="fa fa-times" aria-hidden="true"></i></span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>User Type </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="radio" onclick="visible_manager('manager')" {% if data.user_type == 'manager' %} checked  {% endif %} name="user_type" value="manager"> &nbsp;Manager
+                        &nbsp;&nbsp;<input onclick="visible_manager('salesman')" {% if data.user_type == 'salesman' %} checked  {% endif %} name="user_type" type="radio"  value="salesman">&nbsp; Salesman
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Phone No</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="phone" value="{{data.phone}}" required type="number" class="form-control">
+
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Mobile </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="mobile" value="{{data.mobile}}" required type="number" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Email</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="email" value="{{data.email}}" required type="email" class="form-control" id="basiInput">
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Emp ID</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="empid" value="{{data.emp_id}}" type="text" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Password change confirmation</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked> &nbsp;No
+                        &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio" >&nbsp; Yes
+                        <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter new password" class="form-control mt-2">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                        <h6>Plot Listview : </h6>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                       <input type="radio" name="plot_list_view" {% if data.plot_list_view == "no" %} checked {% else %} {% endif %} value="no">&nbsp;No &nbsp;<input name="plot_list_view" type="radio" {% if data.plot_list_view == "yes" %} checked {% else %} {% endif %} value="yes">&nbsp;Yes
+                    </div>
+
+
+                    <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                        <h6>Price Visibility : </h6>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                       <input type="radio" name="price_visibility" {% if data.price_visibility == 1 %} checked {% else %} {% endif %} value=1>&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" {% if data.price_visibility == 0 %} checked {% else %} {% endif %} value=0>&nbsp;No
+                    </div>
+                </div>
+                <div class="row mt-2">
+
+                    <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                        <h6>Property Access : </h6>
+                    </div>
+                    <div class="col-md-4 mt-4">
+
+                        <input type="radio" onclick="function_access_property('full_access')" name="property_access" value="all"   {% if data.property_access == 'all' %} checked {% else %} {% endif %}> &nbsp;All access
+                        &nbsp;  <input  type="radio" onclick="function_access_property('property_based')"  name="property_access" {% if data.property_access == 'plot_based' %} checked {% else %} {% endif %} value="plot_based"> &nbsp;Plot based access
+                    </div>
+                </div>
+                <div class="row mt-2" id="manager_select_div" {% if data.user_type == 'salesman' %} {% else %} style="display: none" {% endif %}>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Select Manger</h6>
+                    </div>
+                    <div class="col-md-4">
+                       <select name="manager"  class="form-control select2">
+                        {% if user_manger %}
+                        <option value="{{user_manger.manager_id.id}}">{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})</option>
+                        {% else %}
+                        <option value="">select manager</option>
+                        {% endif %}
+                        {% for i in all_manger %}
+                        {% if user_manger.manager_id.id == i.id %}
+                        {% else %}
+                        <option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
+                        {% endif %}
+                        {% endfor %}
+                       </select>
+                    </div>
+                </div>
+            </div>
+            {% if data.property_access == 'plot_based' %}
+
+            {% if user_property %}
+            <div class="container-fluid mt-4">
+                <table class="table table-bordered" border="3">
+                    <thead>
+                      <tr>
+                        <th scope="col">PROPERTY NAME</th>
+                        <th scope="col">	UNIT NO</th>
+
+                        <th scope="col">BLOCK NO</th>
+                        <th scope="col"> ACTION</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for j in user_property %}
+                      <tr>
+                        <th scope="row">{{j.property_mapping_id.Name}}</th>
+                        <td>{{j.property_mapping_id.UnitNo}}</td>
+                        <td>{{j.property_mapping_id.BlockNo}}</td>
+                        <td>
+
+                            <a href="user_based_property_delete?id={{j.id}}" ><i style="color: black" class="fa fa-trash" aria-hidden="true"></i></a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% endif %}
+            {% else %}
+            {% endif %}
+        </div>
     </form>
-    {% if data.property_access == 'plot_based' %}
 
-    {% if user_property %}
-<div class="container-fluid mt-4">
-    <table class="table table-bordered" border="3">
-        <thead>
-          <tr>
-            <th scope="col">PROPERTY NAME</th>
-            <th scope="col">	UNIT NO</th>
-           
-            <th scope="col">BLOCK NO</th>
-            <th scope="col"> ACTION</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-            {% for j in user_property %}
-          <tr>
-            <th scope="row">{{j.property_mapping_id.Name}}</th>
-            <td>{{j.property_mapping_id.UnitNo}}</td>
-            <td>{{j.property_mapping_id.BlockNo}}</td>
-            <td>
 
-                <a href="user_based_property_delete?id={{j.id}}" ><i style="color: black" class="fa fa-trash" aria-hidden="true"></i></a>
-            </td>
-          </tr>
-          {% endfor %}
-        
-        </tbody>
-      </table>
+
+
+
+
+
+
+
+
+    <div class="row view">
+        <div class="col-12 px-0">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+                <div class="page-title-left">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="javascript: void(0);">View User</a></li>
+                    </ol>
+                    <div class="margn">
+                        <a><button type="button" style="padding: 5px 10px !important;" class="btn btn-prim pay view_button">
+                                Edit
+                            </button></a>
+                        <a href="user_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                            </button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pay-main view">
+        <input type="hidden" name="updated_id" value="{{data.id}}">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>Name</h6>
+                </div>
+                <div class="col-md-4">
+                    <input style="background-color: #8c95a126;" name="name" value="{{data.name}}" required type="text" class="form-control" readonly>
+                </div>
+                {% if data.atatchment == ''  %}
+                {% else %}
+                    <div class="col-md-6  ">
+                        <img style="    margin-top: -14px!important;        width: 8%;" src="./media/{{data.atatchment}}">
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>User Type </h6>
+                </div>
+                <div class="col-md-4">
+                    <input readonly type="radio" onclick="visible_manager('manager')" {% if data.user_type == 'manager' %} checked  {% endif %} name="user_type" value="manager"> &nbsp;Manager
+                    &nbsp;&nbsp;<input readonly onclick="visible_manager('salesman')" {% if data.user_type == 'salesman' %} checked  {% endif %} name="user_type" type="radio"  value="salesman">&nbsp; Salesman
+                </div>
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>Phone No</h6>
+                </div>
+                <div class="col-md-4">
+                    <input style="background-color: #8c95a126;"  readonly name="phone" value="{{data.phone}}" required type="number" class="form-control">
+
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>Mobile </h6>
+                </div>
+                <div class="col-md-4">
+                    <input style="background-color: #8c95a126;"  readonly name="mobile" value="{{data.mobile}}" required type="number" class="form-control">
+                </div>
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>Email</h6>
+                </div>
+                <div class="col-md-4">
+                    <input style="background-color: #8c95a126;"  readonly name="email" value="{{data.email}}" required type="email" class="form-control">
+                </div>
+
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>Emp ID</h6>
+                </div>
+                <div class="col-md-4">
+                    <input style="background-color: #8c95a126;"  readonly name="empid" value="{{data.emp_id}}" type="text" class="form-control">
+                </div>
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>Password change confirmation</h6>
+                </div>
+                <div class="col-md-4">
+                    <input readonly onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked> &nbsp;No
+                    &nbsp;&nbsp;<input readonly onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio" >&nbsp; Yes
+                    <input readonly style="display: none" type="password" name="password"  placeholder="Enter new password" class="form-control mt-2">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                    <h6>Plot Listview : </h6>
+                </div>
+                <div class="col-md-4 mt-4">
+                   <input type="radio" name="plot_list_view" {% if data.plot_list_view == "no" %} checked {% else %} {% endif %} value="no">&nbsp;No &nbsp;<input name="plot_list_view" type="radio" {% if data.plot_list_view == "yes" %} checked {% else %} {% endif %} value="yes">&nbsp;Yes
+                </div>
+
+
+                <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                    <h6>Price Visibility : </h6>
+                </div>
+                <div class="col-md-4 mt-4">
+                   <input type="radio" name="price_visibility" {% if data.price_visibility == 1 %} checked {% else %} {% endif %} value=1>&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" {% if data.price_visibility == 0 %} checked {% else %} {% endif %} value=0>&nbsp;No
+                </div>
+            </div>
+            <div class="row mt-2">
+
+                <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                    <h6>Property Access : </h6>
+                </div>
+                <div class="col-md-4 mt-4">
+
+                    <input type="radio" onclick="function_access_property('full_access')" name="property_access" value="all"   {% if data.property_access == 'all' %} checked {% else %} {% endif %}> &nbsp;All access
+                    &nbsp;  <input  type="radio" onclick="function_access_property('property_based')"  name="property_access" {% if data.property_access == 'plot_based' %} checked {% else %} {% endif %} value="plot_based"> &nbsp;Plot based access
+                </div>
+            </div>
+            <div class="row mt-2" {% if data.user_type == 'salesman' %} {% else %} style="display: none" {% endif %}>
+                <div class="col-md-2 br-right d-flex align-items-center">
+                    <h6>Manger</h6>
+                </div>
+                <div class="col-md-4">
+                    <input style="background-color: #8c95a126;"  readonly name="empid" value="{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})" type="text" class="form-control" id="basiInput">
+                </div>
+            </div>
+        </div>
+
+        {% if data.property_access == 'plot_based' %}
+
+        {% if user_property %}
+        <div class="container-fluid mt-4">
+            <table class="table table-bordered" border="3">
+                <thead>
+                  <tr>
+                    <th scope="col">PROPERTY NAME</th>
+                    <th scope="col">	UNIT NO</th>
+
+                    <th scope="col">BLOCK NO</th>
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                {% for j in user_property %}
+                  <tr>
+                    <th scope="row">{{j.property_mapping_id.Name}}</th>
+                    <td>{{j.property_mapping_id.UnitNo}}</td>
+                    <td>{{j.property_mapping_id.BlockNo}}</td>
+
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% endif %}
+        {% else %}
+        {% endif %}
+
+    </div>
 </div>
 
-{% endif %}
-{% else %}
-
-{% endif %}
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
         <script>
@@ -365,4 +459,19 @@
     document.getElementById("selected_image1").style.display = "none"
         }
     </script>
+
+
+     <script>
+        $(".view_button").click(function(){
+            $('.view').hide();
+            $('.edit').show();
+        })
+        $(".discard_button").click(function(){
+            $('.view').show();
+            $('.edit').hide();
+        })
+
+    </script>
+
+
         {% endblock %}

@@ -1,0 +1,244 @@
+<div class="tab-pane active" id="home1" role="tabpanel">
+    <div
+        class="d-flex align-items-center justify-content-between px-2">
+        <div class="col-md-4 px-0">
+            <a href="create_user"><button type="button"
+                    class="btn btn-prim add-btn create-button"><i
+                        class="fas fa-plus"></i>
+                    Create
+                </button></a>
+
+            <button type="button" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                data-toggle="tooltip" data-bs-trigger="hover"
+                data-bs-placement="top" title=""
+                data-bs-original-title="Import">
+                <i class="fas fa-upload"></i>
+            </button>
+            <button type="button"  style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                data-toggle="tooltip" data-bs-trigger="hover"
+                data-bs-placement="top" title=""
+                data-bs-original-title="Export">
+                <i class="fas fa-download"></i>
+            </button>
+            <button type="button"  style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                data-toggle="tooltip" data-bs-trigger="hover"
+                data-bs-placement="top" title=""
+                data-bs-original-title="Favourite">
+                <i class="fas fa-star"></i>
+            </button>
+            <button type="button"  style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                data-toggle="tooltip" data-bs-trigger="hover"
+                data-bs-placement="top" title=""
+                data-bs-original-title="Print">
+                <i class="fas fa-print"></i>
+            </button>
+            <button type="button" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                data-toggle="tooltip" data-bs-trigger="hover"
+                data-bs-placement="top" title=""
+                data-bs-original-title="Archive">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+
+        </div>
+
+
+        <div class="d-flex align-items-center">
+            <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i>
+            <span class="text-muted">
+                {% if page_obj.has_previous %}
+                    <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a>
+                {% endif %}
+                <span>{{page_obj.number}}</span>
+                {% if page_obj.has_next %}
+                    <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                {% endif %}
+            </span>
+            <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
+
+<!--                        <i-->
+<!--                            class="fas fa-caret-left mr-1 pagintn text-muted"></i><span-->
+<!--                            class="text-muted"> 1 0f-->
+<!--                            10</span><i-->
+<!--                            class="fas fa-caret-right ml-1 pagintn text-muted"></i>-->
+            <input type="text" class="form-cont ml-2"
+                placeholder="Search..." autocomplete="off"
+                id="search_value" value="" onkeyup="myFunction()">
+
+
+
+            <div class="btn-group fitr">
+                <button type="button" class="btn btn-prim"> <i
+                        class="fas fa-filter"></i>
+                    Filters
+                </button>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Draft</a>
+                    <a class="dropdown-item" href="#">Waiting</a>
+                    <a class="dropdown-item" href="#">Done</a>
+                    <a class="dropdown-item" href="#">Rejected</a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Add Custom
+                        Filter</a>
+                </div>
+            </div>
+            <div class="btn-group grpby">
+                <button type="button" class="btn btn-prim mx-1"> <i
+                        class="fas fa-bars"></i>
+                    Group By
+                </button>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Employees</a>
+                    <a class="dropdown-item" href="#">PaySlip
+                        Batch</a>
+                    <a class="dropdown-item" href="#">Companies</a>
+                    <a class="dropdown-item" href="#">States</a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Add Custom
+                        Group</a>
+                </div>
+            </div>
+            <ul class="nav nav-tabs nav-ta" role="tablist">
+                <li class="nav-item mx-1">
+                    <a class="nav-link kan-tab active"
+                        data-toggle="tab" href="#ho" role="tab"
+                        aria-selected="false">
+                        <i class="fas fa-list"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                                <a class="nav-link kan-tab" data-toggle="tab"
+                                    href="#pro" role="tab"
+                                    aria-selected="false">
+                                    <i class="fas fa-th-large"></i>
+                                </a>
+                            </li>
+
+            </ul>
+
+        </div>
+
+
+    </div>
+
+    <input type="hidden" id="pagination_count" name="">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="ho" role="tabpanel">
+            <div class="table-responsive mb-1  mt-2">
+                <table class="table table-nowrap align-middle"
+                    id="orderTable">
+                    <thead class="table-light">
+                        <tr class="text-uppercase">
+                            <th class="sort"
+                                data-sort="customer_name">
+                                Name</th>
+                            <th class="sort"
+                                data-sort="product_name">
+                               Phone
+                            </th>
+                            <th class="sort" data-sort="date">Email</th>
+                            <th class="sort" data-sort="company">
+                               Mobile
+                            </th>
+                            <th class="sort" data-sort="company">
+                                Type
+                             </th>
+                            <th class="sort" data-sort="company">
+                               Created At
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="list form-check-all append_search_result">
+                        {% for i in page_obj  %}
+                        <tr>
+                            <td class="id"><a href="user_edit?id={{i.id}}"
+                                    class="fw-medium link-primary">{{i.name}}</a>
+                            </td>
+                            <td class="customer_name">{{i.phone}}
+                            </td>
+                            <td class="product_name">{{i.email}}</td>
+
+                            <td class="date">{{i.mobile}}</td>
+                            <td class="company">
+                                {% if i.user_type == "manager" %}
+                                <span
+                                    class="badge badge-soft-success text-uppercase">Manager</span>
+                                {% elif i.user_type == "salesman"  %}
+                                <span style="color: red!important"
+                                    class="badge badge-soft-success text-uppercase">Salesman</span>
+
+                                {% endif %}
+                                </td>
+                            <td class="status">{{i.dt}}
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+        <div class="tab-pane" id="pro" role="tabpanel">
+                        <div class='app'>
+                            <main class='project1'>
+                                <div class='project-tasks1 mb-1'>
+                                {% for i in data %}
+                                    <div class='project-column'>
+                                        <div class="customer-bx">
+                                            <div class="cust-img">
+                                                <img class="cust-img" src="{{i.imageURL}}">
+                                            </div>
+                                            <div class="customer-content">
+                                                <h5>{{i.name}}</h5>
+                                                <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
+                                                <span class="d-flex"><h6>Email : </h6> {{i.email}}</span>
+                                                <span class="d-flex"><h6>Mobile : </h6> {{i.mobile}}</span>
+                                                <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
+                                                {% if i.user_type == "salesman" %}
+                                                    <span class="badge badge-success text-uppercase">{{i.user_type}}</span>
+                                                {% else %}
+                                                    <span class="badge badge-info text-uppercase">{{i.user_type}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+
+
+
+    </div>
+</div>
+
+
+<script>
+        $(".next_page_action").click(function(){
+            var url =$(this).attr('data-url')
+            $.ajax({
+                url: url,
+                data:{
+
+                },
+                success: function (data) {
+                    $("#demo_result_employee").empty().append(data);
+                }
+            })
+        })
+</script>
+

@@ -10,7 +10,7 @@
             data-checkall-group="group1"
             onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
     </th>
-<td class="id"><a href="#"
+<td class="id" onclick="window.location='property_update?id={{i.id}}'"><a href="#"
 class="fw-medium link-primary">
 {% if i.Name == None %}
 {% else %}
@@ -18,16 +18,16 @@ class="fw-medium link-primary">
 {% endif %}
 </a>
 </td>
-<td class="customer_name">
+<td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
 {% if i.Phoneno == None %}
 {% else %}
 {{i.Phoneno}}
 {% endif %}
 </td>
-<td class="product_name">{{i.UnitNo}}</td>
-<td class="date">{{i.BlockNo}}</td>
-<td class="date">{{i.UnitArea}}</td>
-<td class="company">{{i.LandArea}}</td>
+<td class="product_name" onclick="window.location='property_update?id={{i.id}}'">{{i.UnitNo}}</td>
+<td class="date" onclick="window.location='property_update?id={{i.id}}'">{{i.BlockNo}}</td>
+<td class="date" onclick="window.location='property_update?id={{i.id}}'">{{i.UnitArea}}</td>
+<td class="company" onclick="window.location='property_update?id={{i.id}}'">{{i.LandArea}}</td>
 <td>
 {% if i.UType == None %}
 {% else %}
