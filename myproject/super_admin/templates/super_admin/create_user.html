@@ -182,7 +182,7 @@
                             <select name="selected_property_list[]" class="selectpicker" multiple aria-label="Default select example"
                                 data-live-search="true">
                                 {% for i in data_property %}
-                                <option value="{{i.id}}">{{i.Name}}</option>
+                                <option value="{{i.id}}">{{i.Name}} ({{i.UnitNo}})</option>
                               {% endfor %}
                             </select>
 

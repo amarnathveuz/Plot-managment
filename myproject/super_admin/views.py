@@ -24,15 +24,18 @@ def property_management(request):
     page_obj = ""
     page_number = request.GET.get("page")
     data = intractive_map.objects.all()
-    data_paginator = Paginator(data,500)
+    checked_list = list(data.values_list('id',flat=True))
+    data_str = str(checked_list)
+    data_paginator = Paginator(data,50)
     try:
-        page_obj = data_paginator.get_page(page_number)  
+        page_obj = data_paginator.get_page(page_number) 
     except PageNotAnInteger:
         page_obj = data_paginator.page(1)
+
     context = {
         "data":data,
-        'page_obj': page_obj
-
+        'page_obj': page_obj,
+        'checked_list':checked_list
     }
     return render(request,'super_admin/property_management.html',context)
 
@@ -475,21 +478,39 @@ def booking_action(request):
         phone = request.POST.get("phone",False)
         bank = request.POST.get("bank",False)
         data_user = user_Details.objects.get(auth_user=request.user)
-        data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
-        data_save = user_request_plot.objects.create(
-            auth_user=request.user,
-            user_id_id = data_user.id,
-            property_mapping_id_id = plot_id_mapping_id,
-            name = name,
-            booking_id = b_id,
-            phone = phone,
-            bank = bank,
-            manager_id_id = data_user_manger.manager_id.id,
-            read_status = 0,
-            booking_status = 1
+        user_type = data_user.user_type
+        print("user_type:::::",str(user_type))
+        if user_type == "manager":
+            
+            data_save = user_request_plot.objects.create(
+                auth_user=request.user,
+                user_id_id = data_user.id,
+                property_mapping_id_id = plot_id_mapping_id,
+                name = name,
+                booking_id = b_id,
+                phone = phone,
+                bank = bank,
+                read_status = 0,
+                booking_status = 1
 
-        )
-        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1)
+            )
+            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1)
+        else:
+            data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
+            data_save = user_request_plot.objects.create(
+                auth_user=request.user,
+                user_id_id = data_user.id,
+                property_mapping_id_id = plot_id_mapping_id,
+                name = name,
+                booking_id = b_id,
+                phone = phone,
+                bank = bank,
+                manager_id_id = data_user_manger.manager_id.id,
+                read_status = 0,
+                booking_status = 1
+
+            )
+            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1)
         messages.success(request,"You successfully created your booking")
         return redirect(request.META['HTTP_REFERER'])
 
@@ -503,9 +524,13 @@ def view_all_activity(request):
         data = user_request_plot.objects.all().order_by("-id")
     else:
         data_user = user_Details.objects.get(auth_user=request.user)
-        user_access_property_list = user_access_property_mapping.objects.filter(mapping_id_id=data_user.id)
-        user_access_property_list_id = list(user_access_property_list.values_list('property_mapping_id',flat=True))
-        data = user_request_plot.objects.filter(property_mapping_id__in=user_access_property_list_id,manager_id_id=data_user.id).order_by("-id")
+        data_access = data_user.property_access
+        if data_access == "all":
+            data = user_request_plot.objects.filter(manager_id_id=data_user.id).order_by("-id")
+        else:
+            user_access_property_list = user_access_property_mapping.objects.filter(mapping_id_id=data_user.id)
+            user_access_property_list_id = list(user_access_property_list.values_list('property_mapping_id',flat=True))
+            data = user_request_plot.objects.filter(property_mapping_id__in=user_access_property_list_id,manager_id_id=data_user.id).order_by("-id")
     context = {
         'data':data
     }
@@ -532,13 +557,21 @@ def approve_booking_action(request):
     auth_user = User.objects.get(id=request.user.id)
     user_type = auth_user.is_superuser
     if user_type == True:
-        assigned_user_name = data.manager_id.name
-        assigned_user_id = data.manager_id.id
+        assigned_user_id = None
+        try:
+            assigned_user_name = data.manager_id.name
+            assigned_user_id = data.manager_id.id
+        except:
+            assigned_user_name = ''
         current_status = data.booking_status
         print("type:::::",type(current_status))
         if current_status == 1:
             current_status = 'Price Quotation'
-        text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
+        if assigned_user_name == '':
+            text_content = "Booking report approval done (Administrator)"
+        else:
+
+            text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
         status_content = current_status+"-->"+"Approved"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
@@ -570,8 +603,12 @@ def cancel_booking_action(request):
         assigned_user_id = data.manager_id.id
         current_status = data.booking_status
         print("type:::::",type(current_status))
+        print("current_status::::",str(current_status))
         if current_status == 2:
+            current_status = 'Sold'
+        elif current_status == 1:
             current_status = 'Price Quotation'
+
         text_content = "Booking report Cancelled done (originally assigned to "+assigned_user_name+")"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
@@ -582,6 +619,8 @@ def cancel_booking_action(request):
         assigned_user_id = data.manager_id.id
         print("current_status::::",str(current_status))
         if current_status == 2:
+            current_status = 'Sold'
+        elif current_status == 1:
             current_status = 'Price Quotation'
         text_content = "Booking report Cancelled done ("+assigned_user_name+")"
         status_content = current_status+"-->"+"Cancelled"
@@ -699,3 +738,41 @@ def user_based_property_delete(request):
     data_delete = user_access_property_mapping.objects.filter(id=id).delete()
     messages.success(request,"successfully deleted")
     return redirect(request.META['HTTP_REFERER'])
+
+
+
+def next_page_action_url_property(request):
+    page_number = request.GET.get("page")
+    check_list = request.GET.getlist("check_list[]")
+    data = intractive_map.objects.all()
+    data_paginator = Paginator(data, 10)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+    context = {
+        "data": data,
+        'page_obj': page_obj,
+        'check_list': check_list
+    }
+    return render(request, 'super_admin/append_datas_property.html', context) 
+
+
+
+def property_filter_function(request):
+    data_value = request.GET.get("data_value")
+    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+    return render(request, 'super_admin/property_filter_function.html', {'data': data})
+
+def property_groupby_action(request):
+    data_value = request.GET.getlist("data_value[]")
+    print("data_value::::::",str(data_value))
+    data = intractive_map.objects.filter(current_status__in=data_value)
+    return render(request, 'super_admin/property_groupby_action.html', {'data': data})
+
+
+def property_search_result(request):
+    data_value = request.GET.get("data_value")
+    check_list = request.GET.getlist("check_list[]")
+    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+    return render(request, 'super_admin/property_search_result.html', {'data': data,'check_list':check_list})

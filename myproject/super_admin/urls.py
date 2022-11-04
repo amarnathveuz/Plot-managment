@@ -31,7 +31,11 @@ urlpatterns = [
     path("export_excel/", views.export_data_to_excel, name="export_excel"),
     path('plot_table_view',views.plot_table_view,name='plot_table_view'),
     path('user_based_property_delete',views.user_based_property_delete,name='user_based_property_delete'),
-    
+    # -------amritha update------
+    path('next_page_action_url_property',views.next_page_action_url_property,name='next_page_action_url_property'),
+    path("property_filter_function",views.property_filter_function, name="property_filter_function"),
+    path("property_groupby_action",views.property_groupby_action,name="property_groupby_action"),
+    path("property_search_result/", views.property_search_result, name="property_search_result"),
     
 
     

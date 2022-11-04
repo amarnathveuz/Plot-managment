@@ -112,9 +112,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/b
                                         </div>
                                         <div class="cust-name row">
                                             <div class="col-md-1">
-                                                <input type="radio" id="individual" value="individual"
-                                                    name="catgry" > <label
-                                                    for="Individual" {% if data.user_id.user_type == "manager" %} checked {% endif %}>Manager</label><br>
+                                                <input type="radio" id="company" value="company"
+                                                name="catgry" {% if data.user_id.user_type == "manager" %} checked {% endif %}><label
+                                                for="company">Manager</label><br>
                                             </div>
                                             <div class="col">
                                                 <input type="radio" id="company" value="company"

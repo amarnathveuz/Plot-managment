@@ -153,6 +153,8 @@
                                                 <span class="d-flex"><h6>Name : </h6> {{i.user_id.name|title}}</span>
                                                 <span class="d-flex"><h6>Email : </h6> {{i.user_id.email|title}}</span>
                                                 <span class="d-flex"><h6>Property No : </h6> {{i.property_mapping_id.BlockNo}}{{i.property_mapping_id.UnitNo}}</span>
+                                                
+                                                <span class="badge badge-soft-success text-uppercase">{{i.user_id.user_type}}</span>
                                                 {% if i.read_status == 0 %}
                                                 <span class="cust-badge badge-success mb-1">New</span>
                                                 {% else %}

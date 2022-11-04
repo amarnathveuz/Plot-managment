@@ -1,0 +1,611 @@
+
+{% load checkbox_result %}
+
+
+
+    <div
+        class="d-flex align-items-center justify-content-between px-2">
+        <div class="col-md-4 px-0">
+            <a href="create_property"><button type="button"
+                    class="btn btn-prim add-btn create-button"><i
+                        class="fas fa-plus"></i>
+                    Create
+                </button></a>
+
+                <button type="button" onclick="Export()" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                data-toggle="tooltip" data-bs-trigger="hover"
+                data-bs-placement="top" title=""
+                data-bs-original-title="Export">
+                <i class="fas fa-download"></i>
+                </button>
+        </div>
+
+
+        <div class="d-flex align-items-center">
+            <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i><span class="text-muted"> 
+                {% if page_obj.has_previous %}
+            <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a> 
+            {% endif %}
+            <span>{{page_obj.number}}</span> 
+            
+            {% if page_obj.has_next %} 
+               <!-- <a    style="color: black;" href="?page={{page_obj.next_page_number}}">Next - {{page_obj.next_page_number}}</a> -->
+                <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+            {% endif %}
+            </span>
+            <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
+                
+            <input type="text" class="form-cont ml-2"
+                placeholder="Search..." autocomplete="off"
+                id="search_value" value="" onkeyup="Search()">
+
+                <div class="dropdown btn-group fitr">
+                    <button type="button" class="btn btn-prim dropdown-toggle"
+                        data-toggle="dropdown">
+                        <i class="fas fa-filter"></i>
+                        Filters
+                    </button>
+                    <div class="dropdown-menu">
+                        <li><a class="dropdown-item dropdown-submenu"  href="#">Name</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" id="filter_name" placeholder="Name">
+                                <button type="button" onclick="name_apply()" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Phone</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" placeholder="Phone">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Unit no</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" placeholder="Unit no">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Block no</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" placeholder="Block no">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Unit area</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" placeholder="Unit area">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Land area</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" placeholder="Land area">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Unit type</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" placeholder="Unit type">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Price</a>
+                            <div class="drpdwn-menu">
+                                <input type="text" class="form-control" placeholder="Price">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                    Apply
+                                </button>
+                            </div>
+                        </li>
+
+                    </div>
+                </div>
+                <div class="dropdown btn-group grpby">
+                    <button type="button" class="btn btn-prim mx-1 dropdown-toggle"
+                        data-toggle="dropdown"> <i class="fas fa-bars"></i>
+                        Group By
+                    </button>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <label class="form-check-label" for="radio1">
+                                    <input type="radio" class="form-check-input mr-2" id="radio1"
+                                        name="optradio1" value="option1">Sold
+                                </label>
+                            </div>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <label class="form-check-label" for="radio2">
+                                    <input type="radio" class="form-check-input mr-2" id="radio2"
+                                        name="optradio2" value="option2">Price quotation
+                                </label>
+                            </div>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <label class="form-check-label" for="radio3">
+                                    <input type="radio" class="form-check-input mr-2" id="radio3"
+                                        name="optradio3" value="option3">Available
+                                </label>
+                            </div>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <label class="form-check-label" for="radio4">
+                                    <input type="radio" class="form-check-input mr-2" id="radio4"
+                                        name="optradio4" value="option4">Cancelled
+                                </label>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            <ul class="nav nav-tabs nav-ta" role="tablist">
+                <li class="nav-item mx-1">
+                    <a class="nav-link kan-tab active"
+                        data-toggle="tab" href="#ho" role="tab"
+                        aria-selected="false">
+                        <i class="fas fa-list"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link kan-tab" data-toggle="tab"
+                        href="#pro" role="tab"
+                        aria-selected="false">
+                        <i class="fas fa-th-large"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <input type="hidden" id="pagination_count" name="">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="ho" role="tabpanel">
+            <div class="table-responsive mb-1  mt-2">
+                <table class="table table-nowrap align-middle"
+                    id="orderTable">
+                    <thead class="table-light">
+                        <tr class="text-uppercase">
+                            <th scope="col" style="width: 25px;">
+                                <div class="checkall">
+                                    <input class="form-check-input checkField check-all"
+                                        type="checkbox" onclick="check()"
+                                        data-checkall-trigger="group1">
+                                </div>
+                            </th>
+                            <th class="sort"
+                                data-sort="customer_name">
+                                Namee</th>
+                            <th class="sort" data-sort="date">Phone</th>
+                            <th class="sort" data-sort="date">Unit No</th>
+                            <!-- <th class="sort" data-sort="amount">Amount</th>
+                                        <th class="sort" data-sort="payment">Payment Method</th> -->
+
+                            <th class="sort" data-sort="company">
+                                Block No
+                            </th>
+                            <th class="sort" data-sort="company">
+                                Unit Area
+                            </th>
+                            <th class="sort" data-sort="company">
+                                Land Area
+                            </th>
+                            <th class="sort" data-sort="company">
+                                U Type
+                            </th>
+                            
+                            <th class="sort" data-sort="company">
+                               Price
+                            </th>
+                            <th class="sort" data-sort="status">
+                                Status</th>
+                                <th>Action</th>
+                            <!-- <th class="sort" data-sort="action">Action</th> -->
+                        </tr>
+                    </thead>
+           
+                            <tbody class="list form-check-all append_search_result">
+                                {% for i in page_obj.object_list %}
+                                    <tr>
+                                        <th scope="row">
+                                            <input
+                                                class="form-check-input checkField messageCheckbox"
+                                                type="checkbox" value="{{i.id}}"
+                                                data-checkall-group="group1"
+                                                onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
+                                        </th>
+                            <td class="id"><a href="#"
+                                    class="fw-medium link-primary">
+                                    {% if i.Name == None %}
+                                    {% else %}
+                                    {{i.Name}}
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td class="customer_name">
+                                {% if i.Phoneno == None %}
+                                {% else %}
+                                {{i.Phoneno}}
+                                {% endif %}
+                            </td>
+                            <td class="product_name">{{i.UnitNo}}</td>
+                            <td class="date">{{i.BlockNo}}</td>
+                            <td class="date">{{i.UnitArea}}</td>
+                            <td class="company">{{i.LandArea}}</td>
+                            <td>
+                                {% if i.UType == None %}
+                                {% else %}
+                                {{i.UType}}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{i.Price}}
+                            </td>
+                            <td class="status">
+                                {% if i.current_status == "0" %}
+                               
+                                <span
+                                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                    background-color: #008000;">Available</span>
+
+{% elif i.current_status == "1" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+background-color: orange;">Price Quotation</span>
+
+
+
+{% elif i.current_status == "2" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+    background-color: #e40000;">Sold</span>
+    {% elif i.current_status == "3" %}
+    <span
+    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+               background-color: gray;">Cancelled</span>
+                                    {% else %}
+
+                                    {% endif %}
+                            </td>
+                            <td>
+                                <a href="property_update?id={{i.id}}"><i style="color: black;" class="fas fa-edit"></i></a>
+                            </td>
+                                    </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+               
+            </div>
+        </div>
+        <div class="tab-pane" id="pro" role="tabpanel">
+            <div class='app'>
+                <main class='project'>
+
+                    <div class='project-tasks'>
+                        <div class='project-column'>
+                            <div class='project-column-heading'>
+                                <h2
+                                    class='project-column-heading__title'>
+                                    DRAFT</h2><button
+                                    class='project-column-heading__options'>
+                                    <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                </button>
+                            </div>
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Nettie Deloatch</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Diana Kohler</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+                        </div>
+                        <div class='project-column'>
+                            <div class='project-column-heading'>
+                                <h2
+                                    class='project-column-heading__title'>
+                                    WAITING</h2><button
+                                    class='project-column-heading__options'>
+                                    <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                </button>
+                            </div>
+
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>James Price</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Jane Prik</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Nancy Martino</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Henry Baird</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+
+                        </div>
+                        <div class='project-column'>
+                            <div class='project-column-heading'>
+                                <h2
+                                    class='project-column-heading__title'>
+                                    DONE</h2><button
+                                    class='project-column-heading__options'>
+                                    <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                </button>
+                            </div>
+
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Administrator</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+                            <div class='task' draggable='true'>
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Thomas Taylor</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Alex Morgan</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Donald Palmer</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+                        </div>
+                        <div class='project-column'>
+                            <div class='project-column-heading'>
+                                <h2
+                                    class='project-column-heading__title'>
+                                    REJECTED</h2><button
+                                    class='project-column-heading__options'>
+                                    <!-- <i class="fas fa-ellipsis-h"></i> -->
+                                </button>
+                            </div>
+
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Alexis Clarke</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+
+                            <div class='task' draggable='true'>
+
+
+                                <div
+                                    class="d-flex justify-content-between">
+                                    <h6>Daniel James</h6>
+                                    <p class="txt-p">
+                                        <span>01/03/2022</span>
+                                        - <span>31/03/2022</span>
+                                    </p>
+                                </div>
+
+                                <p>Salary Slip of Administrator for
+                                    March-2022</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<script>
+    // check_list = []
+    function check_action(count){
+        var checkBox = document.getElementById("check_btn"+count);
+        if (checkBox.checked == true){
+            check_list.push(count)
+        } else {
+           var index = check_list.indexOf(count);
+           if (index > -1) {
+                check_list.splice(index, 1);
+            }
+        }
+    }
+</script>
+
+<script>
+    $(".next_page_action").click(function(){
+        var url =$(this).attr('data-url')
+        $.ajax({
+            url: url,
+            data:{
+                'check_list[]':check_list
+            },
+        success: function (data) {
+            $("#append_datas_property").empty().append(data);
+        }
+    })
+    })
+</script>
+<script>
+    $('.check-all').on('click', function () {
+        if( $('.check-all').is(':checked') ) {
+            $('.selectIcon').show();
+        }
+        else {
+            $('.selectIcon').hide();
+        }
+    })
+</script>
+
+<script>
+    $('.messageCheckbox').on('click', function () {
+    if( $('.messageCheckbox').is(':checked') ) {
+            $('.selectIcon').show();
+        }
+        else {
+            $('.selectIcon').hide();
+        }
+       })
+</script>
+
+<script>
+    function Export() {  
+        url=check_list
+        window.location.href = "/export_excel/?selected_data="+url 
+    }
+    </script>
+

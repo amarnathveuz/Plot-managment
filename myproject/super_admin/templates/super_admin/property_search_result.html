@@ -1,0 +1,71 @@
+{% load checkbox_result %}
+{% for i in data %}
+
+<tr>
+    <th scope="row">
+        
+        <input
+            class="form-check-input checkField messageCheckbox"
+            type="checkbox" value="{{i.id}}"
+            data-checkall-group="group1"
+            onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
+    </th>
+<td class="id"><a href="#"
+class="fw-medium link-primary">
+{% if i.Name == None %}
+{% else %}
+{{i.Name}}
+{% endif %}
+</a>
+</td>
+<td class="customer_name">
+{% if i.Phoneno == None %}
+{% else %}
+{{i.Phoneno}}
+{% endif %}
+</td>
+<td class="product_name">{{i.UnitNo}}</td>
+<td class="date">{{i.BlockNo}}</td>
+<td class="date">{{i.UnitArea}}</td>
+<td class="company">{{i.LandArea}}</td>
+<td>
+{% if i.UType == None %}
+{% else %}
+{{i.UType}}
+{% endif %}
+</td>
+<td>
+{{i.Price}}
+</td>
+<td class="status">
+    {% if i.current_status == "0" %}
+   
+    <span
+        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+        background-color: #008000;">Available</span>
+
+{% elif i.current_status == "1" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+background-color: orange;">Price Quotation</span>
+
+
+
+{% elif i.current_status == "2" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+background-color: #e40000;">Sold</span>
+{% elif i.current_status == "3" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+background-color: gray;">Cancelled</span>
+        {% else %}
+
+        {% endif %}
+</td>
+<td>
+<a href="property_update?id={{i.id}}"><i style="color: black;" class="fas fa-edit"></i></a>
+</td>
+</tr>
+
+{% endfor %}
