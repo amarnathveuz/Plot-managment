@@ -32,11 +32,11 @@ def get_loginUsernameImage(value,args):
     st = user_dat.is_superuser
     image_url = ''
     if st == True:
-        image_url = 'http://127.0.0.1:8000/static/adminicon.jpg'
+        image_url = 'http://10.10.10.119:8000/static/adminicon.jpg'
     else:
         user_data = user_Details.objects.get(auth_user=value.id)
         if user_data.atatchment == '':
-            image_url = 'http://127.0.0.1:8000/static/adminicon.jpg'
+            image_url = 'http://10.10.10.119:8000/static/adminicon.jpg'
         else:    
             image_url ='../media/'+str(user_data.atatchment)
 

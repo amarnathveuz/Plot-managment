@@ -27,11 +27,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/b
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="margn">
                                 {% if data.booking_status == 3   %}
-                            <a href="#"  onclick="available_button_action()"><button style="padding: 5px 10px !important;background-color: #008000;
-                                color: white;
-                                border: none;" type="button"
-                                class="btn btn-pri pay discard-payroll"> Reset to Available
-                            </button></a>
+
+                               {% if data.reset_to_availale == None %}
+
+                                <a href="#"  onclick="available_button_action()"><button style="padding: 5px 10px !important;background-color: #008000;
+                                    color: white;
+                                    border: none;" type="button"
+                                    class="btn btn-pri pay discard-payroll"> Reset to Available
+                                </button></a>
+
+                                {% else %}
+
+
+                                {% endif %}
+                           
 
                             {% else %}
                            
@@ -263,6 +272,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/b
                                                     color: #2c3785;">{{i.status_content}}</p> </span>
                                               
                                             </div>
+                                            <sapn>{{i.dt}}</sapn>
 
                                         </div>
                                         </a>

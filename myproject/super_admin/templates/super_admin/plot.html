@@ -20,6 +20,40 @@
 </head>
 
 <body>
+  <style>
+
+    .preloader {
+    
+        background: url(../loading2.gif) rgba(0,0,0,0.75) no-repeat center center;
+    
+        height: 100vh;
+    
+        padding-top: 20%;
+    
+        margin-left: 0px;
+    
+        margin-top: 0px;
+    
+        position: fixed;
+    
+        width: 100%;
+    
+        top: 0;
+    
+        z-index: 10000;
+    
+    }
+    
+    </style>
+  <div class="preloader text-center" id="preloader">
+
+    <div class="loadng">
+
+        <img src="{% static 'admin/loading2.gif' %}" class="ldimg text-center" />
+
+    </div>
+
+ </div>
 
   <div class="container-fluid px-0 tables">
  
@@ -3724,7 +3758,7 @@
           if(value.image_type == 'pdf')
           {
            pdfFile =  `<div class="col-6 pr-1 mb-2 result-attachment">
-                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" class="" download="" target="_blank" alt="pdf" title="`+value.image_name+`">
+                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" class=""  target="_blank" alt="pdf" title="`+value.image_name+`">
                       <div class="attach-bx">
                         <div class="float-left">
                           <span class="o_image float-left">
@@ -3743,7 +3777,7 @@
           else if(value.image_type =='mp4')
           {
             vedioFile =  `<div class="col-6 pr-1 mb-2 result-attachment">
-                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" class="" download="" target="_blank" alt="pdf" title="`+value.image_name+`">
+                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" class=""  target="_blank" alt="pdf" title="`+value.image_name+`">
                       <div class="attach-bx">
                         <div class="float-left">
                           <span class="o_image float-left">
@@ -3763,7 +3797,7 @@
           {
           // console.log(index,value.image_type);
           imageFile = `<div class="col-6 pr-1 mb-2 result-attachment">
-                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" target="_blank" class="" download="" title="`+value.image_name+`">
+                    <a href="`+domailUrl+'/'+'media/'+value.attached_file+`" target="_blank" class=""  title="`+value.image_name+`">
                       <div class="attach-bx">
                         <div class="float-left">
                           <span class="o_image float-left">
@@ -3871,6 +3905,20 @@
  {% endfor %}
 </script>
 {% endif %}
+
+<script>
+
+  $(document).ready(function() {
+
+        setTimeout(function() {
+
+            $("#preloader").fadeOut();
+
+        }, 200);
+
+    });
+
+</script>
 </body>
 
 </html>

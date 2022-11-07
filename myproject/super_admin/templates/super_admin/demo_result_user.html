@@ -159,7 +159,7 @@
                     </thead>
                     <tbody class="list form-check-all append_search_result">
                         {% for i in page_obj  %}
-                        <tr>
+                        <tr onclick=onclick="window.location='user_edit?id={{i.id}}'">
                             <td class="id"><a href="user_edit?id={{i.id}}"
                                     class="fw-medium link-primary">{{i.name}}</a>
                             </td>

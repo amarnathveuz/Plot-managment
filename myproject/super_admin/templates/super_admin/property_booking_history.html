@@ -1,0 +1,265 @@
+{% extends "super_admin/base.html" %}
+
+{% load static %}
+{% block content %}
+
+<div class="content">
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-12 buttns">
+                <h5>{{data_pro.BlockNo}}{{data_pro.UnitNo}}</h5>
+
+
+
+ 
+            </div>
+            <div class="col-md-12 contnt">
+                <div class="d-flex align-items-center justify-content-between px-2">
+                    <div class="col-md-4 px-0">
+                        <!-- <a href="#!"><button type="button"
+                                class="btn btn-prim add-btn create-button create-cont-btn"><i
+                                    class="fas fa-plus"></i>
+                                Create
+                            </button></a> -->
+
+                        <!-- <button type="button"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Import">
+                            <i class="fas fa-upload"></i>
+                        </button> -->
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Export">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Favourite">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Print">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Archive">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="d-flex align-items-center">
+
+
+                        <!-- <i class="fas fa-caret-left mr-1 pagintn text-muted"></i><span
+                            class="text-muted"> 1 0f
+                            10</span><i
+                            class="fas fa-caret-right ml-1 pagintn text-muted"></i>
+                        <input type="text" class="form-cont ml-2"
+                            placeholder="Search..." autocomplete="off"
+                            id="search-options" value=""> -->
+
+
+
+                        <!-- <div class="btn-group fitr">
+                            <button type="button" class="btn btn-prim"> <i
+                                    class="fas fa-filter"></i>
+                                Filters
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Draft</a>
+                                <a class="dropdown-item" href="#">Waiting</a>
+                                <a class="dropdown-item" href="#">Done</a>
+                                <a class="dropdown-item" href="#">Rejected</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Add Custom
+                                    Filter</a>
+                            </div>
+                        </div> -->
+                        <!-- <div class="btn-group grpby">
+                            <button type="button" class="btn btn-prim mx-1"> <i
+                                    class="fas fa-bars"></i>
+                                Group By
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Employees</a>
+                                <a class="dropdown-item" href="#">PaySlip
+                                    Batch</a>
+                                <a class="dropdown-item" href="#">Companies</a>
+                                <a class="dropdown-item" href="#">States</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Add Custom
+                                    Group</a>
+                            </div>
+                        </div> -->
+                        <ul class="nav nav-tabs nav-ta" role="tablist">
+                            <li class="nav-item mx-1">
+                                <a class="nav-link kan-tab active" data-toggle="tab"
+                                    href="#ho" role="tab" aria-selected="false">
+                                    <i class="fas fa-th-large"></i>
+
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link kan-tab" data-toggle="tab"
+                                    href="#pro" role="tab" aria-selected="false">
+                                    <i class="fas fa-list"></i>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="ho" role="tabpanel">
+                        <div class='app'>
+                            <main class='project1'>
+                              
+                                <div class='project-tasks1 mb-1 container-fluid'>
+                                    {% for i in data %}
+                                    <div class='project-column mt-2'>
+                                        <a style="text-decoration: none;color: black" href="booking_more_details?id={{i.id}}">
+                                        <div class="customer-bx">
+
+                                            <div class="cust-img" style="background-image: url('../media/{{i.user_id.atatchment}}');">
+
+                                            </div>
+
+                                            <div class="customer-content">
+                                                <h5>New Booking Received <i>({{i.dt}})</i> </h5>
+                                                <span class="d-flex"><h6>Name : </h6> {{i.user_id.name|title}}</span>
+                                                <span class="d-flex"><h6>Email : </h6> {{i.user_id.email|title}}</span>
+                                                <span class="d-flex"><h6>Property No : </h6> {{i.property_mapping_id.BlockNo}}{{i.property_mapping_id.UnitNo}}</span>
+                                                
+                                                <span class="badge badge-soft-success text-uppercase">{{i.user_id.user_type}}</span>
+                                                {% if i.read_status == 0 %}
+                                                <span class="cust-badge badge-success mb-1">New</span>
+                                                {% else %}
+                                                {% endif %}
+                                            </div>
+
+                                        </div>
+                                        </a>
+
+
+                                    </div>
+                            
+                                    {% endfor %}
+                               
+                                    
+                                </div>
+
+                              
+
+                          
+                           
+                            </main>
+
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" id="pro" role="tabpanel">
+                        <div class="table-responsive mb-1  mt-2 " style="    padding: 7px 13px;">
+                            <table class="table table-nowrap align-middle container-fluid"
+                                id="orderTable">
+                                <thead class="table-light">
+                                    <tr class="text-uppercase">
+                                       
+                                        <th class="sort" data-sort="customer_name">
+                                            Name</th>
+                                        <th class="sort" data-sort="phone">
+                                            Phone</th>
+                                        <th class="sort" data-sort="email">
+                                            Email
+                                        </th>
+                                        <th class="sort" data-sort="salesperson">
+                                            Date
+                                        </th>
+                                        <th class="sort" data-sort="activity">
+                                           Bank</th>
+
+
+                                        <th class="sort" data-sort="city">
+                                           User Type
+                                        </th>
+                                        <th class="sort" data-sort="country">
+                                            Type</th>
+                                       
+
+                                    </tr>
+                                </thead>
+                                <tbody class="list form-check-all">
+                                    {% for i in data %}
+                                   
+                                    <tr onclick="window.location='booking_more_details?id={{i.id}}'">
+                                       
+                                        <td class="id"><a href="booking_more_details?id={{i.id}}"
+                                                class="fw-medium link-primary"> {{i.name|title}}</a>
+                                        </td>
+                                        <td class="customer_name">{{i.phone}}
+                                        </td>
+                                        <td class="product_name">
+                                            {{i.user_id.email|title}}</td>
+                                        <td class="date">{{i.dt}}</td>
+                                        <td class="date">{{i.bank}}</td>
+                                        <td class="company">
+
+
+                                            {% if i.user_id.user_type == "manager" %}
+                                            <span
+                                                class="badge badge-soft-success text-uppercase">Manager</span>
+                                            {% elif i.user_id.user_type == "salesman"  %}
+                                            <span style="color: red!important"
+                                                class="badge badge-soft-success text-uppercase">Salesman</span>
+
+                                            {% endif %}
+                                        </td>
+                                        <td class="status">  {% if i.read_status == 0 %}
+                                            <span class="cust-badge badge-success mb-1">New</span>
+                                            {% else %}
+                                            {% endif %}</td>
+                                       
+                                    </tr>
+                                   
+                             
+                              {% endfor %}
+                            
+                                 
+                              
+                             
+                             
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

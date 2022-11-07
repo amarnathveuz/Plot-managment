@@ -116,6 +116,7 @@ class user_request_plot(common):
     manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_request_plot_manager_id", null=True)
     read_status = models.IntegerField(default=0)
     booking_status = models.IntegerField(null=True)
+    reset_to_availale = models.IntegerField(null=True)
 
 
 
@@ -135,3 +136,11 @@ class booking_log(common):
     assigned_user_id =  models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="booking_log_assign_user_login_id", null=True)
 
 
+
+class user_log(common):
+    user_mapping_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_log_login_id", null=True)
+    action_appy_user = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_log_user_login_id", null=True)
+    action_auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_log_auth_login_id", null=True)
+    d_text = models.TextField(null=True)
+    status_content = models.TextField(null=True)
+    user_type = models.CharField(max_length=255,choices=login_user_type,null=True)

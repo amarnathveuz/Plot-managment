@@ -43,6 +43,12 @@ urlpatterns = [
     path('grouping_user', views.grouping_user, name="grouping_user"),
     path('filtering_user', views.filtering_user, name="filtering_user"),
     path('logout',auth_views.LogoutView.as_view(),name="logout"),
+    path('property_booking_history',views.property_booking_history,name='property_booking_history'),
+    path('delete_property_based_access_action',views.delete_property_based_access_action,name='delete_property_based_access_action'),
+
+    path('profile',views.profile,name='profile'),
+    path('change_password',views.change_password,name='change_password'),
+    
     
 
     

@@ -41,8 +41,13 @@
                             <a><button type="submit" id="update_id"  style="padding: 5px 10px !important" class="btn btn-prim pay display_name">
                                     Update
                                 </button></a>
-                            <a href="#!"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                            <a href="property_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
                                 </button></a>
+
+                                {% if history %}
+                                <a href="property_booking_history?id={{data.id}}"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Booking History
+                                </button></a>
+                                {% endif %}
                         </div>
 
                     </div>
@@ -310,6 +315,86 @@
         </div>
     </div>
     <br>
+    <div class="container">
+
+        <p>Log</p>
+
+        <div class="row">
+
+
+            <div class="col-md-12">
+
+              
+                    {% for i in history %}
+                    <div class='project-column mt-2'>
+                        <a style="text-decoration: none;color: black" href="booking_more_details?id={{i.id}}">
+                        <div class="customer-bx">
+
+                            <div class="cust-img" style="background-image: url('../media/{{i.user_id.atatchment}}');">
+
+                            </div>
+
+                            <div class="customer-content">
+                                <h5>New Booking Received <i>({{i.dt}})</i> </h5>
+                                <span class="d-flex"><h6>Name : </h6> {{i.user_id.name|title}}</span>
+                                <span class="d-flex"><h6>Email : </h6> {{i.user_id.email|title}}</span>
+                                <span class="d-flex"><h6>Property No : </h6> {{i.property_mapping_id.BlockNo}}{{i.property_mapping_id.UnitNo}}</span>
+                                
+                                <span class="badge badge-soft-success text-uppercase">{{i.user_id.user_type}}</span>
+                                {% if i.read_status == 0 %}
+                                <span class="cust-badge badge-success mb-1">New</span>
+                                {% else %}
+                                {% endif %}
+                            </div>
+
+                           
+
+                        </div>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                            
+                                <th scope="col">username</th>
+                               
+                                <th scope="col">change status</th>
+                                <th scope="col">date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for j in i.booking_log_id.all %}
+                              <tr>
+                                <th scope="row">{% if j.user_type == "administrator" %}
+                                    {{j.user_type|title}} </h6>
+                                    {% else %}
+
+                                    {{j.auth_user.email|title}}
+
+                                    {% endif %}</th>
+                                <td>{{j.d_text}}<br>
+                                
+                                
+                                    {{j.status_content}}</td>
+                                <td>{{j.dt}}</td>
+                             
+                              </tr>
+                              {% endfor %}
+                           
+                            </tbody>
+                          </table>
+                        </a>
+
+
+                    </div>
+            
+                    {% endfor %}
+               
+                    
+               
+            </div>
+        </div>
+
+
+    </div>
     <br>
     <br>
 

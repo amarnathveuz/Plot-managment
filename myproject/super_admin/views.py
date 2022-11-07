@@ -142,8 +142,22 @@ def create_user(request):
 
                         )
                         data_save_property.save()
+                d_text = "New user created"
+                auth_user = User.objects.get(id=request.user.id)
+                user_type = auth_user.is_superuser
+                if user_type == True:
+                    user_type = 'administrator'
+                else:
+                    user_type = 'staff'
 
-                
+                store_log = user_log.objects.create(
+                    user_mapping_id_id= save_user_data.id,
+                    action_auth_user = request.user,
+                    status_content= "Created",
+                    d_text = d_text,
+                    user_type = user_type
+
+                )
                 messages.success(request,str("password:"+str(password)))
                 return redirect(request.META['HTTP_REFERER'])
         elif user_type == "salesman":
@@ -183,6 +197,22 @@ def create_user(request):
                     manager_id_id = manager
                 )
                 save_manager.save()
+                d_text = "New user created"
+                auth_user = User.objects.get(id=request.user.id)
+                user_type = auth_user.is_superuser
+                if user_type == True:
+                    user_type = 'administrator'
+                else:
+                    user_type = 'staff'
+
+                store_log = user_log.objects.create(
+                    user_mapping_id_id= save_user_data.id,
+                    action_auth_user = request.user,
+                    status_content= "Created",
+                    d_text = d_text,
+                    user_type = user_type
+
+                )
                 messages.success(request,str("password:"+str(password)))
                 return redirect(request.META['HTTP_REFERER'])
 
@@ -334,9 +364,11 @@ def property_update(request):
         id = request.GET.get("id")
         data = intractive_map.objects.get(id=id)
         multiple_image_data = intractive_map_multiple_image.objects.filter(mapping_id_id=id)
+        history = user_request_plot.objects.filter(property_mapping_id=id).order_by("-id")
         context = {
             'data':data,
-            'multiple_image_data':multiple_image_data
+            'multiple_image_data':multiple_image_data,
+            'history':history
         }
         return render(request,'super_admin/property_update.html',context)
 
@@ -354,12 +386,13 @@ def user_edit(request):
         user_manger = user_manger_mapping.objects.get(user_id_id=id)
     except:
         pass
-    
+    log_data = user_log.objects.filter(user_mapping_id_id=id).order_by('-id')
     context = {
         'data':data,
         'all_manger':all_manger,
         'user_manger':user_manger,
-        'user_property':user_property
+        'user_property':user_property,
+        'log_data':log_data
     }
     return render(request,'super_admin/user_edit.html',context)
 
@@ -385,6 +418,32 @@ def update_user_action(request):
         plot_list_view = request.POST.get("plot_list_view",False)
         price_visibility = request.POST.get("price_visibility",False)
         property_access = request.POST.get("property_access",False)
+
+        user_instance = user_Details.objects.get(id=updated_id)
+        change_text = ''
+        if user_instance.name == name:
+            pass
+        else:
+            change_text = '(Name changed '+user_instance.name+"--> "+name+" )"
+        if  user_instance.phone == phone:
+            pass
+        else:
+            change_text= change_text+'(Phone changed '+user_instance.phone+"--> "+phone+" )"
+
+        if user_instance.mobile == mobile:
+            pass
+        else:
+            change_text= change_text+'(Mobile changed '+user_instance.mobile+"--> "+mobile+" )"
+        if user_instance.email == email:
+            pass
+        else:
+            change_text= change_text+'(Email changed '+user_instance.email+"--> "+email+" )"
+        if user_instance.emp_id == empid:
+            pass
+        else:
+            change_text= change_text+'(Employee Id changed '+user_instance.emp_id+"--> "+empid+" )"
+
+
         try:
             attachment = request.FILES['attachment']
             data_update_attch = user_Details.objects.get(id=updated_id)
@@ -432,10 +491,32 @@ def update_user_action(request):
                 )
                 insert_manger.save()
                 pass
+        auth_user = User.objects.get(id=request.user.id)
+        user_type = auth_user.is_superuser
+        if user_type == True:
+            user_type = "administrator"
+        else:
+            user_type = 'staff'
+        if change_text == '':
+            pass
+        else:
+
+
+            
+            update_log = user_log.objects.create(
+                user_mapping_id_id = updated_id,
+                action_auth_user = request.user,
+                d_text = change_text,
+                status_content = "updated",
+                user_type = user_type
+            )
 
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
         
+
+
+
 def login_action(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -686,7 +767,7 @@ def rest_to_available_booking_action(request):
         status_content = current_status+"-->"+" Reset to Available"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
-
+    data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1)
     data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0)
     
 
@@ -739,20 +820,26 @@ def export_data_to_excel(request):
 
 @login_required(login_url='/')
 def plot_table_view(request):
-    page_obj = ""
-    page_number = request.GET.get("page")
-    data = intractive_map.objects.all()
-    data_paginator = Paginator(data,500)
-    try:
-        page_obj = data_paginator.get_page(page_number)  
-    except PageNotAnInteger:
-        page_obj = data_paginator.page(1)
-    context = {
-        "data":data,
-        'page_obj': page_obj
+    data = user_Details.objects.get(auth_user=request.user)
+    if data.plot_list_view == "yes":
+        page_obj = ""
+        page_number = request.GET.get("page")
+        data = intractive_map.objects.all()
+        data_paginator = Paginator(data,500)
+        try:
+            page_obj = data_paginator.get_page(page_number)  
+        except PageNotAnInteger:
+            page_obj = data_paginator.page(1)
+        context = {
+            "data":data,
+            'page_obj': page_obj
 
-    }
-    return render(request,'super_admin/plot_table_view.html',context)
+        }
+        return render(request,'super_admin/plot_table_view.html',context)
+    else:
+        html = "<html><body>Access denied</body></html>" 
+        return HttpResponse(html)
+    
 
 
 @login_required(login_url='/')
@@ -843,3 +930,52 @@ def filtering_user(request):
     except:
         data1="No Datas Found For Your Search"
         return render(request,'super_admin/filtering_user.html', {'data1': data1})
+
+
+def property_booking_history(request):
+    id = request.GET.get("id",False)
+    data_pro = intractive_map.objects.get(id=id)
+    data = user_request_plot.objects.filter(property_mapping_id=id)
+    context = {
+        'data':data,
+        'data_pro':data_pro
+    }
+    return render(request,'super_admin/property_booking_history.html',context)
+
+
+
+def delete_property_based_access_action(request):
+    id  = request.GET.get("id")
+    print("id:::::",str(id))
+    data_delete = user_access_property_mapping.objects.filter(id=id).delete()
+    messages.success(request,"successfully deleted")
+    return redirect(request.META['HTTP_REFERER'])
+
+
+
+
+def profile(request):
+    try:
+        user_data = user_Details.objects.get(auth_user=request.user)
+        context = {
+            'user_data': user_data,
+        }
+        return render(request, 'super_admin/profile.html', context)
+    except:
+        return redirect(request.META['HTTP_REFERER'])
+
+def change_password(request):
+
+    if request.method == "POST":
+        pwd1 = request.POST.get("pwd1")
+        pwd2 = request.POST.get("pwd2")
+        username = request.POST.get("username")
+        if (pwd1 == pwd2):
+            user_update = User.objects.get(username=username)
+            user_update.set_password(pwd1)
+            user_update.save()
+            messages.success(request, str("password updated successfully"))
+            return redirect("/")
+        else:
+            messages.error(request, str("Password doesnt match "))
+            return redirect(request.META['HTTP_REFERER'])
