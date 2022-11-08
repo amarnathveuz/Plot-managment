@@ -206,8 +206,53 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/b
                                         </div>
 
                                     </div>
+                                    
                                 </div>
+                                {% if booking_log1 %}
+                                <div class="paytab">
+                                    <ul class="nav nav-tabs nav-pay" role="tablist">
+                                        <h5>Log</h5>
+                                    </ul>
+                                    <div class="tab-content text-muted">
+                                        {% for i in booking_log1 %}
 
+                                        <div class="tab-pane active show" role="tabpanel">
+                                            <div class="row actvty">
+                                                <h5>{{i.dt}}</h5>
+                                            </div>
+                                            <div class="row msging schdul-box mt-1">
+                                                {% if i.user_type == "administrator" %}
+                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                {% else %}
+                                                {% if i.assigned_user_id.atatchment == '' %}
+                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                                                {% else %}
+                                                <img src="../media/{{i.assigned_user_id.atatchment}}" alt="">
+                                                {% endif %}
+                                                {% endif %}
+                                               
+                                                <div class="col">
+                                                    <h5>{% if i.user_type == "administrator" %}
+                                                        {{i.user_type|title}} 
+                                                        {% else %}
+    
+                                                        {{i.auth_user.email|title}}
+                                                        {% endif %}
+                                                         <span> ({{i.dt}})</span></h5>
+                                                    <h6>{{i.d_text}}
+                                                    </h6>
+                                                    <h6><span>{{i.status_content}}</span></h6>
+                                                </div>
+                                               
+
+                                            </div>
+
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
 
                             </div>
 
@@ -223,70 +268,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/b
 
                 <div  style="    
                 padding: 1px 24px;">
-                    <p style="font-weight: bold;">Logs</p>
-                   
-
-                    <div class="row">
-                        {% for i in booking_log1 %}
-
-                        <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class='project-column mt-2'>
-                                        <a style="text-decoration: none;color: black" href="booking_more_details?id={{i.id}}">
-                                        <div class="customer-bx">
-                                            {% if i.user_type == "administrator" %}
-
-                                            <div class="cust-img" style="background-image: url('{% static 'adminicon.jpg' %}');">
-
-                                            </div>
-                                            {% else %}
-
-                                            {% if i.assigned_user_id.atatchment == '' %}
-                                            <div class="cust-img" style="background-image: url('{% static 'adminicon.jpg' %}');">
-
-                                            </div>
-
-                                            {% else %}
-                                            <div class="cust-img" style="background-image: url('../media/{{i.assigned_user_id.atatchment}}');">
-
-                                            </div>
-
-                                            {% endif %}
-
-                                            {% endif %}
-
-                                            <div class="customer-content">
-                                                <h5></i> </h5>
-                                                <span class="d-flex"><h6>
-                                                    {% if i.user_type == "administrator" %}
-                                                    {{i.user_type|title}} </h6>
-                                                    {% else %}
-
-                                                    {{i.auth_user.email|title}}
-
-                                                    {% endif %}
-                                                   </span>
-                                                <span class="d-flex"><p>{{i.d_text}} </p> </span>
-                                                <span class="d-flex"><p style="font-weight: bold;
-                                                    color: #2c3785;">{{i.status_content}}</p> </span>
-                                              
-                                            </div>
-                                            <sapn>{{i.dt}}</sapn>
-
-                                        </div>
-                                        </a>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <br>
-                    <br>
-                    <br>
+                  
                 </div>
                 <!-- <div class="row pay-main" data-select2-id="6">
                     <input type="hidden" name="updated_id" value="9">
@@ -350,7 +332,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/b
         </div>
 
 
-
+  
+        <br>
+        <br>
+        <br>
     </div>
 </div>
 <script src="{% static 'admin/js/jquery.min.js' %}"></script>

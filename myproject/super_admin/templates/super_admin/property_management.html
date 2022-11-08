@@ -5,6 +5,13 @@
 
 {% load checkbox_result %}
 
+
+
+
+
+
+
+
 <div class="content">
     <div class="container-fluid px-0">
         <div class="row">
@@ -12,7 +19,7 @@
                 <h5>Plot Management</h5>
             </div>
             <div class="col-md-12 contnt" id="append_datas_property">
-                <div class="d-flex align-items-center justify-content-between px-2">
+                <div class="d-flex align-items-center justify-content-between px-2" >
             
                     <div class="col-md-4 px-0">
                         <a href="create_property"><button type="button"
@@ -49,6 +56,8 @@
                             placeholder="Search..." autocomplete="off"
                             id="search-options" value="">
         
+
+                            
         
         
                             <div class="dropdown btn-group fitr">
@@ -123,9 +132,26 @@
                                             </button>
                                         </div>
                                     </li>
-    
+
+                                    <li><a class="dropdown-item dropdown-submenu" href="#">Status</a>
+                                        <div class="drpdwn-menu">
+                                            <input onclick="groupby_functn('Sold')" value="0" type="checkbox" class="form-check-input mr-2" id="radio1"
+                                            name="optradio1" value="option1">Sold <br>
+
+                                            <input onclick="groupby_functn('Price')" value="1" type="checkbox" class="form-check-input mr-2" id="radio2"
+                                                name="optradio2" value="option2">Price quotation<br>
+
+                                            <input onclick="groupby_functn('Available')" value="2" type="checkbox" class="form-check-input mr-2" id="radio3"
+                                            name="optradio3" value="option3">Available<br>
+
+                                            <input onclick="groupby_functn('Cancelled')" value="3" type="checkbox" class="form-check-input mr-2" id="radio4"
+                                                name="optradio4" value="option4">Cancelled
+                                        </div>
+                                    </li>
                                 </div>
                             </div>
+
+
                             <div class="dropdown btn-group grpby">
                                 <button type="button" class="btn btn-prim mx-1 dropdown-toggle"
                                     data-toggle="dropdown"> <i class="fas fa-bars"></i>
@@ -135,39 +161,20 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">
                                         <div class="form-check">
-                                            <label class="form-check-label" for="radio1">
-                                                <input onclick="groupby_functn('Sold')" value="0" type="checkbox" class="form-check-input mr-2" id="radio1"
-                                                    name="optradio1" value="option1">Sold
-                                            </label>
+                                            <input type="checkbox" name="checkfield" id="radio67" onclick="group_by_status()">Status
                                         </div>
                                     </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="form-check">
-                                            <label class="form-check-label" for="radio2">
-                                                <input onclick="groupby_functn('Price')" value="1" type="checkbox" class="form-check-input mr-2" id="radio2"
-                                                    name="optradio2" value="option2">Price quotation
-                                            </label>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="form-check">
-                                            <label class="form-check-label" for="radio3">
-                                                <input onclick="groupby_functn('Available')" value="2" type="checkbox" class="form-check-input mr-2" id="radio3"
-                                                    name="optradio3" value="option3">Available
-                                            </label>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="form-check">
-                                            <label class="form-check-label" for="radio4">
-                                                <input onclick="groupby_functn('Cancelled')" value="3" type="checkbox" class="form-check-input mr-2" id="radio4"
-                                                    name="optradio4" value="option4">Cancelled
-                                            </label>
-                                        </div>
-                                    </a>
+                                    
     
                                 </div>
                             </div>
+
+
+
+
+
+
+
                             <ul class="nav nav-tabs nav-ta" role="tablist">
                                 <li class="nav-item mx-1">
                                     <a class="nav-link kan-tab active" data-toggle="tab" href="#ho" role="tab"
@@ -191,11 +198,14 @@
         
                 </div>
 
+                <!-- amritha -->
 
+
+                <div id="append_property_groupby">
                 <div class="tab-content">
                     <div class="tab-pane active" id="ho" role="tabpanel">
                         <div class="table-responsive mb-1  mt-2">
-                            <table class="table table-nowrap align-middle"
+                            <table class="table table-nowrap align-middle append_pro2"
                                 id="orderTable">
                                 <thead class="table-light">
                                     <tr class="text-uppercase">
@@ -311,25 +321,26 @@
                                 
                                 </tbody>
                             </table>
+                            <div class="append_pro1">
+
+                            </div>
                            
                         </div>
                     </div>
+
+
+
                     <div class="tab-pane" id="pro" role="tabpanel">
                         <div class='app plotmngmnt'>
                             <main class='project1'>
-                                <div class='project-tasks1 mb-1'>
+                                <div class='project-tasks1 mb-1 card_view1'>
                                 {% for i in data %}
                                     <div class='project-column'>
                                         <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
                                         <div class='customer-bx'>
                                             <div class="customer-content">
                                                 <h5>{{i.Name}}
-                                                    
-                                                    
-                                                    
                                                     {% if i.current_status == "0" %}
-                                                   
-                                           
                                             <span
                                                 class="badge badge-soft-success text-uppercase" style="    color: #fff;
                                                 background-color: #008000;">Available</span>
@@ -387,6 +398,7 @@
                         </div>
                     </div>
                 </div>
+                </div>
                 <br>
                 <br>
             </div>
@@ -396,6 +408,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
     function Search(){
+        alert("ppp")
         var x = document.getElementById("search_value").value;
         redirect_url = "property_search_result"
         $.ajax({
@@ -630,4 +643,35 @@ function Export() {
     window.location.href = "/export_excel/?selected_data="+url 
 }
 </script>
+
+
+<script>
+   function  group_by_status(){
+   
+    redirect_url = "property_groupby_status"
+        $.ajax({
+            url: redirect_url,
+            
+        success: function (data) {
+            $(".append_pro2").empty().append(data);
+
+            redirect_url = "append_card_view"
+        $.ajax({
+            url: redirect_url,
+            
+        success: function (data) {
+            $(".card_view1").empty().append(data);
+   
+        }
+        })
+   
+           
+        }
+        })
+    }
+</script>
+
+
+
+
 {% endblock %}

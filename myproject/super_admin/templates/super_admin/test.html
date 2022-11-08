@@ -1,0 +1,220 @@
+<form action="" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
+    {% csrf_token %}
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+
+                    <div class="page-title-left">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li>
+
+                        </ol>
+                        <div class="margn">
+                            <a onclick="validation_action()"><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                                    Save
+                                </button></a>
+                            <a href="user_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                                </button></a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row pay-main">
+        
+            
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Name</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="name" required type="text" class="form-control">
+
+                    </div>
+                    <div id="selected_image0">
+                        <style>
+
+                            #files::-webkit-file-upload-button {
+                        
+                                visibility: hidden;
+                        
+                                user-select: none;
+                        
+                            }
+                        
+                        
+                        
+                            .file-input1 {
+                        
+                                display: none;
+                        
+                                user-select: none;
+                        
+                            }
+                        
+                        
+                        
+                            #files {
+                        
+                                display: none;
+                        
+                            }
+                            </style>
+                        <label for="files">
+
+                            <img height="23px" width="23px"
+
+                                style="margin-left:25px; cursor: pointer;width: 20%;
+                                height: 1%;    margin: -21px 39px;"
+
+                                src="{% static 'file_select.png' %}">
+
+                        </label>
+
+                        <input  class="file-input1" data-count=0 id="files"
+
+                            name="attachment" type="file"
+
+                             />
+
+                    </div>
+                    <div id="selected_image1" style="display: none">
+
+                       <span onclick="image_remove_action()"><i   style="margin-left:25px; cursor: pointer;width: 20%;
+                        height: 1%;    margin: -21px 39px;color:red;    font-weight: bold;" class="fa fa-times" aria-hidden="true"></i></span>
+                    </div>
+                    
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>User Type </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> &nbsp;Manager
+                        &nbsp;&nbsp;<input onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman">&nbsp; Salesman
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Phone No</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="phone" required type="number" class="form-control">
+
+                    </div>
+                   
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Mobile </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="mobile" required type="number" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Email</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="email" required type="email" class="form-control" id="basiInput">
+                    </div>
+                   
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Emp ID</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="empid" type="text" class="form-control" id="basiInput">
+                    </div>
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6>Password Generate Option</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="Automatic" checked> &nbsp;Automatic
+                        &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="Manual"  type="radio" >&nbsp; Manual
+                        <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter password" class="form-control mt-2">
+                    </div>
+
+                    <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                        <h6>Plot Listview</h6>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                       <input type="radio" name="plot_list_view" checked value="no">&nbsp;No &nbsp;<input name="plot_list_view" type="radio" value="yes">&nbsp;Yes 
+                    </div>
+
+                      <div class="col-md-2 br-right d-flex align-items-center mt-4">
+                        <h6>Price Visibility</h6>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                       <input type="radio" name="price_visibility" checked value=1>&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" value=0>&nbsp;No 
+                    </div>
+                </div>
+
+                <div  class="row mt-2" >
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6 style="display: none" id="prop2">Select Property Access </h6>
+                    </div>
+                    <div class="col-md-4" style="display: none" id="prop1">
+                       <input type="radio" onclick="function_access_property('full_access')" name="property_access" value="all" checked> &nbsp;All access
+                       &nbsp;  <input  type="radio" onclick="function_access_property('property_based')"  name="property_access" value="plot_based"> &nbsp;Plot based access
+                    </div>
+                   
+                    <div   class="col-md-2 br-right d-flex align-items-center">
+                        <h6 style="display: none" id="property_id1">Select Property </h6>
+                    </div>
+                    <div style="display: none" id="property_id2" class="col-md-4 multipick">
+                      
+                            <select name="selected_property_list[]" class="selectpicker" multiple aria-label="Default select example"
+                                data-live-search="true">
+                                {% for i in data_property %}
+                                <option value="{{i.id}}">{{i.Name}} ({{i.UnitNo}})</option>
+                              {% endfor %}
+                            </select>
+
+                    </div>
+                </div>
+                
+                <style>
+      
+
+                    .multipick .bootstrap-select>.dropdown-toggle.bs-placeholder {
+                        padding: 6px 6px;
+                        font-size: 14px;
+                        border: 1px solid #d0d0d0;
+                    }
+                    .multipick .bootstrap-select button{
+                        padding: 6px 6px;
+                        font-size: 14px;
+                        border: 1px solid #d0d0d0;
+                    }
+                    .multipick .bootstrap-select .dropdown-menu li a{
+                        color: black;
+                    }
+                </style>
+                <div class="row mt-2" >
+                    <div class="col-md-2 br-right d-flex align-items-center">
+                        <h6 id="manager_select_div" style="display: none">Select Manger</h6>
+                    </div>
+                    <div class="col-md-4" id="manager_select_div1" style="display: none">
+                       <select name="manager" id="selected_manger_name"  class="form-control select2">
+                        <option value="select">select manager</option>
+{% for i in manager_data %}
+
+<option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
+
+
+{% endfor %}
+
+                       </select>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

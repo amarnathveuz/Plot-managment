@@ -8,6 +8,10 @@
     rel="stylesheet">
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css">
+    <div class="row">
+       
+
+    </div>
 <form action="" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
     {% csrf_token %}
     <div class="container-fluid mt-4">
@@ -39,191 +43,224 @@
         <div class="row pay-main">
         
             
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Name</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="name" required type="text" class="form-control">
-
-                    </div>
-                    <div id="selected_image0">
-                        <style>
-
-                            #files::-webkit-file-upload-button {
-                        
-                                visibility: hidden;
-                        
-                                user-select: none;
-                        
-                            }
-                        
-                        
-                        
-                            .file-input1 {
-                        
-                                display: none;
-                        
-                                user-select: none;
-                        
-                            }
-                        
-                        
-                        
-                            #files {
-                        
-                                display: none;
-                        
-                            }
-                            </style>
-                        <label for="files">
-
-                            <img height="23px" width="23px"
-
-                                style="margin-left:25px; cursor: pointer;width: 20%;
-                                height: 1%;    margin: -21px 39px;"
-
-                                src="{% static 'file_select.png' %}">
-
-                        </label>
-
-                        <input  class="file-input1" data-count=0 id="files"
-
-                            name="attachment" type="file"
-
-                             />
-
-                    </div>
-                    <div id="selected_image1" style="display: none">
-
-                       <span onclick="image_remove_action()"><i   style="margin-left:25px; cursor: pointer;width: 20%;
-                        height: 1%;    margin: -21px 39px;color:red;    font-weight: bold;" class="fa fa-times" aria-hidden="true"></i></span>
-                    </div>
+            <div class="col-lg-12 px-0">
+                <div class="card noti-card" id="orderList">
+    
+    
+                    <div class="card-body bb-0 pt-0 p-0">
+                        <div>
+    
+                            <div class="payslip mb-5">
+    
+                                <div class="row pay-main mb-4">
+    
+                                    <div class="customer-head mb-4 col-md-12">
+                                        <div class="propic">
+                                            <div class="small-12 medium-2 large-2 columns">
+                                                <div class="circle">
+                                                    <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
+                                                    <div class="p-image">
+                                                        <i class="fa fa-camera upload-button" aria-hidden="true"></i>
+                                                        <input  name="attachment" class="file-upload" type="file" accept="image/*">
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                       
+                                        <div class="cust-name row">
+                                            <div class="col-md-1">
+                                                <input  id="individual" type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> <label
+                                                    for="Individual">Manager</label><br>
+                                            </div>
+                                            <div class="col">
+                                                <input  id="company" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
+                                                    for="company">Salesman</label><br>
+                                            </div>
+                                            <div class="col-md-12">
+                                              <div class="row">
+    
+                                                <div class="col-md-4">
+                                                    <input name="name" required type="text" placeholder="Name" class="form-control">
+                                                </div>
+                                              </div>
+                                            </div>
+    
+                                        </div>
+    
+                                    </div>
+                                        
+                                 
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Phone</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="phone" required type="number" class="input form-control mt-2" >
+    
+                                                </div>
+    
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Mobile</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="mobile" required type="number" class="form-control" id="basiInput">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Password Generate Option </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="Automatic" checked id="access">  &nbsp;Automatic
+                            &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="Manual"  type="radio" id="access" >&nbsp; Manual
+                            <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter password" class="form-control mt-2">
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Property Access </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input id="access" type="radio" onclick="function_access_property('full_access')" name="property_access" value="all" checked> &nbsp;All access
+                                                        &nbsp;  <input id="access"  type="radio" onclick="function_access_property('property_based')"  name="property_access" value="plot_based"> &nbsp;Plot based access
+                                                    </div>
+                                                    
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6 style="display: none" id="property_id1">Select Property </h6>
+                                            </div>
+                                            <div style="display: none" id="property_id2" class="col-md-4 multipick">
+                          
+                                                <select name="selected_property_list[]" class="selectpicker" multiple aria-label="Default select example"
+                                                    data-live-search="true">
+                                                    {% for i in data_property %}
+                                                    <option value="{{i.id}}">{{i.Name}} ({{i.UnitNo}})</option>
+                                                  {% endfor %}
+                                                </select>
                     
+                                        </div>
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6 id="manager_select_div" style="display: none">Select Manger</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center " >
+                                                <div class="form-group  required_item w-100" id="manager_select_div1" style="display: none">
+                                                    <div class="">
+                                                        <select name="manager" id="selected_manger_name"  class="form-control select2">
+                                                            <option value="select">select manager</option>
+                                    {% for i in manager_data %}
+                                    
+                                    <option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
+                                    
+                                    
+                                    {% endfor %}
+                                    
+                                                           </select>
+                                                    </div>
+                                                    
+    
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Email</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="email" required type="email" class="form-control" id="basiInput">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Emp ID</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="empid" type="text" class="form-control" id="basiInput">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Plot Listview </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input type="radio" name="plot_list_view" checked value="no" id="access">&nbsp;No &nbsp;<input id="access" name="plot_list_view" type="radio" value="yes">&nbsp;Yes 
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Price Visibility </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input type="radio" name="price_visibility" checked value=1 id="access">&nbsp;Yes &nbsp;<input name="price_visibility" id="access" type="radio" value=0>&nbsp;No 
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
+                              
+    
+                            </div>
+    
+    
+    
+                        </div>
+    
+    
+    
+    
+                    </div>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>User Type </h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> &nbsp;Manager
-                        &nbsp;&nbsp;<input onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman">&nbsp; Salesman
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Phone No</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="phone" required type="number" class="form-control">
-
-                    </div>
-                   
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Mobile </h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="mobile" required type="number" class="form-control" id="basiInput">
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Email</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="email" required type="email" class="form-control" id="basiInput">
-                    </div>
-                   
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Emp ID</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="empid" type="text" class="form-control" id="basiInput">
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Password Generate Option</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="Automatic" checked> &nbsp;Automatic
-                        &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="Manual"  type="radio" >&nbsp; Manual
-                        <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter password" class="form-control mt-2">
-                    </div>
-
-                    <div class="col-md-2 br-right d-flex align-items-center mt-4">
-                        <h6>Plot Listview</h6>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                       <input type="radio" name="plot_list_view" checked value="no">&nbsp;No &nbsp;<input name="plot_list_view" type="radio" value="yes">&nbsp;Yes 
-                    </div>
-
-                      <div class="col-md-2 br-right d-flex align-items-center mt-4">
-                        <h6>Price Visibility</h6>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                       <input type="radio" name="price_visibility" checked value=1>&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" value=0>&nbsp;No 
-                    </div>
-                </div>
-
-                <div  class="row mt-2" >
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6 style="display: none" id="prop2">Select Property Access </h6>
-                    </div>
-                    <div class="col-md-4" style="display: none" id="prop1">
-                       <input type="radio" onclick="function_access_property('full_access')" name="property_access" value="all" checked> &nbsp;All access
-                       &nbsp;  <input  type="radio" onclick="function_access_property('property_based')"  name="property_access" value="plot_based"> &nbsp;Plot based access
-                    </div>
-                   
-                    <div   class="col-md-2 br-right d-flex align-items-center">
-                        <h6 style="display: none" id="property_id1">Select Property </h6>
-                    </div>
-                    <div style="display: none" id="property_id2" class="col-md-4 multipick">
-                      
-                            <select name="selected_property_list[]" class="selectpicker" multiple aria-label="Default select example"
-                                data-live-search="true">
-                                {% for i in data_property %}
-                                <option value="{{i.id}}">{{i.Name}} ({{i.UnitNo}})</option>
-                              {% endfor %}
-                            </select>
-
-                    </div>
-                </div>
-                
-                <style>
-      
-
-                    .multipick .bootstrap-select>.dropdown-toggle.bs-placeholder {
-                        padding: 6px 6px;
-                        font-size: 14px;
-                        border: 1px solid #d0d0d0;
-                    }
-                    .multipick .bootstrap-select button{
-                        padding: 6px 6px;
-                        font-size: 14px;
-                        border: 1px solid #d0d0d0;
-                    }
-                    .multipick .bootstrap-select .dropdown-menu li a{
-                        color: black;
-                    }
-                </style>
-                <div class="row mt-2" >
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6 id="manager_select_div" style="display: none">Select Manger</h6>
-                    </div>
-                    <div class="col-md-4" id="manager_select_div1" style="display: none">
-                       <select name="manager" id="selected_manger_name"  class="form-control select2">
-                        <option value="select">select manager</option>
-{% for i in manager_data %}
-
-<option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
-
-
-{% endfor %}
-
-                       </select>
-                    </div>
-                   
-                </div>
+    
+        
+    
             </div>
         </div>
     </div>
@@ -361,5 +398,33 @@ else{
         }
        
     }
+</script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $(".file-upload").on('change', function () {
+            readURL(this);
+        });
+
+        $(".upload-button").on('click', function () {
+            $(".file-upload").click();
+        });
+    });
 </script>
     {% endblock %}

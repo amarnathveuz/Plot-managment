@@ -401,6 +401,7 @@ def user_edit(request):
 def update_user_action(request):
     if request.method == "POST":
         updated_id = request.POST.get("updated_id",False)
+        print("uu:::::",str(updated_id))
         name = request.POST.get("name",False)
         user_type = request.POST.get("user_type",False)
         phone = request.POST.get("phone",False)
@@ -1050,3 +1051,31 @@ def demo_card_view(request):
 
 def test_user_detail_page(request):
     return render(request,'super_admin/test_user_detail_page.html')
+
+
+def property_groupby_status(request):
+    data_available = intractive_map.objects.filter(current_status = 0)
+    data_price_quotation = intractive_map.objects.filter(current_status = 1)
+    data_sold = intractive_map.objects.filter(current_status = 2)
+    data_cancelled = intractive_map.objects.filter(current_status = 3)
+    context = {
+        'data_available':data_available,
+        'data_price_quotation':data_price_quotation,
+        'data_sold':data_sold,
+        'data_cancelled':data_cancelled
+    }
+    return render(request, 'super_admin/property_groupby_status.html', context)
+
+
+def append_card_view(request):
+    data_available = intractive_map.objects.filter(current_status = 0)
+    data_price_quotation = intractive_map.objects.filter(current_status = 1)
+    data_sold = intractive_map.objects.filter(current_status = 2)
+    data_cancelled = intractive_map.objects.filter(current_status = 3)
+    context = {
+        'data_available':data_available,
+        'data_price_quotation':data_price_quotation,
+        'data_sold':data_sold,
+        'data_cancelled':data_cancelled
+    }
+    return render(request,'super_admin/append_card_view.html',context)

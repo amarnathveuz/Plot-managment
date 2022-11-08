@@ -60,6 +60,8 @@ urlpatterns = [
     path('user_search_card_view',views.user_search_card_view,name='user_search_card_view'),
     path('card_view_filter_status',views.card_view_filter_status,name='card_view_filter_status'),
     path('card_view_group_by_status',views.card_view_group_by_status,name='card_view_group_by_status'),
+    path('property_groupby_status',views.property_groupby_status,name='property_groupby_status'),
+    path('append_card_view',views.append_card_view,name='append_card_view'),
 
 
 

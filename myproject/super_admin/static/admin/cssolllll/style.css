@@ -15199,13 +15199,6 @@ ul {
     align-items: center;
     justify-content: space-between;
   }
-  .files-wr1 .file-item {
-    position: relative;
-    /* margin-top: 4px; */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
   .files-wr .file-item.hide-btn {
     display: none;
   }
@@ -15220,29 +15213,6 @@ ul {
     padding-right: 5px;
   }
   .files-wr .btn-del-file {
-    margin-left: 5px;
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
-    color: #fff;
-    text-align: center;
-    padding: 2px;
-    font-size: 11px;
-    transition: all 0.2s;
-    background-color: #be0000;
-  }
-
-  .files-wr1 .file-name {
-    width: 250px;
-    font-size: 13px;
-    font-style: italic;
-    line-height: 26px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 5px;
-  }
-  .files-wr1 .btn-del-file {
     margin-left: 5px;
     width: 20px;
     height: 20px;
