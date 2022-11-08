@@ -7720,7 +7720,7 @@ textarea.form-control {
 }
 
 .form-control {
-    border: 1px solid #eaf0f9;
+    border: 1px solid #d0d0d0;
     border-radius: 3px;
     max-width: 100%;
     padding: 6px 6px;
@@ -15197,7 +15197,6 @@ ul {
     /* margin-top: 4px; */
     display: flex;
     align-items: center;
-    justify-content: space-between;
   }
   .files-wr .file-item.hide-btn {
     display: none;
@@ -15904,21 +15903,6 @@ table.dataTable thead th{
     display: flex;
 }
 
-.leave-head {
-    font-weight: 700;
-    margin: 0;
-}
-
-.form-control:disabled, .form-control[readonly] {
-    background-color: #f3f6f9;
-    opacity: 1;
-    cursor: not-allowed;
-}
-
-.nav-pay h5{
-    font-weight: 600;
-    padding-left: 10px;
-}
 
 .propic{
     float: left;
@@ -15985,12 +15969,4 @@ table.dataTable thead th{
 
 .propic .circle:hover .p-image{
     display: block;
-}
-
-.log-level{
-    margin: 25px 10px;
-    width: 40px;
-    height: 33px;
-    font-size: 20px;
-    transform: rotate(90deg);
 }

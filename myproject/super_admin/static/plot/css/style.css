@@ -246,3 +246,71 @@
     padding-left: 5px;
     color: black;
 }
+
+
+.propic{
+    float: left;
+}
+
+.propic .profile-pic {
+    width: 200px;
+    max-height: 200px;
+    display: inline-block;
+}
+
+.propic .profile-pic1 {
+    width: 200px;
+    max-height: 200px;
+    display: inline-block;
+}
+
+.propic .file-upload {
+    display: none;
+}
+
+.propic .file-upload1 {
+    display: none;
+}
+.propic .circle {
+    position: relative;
+    overflow: hidden;
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+    border: 1px solid #dee2e6;
+}
+.propic img {
+    max-width: 100%;
+    height: auto;
+}
+.propic .p-image {
+  position: absolute;
+  top: 31px;
+  right: 30px;
+  color: #222222;
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  display: none;
+}
+/* .propic .p-image:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+} */
+.propic .upload-button {
+  font-size: 1.2em;
+}
+
+.propic .upload-button1 {
+    font-size: 1.2em;
+  }
+
+/* .propic .upload-button:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  color: #999;
+} */
+
+.propic .circle:hover img{
+    opacity: .5;
+}
+
+.propic .circle:hover .p-image{
+    display: block;
+}

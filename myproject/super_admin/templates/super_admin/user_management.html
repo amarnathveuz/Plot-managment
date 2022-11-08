@@ -109,6 +109,19 @@
                                          </button>
                                      </div></li>
 
+                                     <li><a class="dropdown-item dropdown-submenu" href="#">Status</a>
+                                        <div class="drpdwn-menu">
+                                            <label class="form-check-label" for="radio1">
+                                                <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio1" name="optradio" value="salesman">Salesman
+                                              </label>
+                                              <label class="form-check-label" for="radio2">
+                                                <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio2" name="optradio" value="manager">Manager
+                                              </label>
+                                            <!-- <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                             Apply
+                                             </button> -->
+                                         </div></li>
+
                             </div>
                         </div>
 
@@ -120,15 +133,9 @@
 
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#"><div class="form-check">
-                                    <label class="form-check-label" for="radio1">
-                                      <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio1" name="optradio" value="salesman">Salesman
-                                    </label>
+                                    <input type="checkbox" name="checkfield" id="g01-01" onchange="type_groupby_action(this)"> &nbsp;Type
                                   </div></a>
-                                  <a class="dropdown-item" href="#"><div class="form-check">
-                                    <label class="form-check-label" for="radio2">
-                                      <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio2" name="optradio" value="manager">Manager
-                                    </label>
-                                  </div></a>
+                                 
 
                             </div>
                         </div>
@@ -156,7 +163,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="ho" role="tabpanel">
                         <div class="table-responsive mb-1  mt-2">
-                            <table class="table table-nowrap align-middle"
+                            <table class="table table-nowrap align-middle user_table"
                                 id="orderTable">
                                 <thead class="table-light">
                                     <tr class="text-uppercase">
@@ -209,6 +216,7 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <div class="user_table1 container-fluid"></div>
                         </div>
                     </div>
 
@@ -216,7 +224,7 @@
                     <div class="tab-pane" id="pro" role="tabpanel">
                         <div class='app'>
                             <main class='project1'>
-                                <div class='project-tasks1 mb-1'>
+                                <div class='project-tasks1 mb-1 append_card_view' >
                                 {% for i in user_data %}
                                     <div class='project-column'>
                                         <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
@@ -253,6 +261,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         function myFunction(){
+            $(".user_table").show()
+            $(".user_table1").hide()
             var x = document.getElementById("search_value").value;
             redirect_url = "user_search_result"
             $.ajax({
@@ -263,8 +273,24 @@
                 type:'GET',
                 success: function (data) {
                 $(".append_search_result").empty().append(data)
+
+                card_view_redirect_url = 'user_search_card_view'
+            $.ajax({
+                url : card_view_redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+
+                    // alert(data)
+                $(".append_card_view").empty().append(data)
                 }
             })
+
+                }
+            })
+        
         }
     </script>
 
@@ -308,6 +334,8 @@
 
             var listCheck = [];
             $("input[name='optradio']:checked").each(function() {
+                $(".user_table").show()
+            $(".user_table1").hide()
                 listCheck .push($(this).val());
             });
             var url =$(this).attr('data-url')
@@ -318,15 +346,33 @@
                 },
                 success: function (data) {
                     $(".append_search_result").empty().append(data);
+
+                    var card_view_redirect_url = 'card_view_filter_status'
+                    $.ajax({
+                url: card_view_redirect_url,
+                data:{
+                    'grouping[]': listCheck
+                },
+                success: function (data) {
+                   
+                    $(".append_card_view").empty().append(data);
+                }
+            })
+
                 }
             })
         })
     </script>
 
+<div class="append_group_by">
+
+</div>
 
 
     <script>
         function submit_filter(type){
+            $(".user_table").show()
+            $(".user_table1").hide()
         if (type == "name") {
             var x = document.getElementById("filter_value1").value;
         }
@@ -348,9 +394,66 @@
                 type:'GET',
                 success: function (data) {
                 $(".append_search_result").empty().append(data)
+
+
+                card_view_redirect_url = 'user_search_card_view'
+            $.ajax({
+                url : card_view_redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+
+                    // alert(data)
+                $(".append_card_view").empty().append(data)
+                }
+            })
                 }
             })
         }
+        function type_groupby_action(checkboxElem) {
+  if (checkboxElem.checked) {
+    
+    redirect_group_by_url = 'user_type_group_by_action'
+    $.ajax({
+        url:redirect_group_by_url,
+        data:{
+            'status':'type'
+        },
+        type:'GET',
+        success:function(data){
+            $(".user_table1").show()
+            $(".user_table").hide()
+           
+             $(".user_table1").empty().append(data)
+
+             
+             var card_view_redirect_url = 'card_view_group_by_status'
+                    $.ajax({
+                url: card_view_redirect_url,
+                data:{
+                    'status':'type'
+                },
+                success: function (data) {
+                    
+                   
+                    $(".append_card_view").empty().append(data);
+                }
+            })
+
+
+
+             
+        }
+
+    })
+  } else {
+    $(".user_table1").hide()
+            $(".user_table").show()
+  }
+}
+
     </script>
 
 

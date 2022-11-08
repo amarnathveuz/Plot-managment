@@ -979,3 +979,74 @@ def change_password(request):
         else:
             messages.error(request, str("Password doesnt match "))
             return redirect(request.META['HTTP_REFERER'])
+
+
+
+
+# --------------------updated----------------------
+
+def user_type_group_by_action(request):
+    status = request.GET.get("status")
+    data_total_salesman = user_Details.objects.filter(user_type='salesman')
+    data_total_manager  = user_Details.objects.filter(user_type='manager')
+    context = {
+        'data_total_salesman':data_total_salesman,
+        'data_total_manager':data_total_manager
+    }
+    return render(request,'super_admin/user_type_group_by_action.html',context)
+
+
+def user_search_card_view(request):
+    data_value = request.GET.get("data_value")
+    print("data_value:::::::",str(data_value))
+    data = user_Details.objects.filter(name__contains=data_value) or user_Details.objects.filter(phone__contains=data_value) or user_Details.objects.filter(email__contains=data_value) or user_Details.objects.filter(mobile__contains=data_value) or user_Details.objects.filter(user_type__contains=data_value) or user_Details.objects.filter(dt__contains=data_value)
+    context = {
+        'data':data
+    }
+    return render(request,'super_admin/user_search_card_view.html',context)
+
+
+def card_view_filter_status(request):
+    list = request.GET.getlist("grouping[]")
+    print("list::::::data::::::",str(list))
+    data = user_Details.objects.filter(user_type__in=list)
+
+    context = {
+        "data": data,
+    }
+    return render(request, 'super_admin/user_search_card_view.html', context)
+
+
+
+
+def card_view_group_by_status(request):
+    status = request.GET.get("status")
+    data_total_salesman = user_Details.objects.filter(user_type='salesman')
+    data_total_manager  = user_Details.objects.filter(user_type='manager')
+    context = {
+        'data_total_salesman':data_total_salesman,
+        'data_total_manager':data_total_manager
+    }
+    return render(request,'super_admin/card_view_user_type_group_by_action.html',context)
+
+
+
+def demo_card_view(request):
+    page_number = request.GET.get("page")
+    user_data = user_Details.objects.all()
+    data_paginator = Paginator(user_data, 10)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+    context = {
+        'user_data': user_data,
+        'page_obj': page_obj
+    }
+    return render(request,'super_admin/demo_card_view.html',context)
+
+
+
+
+def test_user_detail_page(request):
+    return render(request,'super_admin/test_user_detail_page.html')

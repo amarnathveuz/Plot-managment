@@ -1,0 +1,23 @@
+{% for i in data %}
+                                    <div class='project-column'>
+                                        <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                        <div class="customer-bx">
+                                            <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+
+                                                        </div>
+                                            <div class="customer-content">
+                                                <h5>{{i.name}}</h5>
+                                                <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
+                                                <span class="d-flex"><h6>Email : </h6> {{i.email}}</span>
+                                                <span class="d-flex"><h6>Mobile : </h6> {{i.mobile}}</span>
+                                                <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
+                                                {% if i.user_type == "salesman" %}
+                                                    <span class="badge badge-success text-uppercase">{{i.user_type}}</span>
+                                                {% else %}
+                                                    <span class="badge badge-info text-uppercase">{{i.user_type}}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                    </div>
+                                {% endfor %}

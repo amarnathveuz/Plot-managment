@@ -48,6 +48,23 @@ urlpatterns = [
 
     path('profile',views.profile,name='profile'),
     path('change_password',views.change_password,name='change_password'),
+
+    path('demo_card_view',views.demo_card_view,name='demo_card_view'),
+
+    path('test_user_detail_page',views.test_user_detail_page,name='test_user_detail_page'),
+    
+
+
+    # ----------new update -----------------
+    path('user_type_group_by_action',views.user_type_group_by_action,name='user_type_group_by_action'),
+    path('user_search_card_view',views.user_search_card_view,name='user_search_card_view'),
+    path('card_view_filter_status',views.card_view_filter_status,name='card_view_filter_status'),
+    path('card_view_group_by_status',views.card_view_group_by_status,name='card_view_group_by_status'),
+
+
+
+
+
     
     
 
