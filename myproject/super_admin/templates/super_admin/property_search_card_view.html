@@ -1,0 +1,60 @@
+{% for i in data %}
+
+<div class='project-column'>
+    <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
+    <div class='customer-bx'>
+        <div class="customer-content">
+            <h5>{{i.Name}}
+                {% if i.current_status == "0" %}
+        <span
+            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+            background-color: #008000;">Available</span>
+
+        {% elif i.current_status == "1" %}
+        <span
+        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+            background-color: orange;">Price Quotation</span>
+
+        {% elif i.current_status == "2" %}
+        <span
+        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                background-color: #e40000;">Sold</span>
+                {% elif i.current_status == "3" %}
+                <span
+                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                        background-color: gray;">Cancelled</span>
+            {% else %}
+            {% endif %}
+               </h5>
+            <span class="d-flex">
+                <h6>Phone : </h6>{{i.Phoneno}}
+            </span>
+            <div class="row">
+                <div class="col-md-6 px-0">
+                    <span class="d-flex">
+                        <h6>Unit no : </h6>{{i.UnitNo}}
+                    </span>
+                    <span class="d-flex">
+                        <h6>Block no : </h6>{{i.BlockNo}}
+                    </span>
+                    <span class="d-flex">
+                        <h6>Unit area : </h6>{{i.UnitArea}}
+                    </span>
+                </div>
+                <div class="col-md-6 px-0">
+                    <span class="d-flex">
+                        <h6>Land area : </h6>{{i.LandArea}}
+                    </span>
+                    <span class="d-flex">
+                        <h6>Unit type : </h6>{{i.UType}}
+                    </span>
+                    <span class="d-flex">
+                        <h6>Price : </h6>{{i.Price}}
+                    </span>
+                </div>
+            </div>                                                           
+        </div>
+    </div>
+</a>
+</div>
+{% endfor %}

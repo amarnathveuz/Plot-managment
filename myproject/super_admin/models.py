@@ -11,10 +11,10 @@ class intractive_map(models.Model):
     UnitNo = models.IntegerField(null=True)
     UnitNo_primary = models.IntegerField(null=True)
     BlockNo = models.CharField(max_length=255, null=True)
-    UnitArea = models.CharField(max_length=255, null=True)
-    LandArea = models.CharField(max_length=255, null=True)
+    UnitArea = models.FloatField(max_length=255, null=True)
+    LandArea = models.FloatField(max_length=255, null=True)
     UType = models.CharField(max_length=255, null=True)
-    Price = models.FloatField(null=True)
+    Price = models.FloatField(blank=True, null=True)
     Bank = models.CharField(max_length=255,null=True)
     Status = models.CharField(max_length=255,null=True)
     dt = models.DateField(auto_now_add=True)
@@ -22,6 +22,7 @@ class intractive_map(models.Model):
     current_status = models.CharField(max_length=255,null=True)
     attached_file = models.FileField(upload_to="property_image",null=True)
     currency = models.CharField(max_length=255,null=True,default="SAR")
+    Price_currency = models.CharField(max_length=255,null=True)
     
     
 

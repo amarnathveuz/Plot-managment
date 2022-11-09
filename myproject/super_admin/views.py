@@ -252,7 +252,9 @@ def simple_upload(request):
                 pass
             else:
                 status_new = 0
-                print("data[11]:::::",str(data[11]))
+                print("data[11]:::::")
+                print(data[11])
+                print("---------enddata-------------")
                 if data[11] == 'تم الربط':
                     status_new = 2
                 elif data[11] == 'عرض سعر':
@@ -262,6 +264,8 @@ def simple_upload(request):
 
 
                 print("status:::::",str(status_new))
+
+                
 
 
                 data = intractive_map(
@@ -273,11 +277,12 @@ def simple_upload(request):
                     UnitArea = data[6],
                     LandArea = data[7],
                     UType = data[8],
-                    Price = data[9],
+                    Price =  data[9],
                     Bank = data[10],
                     Status = data[11],
                     current_status = status_new,
                     currency = "SAR"
+                   
 
                 )
                 data.save()
@@ -797,7 +802,7 @@ def export_data_to_excel(request):
     row_num = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-    columns = ['Name', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area' ,'U Type','Price',' Status']
+    columns = ['Name', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area' ,'U Type','Price',' Status','Price_currency']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style) 
 
@@ -807,7 +812,7 @@ def export_data_to_excel(request):
     li = list(exportid[0].split(","))
     cleanedList = [x for x in li if x != 'NaN']
 
-    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values_list('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','statusnew')
+    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values_list('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','statusnew','Price_currency')
     # print("rows:::::",rows)
    
     
@@ -1079,3 +1084,19 @@ def append_card_view(request):
         'data_cancelled':data_cancelled
     }
     return render(request,'super_admin/append_card_view.html',context)
+
+
+
+def property_search_card_view(request):
+
+    data_value = request.GET.get("data_value")
+
+    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+
+    context = {
+
+        'data':data
+
+    }
+
+    return render(request,'super_admin/property_search_card_view.html',context)
