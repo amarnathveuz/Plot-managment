@@ -49,7 +49,7 @@
                         <td> 
                         {{i.UType}}
                         </td>
-                        <td>{{i.Price}}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
                         <td>
                             {% if i.current_status == "0" %}      
                             <span

@@ -9,7 +9,9 @@
             onclick="check_action({{i.id}})" id="check_btn{{i.id}}">
     </th>
 
+    <td> {{forloop.counter}}</td>
 <td class="id">
+    
 <a  class="fw-medium link-primary">
 
 {% if i.Name == None %}
@@ -18,6 +20,7 @@
 {% endif %}
 </a>
 </td>
+<td></td>
 <td class="customer_name">
 {% if i.Phoneno == None %}
 {% else %}
@@ -35,7 +38,11 @@
 {% endif %}
 </td>
 <td>
-{{i.Price}}
+{{i.Price|floatformat:"0"}}
+</td>
+<td>{{i.Bank}}</td>
+<td>
+    {{i.Status}}
 </td>
 <td class="status">
 {% if i.current_status == "0" %}

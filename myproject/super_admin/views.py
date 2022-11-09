@@ -93,6 +93,9 @@ def create_user(request):
         property_access = request.POST.get("property_access",False)
         
         
+        
+        
+        
         # selected_property_list = request.POST.getlist("selected_property_list[]",False)
         if password_select == "Automatic":
             import string    
@@ -109,6 +112,15 @@ def create_user(request):
                 user = User.objects.create_user(email, email, password)
                 user.save()
                 data1 = Token.objects.create(user=user)
+                manager_nav_ploat_permission = request.POST.get("manager_nav_ploat_permission")
+                manager_nav_user_permission = request.POST.get("manager_nav_user_permission")
+                manager_nav_plot_edit_permission = request.POST.get("manager_nav_plot_edit_permission")
+                if manager_nav_ploat_permission == None:
+                    manager_nav_ploat_permission = 0
+                if manager_nav_user_permission == None:
+                    manager_nav_user_permission = 0
+                if manager_nav_plot_edit_permission == None:
+                    manager_nav_plot_edit_permission = 0
                 
                 save_user_data = user_Details.objects.create(
                     auth_user = user,
@@ -129,7 +141,12 @@ def create_user(request):
                     created_by = request.user,
                     plot_list_view = plot_list_view,
                     price_visibility = price_visibility,
-                    property_access = property_access
+                    property_access = property_access,
+                    manager_nav_ploat_permission = manager_nav_ploat_permission,
+                    manager_nav_user_permission = manager_nav_user_permission,
+                    manager_nav_plot_edit_permission = manager_nav_plot_edit_permission
+
+
 
                 )
                 if property_access == 'plot_based':
@@ -421,6 +438,14 @@ def update_user_action(request):
     if request.method == "POST":
         updated_id = request.POST.get("updated_id",False)
         print("uu:::::",str(updated_id))
+        remove_status = request.POST.get("remove_status")
+        
+        if int(remove_status) == 1:
+            
+            remove_img = user_Details.objects.get(id=updated_id)
+            remove_img.atatchment = ''
+            remove_img.save()
+
         name = request.POST.get("name",False)
         user_type = request.POST.get("user_type",False)
         phone = request.POST.get("phone",False)
@@ -438,7 +463,15 @@ def update_user_action(request):
         plot_list_view = request.POST.get("plot_list_view",False)
         price_visibility = request.POST.get("price_visibility",False)
         property_access = request.POST.get("property_access",False)
-
+        manager_nav_ploat_permission = request.POST.get("manager_nav_ploat_permission")
+        manager_nav_user_permission = request.POST.get("manager_nav_user_permission")
+        manager_nav_plot_edit_permission = request.POST.get("manager_nav_plot_edit_permission")
+        if manager_nav_ploat_permission == None:
+            manager_nav_ploat_permission = 0
+        if manager_nav_user_permission == None:
+            manager_nav_user_permission = 0
+        if manager_nav_plot_edit_permission == None:
+            manager_nav_plot_edit_permission = 0
         user_instance = user_Details.objects.get(id=updated_id)
         change_text = ''
         if user_instance.name == name:
@@ -486,7 +519,11 @@ def update_user_action(request):
             user_type = user_type,
             plot_list_view = plot_list_view,
             price_visibility = price_visibility,
-            property_access = property_access
+            property_access = property_access,
+            manager_nav_ploat_permission = manager_nav_ploat_permission,
+            manager_nav_user_permission = manager_nav_user_permission,
+            manager_nav_plot_edit_permission = manager_nav_plot_edit_permission
+
 
 
         )
@@ -629,16 +666,16 @@ def view_all_activity(request):
     user = User.objects.get(id=request.user.id)
     st = user.is_superuser
     if st == True:
-        data = user_request_plot.objects.all().order_by("-id")
+        data = user_request_plot.objects.filter(booking_status = 1).order_by("-id")
     else:
         data_user = user_Details.objects.get(auth_user=request.user)
         data_access = data_user.property_access
         if data_access == "all":
-            data = user_request_plot.objects.filter(manager_id_id=data_user.id).order_by("-id")
+            data = user_request_plot.objects.filter(manager_id_id=data_user.id,booking_status = 1).order_by("-id")
         else:
             user_access_property_list = user_access_property_mapping.objects.filter(mapping_id_id=data_user.id)
             user_access_property_list_id = list(user_access_property_list.values_list('property_mapping_id',flat=True))
-            data = user_request_plot.objects.filter(property_mapping_id__in=user_access_property_list_id,manager_id_id=data_user.id).order_by("-id")
+            data = user_request_plot.objects.filter(property_mapping_id__in=user_access_property_list_id,manager_id_id=data_user.id,booking_status = 1).order_by("-id")
     context = {
         'data':data
     }
@@ -808,42 +845,42 @@ from django.db.models import Case, Value, When
 
 @login_required(login_url='/')
 def export_data_to_excel(request):
-    print("hellooooo")
+    from datetime import date
+    today = date.today()
     response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="property.xls"'
+    file_name_new = 'property('+str(today)+").xls"
+    response['Content-Disposition'] = 'attachment; filename='+file_name_new
     wb = xlwt.Workbook(encoding='utf-8')
     ws = wb.add_sheet('Property details') 
     row_num = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-    columns = ['Name', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area' ,'U Type','Price',' Status','Price_currency']
+    columns = ['Name', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area' ,'U Type','Price','Status(AR)','Status(EN)']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style) 
 
     font_style = xlwt.XFStyle()
     exportid=request.GET.getlist('selected_data')
-    # print("exportid:::::::::::",str(exportid))
     li = list(exportid[0].split(","))
     cleanedList = [x for x in li if x != 'NaN']
-
-    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','statusnew','Price_currency')
-    # print("rows:::::",rows)
+    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','Status','statusnew')
    
-    
     for row in rows:
         print("start-------------------")
         print(row)
         print("end-----------------")
         row_num += 1
         ds1 =  '{:20,.2f}'.format(row['Price'])
-        row["currency"] = (ds1)
+        # row["currency"] = (ds1)
         for col_num in row.keys():
-            print("col_num::::::::::",col_num.index(col_num))
-            print("row[col_num]::::::::::",row[col_num])
-            ws.write(row_num, list(row.keys()).index(col_num), row[col_num], font_style)
+            numb1 =   list(row.keys()).index(col_num)
+            if numb1 == 7:
+                ds1 =  '{:20,.2f}'.format(row[col_num])
+                ws.write(row_num, list(row.keys()).index(col_num),ds1, font_style)
+            else:
+                ws.write(row_num, list(row.keys()).index(col_num), row[col_num], font_style)
     wb.save(response)
     return response
-
 
 @login_required(login_url='/')
 def plot_table_view(request):

@@ -49,66 +49,82 @@
                     <div class="dropdown-menu">
                         <li><a class="dropdown-item dropdown-submenu"  href="#">Name</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" id="filter_name" placeholder="Name">
-                                <button type="button" onclick="name_apply()" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text" id="filter_name" class="form-control filterfunctn" placeholder="Name">
+                                            <button type="button" onclick="filter_apply('name')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
                             </div>
                         </li>
                         <li><a class="dropdown-item dropdown-submenu" href="#">Phone</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" placeholder="Phone">
-                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text" id="filter_phone" class="form-control filterfunctn" placeholder="Phone">
+                                            <button type="button" onclick="filter_apply('phone')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
                             </div>
                         </li>
                         <li><a class="dropdown-item dropdown-submenu" href="#">Unit no</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" placeholder="Unit no">
-                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text" id="filter_unitno" class="form-control filterfunctn" placeholder="Unit no">
+                                <button type="button" onclick="filter_apply('unitno')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
                             </div>
                         </li>
                         <li><a class="dropdown-item dropdown-submenu" href="#">Block no</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" placeholder="Block no">
-                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text" id="filter_blockno" class="form-control filterfunctn" placeholder="Block no">
+                                            <button type="button" onclick="filter_apply('blockno')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
                             </div>
                         </li>
                         <li><a class="dropdown-item dropdown-submenu" href="#">Unit area</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" placeholder="Unit area">
-                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text"  id="filter_unitarea" class="form-control filterfunctn" placeholder="Unit area">
+                                            <button type="button" onclick="filter_apply('unitarea')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
                             </div>
                         </li>
                         <li><a class="dropdown-item dropdown-submenu" href="#">Land area</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" placeholder="Land area">
-                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text"  id="filter_landarea" class="form-control filterfunctn" placeholder="Land area">
+                                            <button type="button" onclick="filter_apply('landarea')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
                             </div>
                         </li>
                         <li><a class="dropdown-item dropdown-submenu" href="#">Unit type</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" placeholder="Unit type">
-                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text"  id="filter_unittype" class="form-control filterfunctn" placeholder="Unit type">
+                                <button type="button" onclick="filter_apply('unittype')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
                             </div>
                         </li>
                         <li><a class="dropdown-item dropdown-submenu" href="#">Price</a>
                             <div class="drpdwn-menu">
-                                <input type="text" class="form-control" placeholder="Price">
-                                <button type="button" class="btn btn-prim pay edit-cont-btn">
+                                <input type="text" id="filter_price" class="form-control filterfunctn" placeholder="Price">
+                                <button type="button" onclick="filter_apply('price')" class="btn btn-prim pay edit-cont-btn">
                                     Apply
                                 </button>
+                            </div>
+                        </li>
+
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Status</a>
+                            <div class="drpdwn-menu">
+                                <input onclick="groupby_functn('Sold')" value="0" type="checkbox" class="form-check-input mr-2" id="radio1"
+                                name="optradio1" value="option1">Sold <br>
+
+                                <input onclick="groupby_functn('Price')" value="1" type="checkbox" class="form-check-input mr-2" id="radio2"
+                                    name="optradio2" value="option2">Price quotation<br>
+
+                                <input onclick="groupby_functn('Available')" value="2" type="checkbox" class="form-check-input mr-2" id="radio3"
+                                name="optradio3" value="option3">Available<br>
+
+                                <input onclick="groupby_functn('Cancelled')" value="3" type="checkbox" class="form-check-input mr-2" id="radio4"
+                                    name="optradio4" value="option4">Cancelled
                             </div>
                         </li>
 
@@ -119,41 +135,12 @@
                         data-toggle="dropdown"> <i class="fas fa-bars"></i>
                         Group By
                     </button>
-
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">
                             <div class="form-check">
-                                <label class="form-check-label" for="radio1">
-                                    <input type="radio" class="form-check-input mr-2" id="radio1"
-                                        name="optradio1" value="option1">Sold
-                                </label>
+                                <input type="checkbox" name="checkfield" id="radio67" onclick="group_by_status(this)"> &nbsp; Status
                             </div>
                         </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="form-check">
-                                <label class="form-check-label" for="radio2">
-                                    <input type="radio" class="form-check-input mr-2" id="radio2"
-                                        name="optradio2" value="option2">Price quotation
-                                </label>
-                            </div>
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="form-check">
-                                <label class="form-check-label" for="radio3">
-                                    <input type="radio" class="form-check-input mr-2" id="radio3"
-                                        name="optradio3" value="option3">Available
-                                </label>
-                            </div>
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="form-check">
-                                <label class="form-check-label" for="radio4">
-                                    <input type="radio" class="form-check-input mr-2" id="radio4"
-                                        name="optradio4" value="option4">Cancelled
-                                </label>
-                            </div>
-                        </a>
-
                     </div>
                 </div>
             <ul class="nav nav-tabs nav-ta" role="tablist">
@@ -191,9 +178,11 @@
                                         data-checkall-trigger="group1">
                                 </div>
                             </th>
+                            <th>S/No</th>
                             <th class="sort"
                                 data-sort="customer_name">
                                 Name</th>
+                            <th>ID</th>
                             <th class="sort" data-sort="date">Phone</th>
                             <th class="sort" data-sort="date">Unit No</th>
                             <!-- <th class="sort" data-sort="amount">Amount</th>
@@ -213,11 +202,15 @@
                             </th>
                             
                             <th class="sort" data-sort="company">
-                               Price
-                            </th>
-                            <th class="sort" data-sort="status">
-                                Status</th>
-                                <th>Action</th>
+                                Price currency
+                             </th>
+                             <th>
+                                 Bank
+                             </th>
+                             <th class="sort" data-sort="status">
+                                 Status(Ar)</th>
+                             <th class="sort" data-sort="status">
+                                 Status(En)</th>
                             <!-- <th class="sort" data-sort="action">Action</th> -->
                         </tr>
                     </thead>
@@ -232,6 +225,9 @@
                                                 data-checkall-group="group1"
                                                 onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
                                         </th>
+                                        <th>
+                                            {{forloop.counter}}
+                                        </th>
                             <td class="id"><a href="#"
                                     class="fw-medium link-primary">
                                     {% if i.Name == None %}
@@ -239,6 +235,9 @@
                                     {{i.Name}}
                                     {% endif %}
                                 </a>
+                            </td>
+                            <td>
+                                            
                             </td>
                             <td class="customer_name">
                                 {% if i.Phoneno == None %}
@@ -257,7 +256,13 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {{i.Price}}
+                                {{i.Price|floatformat:"0"}}
+                            </td>
+                            <td>
+                                {{i.Bank}}
+                            </td>
+                            <td>
+                                {{i.Status}}
                             </td>
                             <td class="status">
                                 {% if i.current_status == "0" %}
@@ -285,9 +290,7 @@ class="badge badge-soft-success text-uppercase" style="    color: #fff;
 
                                     {% endif %}
                             </td>
-                            <td>
-                                <a href="property_update?id={{i.id}}"><i style="color: black;" class="fas fa-edit"></i></a>
-                            </td>
+                            
                                     </tr>
                         {% endfor %}
                     </tbody>

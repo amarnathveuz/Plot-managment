@@ -92,6 +92,9 @@ class user_Details(common):
     plot_list_view = models.CharField(max_length=255,null=True)
     price_visibility = models.IntegerField(null=True,default=1)
     property_access =  models.CharField(max_length=255,choices=property_access_option,null=True)
+    manager_nav_ploat_permission = models.IntegerField(default=0)
+    manager_nav_user_permission = models.IntegerField(default=0)
+    manager_nav_plot_edit_permission = models.IntegerField(default=0)
 
 class user_access_property_mapping(common):
     auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_access_property_mapping_auth_id", null=True)

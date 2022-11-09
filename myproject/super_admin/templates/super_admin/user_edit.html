@@ -37,13 +37,17 @@
     
                     <div class="card-body bb-0 pt-0 p-0">
                         <div>
-    
+    <input type="hidden" name="remove_status" value="0" id="remove_id">
                             <div class="payslip mb-5">
     
                                 <div class="row pay-main mb-4">
     
                                     <div class="customer-head mb-4 col-md-12">
-                                        <div class="propic">
+                                      
+                                        
+                                        <div class="propic" {% if data.atatchment == '' or data.atatchment == None %}  {% else %} style="display: none" {% endif %}>
+
+                                           
                                             <div class="small-12 medium-2 large-2 columns">
                                                 <div class="circle">
                                                     <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
@@ -54,10 +58,21 @@
                                                 </div>
     
                                             </div>
+                                         
+                                           
                                         </div>
+                                        {% if data.atatchment == '' or data.atatchment == None %}
+
+                                        {% else %}
     
-                                      
-    
+                                        <div class="cust-logo"
+                                        style="background-image: url(./media/{{data.atatchment}});">
+                                  
+                                    <span onclick="remove_icon()"><i style="    font-size: 14px;
+                                        color: #eb3939;
+                                        font-weight: bold;" class="fa fa-remove"></i></span>
+                                    </div>
+    {% endif %}
                                         <div class="cust-name row">
                                             <div class="col-md-1">
                                                 <input type="radio" onclick="visible_manager('manager')" {% if data.user_type == 'manager' %} checked  {% endif %} name="user_type" value="manager" id="individual" 
@@ -145,6 +160,25 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% if data.user_type == "manager" %}
+                                        <div class="row" id="nav_permission">
+                                         <div class="col-md-3 br-right d-flex align-items-center">
+                                             <h6>Nav permission </h6>
+                                         </div>
+                                         <div class="col-md-8 d-flex align-items-center">
+                                             <div class="form-group  required_item w-100">
+                                                 <div class=""> 
+                                                    
+                                                     <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission">&nbsp; Ploat Management&nbsp;&nbsp;&nbsp;
+                                                     <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
+                                                     <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
+                                                 </div>
+                                                 
+     
+                                             </div>
+                                         </div>
+                                     </div>
+                                        {% endif %}
                                         <div class="row" id="manager_select_div" {% if data.user_type == 'salesman' %} {% else %} style="display: none" {% endif %}>
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Select Manger</h6>
@@ -423,7 +457,44 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% if user_manger %}
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Mannger</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <div class="">
+                                                    <input type="text" class="input form-control mt-2" disabled="" placeholder="{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})">
+                                                   
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                   {% if data.user_type == "manager" %}
+                                   <div class="row" id="nav_permission">
+                                    <div class="col-md-3 br-right d-flex align-items-center">
+                                        <h6>Nav permission </h6>
+                                    </div>
+                                    <div class="col-md-8 d-flex align-items-center">
+                                        <div class="form-group  required_item w-100">
+                                            <div class=""> 
+                                               
+                                                <input {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"  disabled value="1" name="manager_nav_ploat_permission">&nbsp; Ploat Management&nbsp;&nbsp;&nbsp;
+                                                <input {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
+                                                <input {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
+                                            </div>
+                                            
+
+                                        </div>
+                                    </div>
+                                </div>
+                                   {% endif %}
+                                   
+                                    <option value="{{user_manger.manager_id.id}}"></option>
                                 </div>
                                 <div class="col-md-6 cust-details p-0">
                                     <div class="row">
@@ -604,10 +675,13 @@
     });
     });
             function visible_manager(data){
+                
                if(data == "manager"){
+                $("#nav_permission").show()
                 var x = document.getElementById('manager_select_div').style.display = "none";
                }
                else{
+                $("#nav_permission").hide()
                 var x = document.getElementById('manager_select_div').style.display = "block";
                }
                
@@ -724,5 +798,14 @@
             $(".file-upload").click();
         });
     });
+</script>
+
+<script>
+    function remove_icon(){
+       
+        $("#remove_id").val(1)
+        $(".cust-logo").hide()
+        $(".propic").show()
+    }
 </script>
         {% endblock %}
