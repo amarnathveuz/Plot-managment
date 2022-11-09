@@ -195,10 +195,11 @@
                                            
                                         </th>
                                         <th>S/No</th>
-                                        <th>ID</th>
                                         <th class="sort"
                                             data-sort="customer_name">
                                             Name</th>
+                                        <th>ID</th>
+                                        
                                         
                                         <th class="sort" data-sort="date">Phone</th>
                                         <th class="sort" data-sort="date">Unit No</th>
@@ -225,7 +226,9 @@
                                             Bank
                                         </th>
                                         <th class="sort" data-sort="status">
-                                            Status</th>
+                                            Status(Ar)</th>
+                                        <th class="sort" data-sort="status">
+                                            Status(En)</th>
                                             
                                         <!-- <th class="sort" data-sort="action">Action</th> -->
                                     </tr>
@@ -244,9 +247,7 @@
                                                     <th>
                                                         {{forloop.counter}}
                                                     </th>
-                                                    <th>
-                                                        
-                                                    </th>
+                                                   
                                        
                                         <td class="id" onclick="window.location='property_update?id={{i.id}}'">
                                             <a  class="fw-medium link-primary">
@@ -257,6 +258,9 @@
                                                 {% endif %}
                                             </a>
                                         </td>
+                                        <th>
+
+                                        </th>
                                         <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
                                             {% if i.Phoneno == None %}
                                             {% else %}
@@ -278,6 +282,9 @@
                                         </td>
                                         <td>
                                             {{i.Bank}}
+                                        </td>
+                                        <td>
+                                            {{i.Status}}
                                         </td>
                                         <td class="status">
                                             {% if i.current_status == "0" %}

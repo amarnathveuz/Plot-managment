@@ -145,3 +145,11 @@ class user_log(common):
     d_text = models.TextField(null=True)
     status_content = models.TextField(null=True)
     user_type = models.CharField(max_length=255,choices=login_user_type,null=True)
+
+
+
+
+
+class status_code(common):
+    text = models.CharField(max_length=255,null=True)
+    status_code = models.IntegerField(null=True)

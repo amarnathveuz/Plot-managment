@@ -240,6 +240,14 @@ from tablib import Dataset
 def simple_upload(request):
     if request.method == "POST":
         new_person = request.FILES['myfile']
+
+        
+        
+        
+        
+        
+
+         
         dataset = Dataset()
         if not new_person.name.endswith('xlsx'):
             messages.info('w0rong format')
@@ -252,21 +260,24 @@ def simple_upload(request):
                 pass
             else:
                 status_new = 0
-                print("-------------------->>>>>>>>>>>>>>>>")
                 
-                print(">>>>>>>>>>>>>>>>-------------------------")
                 
-                if data[11] == "تم الربط":
-                    status_new = 2
-                elif data[11] == 'عرض سعر':
-                    status_new = 1
-                elif data[11] == 'متاح':
-                    status_new = 0
+                # if data[11] == "تم الربط":
+                #     status_new = 2
+                # elif data[11] == 'عرض سعر':
+                #     status_new = 1
+                # elif data[11] == 'متاح':
+                #     status_new = 0
 
 
                 print("status:::::",str(status_new))
+                data_code1 = ''
+                try:
+                    data_code = status_code.objects.get(text=data[11])
+                    data_code1 = data_code.status_code
+                except:
+                    data_code1 = 0
 
-                
 
 
                 data_new = intractive_map.objects.create(
@@ -281,7 +292,7 @@ def simple_upload(request):
                     Price =  data[9],
                     Bank = data[10],
                     Status = data[11],
-                    current_status = status_new,
+                    current_status = data_code.status_code,
                     currency = "SAR"
                    
 
