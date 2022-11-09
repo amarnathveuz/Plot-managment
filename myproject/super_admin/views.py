@@ -252,10 +252,11 @@ def simple_upload(request):
                 pass
             else:
                 status_new = 0
-                print("data[11]:::::")
-                print(data[11])
-                print("---------enddata-------------")
-                if data[11] == 'تم الربط':
+                print("-------------------->>>>>>>>>>>>>>>>")
+                
+                print(">>>>>>>>>>>>>>>>-------------------------")
+                
+                if data[11] == "تم الربط":
                     status_new = 2
                 elif data[11] == 'عرض سعر':
                     status_new = 1
@@ -268,7 +269,7 @@ def simple_upload(request):
                 
 
 
-                data = intractive_map(
+                data_new = intractive_map.objects.create(
                     Name = data[1],
                     Phoneno = data[3],
                     UnitNo = data[4],
@@ -285,9 +286,11 @@ def simple_upload(request):
                    
 
                 )
-                data.save()
+                print("arabic status::::::::",str(data_new.Status))
+                print("arabicnew::::",'تم الربط')
+                
 
-                print(data)
+                # print(data)
 
 
 @api_view(['GET','POST'])
@@ -812,14 +815,21 @@ def export_data_to_excel(request):
     li = list(exportid[0].split(","))
     cleanedList = [x for x in li if x != 'NaN']
 
-    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values_list('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','statusnew','Price_currency')
+    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','statusnew','Price_currency')
     # print("rows:::::",rows)
    
     
     for row in rows:
+        print("start-------------------")
+        print(row)
+        print("end-----------------")
         row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
+        ds1 =  '{:20,.2f}'.format(row['Price'])
+        row["currency"] = (ds1)
+        for col_num in row.keys():
+            print("col_num::::::::::",col_num.index(col_num))
+            print("row[col_num]::::::::::",row[col_num])
+            ws.write(row_num, list(row.keys()).index(col_num), row[col_num], font_style)
     wb.save(response)
     return response
 

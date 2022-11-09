@@ -185,6 +185,7 @@
                                 <thead class="table-light">
                                     <tr class="text-uppercase">
                                         <th scope="col" style="width: 25px;">
+
         
                                             <div class="checkall">
                                                 <input class="form-check-input checkField check-all"
@@ -193,6 +194,8 @@
                                             </div>
                                            
                                         </th>
+                                        <th>S/No</th>
+                                        <th>ID</th>
                                         <th class="sort"
                                             data-sort="customer_name">
                                             Name</th>
@@ -218,6 +221,9 @@
                                         <th class="sort" data-sort="company">
                                            Price
                                         </th>
+                                        <th>
+                                            Bank
+                                        </th>
                                         <th class="sort" data-sort="status">
                                             Status</th>
                                             
@@ -234,6 +240,12 @@
                                                             type="checkbox" value="{{i.id}}"
                                                             data-checkall-group="group1"
                                                             onclick="check_action({{i.id}})" id="check_btn{{i.id}}">
+                                                    </th>
+                                                    <th>
+                                                        {{forloop.counter}}
+                                                    </th>
+                                                    <th>
+                                                        
                                                     </th>
                                        
                                         <td class="id" onclick="window.location='property_update?id={{i.id}}'">
@@ -263,6 +275,9 @@
                                         </td>
                                         <td>
                                             {{i.Price}}
+                                        </td>
+                                        <td>
+                                            {{i.Bank}}
                                         </td>
                                         <td class="status">
                                             {% if i.current_status == "0" %}
