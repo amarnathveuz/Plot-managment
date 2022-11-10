@@ -48,6 +48,21 @@
                                                     </button></a>
                                                     {% endif %}
 
+                                                    {% if available_booking %}
+
+                                                    {% else %}
+
+                                                    {% if data.current_status == "2" %}
+                                                    <a href="#"  onclick="available_button_action1()"><button style="background-color: #6b8119;
+                                                        color: white;
+                                                        border: none;" type="button"
+                                                        class="btn btn-pri pay discard-payroll"> Reset to Available
+                                                    </button></a>
+
+                                                    {% endif %}
+
+                                                    {% endif %}
+
                                                {% if available_booking %}
 
 
@@ -117,6 +132,20 @@
 
                                                 {% endif  %}
                                                 {% endif %}
+
+                                                {% if request.user|get_user_type_action:"user_type" %}
+                                                <a style="    background: black;
+                                                border: none;
+                                                color: white;" href="#" class="btn btn-pri pay create-button create-cont-btn new_booking_action">
+                                            Book Now
+                                           </a>
+
+                                           <a style="    background: black;
+                                           border: none;
+                                           color: white;display: none;" href="#" class="btn btn-pri pay create-button create-cont-btn submit_booking_action">
+                                      Submit 
+                                      </a>
+                                                {% endif %}
                                         </div>
                                         <div class="contact-pag d-flex align-items-center">
                                             <!-- <i class="fas fa-caret-left mr-1 pagintn text-muted"
@@ -162,7 +191,7 @@
                                                             
 
                                                             <div class="form-group  required_item">
-                                                                <input type="text" id="basiInput1" disabled name="Name" value="{{data.Name}}" class="input mt-2 form-control mystyle"
+                                                                <input type="text" id="basiInput1" disabled name="Name" value="{% if data.Name == None %}{% else %}{{data.Name}}{% endif %}" class="input mt-2 form-control mystyle"
                                                                      placeholder="">
 
                                                             </div>
@@ -513,7 +542,11 @@
                                                                 {% endif %}
                                                                 <div class="col-9">
                                                                     <h5>New Booking Received  <span> ({{i.dt}})</span></h5>
-                                                                    <h6>Name: <span>{{i.user_id.name|title}}</span>
+                                                                    <h6>Name: <span>{{i.name|title}}</span>
+                                                                    </h6>
+                                                                    <h6>Customer ID: <span>{{i.booking_id}}</span>
+                                                                    </h6>
+                                                                    <h6>Bank: <span>{{i.bank}}</span>
                                                                     </h6>
                                                                     <h6>Email: <span>{{i.user_id.email|title}}</span>
                                                                     </h6>
@@ -711,13 +744,13 @@
         if(user_type=='False'){
             $("#basiInput2").prop("readonly", true);
             $("#basiInput3").prop("readonly", true);
-            $("#basiInput1").prop("readonly", true);
+            // $("#basiInput1").prop("readonly", true);
             $("#basiInput4").prop("readonly", true);
             $("#basiInput5").prop("readonly", true);
             $("#basiInput6").prop("readonly", true);
             document.getElementById("basiInput2").disabled = true;
             document.getElementById("basiInput3").disabled = true;
-            document.getElementById("basiInput1").disabled = true;
+            // document.getElementById("basiInput1").disabled = true;
             document.getElementById("basiInput4").disabled = true;
             document.getElementById("basiInput5").disabled = true;
             document.getElementById("basiInput6").disabled = true;
@@ -865,9 +898,114 @@
         }
 
     }
+
+    function available_button_action1(){
+
+let text = "Reset to Available Confirmation?";
+if (confirm(text) == true) {
+   
+   
+    location.href = 'rest_to_available_booking_action_sold_booking?id='+`{{data.id}}`+'';
+    
+} else {
+  
+}
+
+}
 </script>
 
 
+<script>
+    $(".new_booking_action").click(function(){
+
+        $(".new_booking_action").hide()
+        $(".submit_booking_action").show()
+
+        
+        var element1 = document.getElementById("basiInput1");
+        element1.classList.remove("mystyle");
+        document.getElementById("basiInput1").disabled = false;
+
+        var element2 = document.getElementById("basiInput31");
+        element2.classList.remove("mystyle");
+        document.getElementById("basiInput31").disabled = false;
+
+        
+        var element3 = document.getElementById("customer_id");
+        element3.classList.remove("mystyle");
+        document.getElementById("customer_id").disabled = false;
+
+        var element4 = document.getElementById("basiInput8");
+        element4.classList.remove("mystyle");
+        document.getElementById("basiInput8").disabled = false;
+    })
+
+
+    $(".submit_booking_action").click(function(){
+
+        var customer_name = $("#basiInput1").val()
+        var customer_phone = $("#basiInput31").val()
+        var customer_id = $("#customer_id").val()
+        var customer_bank = $("#basiInput8").val()
+        var plot_id = `{{data.id}}`
+       
+        if(customer_phone == ''){
+            alert("Please fill out phone")
+            $("#basiInput31").css("border", "1px solid red");
+        }
+        else if(customer_name == ''){
+            alert("Please fill out name")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid red");
+
+        }
+        else if (customer_id==''){
+            alert("Please fill out customer id")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid #eaf0f9");
+            $("#customer_id").css("border", "1px solid red");
+
+        }
+        else if (customer_bank==''){
+            alert("Please fill out bank")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid #eaf0f9");
+            $("#customer_id").css("border", "1px solid #eaf0f9");
+            $("#basiInput8").css("border", "1px solid red");
+
+        }
+        else{
+            redirect_url = "admin_book_plot_action"
+        $.ajax({
+            url : redirect_url,
+            data :{
+                'customer_name':customer_name,
+                'customer_phone':customer_phone,
+                'customer_id':customer_id,
+                'customer_bank':customer_bank,
+                'plot_id':plot_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type:'POST',
+            success: function (data) {
+              if(data['message'] == "success"){
+                window.location.reload();
+              }
+              else{
+                Swal.fire({
+  icon: 'error',
+  title: 'This plot is not available.',
+  text: "Please rest old booking",
+})
+
+              }
+            }
+            })
+                
+        }
+
+    })
+</script>
 
 
     {% endblock %}

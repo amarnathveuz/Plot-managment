@@ -4,7 +4,7 @@
     <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
     <div class='customer-bx'>
         <div class="customer-content">
-            <h5>{{i.Name}}
+            <h5> {% if i.Name == None %}{% else %}{{i.Name}}{% endif %}
                 {% if i.current_status == "0" %}
         <span
             class="badge badge-soft-success text-uppercase" style="    color: #fff;
@@ -26,11 +26,24 @@
             {% else %}
             {% endif %}
                </h5>
-            <span class="d-flex">
-                <h6>Phone : </h6>{{i.Phoneno}}
+               <div class="row">
+                <div class="col-md-6 px-0">
+                <span class="d-flex">
+                 <h6>Status(AR):</h6>{{i.Status}}
+                </span>
+                </div>
+                <div class="col-md-6 px-0">
+                 <span class="d-flex">
+                     <h6>Id: </h6>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}
+                 </span>
+                </div>
+                </div>
             </span>
             <div class="row">
                 <div class="col-md-6 px-0">
+                    <span class="d-flex">
+                        <h6>Phone:</h6>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}
+                    </span>
                     <span class="d-flex">
                         <h6>Unit no : </h6>{{i.UnitNo}}
                     </span>
@@ -46,7 +59,7 @@
                         <h6>Land area : </h6>{{i.LandArea}}
                     </span>
                     <span class="d-flex">
-                        <h6>Unit type : </h6>{{i.UType}}
+                        <h6>Unit type : </h6>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}
                     </span>
                     <span class="d-flex">
                         <h6>Price : </h6>{{i.Price|floatformat:"0"}}

@@ -23,7 +23,9 @@
           <table class="table table-striped">
                   <thead>
                         <tr class="info">
+                            <th>S/No</th>
                             <th>Name</th>
+                            <th>Id</th>
                             <th>Phone</th>
                             <th>UnitNo</th>      
                             <th>Block No</th> 
@@ -33,23 +35,27 @@
                                 U Type
                             </th>
                             <th>Price</th>
-                            <th>Status</th>
+                            <th>Bank</th>
+                            <th>Status(AR)</th>
+                            <th>Status(EN)</th>
                         </tr>
                 </thead>    
                                    
                 <tbody>
                     {% for i in data_available %}
                     <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
-                        <td><a href="user_edit?id={{i.id}}">{{i.Name}}</a></td>
-                        <td>{{i.Phoneno}}</td>
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="user_edit?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
                         <td>{{i.UnitNo}}</td>
                         <td>{{i.BlockNo}}</td>
                         <td>{{i.UnitArea}}</td>
                         <td>{{i.LandArea}}</td>
-                        <td> 
-                        {{i.UType}}
-                        </td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
                         <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
                         <td>
                             {% if i.current_status == "0" %}      
                             <span
@@ -94,7 +100,9 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="info">
+                        <th>S/No</th>
                         <th>Name</th>
+                        <th>Id</th>
                         <th>Phone</th>
                         <th>UnitNo</th>      
                         <th>Block No</th> 
@@ -104,23 +112,27 @@
                             U Type
                         </th>
                         <th>Price</th>
-                        <th>Status</th>
+                        <th>Bank</th>
+                        <th>Status(AR)</th>
+                        <th>Status(EN)</th>
                     </tr>
                 </thead>  
                                     
                 <tbody>
                     {% for i in data_price_quotation %}
                     <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
-                        <td><a href="user_edit?id={{i.id}}">{{i.Name}}</a></td>
-                        <td>{{i.Phoneno}}</td>
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="user_edit?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
                         <td>{{i.UnitNo}}</td>
                         <td>{{i.BlockNo}}</td>
                         <td>{{i.UnitArea}}</td>
                         <td>{{i.LandArea}}</td>
-                        <td> 
-                        {{i.UType}}
-                        </td>
-                        <td>{{i.Price}}</td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
                         <td>
                             {% if i.current_status == "0" %}      
                             <span
@@ -165,7 +177,9 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="info">
+                        <th>S/No</th>
                         <th>Name</th>
+                        <th>Id</th>
                         <th>Phone</th>
                         <th>UnitNo</th>      
                         <th>Block No</th> 
@@ -175,23 +189,27 @@
                             U Type
                         </th>
                         <th>Price</th>
-                        <th>Status</th>
+                        <th>Bank</th>
+                        <th>Status(AR)</th>
+                        <th>Status(EN)</th>
                     </tr>
                 </thead>  
                                     
                 <tbody>
                     {% for i in data_sold %}
                     <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
-                        <td><a href="user_edit?id={{i.id}}">{{i.Name}}</a></td>
-                        <td>{{i.Phoneno}}</td>
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="user_edit?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
                         <td>{{i.UnitNo}}</td>
                         <td>{{i.BlockNo}}</td>
                         <td>{{i.UnitArea}}</td>
                         <td>{{i.LandArea}}</td>
-                        <td> 
-                        {{i.UType}}
-                        </td>
-                        <td>{{i.Price}}</td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
                         <td>
                             {% if i.current_status == "0" %}      
                             <span
@@ -236,7 +254,9 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="info">
+                        <th>S/No</th>
                         <th>Name</th>
+                        <th>Id</th>
                         <th>Phone</th>
                         <th>UnitNo</th>      
                         <th>Block No</th> 
@@ -246,22 +266,26 @@
                             U Type
                         </th>
                         <th>Price</th>
-                        <th>Status</th>
+                        <th>Bank</th>
+                        <th>Status(AR)</th>
+                        <th>Status(EN)</th>
                     </tr>
                 </thead>                 
                 <tbody>
                     {% for i in data_cancelled %}
                     <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
-                        <td><a href="user_edit?id={{i.id}}">{{i.Name}}</a></td>
-                        <td>{{i.Phoneno}}</td>
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="user_edit?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
                         <td>{{i.UnitNo}}</td>
                         <td>{{i.BlockNo}}</td>
                         <td>{{i.UnitArea}}</td>
                         <td>{{i.LandArea}}</td>
-                        <td> 
-                        {{i.UType}}
-                        </td>
-                        <td>{{i.Price}}</td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
                         <td>
                             {% if i.current_status == "0" %}      
                             <span

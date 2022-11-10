@@ -108,14 +108,28 @@ class user_manger_mapping(common):
     user_auth_id = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_manger_mapping_auth_id", null=True)
     manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_manger_mapping_manager_id", null=True)
 
-
+customer_comapny_type =(
+    ("individual","individual"),
+    ("company","company")
+)
 
 class Customer_details(common):
     name =  models.CharField(max_length=255,null=True)
     phone = models.CharField(max_length=255,null=True)
     customer_id = models.CharField(max_length=255,null=True)
     bank =  models.CharField(max_length=255,null=True)
-
+    created_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Customer_details_created_by", null=True)
+    customer_type = models.CharField(max_length=255,choices=customer_comapny_type,null=True)
+    company_name =  models.CharField(max_length=255,null=True)
+    street1 =  models.CharField(max_length=255,null=True)
+    street2 =  models.CharField(max_length=255,null=True)
+    city =  models.CharField(max_length=255,null=True)
+    satte =  models.CharField(max_length=255,null=True)
+    zip =  models.CharField(max_length=255,null=True)
+    email =  models.CharField(max_length=255,null=True)
+    customer_doc_id = models.FileField(upload_to="customer_document",null=True)
+    conduct_certi = models.FileField(upload_to="customer_document",null=True)
+    tax_certificate  = models.FileField(upload_to="customer_document",null=True)
 
 class user_request_plot(common):
     customer_id = models.ForeignKey(Customer_details,on_delete=models.CASCADE,related_name="user_request_plot_customer_id", null=True)

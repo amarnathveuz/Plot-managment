@@ -20,7 +20,13 @@
 {% endif %}
 </a>
 </td>
-<td></td>
+
+<td>
+    {% if i.customer_id == None %}
+    {% else %}
+    {{i.customer_id}}
+    {% endif %}
+</td>
 <td class="customer_name">
 {% if i.Phoneno == None %}
 {% else %}

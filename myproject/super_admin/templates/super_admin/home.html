@@ -78,7 +78,13 @@
                         </li>
                         {% endif %}
 
-
+                        {% if request.user|get_user_type_action:"user_type" %}
+                        <li>
+                            <a href="customer_management" class="splnav"> <i class="fa fa-user-circle"></i>
+                                <p>Customers Management</p>
+                            </a>
+                        </li>
+                        {% endif %}
                         {% if request.user|get_user_type:"sss"  %}
 
                         <li>

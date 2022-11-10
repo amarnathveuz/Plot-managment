@@ -32,18 +32,20 @@
         
         
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i><span class="text-muted"> 
+                       
+                       
+                        <span class="d-flex align-items-center"> 
                             {% if page_obj.has_previous %}
-                        <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a> 
+                        <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.previous_page_number}}"  style="color: black;" href="#"><i class="fas fa-caret-left mr-2 pagintn text-muted pagination_minus" style="font-size: 20px;"></i> </a> 
                         {% endif %}
-                        <span>{{page_obj.number}}</span> 
+                        <i class="text-muted" style="font-size: 13.5px;">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</i>
                         
                         {% if page_obj.has_next %} 
                            <!-- <a    style="color: black;" href="?page={{page_obj.next_page_number}}">Next - {{page_obj.next_page_number}}</a> -->
-                            <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                            <a class="next_page_action" data-url="next_page_action_url_property?page={{page_obj.next_page_number}}"  style="color: black;" href="#"><i class="fas fa-caret-right ml-2 pagintn text-muted pagination_add" style="font-size: 20px;"></i></a>
                         {% endif %}
                         </span>
-                        <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
+                        
                             
                         <input type="text" id="search_value" onkeyup="Search()" class="form-cont ml-2"
                             placeholder="Search..." autocomplete="off"
@@ -260,11 +262,8 @@
                                         </td>
                                         <td>
                                            {% if i.customer_id == None %}
-
                                            {% else %}
-
                                            {{i.customer_id}}
-
                                            {% endif %}
                                         </td>
                                         <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
@@ -331,8 +330,6 @@
                         </div>
                     </div>
 
-
-
                     <div class="tab-pane" id="pro" role="tabpanel">
                         <div class='app plotmngmnt'>
                             <main class='project1'>
@@ -342,7 +339,7 @@
                                         <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
                                         <div class='customer-bx'>
                                             <div class="customer-content">
-                                                <h5>{{i.Name}}
+                                                <h5> {% if i.Name == None %}{% else %}{{i.Name}}{% endif %}
                                                     {% if i.current_status == "0" %}
                                             <span
                                                 class="badge badge-soft-success text-uppercase" style="    color: #fff;
@@ -364,13 +361,27 @@
                                                 {% else %}
                                                 {% endif %}
                                                    </h5>
-                                                <span class="d-flex">
-                                                    <h6>Phone : </h6>{{i.Phoneno}}
+                                                   <div class="row">
+                                                   <div class="col-md-6 px-0">
+                                                   <span class="d-flex">
+                                                    <h6>Status(AR):</h6>{{i.Status}}
+                                                   </span>
+                                                   </div>
+                                                   <div class="col-md-6 px-0">
+                                                    <span class="d-flex">
+                                                        <h6>Id: </h6>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}
+                                                    </span>
+                                                   </div>
+                                                   </div>
                                                 </span>
+                                                
                                                 <div class="row">
                                                     <div class="col-md-6 px-0">
                                                         <span class="d-flex">
-                                                            <h6>Unit no : </h6>{{i.UnitNo}}
+                                                            <h6>Phone:</h6>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Unit no : </h6>{% if i.UnitNo == None %}{%else%}{{i.UnitNo}}{%endif%}
                                                         </span>
                                                         <span class="d-flex">
                                                             <h6>Block no : </h6>{{i.BlockNo}}
@@ -381,10 +392,13 @@
                                                     </div>
                                                     <div class="col-md-6 px-0">
                                                         <span class="d-flex">
+                                                            <h6>Bank : </h6>{{i.Bank}}
+                                                        </span>
+                                                        <span class="d-flex">
                                                             <h6>Land area : </h6>{{i.LandArea}}
                                                         </span>
                                                         <span class="d-flex">
-                                                            <h6>Unit type : </h6>{{i.UType}}
+                                                            <h6>Unit type : </h6>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}
                                                         </span>
                                                         <span class="d-flex">
                                                             <h6>Price currency:</h6> {{i.Price|floatformat:"0"}}
@@ -578,11 +592,13 @@
 <script>
     group_by_id =[]
     function groupby_functn(status){
-      
-        check_list = []
-        
-        document.getElementById("customcheckbox").checked = false;
+       
+    
 
+        check_list = []
+        document.getElementById("customcheckbox").checked = false;
+        $(".append_pro2").show()
+        $(".append_pro1").hide()
         if (status == "Sold") {
             groupfunctn = document.getElementById("radio1");
             if (groupfunctn.checked == true){
@@ -660,8 +676,18 @@
             type:'GET',
             success: function (data) {
                $(".append_groupby_result").empty().append(data)
-            }
-        })
+               var card_view_redirect_url = 'property_card_view_filter_status'
+                    $.ajax({
+                url: card_view_redirect_url,
+                data:{
+                    'data_value[]':group_by_id
+                },
+                success: function (data) {
+                    $(".card_view1").empty().append(data);
+                }
+            })
+                }
+            })
     }
 </script>
 
@@ -731,9 +757,6 @@
             check_list = check_listnew
             console.log(check_list)
         } 
-       
-        
-        
         // Get all triggers
         const checkAll = document.querySelectorAll('[data-checkall-trigger]');
         // Check / Uncheck all matching checkboxes
@@ -745,8 +768,6 @@
                 if(filter_statuss != 0){
                     check_list.push(checkedValue)
                 }
-               
-                
             }
             matchingCheckboxes.forEach(function (el) {
                 if (checked !== el.checked) {
@@ -774,7 +795,6 @@ function Export() {
 <script>
    function  group_by_status(status){
     if (status.checked) {
-        
     redirect_url = "property_groupby_status"
         $.ajax({
                 url: redirect_url,

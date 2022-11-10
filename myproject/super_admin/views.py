@@ -397,7 +397,7 @@ def property_update(request):
                 customer_id = customer_id
             )
         else:
-            data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,
+            data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,  Name=Name,
                 Bank =Bank, currency = currency,customer_id = customer_id)
 
         messages.success(request,"updated")
@@ -666,7 +666,7 @@ def booking_action(request):
                 )
 
             except Customer_details.DoesNotExist:
-                inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank=bank)
+                inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank=bank,created_by=request.user)
 
             
                 data_save = user_request_plot.objects.create(
@@ -682,7 +682,7 @@ def booking_action(request):
                     booking_status = 1
 
                 )
-            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank=bank)
+            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank=bank,Name=name)
         else:
             data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
             try:
@@ -703,7 +703,7 @@ def booking_action(request):
 
                 )
             except Customer_details.DoesNotExist:
-                inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank=bank)
+                inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank=bank,created_by=request.user)
             
                 data_save = user_request_plot.objects.create(
                     customer_id_id = inser_customer_details.id,
@@ -719,7 +719,7 @@ def booking_action(request):
                     booking_status = 1
 
                 )
-            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank=bank)
+            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank=bank,Name=name)
         messages.success(request,"You successfully created your booking")
         return redirect(request.META['HTTP_REFERER'])
 
@@ -889,12 +889,19 @@ def rest_to_available_booking_action(request):
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
     data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0)
-    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='')
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None)
     
 
     messages.success(request,"You successfully Reset")
     return redirect(request.META['HTTP_REFERER'])
 
+
+@login_required(login_url='/')
+def rest_to_available_booking_action_sold_booking(request):
+    id  = request.GET.get("id")
+    data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None)
+    messages.success(request,"You successfully Reset")
+    return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required(login_url='/')
@@ -921,7 +928,7 @@ def export_data_to_excel(request):
     row_num = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-    columns = ['Name', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area' ,'U Type','Price','Status(AR)','Status(EN)']
+    columns = ['Name','Id', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area','U Type','Price','Bank','Status(AR)','Status(EN)']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style) 
 
@@ -929,24 +936,23 @@ def export_data_to_excel(request):
     exportid=request.GET.getlist('selected_data')
     li = list(exportid[0].split(","))
     cleanedList = [x for x in li if x != 'NaN']
-    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values('Name', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','Status','statusnew')
+    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values('Name', 'customer_id', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','Bank','Status','statusnew')
    
     for row in rows:
-        print("start-------------------")
-        print(row)
-        print("end-----------------")
         row_num += 1
         ds1 =  '{:20,.2f}'.format(row['Price'])
         # row["currency"] = (ds1)
         for col_num in row.keys():
             numb1 =   list(row.keys()).index(col_num)
-            if numb1 == 7:
+            if numb1 == 8:
                 ds1 =  '{:20,.2f}'.format(row[col_num])
                 ws.write(row_num, list(row.keys()).index(col_num),ds1, font_style)
             else:
                 ws.write(row_num, list(row.keys()).index(col_num), row[col_num], font_style)
     wb.save(response)
     return response
+
+
 
 @login_required(login_url='/')
 def plot_table_view(request):
@@ -1224,3 +1230,90 @@ def property_search_card_view(request):
     }
 
     return render(request,'super_admin/property_search_card_view.html',context)
+
+
+
+def admin_book_plot_action(request):
+    if request.method == "POST":
+        customer_name = request.POST.get("customer_name",False)
+        customer_phone = request.POST.get("customer_phone",False)
+        customer_id = request.POST.get("customer_id",False)
+        customer_bank = request.POST.get("customer_bank",False)
+        plot_id = request.POST.get("plot_id",False)
+        data = intractive_map.objects.get(id=plot_id)
+        status = data.current_status
+        if status == '0':
+            try:
+                data_exists = Customer_details.objects.get(customer_id=customer_id)
+                data_update = Customer_details.objects.filter(id=data_exists.id).update(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank)
+                data_save = user_request_plot.objects.create(
+                    customer_id_id = data_exists.id,
+                    auth_user=request.user,
+                   
+                    property_mapping_id_id = plot_id,
+                    name = customer_name,
+                    booking_id = customer_id,
+                    phone = customer_phone,
+                    bank = customer_bank,
+                    read_status = 0,
+                    booking_status = 1
+
+                )
+
+            except Customer_details.DoesNotExist:
+                inser_customer_details = Customer_details.objects.create(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank,created_by=request.user)
+
+            
+                data_save = user_request_plot.objects.create(
+                    customer_id_id = inser_customer_details.id,
+                    auth_user=request.user,
+                    
+                    property_mapping_id_id = plot_id,
+                    name = customer_name,
+                    booking_id = customer_id,
+                    phone = customer_phone,
+                    bank = customer_bank,
+                    read_status = 0,
+                    booking_status = 1
+
+                )
+            data_update = intractive_map.objects.filter(id=plot_id).update(current_status=1,Phoneno=customer_phone,customer_id=customer_id,Bank=customer_bank,Name=customer_name)
+            messages.success(request,"You successfully created your booking")
+            
+            return JsonResponse({"message":"success"},safe=False)
+        else:
+            return JsonResponse({"message":"error"},safe=False)
+
+        pass
+
+
+
+
+def customer_management(request):
+    data = Customer_details.objects.all().order_by("-id")
+    context = {
+        'data':data
+    }
+    return render(request,'super_admin/customer_management.html',context)
+
+
+def customer_more_details(request):
+    id = request.GET.get("id")
+    data = Customer_details.objects.get(id=id)
+    current_booking = ''
+    try:
+        current_booking = user_request_plot.objects.get(customer_id_id=data.id,available_status=1)
+    except:
+        pass
+    booking_history = user_request_plot.objects.filter(customer_id_id=data.id)
+    context = {
+        'data':data,
+        'current_booking':current_booking,
+        'history':booking_history
+    }
+    return render(request,'super_admin/customer_more_details.html',context)
+    
+def property_card_view_filter_status(request):
+    data_value = request.GET.getlist("data_value[]")
+    data = intractive_map.objects.filter(current_status__in=data_value)
+    return render(request, 'super_admin/property_search_card_view.html', {'data': data})

@@ -143,15 +143,28 @@
                                     <div class='project-column mt-2'>
                                         <a style="text-decoration: none;color: black" href="property_update?id={{i.property_mapping_id.id}}">
                                         <div class="customer-bx">
+                                            {% if i.user_id.atatchment == None %}
+                                            <div class="cust-img" style="background-image: url({% static 'adminicon.jpg' %});">
 
-                                            <div class="cust-img" style="background-image: url('../media/{{i.user_id.atatchment}}');">
+                                            </div>
+                                            {% elif i.user_id.atatchment == '' %}
+                                            <div class="cust-img" style="background-image: url({% static 'adminicon.jpg' %});">
 
                                             </div>
 
+
+                                            {% else %}
+                                            <div class="cust-img" style="background-image: url('../media/{{i.user_id.atatchment}}');">
+
+                                            </div>
+                                            {% endif %}
+
                                             <div class="customer-content">
                                                 <h5>New Booking Received <i>({{i.dt}})</i> </h5>
-                                                <span class="d-flex"><h6>Name : </h6> {{i.user_id.name|title}}</span>
-                                                <span class="d-flex"><h6>Email : </h6> {{i.user_id.email|title}}</span>
+                                                <span class="d-flex"><h6>Name : </h6> {{i.name|title}}</span>
+                                                
+                                                <span class="d-flex"><h6>Customer ID : </h6> {{i.booking_id}}</span>
+                                                <span class="d-flex"><h6>Bank : </h6> {{i.bank}}</span>
                                                 <span class="d-flex"><h6>Property No : </h6> {{i.property_mapping_id.BlockNo}}{{i.property_mapping_id.UnitNo}}</span>
                                                 
                                                 <span class="badge badge-soft-success text-uppercase">{{i.user_id.user_type}}</span>

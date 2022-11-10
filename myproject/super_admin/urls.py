@@ -64,6 +64,16 @@ urlpatterns = [
     path('append_card_view',views.append_card_view,name='append_card_view'),
     path('property_search_card_view',views.property_search_card_view,name='property_search_card_view'),
 
+    path('rest_to_available_booking_action_sold_booking',views.rest_to_available_booking_action_sold_booking,name='rest_to_available_booking_action_sold_booking'),
+    path('admin_book_plot_action',views.admin_book_plot_action,name='admin_book_plot_action'),
+    path('customer_management',views.customer_management,name='customer_management'),
+    path('customer_more_details',views.customer_more_details,name='customer_more_details'),
+    path('property_card_view_filter_status',views.property_card_view_filter_status,name='property_card_view_filter_status'),
+    
+
+    
+
+
 
 
 
