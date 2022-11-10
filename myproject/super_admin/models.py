@@ -7,6 +7,7 @@ from django.db import models
 
 class intractive_map(models.Model):
     Name = models.CharField(max_length=255, null=True)
+    customer_id = models.CharField(max_length=255,null=True)
     Phoneno = models.CharField(max_length=255, null=True)
     UnitNo = models.IntegerField(null=True)
     UnitNo_primary = models.IntegerField(null=True)
