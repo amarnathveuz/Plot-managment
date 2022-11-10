@@ -346,6 +346,8 @@ def property_update(request):
 
     if request.method == "POST":
         id = request.POST.get("id")
+        user_type = request.user.is_superuser
+        
         Name = request.POST.get("Name")
         UnitNo = request.POST.get("UnitNo")
         Phoneno = request.POST.get("Phoneno")
@@ -357,38 +359,47 @@ def property_update(request):
         Bank = request.POST.get("Bank")
         current_status = request.POST.get("current_status")
         currency = request.POST.get("currency")
+        customer_id = request.POST.get("customer_id")
         attachment = None
-        
-        
-        try:
-            data_file = request.FILES.getlist('attachment')
-            for i in data_file:
-                import os
-                extesion = os.path.splitext(str(i))[1]
-                data_save = intractive_map_multiple_image(
-                    mapping_id_id= id,
-                    attached_file = i,
-                    image_type = extesion[1:],
-                    status = "True",
-                    image_name= i.name
-                )
-                data_save.save()
 
-        except:
-            pass
-        data_update = intractive_map.objects.filter(id=id).update(
-            Name=Name,
-            UnitNo = UnitNo,
-            Phoneno = Phoneno,
-            BlockNo = BlockNo,
-            UnitArea = UnitArea,
-            LandArea =LandArea,
-            UType= UType,
-            Price= Price,
-            Bank =Bank,
-             current_status = current_status,
-             currency = currency
-        )
+        if user_type == True:
+
+        
+        
+            try:
+                data_file = request.FILES.getlist('attachment')
+                for i in data_file:
+                    import os
+                    extesion = os.path.splitext(str(i))[1]
+                    data_save = intractive_map_multiple_image(
+                        mapping_id_id= id,
+                        attached_file = i,
+                        image_type = extesion[1:],
+                        status = "True",
+                        image_name= i.name
+                    )
+                    data_save.save()
+
+            except:
+                pass
+            data_update = intractive_map.objects.filter(id=id).update(
+                Name=Name,
+                UnitNo = UnitNo,
+                Phoneno = Phoneno,
+                BlockNo = BlockNo,
+                UnitArea = UnitArea,
+                LandArea =LandArea,
+                UType= UType,
+                Price= Price,
+                Bank =Bank,
+                current_status = current_status,
+                currency = currency,
+                customer_id = customer_id
+            )
+        else:
+            data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,
+                Bank =Bank, currency = currency,customer_id = customer_id)
+
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
         
@@ -401,10 +412,20 @@ def property_update(request):
         data = intractive_map.objects.get(id=id)
         multiple_image_data = intractive_map_multiple_image.objects.filter(mapping_id_id=id)
         history = user_request_plot.objects.filter(property_mapping_id=id).order_by("-id")
+
+        user_type = User.objects.get(id=request.user.id)
+        available_booking = ''
+        try:
+            available_booking = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
+        except:
+            pass
+
         context = {
             'data':data,
             'multiple_image_data':multiple_image_data,
-            'history':history
+            'history':history,
+            'available_booking':available_booking,
+            'user_type':user_type
         }
         return render(request,'super_admin/property_update.html',context)
 
@@ -867,12 +888,14 @@ def rest_to_available_booking_action(request):
         status_content = current_status+"-->"+" Reset to Available"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
-    data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1)
-    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0)
+    data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0)
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='')
     
 
     messages.success(request,"You successfully Reset")
     return redirect(request.META['HTTP_REFERER'])
+
+
 
 @login_required(login_url='/')
 def delete_image_action(request):

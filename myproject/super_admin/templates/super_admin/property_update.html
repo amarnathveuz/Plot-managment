@@ -1,6 +1,7 @@
 
 {% extends "super_admin/base.html" %}
 {% load static %}
+{% load notification %}
 {% block content %}
     <style>
         .form-control.mystyle{
@@ -32,9 +33,11 @@
                                     </ol>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="margn">
+                                       {% if request.user|get_nav_permission:"property_update_permission" %}
                                             <a><button onclick="Edit_function()" id="edit_id" type="button" class="btn btn-prim pay edit-cont-btn">
                                                     Edit
                                                 </button></a>
+                                                
                                                 <style>
                                                     .display_name{
                                                         display: none!important;
@@ -43,15 +46,76 @@
                                                 <a><button type="submit" id="update_id"  class="btn btn-prim pay edit-cont-btn display_name">
                                                         Update
                                                     </button></a>
-                                            <a href="property_management"><button type="button"
+                                                    {% endif %}
+
+                                               {% if available_booking %}
+
+
+
+
+                                                    {% if available_booking.booking_status == 3   %}
+
+                                                    {% if available_booking.reset_to_availale == None %}
+
+
+                                                    {% if request.user|get_user_type_action:"user_type" %}
+                     
+                                                     <a href="#"  onclick="available_button_action()"><button style="background-color: #008000;
+                                                         color: white;
+                                                         border: none;" type="button"
+                                                         class="btn btn-pri pay discard-payroll"> Reset to Available
+                                                     </button></a>
+                                                     {% endif %}
+                     
+                                                     {% else %}
+                     
+                     
+                                                     {% endif %}
+                                                
+                     
+                                                 {% else %}
+                                                
+                                                 {% if available_booking.booking_status == 2 %}
+                                                
+                                                 {% else %}
+                     
+                                                 <a href="#" onclick="sold_button_action()" class="btn btn-prim pay">
+                                                   
+                                                             Confirm & Sell
+                                                      
+                                                     </a>
+                     
+                                                     {% endif %}
+                                                     {% if request.user|get_user_type_action:"user_type" %}
+                                                 <a href="#"  onclick="cancel_button_action()" class="btn btn-pri pay discard-payroll"> Cancel
+                                                    </a>
+                                                    {% endif %}
+                     
+                                                     {% endif %}
+
+
+
+
+
+
+
+                                                   
+
+                                                    {% else %}
+
+                                                    {% endif %}
+                                            <!-- <a href="property_management"><button type="button"
                                                     class="btn btn-pri pay create-button create-cont-btn">
                                                     Discard
-                                                </button></a>
+                                                </button></a> -->
                                                 {% if history %}
+                                                {% if request.user|get_user_type_action:"user_type" %}
                                             <a href="property_booking_history?id={{data.id}}"><button type="button"
                                                     class="btn btn-pri pay create-button create-cont-btn">
                                                     Booking History
                                                 </button></a>
+
+                                                {% endif  %}
                                                 {% endif %}
                                         </div>
                                         <div class="contact-pag d-flex align-items-center">
@@ -133,7 +197,7 @@
                                                                 </div>
                                                                 <div class="col-md-8 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <input type="text" id="basiInput2" disabled name="UnitNo" value="{{data.UnitNo}}" class="input mt-2 form-control mystyle">
+                                                                        <input type="number" id="basiInput2" disabled name="UnitNo" value="{{data.UnitNo}}" class="input mt-2 form-control mystyle">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -144,7 +208,7 @@
                                                                 </div>
                                                                 <div class="col-md-8 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <input name="BlockNo" id="basiInput3" disabled value="{{data.BlockNo}}" type="text" class="input mt-2 form-control mystyle">
+                                                                        <input name="BlockNo" id="basiInput3" disabled value="{{data.BlockNo}}" type="number" class="input mt-2 form-control mystyle">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -157,7 +221,7 @@
                                                                 </div>
                                                                 <div class="col-md-8 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <input type="text" id="basiInput31" disabled name="Phoneno" value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}" class="input mt-2 form-control mystyle"
+                                                                        <input type="number" id="basiInput31" disabled name="Phoneno" value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}" class="input mt-2 form-control mystyle"
                                                                         placeholder="">
                                                                     </div>
                                                                 </div>
@@ -197,6 +261,17 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Customer ID </h6>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="customer_id" type="text" id="customer_id" disabled value="{%if data.customer_id == None %}{%else %}{{data.customer_id}}{% endif %}" class="input mt-2 form-control mystyle">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
                                                         </div>
                                                         <div class="col-md-6 cust-details p-0">
@@ -208,7 +283,7 @@
                                                                 </div>
                                                                 <div class="col-md-4 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <input name="Price" id="basiInput7" disabled value="{{data.Price}}" type="text" class="input mt-2 form-control mystyle">
+                                                                        <input name="Price" id="basiInput7" disabled value="{{data.Price|floatformat:"0"}}" type="number" class="input mt-2 form-control mystyle">
                                                                     </div>
 
                                                                     <div class="form-group  required_item w-100">
@@ -290,7 +365,9 @@
 
 
 
+                                                          {% if user_type.is_superuser %}
                                                             <div class="row">
+                                                                
                                                                 <div
                                                                     class="col-md-3 br-right d-flex align-items-start">
                                                                     <h6>Attachments</h6>
@@ -389,6 +466,10 @@
 
 
                                                                 </div>
+
+                                                                {% endif %}
+
+                                                            
                                                                
                                                                
                                                             </div>
@@ -413,7 +494,10 @@
                                                             </div>
     
                                                         {% for i in history %}
+
+                                                       {% if i.available_status == 1 %}
     
+                                                       {% else %}
     
                                                             <div class="row msging schdul-box mt-1" >
                                                                 {% if j.user_type == "administrator" %}
@@ -441,6 +525,7 @@
                                                                     <span class="badge badge-success text-uppercase">{{i.user_id.user_type}}</span>
                                                                 </div>
                                                             </div>
+                                                            {% endif %}
                                                             {% for j in i.booking_log_id.all %}
     
                                                             <div class="row">
@@ -561,9 +646,14 @@
 </script>
 
 <script>
+    var user_type = `{{user_type.is_superuser}}`
+   
     function Edit_function(){
 
-        $("#attachment_id12").hide()
+
+
+
+        
        
         // document.getElementById("update_id").style.display = "block";
         $("#update_id").removeClass("display_name");
@@ -572,7 +662,7 @@
         document.getElementById("select_box" ).disabled=false;
 
         document.getElementById("current_status_id").style.display = "none";
-        document.getElementById("selected_image0").style.display = "block";
+       
         document.getElementById("unit_block").style.display = "block";
         document.getElementById("old_block_unit").style.display = "none";
 
@@ -583,7 +673,7 @@
         // document.getElementById("block_no_id").style.display = "flex";
         
         document.getElementById("edit_id").style.display = "none";
-        document.getElementById("status_show").style.display = "flex";
+        // document.getElementById("status_show").style.display = "flex";
         var element1 = document.getElementById("basiInput1");
         element1.classList.remove("mystyle");
         document.getElementById("basiInput1").disabled = false;
@@ -591,12 +681,16 @@
         var element2 = document.getElementById("basiInput2");
         element2.classList.remove("mystyle");
         document.getElementById("basiInput2").disabled = false;
+        var element2 = document.getElementById("customer_id");
+        element2.classList.remove("mystyle");
+        document.getElementById("customer_id").disabled = false;
+
 
         var element3 = document.getElementById("basiInput3");
+        
         element3.classList.remove("mystyle");
         document.getElementById("basiInput3").disabled = false;
-
-
+       
         var element31 = document.getElementById("basiInput31");
         element31.classList.remove("mystyle");
         document.getElementById("basiInput31").disabled = false;
@@ -606,14 +700,32 @@
         var element4 = document.getElementById("basiInput4");
         element4.classList.remove("mystyle");
         document.getElementById("basiInput4").disabled = false;
-
+        
         var element5 = document.getElementById("basiInput5");
         element5.classList.remove("mystyle");
         document.getElementById("basiInput5").disabled = false;
-
+        
         var element6 = document.getElementById("basiInput6");
         element6.classList.remove("mystyle");
         document.getElementById("basiInput6").disabled = false;
+        if(user_type=='False'){
+            $("#basiInput2").prop("readonly", true);
+            $("#basiInput3").prop("readonly", true);
+            $("#basiInput1").prop("readonly", true);
+            $("#basiInput4").prop("readonly", true);
+            $("#basiInput5").prop("readonly", true);
+            $("#basiInput6").prop("readonly", true);
+            document.getElementById("basiInput2").disabled = true;
+            document.getElementById("basiInput3").disabled = true;
+            document.getElementById("basiInput1").disabled = true;
+            document.getElementById("basiInput4").disabled = true;
+            document.getElementById("basiInput5").disabled = true;
+            document.getElementById("basiInput6").disabled = true;
+        }
+        else{
+            $("#attachment_id12").hide()
+            document.getElementById("selected_image0").style.display = "block";
+        }
 
         var element7 = document.getElementById("basiInput7");
         element7.classList.remove("mystyle");
@@ -642,6 +754,8 @@
         var element13 = document.getElementById("basiInput13");
         element13.classList.remove("mystyle");
         document.getElementById("basiInput13").disabled = false;
+
+       
 
     }
 </script>
@@ -711,7 +825,47 @@
 </script>
 
 
+<script>
+    function sold_button_action() {
+        let text = "Approval Confirmation?";
+        if (confirm(text) == true) {
+           
+           
+            location.href = 'approve_booking_action?id='+`{{available_booking.id}}`+'';
+            
+        } else {
+          
+        }
+    }
 
+    function cancel_button_action(){
+
+        let text = "Cancel Confirmation?";
+        if (confirm(text) == true) {
+           
+           
+            location.href = 'cancel_booking_action?id='+`{{available_booking.id}}`+'';
+            
+        } else {
+          
+        }
+        
+    }
+
+    function available_button_action(){
+
+        let text = "Reset to Available Confirmation?";
+        if (confirm(text) == true) {
+           
+           
+            location.href = 'rest_to_available_booking_action?id='+`{{available_booking.id}}`+'';
+            
+        } else {
+          
+        }
+
+    }
+</script>
 
 
 

@@ -79,8 +79,25 @@ def get_nav_permission(value,args):
                     return True
                 else:
                     return False
+            elif args == "property_update_permission":
+                
+                status = user_data.manager_nav_plot_edit_permission
+                if status == 1:
+                    return True
+                else:
+                    return False
 
         else:
             return False
+
+@register.filter(name='get_user_type_action')
+def get_user_type_action(value,args):
+    user_dat = User.objects.get(id=value.id)
+    st = user_dat.is_superuser
+    if st == True:
+        return True
+    else:
+        return False
+
     
 
