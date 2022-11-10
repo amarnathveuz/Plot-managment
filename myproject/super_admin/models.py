@@ -109,7 +109,15 @@ class user_manger_mapping(common):
 
 
 
+class Customer_details(common):
+    name =  models.CharField(max_length=255,null=True)
+    phone = models.CharField(max_length=255,null=True)
+    customer_id = models.CharField(max_length=255,null=True)
+    bank =  models.CharField(max_length=255,null=True)
+
+
 class user_request_plot(common):
+    customer_id = models.ForeignKey(Customer_details,on_delete=models.CASCADE,related_name="user_request_plot_customer_id", null=True)
     auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_request_plot_login_id", null=True)
     user_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_request_plot_user_login_id", null=True)
     property_mapping_id = models.ForeignKey(intractive_map,on_delete=models.CASCADE,related_name="user_request_plot_user_login_id", null=True)
