@@ -57,4 +57,30 @@ def get_user_type(value,args):
         else:
             return False
 
+@register.filter(name='get_nav_permission')
+def get_nav_permission(value,args):
+    user_dat = User.objects.get(id=value.id)
+    st = user_dat.is_superuser
+    if st == True:
+        return True
+    else:
+        user_data = user_Details.objects.get(auth_user=user_dat)
+        if user_data.user_type == "manager":
+            if args == "plot_management":
+                status = user_data.manager_nav_ploat_permission
+                if status == 1:
+                    return True
+                else:
+                    return False
+            elif args == "user_management":
+                
+                status = user_data.manager_nav_user_permission
+                if status == 1:
+                    return True
+                else:
+                    return False
+
+        else:
+            return False
+    
 

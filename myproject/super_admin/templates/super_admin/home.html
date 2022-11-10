@@ -63,16 +63,20 @@
                             </div>
 
                         </li> -->
+                        {% if request.user|get_nav_permission:"plot_management" %}
                         <li>
                             <a class="splnav" href="property_management"> <i class="fa fa-calendar"></i>
                                 <p>Plot Management</p>
                             </a>
                         </li>
+                        {% endif %}
+                        {% if request.user|get_nav_permission:"user_management" %}
                         <li>
                             <a href="user_management" class="splnav"> <i class="fa fa-user-circle"></i>
                                 <p>User  Management</p>
                             </a>
                         </li>
+                        {% endif %}
 
 
                         {% if request.user|get_user_type:"sss"  %}

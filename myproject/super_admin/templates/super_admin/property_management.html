@@ -259,7 +259,13 @@
                                             </a>
                                         </td>
                                         <td>
-                                            
+                                           {% if i.customer_id == None %}
+
+                                           {% else %}
+
+                                           {{i.customer_id}}
+
+                                           {% endif %}
                                         </td>
                                         <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
                                             {% if i.Phoneno == None %}

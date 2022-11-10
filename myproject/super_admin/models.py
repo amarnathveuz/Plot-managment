@@ -130,6 +130,7 @@ class user_request_plot(common):
     read_status = models.IntegerField(default=0)
     booking_status = models.IntegerField(null=True)
     reset_to_availale = models.IntegerField(null=True)
+    available_status = models.IntegerField(default=1)
 
 
 
