@@ -1,0 +1,564 @@
+{% extends "super_admin/base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid mt-4">
+    <div class="row"> 
+        <div class="col-12 buttns">
+            <h5>Bank Master</h5>
+        </div>
+    </div>
+ 
+        <div class="tab-content contnt" id="demo_result_employee">
+            <div class="tab-pane active" id="home1" role="tabpanel">
+
+                <div
+                    class="d-flex align-items-center justify-content-between px-2">
+                    <div class="col-md-4 px-0">
+                        <a href="create_bank"><button type="button"
+                                class="btn btn-prim add-btn create-button"><i
+                                    class="fas fa-plus"></i>
+                                Create
+                            </button></a>
+
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Import">
+                            <i class="fas fa-upload"></i>
+                        </button>
+                        <button type="button"  style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Export">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button type="button"  style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Favourite">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button type="button"  style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Print">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button type="button" style="display:none;"
+                            class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                            data-toggle="tooltip" data-bs-trigger="hover"
+                            data-bs-placement="top" title=""
+                            data-bs-original-title="Archive">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+
+
+
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i>
+                        <span class="text-muted">
+                            {% if page_obj.has_previous %}
+                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a>
+                            {% endif %}
+                            <span>{{page_obj.number}}</span>
+                            {% if page_obj.has_next %}
+                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                            {% endif %}
+                        </span>
+                        <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
+                        <input type="text" class="form-cont ml-2"
+                            placeholder="Search..." autocomplete="off"
+                            id="search_value" value="" onkeyup="myFunction()">
+
+                        <div class="dropdown btn-group fitr">
+                            <button type="button" class="btn btn-prim dropdown-toggle" data-toggle="dropdown">
+                                <i class="fas fa-filter"></i>
+                                Filters
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Name</a>
+                                    <div class="drpdwn-menu">
+                                       <input id="filter_value1" type="text" class="form-control" placeholder="Name">
+                                       <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('name')">
+                                        Apply
+                                        </button>
+                                    </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Email</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value2" type="email" class="form-control" placeholder="Email">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('email')">
+                                         Apply
+                                         </button>
+                                     </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Mobile</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value3" type="number" class="form-control" placeholder="Mobile">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('mobile')">
+                                         Apply
+                                         </button>
+                                     </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Created Date</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value4" type="date" class="form-control" placeholder="Date">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                         Apply
+                                         </button>
+                                     </div></li>
+
+                                     <li><a class="dropdown-item dropdown-submenu" href="#">Status</a>
+                                        <div class="drpdwn-menu">
+                                            <label class="form-check-label" for="radio1">
+                                                <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio1" name="optradio" value="salesman">Salesman
+                                              </label>
+                                              <label class="form-check-label" for="radio2">
+                                                <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio2" name="optradio" value="manager">Manager
+                                              </label>
+                                            <!-- <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                             Apply
+                                             </button> -->
+                                         </div></li>
+
+                            </div>
+                        </div>
+
+                        <div class="dropdown btn-group grpby">
+                            <button type="button" class="btn btn-prim mx-1 dropdown-toggle" data-toggle="dropdown"> <i
+                                    class="fas fa-bars"></i>
+                                Group By
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#"><div class="form-check">
+                                    <input type="checkbox" name="checkfield" id="g01-01" onchange="type_groupby_action(this)"> &nbsp;Type
+                                  </div></a>
+                                 
+
+                            </div>
+                        </div>
+
+
+
+
+                        <ul class="nav nav-tabs nav-ta" role="tablist">
+                                <li class="nav-item mx-1">
+                                    <a class="nav-link kan-tab active" data-toggle="tab" href="#ho" role="tab"
+                                        aria-selected="false">
+                                        <i class="fas fa-list"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link kan-tab" data-toggle="tab" href="#pro" role="tab"
+                                        aria-selected="false">
+                                        <i class="fas fa-th-large"></i>
+                                    </a>
+                                </li>
+                            </ul>
+
+
+
+
+                    </div>
+                </div>
+                 <input type="hidden" id="pagination_count" name="">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="ho" role="tabpanel">
+                        <div class="table-responsive mb-1  mt-2">
+
+
+                            <table class="table table-nowrap align-middle user_table"
+                                id="orderTable">
+                                <thead class="table-light">
+                                    <tr class="text-uppercase">
+
+                                        <th class="sort" data-sort="Bank-name"> 
+                                            Bank Name</th>
+                                        <th class="sort" data-sort="bank-code">
+                                           Bank Identifier Code
+                                        </th>
+
+                                        <th class="sort" data-sort="company">
+                                            Swift Code
+                                         </th>
+
+                                        <th class="sort" data-sort="Address">Address</th>
+
+                                        <th class="sort" data-sort="Branch">
+                                            Branch
+                                         </th>
+
+                                        <th class="sort" data-sort="country">
+                                           country
+                                        </th>
+
+                                        <th class="sort" data-sort="company">
+                                            Status
+                                         </th>
+                                         
+                              
+                                        <th class="sort" data-sort="company">
+                                           Created At
+                                        </th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody class="list form-check-all append_search_result">
+                                    {% for i in bank_details_data  %}
+                                    <tr onclick="window.location='bank_detail_edit?id={{i.id}}'">
+                                        <td class="id"><a href="bank_detail_edit?id={{i.id}}"
+                                                class="fw-medium link-primary">{{i.bank_name}}</a>
+                                        </td>
+                                        <td class="customer_name">{{i.bank_identifier_code}}
+                                        </td>
+
+                                        <td class="status">{{i.swift_code}}
+                                        </td>
+                                        <td class="product_name">{{i.address}}</td>
+
+                                        <td class="status">{{i.branch}}
+                                        </td> 
+
+                                        <td class="date">{{i.country}}</td>
+                                        
+                                        <td class="company">
+                                            {% if i.status == "Active" %}
+                                            <span class="badge badge-soft-success text-uppercase">Active</span>
+                                            {% elif i.status == "Inactive"  %}
+                                            <span style="color: red!important"
+                                                class="badge badge-soft-success text-uppercase">Inactive</span>
+
+                                            {% endif %}
+                                            </td>
+
+                                        <td class="status">{{i.dt}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <div class="user_table1 container-fluid"></div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="tab-pane" id="pro" role="tabpanel">
+                        <div class='app plotmngmnt'>
+                            <main class='project1'>
+                                <div class='project-tasks1 mb-1 card_view1'>
+                                {% for i in bank_details_data %}
+                                    <div class='project-column'>
+                                        <a href="bank_detail_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                        <div class='customer-bx'>
+                                            <div class="customer-content">
+                                                <h5>{{i.bank_name}}
+                                            {% if i.status == "Active" %}
+                                            <span
+                                                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                background-color: #008000;">Active</span>
+        
+                                            {% elif i.status == "Inactive" %}
+                            
+                                            <span
+                                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                    background-color: #e40000;">Inactive</span>
+                                       
+                                             {% endif %}
+                                                   </h5>
+                                                <span class="d-flex">
+                                                    <h6>Swift Code : </h6>{{i.swift_code}}
+                                                </span>
+                                                <div class="row">
+                                                    <div class="col-md-12 px-0">
+                                                        <span class="d-flex">
+                                                            <h6>BIC : </h6>{{i.bank_identifier_code}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Branch: </h6>{{i.branch}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Address : </h6>{{i.address}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Country : </h6>{{i.country}}
+                                                    
+                                                    </div>
+                                                    <!-- <div class="col-md-6 px-0">
+                                                        <span class="d-flex">
+                                                            <h6>Land area : </h6>{{i.LandArea}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Unit type : </h6>{{i.UType}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Price : </h6>{{i.Price}}
+                                                        </span>
+                                                    </div> -->
+                                                </div>                                                           
+                                            </div>
+                                        </div>
+                                    </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            </main>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function myFunction(){
+            $(".user_table").show()
+            $(".user_table1").hide()
+            var x = document.getElementById("search_value").value;
+            redirect_url = "user_search_result"
+            $.ajax({
+                url : redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+                $(".append_search_result").empty().append(data)
+
+                card_view_redirect_url = 'user_search_card_view'
+            $.ajax({
+                url : card_view_redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+
+                    // alert(data)
+                $(".append_card_view").empty().append(data)
+                }
+            })
+
+                }
+            })
+        
+        }
+    </script>
+
+
+
+    <script>
+        $(".next_page_action").click(function(){
+            var url =$(this).attr('data-url')
+            $.ajax({
+                url: url,
+                data:{
+
+                },
+                success: function (data) {
+                    $("#demo_result_employee").empty().append(data);
+                }
+            })
+        })
+    </script>
+
+
+
+    <script>
+        pagination_count = 1
+        $(".pagination_add").click(function () {
+            pagination_count = pagination_count + 1
+            $("#pagination_count").val(pagination_count)
+
+
+        })
+
+        $(".pagination_minus").click(function () {
+            pagination_count = pagination_count - 1
+            $("#pagination_count").val(pagination_count)
+
+
+        })
+    </script>
+
+
+
+    <script>
+        $(".group").click(function(){
+
+            var listCheck = [];
+            $("input[name='optradio']:checked").each(function() {
+                $(".user_table").show()
+            $(".user_table1").hide()
+                listCheck .push($(this).val());
+            });
+            var url =$(this).attr('data-url')
+            $.ajax({
+                url: url,
+                data:{
+                    'grouping[]': listCheck
+                },
+                success: function (data) {
+                    $(".append_search_result").empty().append(data);
+
+                    var card_view_redirect_url = 'card_view_filter_status'
+                    $.ajax({
+                url: card_view_redirect_url,
+                data:{
+                    'grouping[]': listCheck
+                },
+                success: function (data) {
+                   
+                    $(".append_card_view").empty().append(data);
+                }
+            })
+
+                }
+            })
+        })
+    </script>
+
+<div class="append_group_by">
+
+</div>
+
+
+    <script>
+        function submit_filter(type){
+            $(".user_table").show()
+            $(".user_table1").hide()
+        if (type == "name") {
+            var x = document.getElementById("filter_value1").value;
+        }
+        else if (type == "email") {
+            var x = document.getElementById("filter_value2").value;
+        }
+        else if (type == "mobile") {
+            var x = document.getElementById("filter_value3").value;
+        }
+        else {
+            var x = document.getElementById("filter_value4").value;
+        }
+            redirect_url = "filtering_user"
+            $.ajax({
+                url : redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+                $(".append_search_result").empty().append(data)
+
+
+                card_view_redirect_url = 'user_search_card_view'
+            $.ajax({
+                url : card_view_redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+
+                    // alert(data)
+                $(".append_card_view").empty().append(data)
+                }
+            })
+                }
+            })
+        }
+        function type_groupby_action(checkboxElem) {
+  if (checkboxElem.checked) {
+    
+    redirect_group_by_url = 'user_type_group_by_action'
+    $.ajax({
+        url:redirect_group_by_url,
+        data:{
+            'status':'type'
+        },
+        type:'GET',
+        success:function(data){
+            $(".user_table1").show()
+            $(".user_table").hide()
+           
+             $(".user_table1").empty().append(data)
+
+             
+             var card_view_redirect_url = 'card_view_group_by_status'
+                    $.ajax({
+                url: card_view_redirect_url,
+                data:{
+                    'status':'type'
+                },
+                success: function (data) {
+                    
+                   
+                    $(".append_card_view").empty().append(data);
+                }
+            })
+
+             
+        }
+
+    })
+  } else {
+    $(".user_table1").hide()
+            $(".user_table").show()
+  }
+}
+
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+<script>
+    {% for message in messages %}
+
+    message1 = "{{message}}"
+
+
+    if (message1 == "error") {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ message }}",
+        })
+
+    } else {
+
+        Swal.fire(
+            '',
+            '{{ message }}',
+            '{{message.tags}}'
+        )
+
+    } 
+    {% endfor %}
+</script>
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

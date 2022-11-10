@@ -69,25 +69,18 @@ urlpatterns = [
     path('customer_management',views.customer_management,name='customer_management'),
     path('customer_more_details',views.customer_more_details,name='customer_more_details'),
     path('property_card_view_filter_status',views.property_card_view_filter_status,name='property_card_view_filter_status'),
+
+
+
+
+    path('bank_master',views.bank_master,name='bank_master'),
+    path('create_bank',views.create_bank,name='create_bank'),
+    path('bank_detail_edit',views.bank_detail_edit,name='bank_detail_edit'),
+    path('update_bankdetails_action',views.update_bankdetails_action,name='update_bankdetails_action'),
+    path('update_bankdetails_action_status',views.update_bankdetails_action_status,name='update_bankdetails_action_status'),
     
 
     
-
-
-
-
-
-
-    
-    
-
-    
-
-    
-
-    
-
-
 
 
 

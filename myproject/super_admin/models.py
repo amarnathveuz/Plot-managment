@@ -5,6 +5,18 @@ from django.db import models
 
 # Create your models here.
 
+class Bank_details(models.Model):
+    bank_name = models.CharField(max_length=255,null=True)
+    bank_identifier_code = models.CharField(max_length=255,null=True)
+    branch = models.CharField(max_length=255,null=True)
+    swift_code = models.CharField(max_length=255,null=True)
+    address = models.CharField(max_length=500,null=True)
+    country = models.CharField(max_length=255,null=True)
+    status = models.CharField(max_length=255,null=True)
+    dt = models.DateField(auto_now_add=True)
+    tm = models.TimeField(auto_now_add=True)
+
+
 class intractive_map(models.Model):
     Name = models.CharField(max_length=255, null=True)
     customer_id = models.CharField(max_length=255,null=True)

@@ -77,6 +77,23 @@
                             </a>
                         </li>
                         {% endif %}
+                        {% if bank_nav == 1 %}
+
+                        <li>
+
+
+
+                            <a href="bank_master" class="splnav"> <i class="fas fa-briefcase"></i>
+
+                                <p>Bank Master</p>
+
+                            </a>
+
+
+
+                        </li>
+
+                        {% endif %}
                         {% if request.user|get_user_type_action:"user_type" %}
                         <li>
                             <a href="customer_management" class="splnav"> <i class="fa fa-user-circle"></i>

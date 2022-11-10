@@ -1,0 +1,428 @@
+{% extends "super_admin/base.html" %}
+
+{% load static %}
+{% block content %}
+
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css">
+<div class="row">
+
+</div>
+
+
+
+    <div class="container-fluid mt-4 edit" style="display:none;">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+
+                    <div class="page-title-left">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Bank Master</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">Update Bank</a></li>
+
+                        </ol>
+                        <div class="margn">
+                            <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                                    Update
+                                </button></a>
+                            <a href="#"><button style="padding: 5px 10px !important;" type="button"
+                                    class="btn btn-pri pay discard-payroll discard_button"> Discard
+                                </button></a>
+                                                       
+                            {% if data.status == 'Active' %}
+                            <form action="update_bankdetails_action_status" method="POST" class="" style="display: inline-block;">
+                                {% csrf_token %}
+                                <input type="hidden" name="updated_id" value="{{data.id}}">
+                                <input type="hidden" name="status" value="Inactive"> 
+                                <a href=""><button style="padding: 5px 10px !important;" type="submit"
+                                    class="btn btn-pri pay discard-payroll ">Inactive</button></a>
+                            </form>  
+
+                            {% else %}
+
+                            <form action="update_bankdetails_action_status" method="POST" class=""  style="display: inline-block;">
+                                {% csrf_token %}
+                                <input type="hidden" name="updated_id" value="{{data.id}}">
+                                <input type="hidden" name="status" value="Active"> 
+                                <a href=""><button style="padding: 5px 10px !important;" type="submit"
+                                    class="btn btn-pri pay discard-payroll ">Active</button></a>
+                            </form>  
+                            
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <form action="update_bankdetails_action" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
+            {% csrf_token %}
+        <div class="row pay-main edit" style="display:none;">
+            <input type="hidden" name="updated_id" value="{{data.id}}">
+
+            <div class="col-lg-12 px-0">
+                <div class="card noti-card" id="orderList">
+
+
+                    <div class="card-body bb-0 pt-0 p-0">
+                        <div>
+
+                            <div class="payslip mb-5">
+
+                                <div class="row pay-main mb-4">
+
+
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Bank Name</h6>
+                                            </div>
+
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="bank_name"  type="text"
+                                                        class="form-control mt-2" value="{{data.bank_name}}">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Swift Code</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="swift_code"  type="text"
+                                                        value="{{data.swift_code}}" class="form-control" id="basiInput">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Address</h6>
+                                            </div>
+
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <textarea class="form-control" name="address"
+                                                            > {{data.address}}</textarea>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Bank Identifier Code</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="bank_identifier_code"
+                                                        value="{{data.bank_identifier_code}}" type="text"
+                                                        class="form-control mt-2" id="basiInput">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Branch</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="branch" type="text" value="{{data.branch}}"
+                                                        class="form-control" id="basiInput">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Country</h6>
+                                            </div>
+
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input type="text" name="country" value="{{data.country}}"
+                                                            class="form-control" id="" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!-- view only  -->
+
+<div class="container-fluid mt-4">
+
+    <div class="row view">
+        <div class="col-12 px-0">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+
+                <div class="page-title-left">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Bank Master</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="javascript: void(0);">View Bank</a></li>
+
+                    </ol>
+                    <div class="margn">
+                        <a><button type="button" style="padding: 5px 10px !important;"
+                                class="btn btn-prim pay view_button">
+                                Edit
+                            </button></a>
+                        <a href="bank_master"><button style="padding: 5px 10px !important;" type="button"
+                                class="btn btn-pri pay discard-payroll"> Discard
+                            </button></a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row pay-main view">
+
+
+        <div class="col-lg-12 px-0">
+            <div class="card noti-card" id="orderList">
+
+
+                <div class="card-body bb-0 pt-0 p-0">
+                    <div>
+
+                        <div class="payslip mb-5">
+
+                            <div class="row pay-main mb-4">
+
+
+                                <div class="col-md-6 cust-details p-0">
+                                    <div class="row">
+
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Bank Name</h6>
+                                        </div>
+
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input name="bank_name" required type="text" class="form-control mt-2"
+                                                    value="{{data.bank_name}}" disabled>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Swift Code</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input name="swift_code" required type="text"
+                                                    value="{{data.swift_code}}" class="form-control" id="basiInput" disabled>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Address</h6>
+                                        </div>
+
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <div class="">
+                                                    <textarea class="form-control" name="address"
+                                                         disabled> {{data.address}}</textarea>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-6 cust-details p-0">
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Bank Identifier Code</h6>
+                                        </div>
+                                        <div class="col-md-9 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input name="bank_identifier_code" value="{{data.bank_identifier_code}}"
+                                                disabled type="text" class="form-control mt-2" id="basiInput">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Branch</h6>
+                                        </div>
+                                        <div class="col-md-9 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input name="branch" type="text" value="{{data.branch}}"
+                                                    class="form-control" id="basiInput" disabled>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Country</h6>
+                                        </div>
+
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <div class="">
+                                                    <input type="text" name="country" value="{{data.country}}"
+                                                        class="form-control" id="" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+
+<script src="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js">
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    $(".view_button").click(function () {
+        $('.view').hide();
+        $('.edit').show();
+    })
+    $(".discard_button").click(function () {
+        $('.view').show();
+        $('.edit').hide();
+    })
+</script>
+
+{% if messages %}
+<script>
+    {% for message in messages %}
+
+    message1 = "{{message}}"
+
+
+    if (message1 == "error") {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ message }}",
+        })
+
+    } else {
+
+        Swal.fire(
+            '',
+            '{{ message }}',
+            '{{message.tags}}'
+        )
+
+    } 
+    {% endfor %}
+    
+</script>
+
+{% endif %}
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+
+
+{% endblock %}

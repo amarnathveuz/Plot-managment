@@ -1,8 +1,8 @@
 
-    {% extends "super_admin/base9.html" %}
+{% extends "super_admin/base9.html" %}
 
 {% load static %}
-    {% block content %}
+    {% block content %}  
     <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
     rel="stylesheet">
@@ -148,7 +148,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6 style="display: none" id="property_id1">Select Property </h6>
@@ -182,23 +181,6 @@
                                     {% endfor %}
                                     
                                                            </select>
-                                                    </div>
-                                                    
-    
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row" id="nav_permission">
-                                            <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Nav permission </h6>
-                                            </div>
-                                            <div class="col-md-8 d-flex align-items-center">
-                                                <div class="form-group  required_item w-100">
-                                                    <div class=""> 
-                                                        <input type="checkbox" value="1" name="manager_nav_ploat_permission">&nbsp; Ploat Management&nbsp;&nbsp;&nbsp;
-                                                        <input type="checkbox" value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
-                                                        <input type="checkbox" value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
                                                     </div>
                                                     
     
@@ -302,7 +284,6 @@ var user_type = ''
 });
         function visible_manager(data){
            if(data == "manager"){
-            $("#nav_permission").show()
             user_type = 'manager'
             var x = document.getElementById('manager_select_div').style.display = "none";
             var x = document.getElementById('manager_select_div1').style.display = "none";
@@ -310,7 +291,6 @@ var user_type = ''
             var x = document.getElementById('prop2').style.display = "block";
            }
            else{
-            $("#nav_permission").hide()
             user_type = 'salesman'
             var x = document.getElementById('manager_select_div').style.display = "block";
             var x = document.getElementById('manager_select_div1').style.display = "block";
@@ -446,7 +426,5 @@ else{
             $(".file-upload").click();
         });
     });
-
-    $("#nav_permission").hide()
 </script>
     {% endblock %}

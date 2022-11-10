@@ -1091,21 +1091,35 @@ def delete_property_based_access_action(request):
 
 
 def profile(request):
+
     try:
+
         user_data = user_Details.objects.get(auth_user=request.user)
+
         context = {
+
             'user_data': user_data,
+
+            'bank_nav':1
+
         }
+
         return render(request, 'super_admin/profile.html', context)
+
     except:
-        return redirect(request.META['HTTP_REFERER'])
+
+        return render(request, 'super_admin/profile.html',{ 'bank_nav':1})
 
 def change_password(request):
 
     if request.method == "POST":
         pwd1 = request.POST.get("pwd1")
         pwd2 = request.POST.get("pwd2")
-        username = request.POST.get("username")
+        if request.user.is_superuser:
+            username = request.user
+        else:
+            username = request.POST.get("username")
+
         if (pwd1 == pwd2):
             user_update = User.objects.get(username=username)
             user_update.set_password(pwd1)
@@ -1317,3 +1331,95 @@ def property_card_view_filter_status(request):
     data_value = request.GET.getlist("data_value[]")
     data = intractive_map.objects.filter(current_status__in=data_value)
     return render(request, 'super_admin/property_search_card_view.html', {'data': data})
+
+
+
+def bank_master(request):
+    bank_details_data = Bank_details.objects.all()
+   
+    page_number = request.GET.get("page")
+    data_paginator = Paginator(bank_details_data, 10)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+
+    context = {
+        'bank_details_data': bank_details_data,
+        'page_obj': page_obj,
+        'bank_nav':1
+    }
+
+    return render(request, 'super_admin/bank_master.html', context)
+   
+
+def create_bank(request):
+    if request.method == "POST":
+        bank_name = request.POST.get("bank_name",False)
+        swift_code = request.POST.get("swift_code",False)
+        address = request.POST.get("address",False)
+        bank_identifier_code = request.POST.get("bank_identifier_code",False)
+        branch = request.POST.get("branch",False)
+        country = request.POST.get("country",False)
+
+        save_bank_data = Bank_details.objects.create(
+                bank_name = bank_name,
+                bank_identifier_code = bank_identifier_code,
+                branch = branch,
+                swift_code = swift_code,
+                address = address,
+                country = country,
+                status = "Active"
+        )
+        messages.success(request,str("Bank Successfully Created"))
+        return redirect("bank_master")
+    return render(request,'super_admin/create_bank.html' ,{'bank_nav':1})
+
+
+
+
+def bank_detail_edit(request):
+    id = request.GET.get("id",False)
+    data = Bank_details.objects.get(id=id)
+    context = {
+        'data':data,
+        'bank_nav':1
+    }
+    return render(request,'super_admin/bank_detail_edit.html',context)
+
+
+
+def update_bankdetails_action(request):
+    if request.method == "POST":
+        updated_id = request.POST.get("updated_id",False)
+        bank_name = request.POST.get("bank_name",False)
+        swift_code = request.POST.get("swift_code",False)
+        address = request.POST.get("address",False)
+        bank_identifier_code = request.POST.get("bank_identifier_code",False)
+        branch = request.POST.get("branch",False)
+        country = request.POST.get("country",False)
+
+        update_bank_details = Bank_details.objects.filter(id=updated_id).update(
+            bank_name = bank_name,
+            bank_identifier_code = bank_identifier_code,
+            branch = branch,
+            swift_code = swift_code,
+            address = address,
+            country = country
+        )
+       
+        messages.success(request,"Updated Bank Details")
+        return redirect(request.META['HTTP_REFERER'])
+
+def update_bankdetails_action_status(request):
+    updated_id = request.POST.get("updated_id",False)
+    status = request.POST.get("status",False)
+ 
+
+    update_bank_details = Bank_details.objects.filter(id=updated_id).update(
+        status = status
+    )
+
+    messages.success(request,str("Bank is "+str(status)))
+
+    return redirect(request.META['HTTP_REFERER'])
