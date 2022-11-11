@@ -142,6 +142,7 @@ class Customer_details(common):
     customer_doc_id = models.FileField(upload_to="customer_document",null=True)
     conduct_certi = models.FileField(upload_to="customer_document",null=True)
     tax_certificate  = models.FileField(upload_to="customer_document",null=True)
+    bank_relation_id = models.ForeignKey(Bank_details,on_delete=models.CASCADE,related_name="Customer_details_Bank_details_id", null=True)
 
 class user_request_plot(common):
     customer_id = models.ForeignKey(Customer_details,on_delete=models.CASCADE,related_name="user_request_plot_customer_id", null=True)
@@ -157,6 +158,7 @@ class user_request_plot(common):
     booking_status = models.IntegerField(null=True)
     reset_to_availale = models.IntegerField(null=True)
     available_status = models.IntegerField(default=1)
+    bank_relation_id = models.ForeignKey(Bank_details,on_delete=models.CASCADE,related_name="user_request_plot_Bank_details_id", null=True)
 
 
 
