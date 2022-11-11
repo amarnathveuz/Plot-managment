@@ -134,7 +134,7 @@
                                                 {% endif %}
 
                                                 {% if request.user|get_user_type_action:"user_type" %}
-                                                <a id="book_now_id" style="background: black;
+                                                <a style="    background: black;
                                                 border: none;
                                                 color: white;" href="#" class="btn btn-pri pay create-button create-cont-btn new_booking_action">
                                             Book Now
@@ -242,13 +242,15 @@
                                                                 </div>
                                                             </div>
 
+
+
                                                             <div class="row"> 
                                                                 <div class="col-md-3 br-right d-flex align-items-center">
                                                                     <h6>Phone</h6>
                                                                 </div>
                                                                 <div class="col-md-8 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <input required type="text" autocomplete="off" onkeyup="startdigit(this)" maxlength="9" minlength="9"  id="basiInput31" disabled name="Phoneno" value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}" class="input mt-2 form-control mystyle"
+                                                                        <input type="number" id="basiInput31" disabled name="Phoneno" value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}" class="input mt-2 form-control mystyle"
                                                                         placeholder="">
                                                                     </div>
                                                                 </div>
@@ -295,7 +297,7 @@
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <input autocomplete="off" maxlength="10" minlength="10"  onkeyup="customer_length()" required onkeypress="return onlyNumberKey(event)" name="customer_id" type="text" id="customer_id" disabled value="{%if data.customer_id == None %}{%else %}{{data.customer_id}}{% endif %}" class="input mt-2 form-control mystyle">
+                                                                        <input name="customer_id" type="text" id="customer_id" disabled value="{%if data.customer_id == None %}{%else %}{{data.customer_id}}{% endif %}" class="input mt-2 form-control mystyle">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -310,7 +312,7 @@
                                                                 </div>
                                                                 <div class="col-md-4 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <input name="Price" onkeypress="return onlyNumberKey(event)" id="basiInput7" disabled value="{{data.Price|floatformat:"0"}}" type="number" class="input mt-2 form-control mystyle">
+                                                                        <input name="Price" id="basiInput7" disabled value="{{data.Price|floatformat:"0"}}" type="number" class="input mt-2 form-control mystyle">
                                                                     </div>
 
                                                                     <div class="form-group  required_item w-100">
@@ -327,21 +329,7 @@
                                                                 </div>
                                                                 <div class="col-md-9 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <select class="select2" name="Bank">
-                                                                            
-                                                                            {% if data.Bank == '' %}
-                                                                            <option value="select bank">Select Bank</option>
-                                                                            
-                                                                            {% else %}
-                                                                            <option value="{{data.Bank}}">{{data.Bank}}</option>
-
-                                                                            {% endif %}
-                                                                            {% for i in bank_details %}
-                                                                            <option value="{{i.bank_name}}">{{i.bank_name}}</option>
-
-                                                                            {% endfor %}
-                                                                        </select>
-                                                                        <!-- <input name="Bank" id="basiInput8" disabled value="{{data.Bank}}" type="text" class="input mt-2 form-control mystyle">     -->
+                                                                        <input name="Bank" id="basiInput8" disabled value="{{data.Bank}}" type="text" class="input mt-2 form-control mystyle">    
                                                                     </div>
                                                                 </div>
 
@@ -694,7 +682,13 @@
     var user_type = `{{user_type.is_superuser}}`
    
     function Edit_function(){
-        document.getElementById("book_now_id").style.display = "none";
+
+
+
+
+        
+       
+        // document.getElementById("update_id").style.display = "block";
         $("#update_id").removeClass("display_name");
         $("#select_box").removeClass("select_box_clr");
         $("#select_box").addClass("select_box_clr1")
@@ -923,7 +917,6 @@ if (confirm(text) == true) {
 
 <script>
     $(".new_booking_action").click(function(){
-        document.getElementById("edit_id").style.display = "none";
 
         $(".new_booking_action").hide()
         $(".submit_booking_action").show()
@@ -958,10 +951,6 @@ if (confirm(text) == true) {
        
         if(customer_phone == ''){
             alert("Please fill out phone")
-            if(customer_phone.length != 9){
-                alert("Phone number must in 9 digits")
-            }
-
             $("#basiInput31").css("border", "1px solid red");
         }
         else if(customer_name == ''){
@@ -1017,42 +1006,6 @@ if (confirm(text) == true) {
 
     })
 </script>
-
-
-<script>
-    function onlyNumberKey(evt) {
-        
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)){
-            message.innerHTML("Please Enter Decimal Numbers")
-            return false;
-        }
-        else{
-        return true;
-        }
-    }
-</script>
-
-
-<script>
-    function startdigit(event){
-        val = event.value;
-        if (val.startsWith("5") === false){
-            alert("Phone number should start from 5")
-            event.value= "";
-        }
-        
-    }
-</script>
-<!-- <script>
-     function customer_length(){
-
-    var customer_id = document.getElementById('customer_id');
-    if(customer_id.value.length!=10){
-        alert("customer id must contain 10 digits")
-    }
-}
-</script> -->
 
 
     {% endblock %}

@@ -17,8 +17,6 @@
   <link rel="stylesheet" href="{% static 'plot/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'plot/css/style.css' %}">
   <script src="https://kit.fontawesome.com/16b0815225.js" crossorigin="anonymous"></script>
-
-
 </head>
 
 <body>
@@ -3611,27 +3609,20 @@
                     <h6>ID</h6>
                   </div>
                   <div class="col-9">
-                    <span class="d-flex">: <input maxlength="10" minlength="10" type="text" required class="form-control ml-1 mb-2 plot-id" name="b_id" onkeyup="search_details(this)"></span>
-                    <div style="display:none;color:red;" class="form-control-feedback user_table">*ID should be 10 digits...</div>
+                    <span class="d-flex">: <input type="text" required class="form-control ml-1 mb-2 plot-id" name="b_id"></span>
                   </div>
                   <div class="col-3">
                     <h6>Phone</h6>
                   </div>
                   <div class="col-9">
-                    <span class="d-flex">: <input maxlength="9" minlength="9" required id="phone" name="phone" type="text" pattern="\d*" class="form-control ml-1 mb-2 phone" onkeyup="javascript:checkContents(this)"></span>
-                    <div style="display:none;color:red;" class="form-control-feedback user_table1">*Phone should be 9 digits and start with 5</div>
+                    <span class="d-flex">: <input required name="phone" type="number" class="form-control ml-1 mb-2 phone"></span>
                   </div>
                   <div class="col-3">
                     <h6>Bank</h6>
                   </div>
                   <div class="col-9">
-                    <span class="d-flex">:
-                    <select name="bank" class="form-control ml-1 mb-4 bank" style="font-size: 11px !important;">
-                      <option selected disabled value="">Select Bank</option>
-                      {% for i in data_bank %}
-                      <option value="{{i.id}}">{{i.bank_name}}</option>
-                      {% endfor %}
-                    </select></span>
+                    <span class="d-flex">: <textarea  required name="bank" id="" cols="36" rows="3"
+                        class="ml-1 w-100 bank"></textarea></span>
                   </div>
                 </div>
               </div>
@@ -3929,49 +3920,6 @@
     });
 
 </script>
-
-<script type="text/javascript">
-   var checkContents = function(input) {
-      var text = input.value;
-      if(!/[5]/.test(text))
-         input.value = "";
-         if (input.value.length != 9) {
-    $(".user_table1").show()
-  }
-  else if(input.value.length == 9) {
-    $(".user_table1").hide()
-  }
-   }
-</script>
-
-<script>
-  function search_details(status){
-  if (status.value.length != 10) {
-    $(".user_table").show()
-        }
-        else if (status.value.length == 10){
-        $(".user_table").hide()
-    s= status.value;
-    var url = 'search_customer'
-    $.ajax({
-        url: url,
-        data:{
-            'id_customer': s
-        },
-         success: function (data) {
-               if(data['message'] == "success"){
-                $('.plot-name').val(data['name'])
-                $('.phone').val(data['phone'])
-                $('.bank').val(data['bank'])
-               }
-         }
-        });
-        }
-  }
-</script>
-
-
-
 </body>
 
 </html>

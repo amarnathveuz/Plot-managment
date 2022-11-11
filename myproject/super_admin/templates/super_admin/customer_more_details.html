@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="container-fluid mt-4">
-    <form action="update_user_action" method="POST" enctype="multipart/form-data">
+    <form action="customer_details_update_action" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row edit" style="display:none;">
             <div class="col-12 px-0">
@@ -30,14 +30,14 @@
         
         <div class="row pay-main edit" style="display:none;">
             
-            <input type="hidden" name="updated_id" value="{{data.id}}">
+          
             <div class="col-lg-12 px-0">
                 <div class="card noti-card" id="orderList">
     
     
                     <div class="card-body bb-0 pt-0 p-0">
                         <div>
-    <input type="hidden" name="remove_status" value="0" id="remove_id">
+    <input type="hidden" name="id" value="{{data.id}}">
                             <div class="payslip mb-5">
     
                                 <div class="row pay-main mb-4">
@@ -53,7 +53,7 @@
                                                     <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
                                                     <div class="p-image">
                                                         <i class="fa fa-camera upload-button" aria-hidden="true"></i>
-                                                        <input class="file-upload" name="attachment" type="file" accept="image/*">
+                                                        <input class="file-upload" name="profile_pic" type="file" accept="image/*">
                                                     </div>
                                                 </div>
     
@@ -76,12 +76,12 @@
                                         <div class="cust-name row">
                                             <div class="col-md-1">
                                                 <input  type="radio" id="individual" value="individual"
-                                                name="catgry"  {% if data.user_type == 'manager' %} checked {% endif %}> <label
+                                                name="customer_type"  {% if data.customer_type == 'individual' %} checked {% endif %}> <label
                                                 for="Individual">Individual</label><br>
                                             </div>
                                             <div class="col">
-                                               <input  type="radio" {% if data.user_type == 'salesman' %} checked {% endif %}  id="company" value="company"
-                                                name="catgry" ><label
+                                               <input  type="radio" {% if data.customer_type == 'company' %} checked {% endif %}  id="company" value="company"
+                                                name="customer_type" ><label
                                                 for="company">Company</label>
                                             </div>
                                             <div class="col-md-12">
@@ -126,7 +126,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{{data.customer_id}}">
+                                                    <input type="text" name="customer_id" class="input form-control mt-2"  value="{{data.customer_id}}">
     
                                                 </div>
                                             </div>
@@ -138,7 +138,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}">
+                                                    <input type="text" name="street1" class="input form-control mt-2"  value="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -150,7 +150,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{% if data.city == None %}{% else %}{{data.city}}{% endif %}">
+                                                    <input type="text" name="city" class="input form-control mt-2"  value="{% if data.city == None %}{% else %}{{data.city}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -163,7 +163,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{% if data.zip == None %}{% else %}{{data.zip}}{% endif %}">
+                                                    <input type="text" name="zip" class="input form-control mt-2"  value="{% if data.zip == None %}{% else %}{{data.zip}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -176,7 +176,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="file" class="input form-control mt-2"  >
+                                                    <input type="file" name="contract_certi" class="input form-control mt-2"  >
     
                                                 </div>
                                             </div>
@@ -188,7 +188,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="file" class="input form-control mt-2"  >
+                                                    <input type="file" name="other_document" class="input form-control mt-2"  >
     
                                                 </div>
                                             </div>
@@ -203,7 +203,7 @@
                                             </div>
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{% if data.email == None %} {% else %}{{data.email}}{% endif %}">
+                                                    <input type="text" name="email" class="input form-control mt-2"  value="{% if data.email == None %} {% else %}{{data.email}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -216,7 +216,19 @@
                                             </div>
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{{data.bank}}">
+                                                    <select class="form-control" name="bank">
+                                                        <option value="{{data.bank_relation_id.id}}&{{data.bank_relation_id.bank_name}}">{{data.bank_relation_id.bank_name}}</option>
+                                                    {% for i in bank_instance  %}
+
+                                                    {% if data.bank_relation_id.id == i.id %}
+                                                    
+                                                    {% else %}
+                                                    <option value="{{i.id}}&{{i.bank_name}}">{{i.bank_name}}</option>
+
+                                                    {% endif %}
+                                                    {% endfor %}
+
+                                                </select>
     
                                                 </div>
                                             </div>
@@ -229,7 +241,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}">
+                                                    <input type="text" name="street2" class="input form-control mt-2"  value="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -242,7 +254,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}">
+                                                    <input type="text" name="satte" class="input form-control mt-2"  value="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -255,7 +267,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2"  value="{% if data.company_name == None %}{% else %}{{data.company_name}}{% endif %}">
+                                                    <input type="text" name="company_name" class="input form-control mt-2"  value="{% if data.company_name == None %}{% else %}{{data.company_name}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -268,7 +280,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="file" class="input form-control mt-2"  >
+                                                    <input type="file" name="customer_doc_id" class="input form-control mt-2"  >
     
                                                 </div>
                                             </div>
@@ -282,7 +294,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="file" class="input form-control mt-2"  >
+                                                    <input name="tax_certificate" type="file" class="input form-control mt-2"  >
     
                                                 </div>
                                             </div>
@@ -307,43 +319,12 @@
         
     
             </div>
-            {% if data.property_access == 'plot_based' %}
-
-            {% if user_property %}
-            <div class="container-fluid mt-4">
-                <table class="table table-bordered" border="3">
-                    <thead>
-                      <tr>
-                        <th scope="col">PROPERTY NAME</th>
-                        <th scope="col">	UNIT NO</th>
-
-                        <th scope="col">BLOCK NO</th>
-                        <th scope="col"> ACTION</th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {% for j in user_property %}
-                      <tr>
-                        <th scope="row">{{j.property_mapping_id.Name}}</th>
-                        <td>{{j.property_mapping_id.UnitNo}}</td>
-                        <td>{{j.property_mapping_id.BlockNo}}</td>
-                        <td>
-
-                            <a href="user_based_property_delete?id={{j.id}}" ><i style="color: black" class="fa fa-trash" aria-hidden="true"></i></a>
-                        </td>
-                      </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+           
             <br>
             <br>
             <br>
 
-            {% endif %}
-            {% else %}
-            {% endif %}
+         
         </div>
     </form>
 
@@ -408,17 +389,27 @@
                                         </div>
                                     </div>
 
+                                 {% if data.profile_pic == '' %}
                                     <div class="cust-logo"
                                     style="background-image: url({% static 'adminicon.jpg' %});"></div>
+                                    {% elif data.profile_pic == None %}
+                                    <div class="cust-logo"
+                                    style="background-image: url({% static 'adminicon.jpg' %});"></div>
+
+                                    {% else %}
+
+                                    <div class="cust-logo"
+                                    style="background-image: url('../media/{{data.profile_pic}}');"></div>
+                                    {% endif %}
 
                                     <div class="cust-name row">
                                         <div class="col-md-1">
                                             <input disabled type="radio" id="individual" value="individual"
-                                                name="catgry"  {% if data.user_type == 'manager' %} checked {% endif %}> <label
+                                                name="catgry"  {% if data.customer_type == 'individual' %} checked {% endif %}> <label
                                                 for="Individual">Individual</label><br>
                                         </div>
                                         <div class="col">
-                                            <input disabled type="radio" {% if data.user_type == 'salesman' %} checked {% endif %}  id="company" value="company"
+                                            <input disabled type="radio" {% if data.customer_type == 'company' %} checked {% endif %}  id="company" value="company"
                                                 name="catgry" ><label
                                                 for="company">Company</label>
                                                 
@@ -586,6 +577,86 @@
                                         </div>
 
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Documents</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                              
+                                                <thead>
+                                                  <tr>
+                                                    <th scope="col">Type</th>
+                                                    <th scope="col">View</th>
+                                                    
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                
+
+                                                    {% if data.customer_doc_id == '' %}
+                                                 
+                                                    {% elif data.customer_doc_id == None %}
+                                                    {% else %}
+                                                  <tr>
+                                                    <th scope="row">Customer  ID</th>
+                                                    <td>
+                                                        <a href="../media/{{data.customer_doc_id}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                    </td>
+                                                  
+                                                  </tr>
+                                                  {% endif %}
+                                                 
+
+                                                  {% if data.contract_certi == '' %}
+                                                 
+                                                  {% elif data.contract_certi == None %}
+                                                  {% else %}
+                                                <tr>
+                                                  <th scope="row">Contract Certificate</th>
+                                                  <td>
+                                                      <a href="../media/{{data.contract_certi}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                  </td>
+                                                
+                                                </tr>
+                                                {% endif %}
+
+
+                                                {% if data.tax_certificate == '' %}
+                                                 
+                                                  {% elif data.tax_certificate == None %}
+                                                  {% else %}
+                                                <tr>
+                                                  <th scope="row">Tax Certificate</th>
+                                                  <td>
+                                                      <a href="../media/{{data.tax_certificate}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                  </td>
+                                                
+                                                </tr>
+                                                {% endif %}
+
+                                                {% if data.other_document == '' %}
+                                                 
+                                                  {% elif data.other_document == None %}
+                                                  {% else %}
+                                                <tr>
+                                                  <th scope="row">Other Document</th>
+                                                  <td>
+                                                      <a href="../media/{{data.other_document}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                  </td>
+                                                
+                                                </tr>
+                                                {% endif %}
+                                               
+                                                </tbody>
+                                              </table>
+                                              </div>
+                                        </div>
+
+                                    </div>
+                                    
                                 
 
                                 </div>
@@ -604,6 +675,8 @@
                                         </div>
 
                                     {% for i in history %}
+
+                                  
 
                                 
 

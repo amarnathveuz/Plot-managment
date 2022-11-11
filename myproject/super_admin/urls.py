@@ -78,6 +78,10 @@ urlpatterns = [
     path('bank_detail_edit',views.bank_detail_edit,name='bank_detail_edit'),
     path('update_bankdetails_action',views.update_bankdetails_action,name='update_bankdetails_action'),
     path('update_bankdetails_action_status',views.update_bankdetails_action_status,name='update_bankdetails_action_status'),
+
+    path('customer_details_update_action',views.customer_details_update_action,name='customer_details_update_action'),
+    path('search_customer',views.search_customer,name="search_customer"),
+
     
 
     

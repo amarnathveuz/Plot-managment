@@ -144,6 +144,7 @@ class Customer_details(common):
     tax_certificate  = models.FileField(upload_to="customer_document",null=True)
     other_document = models.FileField(upload_to="customer_document",null=True)
     bank_relation_id = models.ForeignKey(Bank_details,on_delete=models.CASCADE,related_name="Customer_details_Bank_details_id", null=True)
+    profile_pic = models.FileField(upload_to="customer_document",null=True)
     
 
 class user_request_plot(common):

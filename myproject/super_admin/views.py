@@ -15,8 +15,6 @@ def index(request):
 
 
 
-def plot(request):
-    return render(request,'super_admin/plot.html')
 
 
 from django.core.paginator import Paginator
@@ -420,12 +418,15 @@ def property_update(request):
         except:
             pass
 
+        bank_details = Bank_details.objects.all()
+
         context = {
             'data':data,
             'multiple_image_data':multiple_image_data,
             'history':history,
             'available_booking':available_booking,
-            'user_type':user_type
+            'user_type':user_type,
+            'bank_details':bank_details
         }
         return render(request,'super_admin/property_update.html',context)
 
@@ -627,10 +628,12 @@ def home(request):
 @login_required(login_url='/')
 def plot(request):
     data = intractive_map.objects.all()
+    data_bank = Bank_details.objects.all()
     user_data = user_Details.objects.get(auth_user=request.user)
     context = {
         'data':data,
-        'user_data':user_data
+        'user_data':user_data,
+        "data_bank":data_bank
     }
     return render(request,'super_admin/plot.html',context)
 
@@ -646,83 +649,96 @@ def booking_action(request):
         data_user = user_Details.objects.get(auth_user=request.user)
         user_type = data_user.user_type
         print("user_type:::::",str(user_type))
-        if user_type == "manager":
-
-            try:
-                data_exists = Customer_details.objects.get(customer_id=customer_id)
-                data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank=bank)
-                data_save = user_request_plot.objects.create(
-                    customer_id_id = data_exists.id,
-                    auth_user=request.user,
-                    user_id_id = data_user.id,
-                    property_mapping_id_id = plot_id_mapping_id,
-                    name = name,
-                    booking_id = customer_id,
-                    phone = phone,
-                    bank = bank,
-                    read_status = 0,
-                    booking_status = 1
-
-                )
-
-            except Customer_details.DoesNotExist:
-                inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank=bank,created_by=request.user)
-
-            
-                data_save = user_request_plot.objects.create(
-                    customer_id_id = inser_customer_details.id,
-                    auth_user=request.user,
-                    user_id_id = data_user.id,
-                    property_mapping_id_id = plot_id_mapping_id,
-                    name = name,
-                    booking_id = customer_id,
-                    phone = phone,
-                    bank = bank,
-                    read_status = 0,
-                    booking_status = 1
-
-                )
-            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank=bank,Name=name)
+        bank_name = ""
+        if (len(phone) != 9) or (len(customer_id) != 10):
+            messages.error(request, "Password or ID not in length")
+            return redirect(request.META['HTTP_REFERER'])
         else:
-            data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
             try:
-                data_exists = Customer_details.objects.get(customer_id=customer_id)
-                data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank=bank)
-                data_save = user_request_plot.objects.create(
-                    customer_id_id = data_exists.id,
-                    auth_user=request.user,
-                    user_id_id = data_user.id,
-                    property_mapping_id_id = plot_id_mapping_id,
-                    name = name,
-                    booking_id = customer_id,
-                    phone = phone,
-                    bank = bank,
-                    manager_id_id = data_user_manger.manager_id.id,
-                    read_status = 0,
-                    booking_status = 1
+                data_bank = Bank_details.objects.get(id=bank)
+                bank_name = data_bank.bank_name
+            except:
+                pass
+            if user_type == "manager":
 
-                )
-            except Customer_details.DoesNotExist:
-                inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank=bank,created_by=request.user)
-            
-                data_save = user_request_plot.objects.create(
-                    customer_id_id = inser_customer_details.id,
-                    auth_user=request.user,
-                    user_id_id = data_user.id,
-                    property_mapping_id_id = plot_id_mapping_id,
-                    name = name,
-                    booking_id = customer_id,
-                    phone = phone,
-                    bank = bank,
-                    manager_id_id = data_user_manger.manager_id.id,
-                    read_status = 0,
-                    booking_status = 1
+                try:
+                    data_exists = Customer_details.objects.get(customer_id=customer_id)
+                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank=bank_name)
+                    data_save = user_request_plot.objects.create(
+                        customer_id_id = data_exists.id,
+                        auth_user=request.user,
+                        user_id_id = data_user.id,
+                        property_mapping_id_id = plot_id_mapping_id,
+                        name = name,
+                        booking_id = customer_id,
+                        phone = phone,
+                        bank_relation_id_id = bank,
+                        bank = bank_name,
+                        read_status = 0,
+                        booking_status = 1
 
-                )
-            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank=bank,Name=name)
-        messages.success(request,"You successfully created your booking")
-        return redirect(request.META['HTTP_REFERER'])
+                    )
 
+                except Customer_details.DoesNotExist:
+                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
+
+
+                    data_save = user_request_plot.objects.create(
+                        customer_id_id = inser_customer_details.id,
+                        auth_user=request.user,
+                        user_id_id = data_user.id,
+                        property_mapping_id_id = plot_id_mapping_id,
+                        name = name,
+                        booking_id = customer_id,
+                        phone = phone,
+                        bank_relation_id_id = bank,
+                        bank=bank_name,
+                        read_status = 0,
+                        booking_status = 1
+
+                    )
+                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
+            else:
+                data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
+                try:
+                    data_exists = Customer_details.objects.get(customer_id=customer_id)
+                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank = bank_name)
+                    data_save = user_request_plot.objects.create(
+                        customer_id_id = data_exists.id,
+                        auth_user=request.user,
+                        user_id_id = data_user.id,
+                        property_mapping_id_id = plot_id_mapping_id,
+                        name = name,
+                        booking_id = customer_id,
+                        phone = phone,
+                        bank_relation_id_id = bank,
+                        bank=bank_name,
+                        manager_id_id = data_user_manger.manager_id.id,
+                        read_status = 0,
+                        booking_status = 1
+
+                    )
+                except Customer_details.DoesNotExist:
+                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
+
+                    data_save = user_request_plot.objects.create(
+                        customer_id_id = inser_customer_details.id,
+                        auth_user=request.user,
+                        user_id_id = data_user.id,
+                        property_mapping_id_id = plot_id_mapping_id,
+                        name = name,
+                        booking_id = customer_id,
+                        phone = phone,
+                        bank_relation_id_id = bank,
+                        bank=bank_name,
+                        manager_id_id = data_user_manger.manager_id.id,
+                        read_status = 0,
+                        booking_status = 1
+
+                    )
+                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
+            messages.success(request,"You successfully created your booking")
+            return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required(login_url='/')
@@ -1320,10 +1336,12 @@ def customer_more_details(request):
     except:
         pass
     booking_history = user_request_plot.objects.filter(customer_id_id=data.id)
+    bank_instance = Bank_details.objects.all()
     context = {
         'data':data,
         'current_booking':current_booking,
-        'history':booking_history
+        'history':booking_history,
+        'bank_instance':bank_instance
     }
     return render(request,'super_admin/customer_more_details.html',context)
     
@@ -1423,3 +1441,135 @@ def update_bankdetails_action_status(request):
     messages.success(request,str("Bank is "+str(status)))
 
     return redirect(request.META['HTTP_REFERER'])
+
+
+def customer_details_update_action(request):
+    if request.method == "POST":
+        id = request.POST.get("id",False)
+       
+        try:
+            profile_pic = request.FILES['profile_pic']
+            update_pro = Customer_details.objects.get(id=id)
+            update_pro.profile_pic = profile_pic
+            update_pro.save()
+        except:
+            pass
+        name = request.POST.get("name",False)
+        phone = request.POST.get("phone",False)
+        customer_id = request.POST.get("customer_id",False)
+        street1 = request.POST.get("street1",False)
+        city = request.POST.get("city",False)
+        zip = request.POST.get("zip",False)
+        
+        try:
+            contract_certi = request.FILES['contract_certi']
+            update_contract_certi = Customer_details.objects.get(id=id)
+            update_contract_certi.contract_certi = contract_certi
+            update_contract_certi.save()
+
+            update_contract_certi1 =  user_request_plot.objects.get(customer_id_id=id,available_status=1)
+            update_contract_certi1.contract_certi = contract_certi
+            update_contract_certi1.save()
+
+            
+
+            
+        except:
+            pass
+        
+        try:
+            other_document = request.FILES['other_document']
+            update_other_certi = Customer_details.objects.get(id=id)
+            update_other_certi.other_document = other_document
+            update_other_certi.save()
+
+            update_other_certi1 =  user_request_plot.objects.get(customer_id_id=id,available_status=1)
+            update_other_certi1.other_document = other_document
+            update_other_certi1.save()
+        except:
+            pass
+        email = request.POST.get("email",False)
+        bank = request.POST.get("bank",False)
+        street2 = request.POST.get("street2",False)
+        satte = request.POST.get("satte",False)
+        company_name = request.POST.get("company_name",False)
+        
+        try:
+            customer_doc_id = request.FILES['customer_doc_id']
+            update_customer_certi = Customer_details.objects.get(id=id)
+            update_customer_certi.customer_doc_id = customer_doc_id
+            update_customer_certi.save()
+
+            update_customer_certi1 =  user_request_plot.objects.get(customer_id_id=id,available_status=1)
+            update_customer_certi1.customer_doc_id = customer_doc_id
+            update_customer_certi1.save()
+        except:
+            pass
+        
+        try:
+            tax_certificate = request.POST.get("tax_certificate",False)
+            update_tax_certi = Customer_details.objects.get(id=id)
+            update_tax_certi.tax_certificate = tax_certificate
+            update_tax_certi.save()
+
+            update_tax_certi1 =  user_request_plot.objects.get(customer_id_id=id,available_status=1)
+            update_tax_certi1.tax_certificate = tax_certificate
+            update_tax_certi1.save()
+        except:
+            pass
+        bank_split = bank.split("&")
+        customer_type = request.POST.get("customer_type",False)
+        update_customer_details = Customer_details.objects.get(id=id)
+        update_customer_details.name = name
+        update_customer_details.phone = phone
+        update_customer_details.customer_id = customer_id
+        update_customer_details.bank = bank_split[1]
+        update_customer_details.customer_type = customer_type
+        update_customer_details.company_name = company_name
+        update_customer_details.street1 = street1
+        update_customer_details.street2 = street2
+        update_customer_details.city = city
+        update_customer_details.satte = satte
+        update_customer_details.zip = zip
+        update_customer_details.email = email
+        update_customer_details.bank_relation_id_id = int(bank_split[0])
+        update_customer_details.save()
+       
+        try:
+            customer_avaialble_property = user_request_plot.objects.get(customer_id_id=id,available_status=1)
+            customer_avaialble_property.name = name
+            customer_avaialble_property.booking_id = customer_id
+            customer_avaialble_property.phone = phone
+            customer_avaialble_property.bank = bank_split[1]
+            customer_avaialble_property.bank_relation_id_id = int(bank_split[0])
+            customer_avaialble_property.customer_doc_id_id = customer_doc_id
+            customer_avaialble_property.save()
+        except:
+            pass
+       
+        messages.success(request,str("Updated"))
+
+        return redirect(request.META['HTTP_REFERER'])
+
+
+
+
+
+
+
+
+        
+        
+def search_customer(request):
+    try:
+        customer_id = request.GET.get("id_customer")
+        data_customer = Customer_details.objects.get(customer_id = customer_id)
+        context = {
+            'message':'success',
+            'name': data_customer.name,
+            'phone':data_customer.phone,
+            'bank': data_customer.bank
+        }
+        return JsonResponse(context,safe=False)
+    except:
+        return JsonResponse({"message":'error'},safe=False)
