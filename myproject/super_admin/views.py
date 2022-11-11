@@ -697,7 +697,13 @@ def booking_action(request):
                         booking_status = 1
 
                     )
-                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
+                arabic_status = None
+                try:
+                    data = status_code.objects.get(status_code=1)
+                    arabic_status = data.text
+                except:
+                    pass
+                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
             else:
                 data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
                 try:
@@ -736,7 +742,13 @@ def booking_action(request):
                         booking_status = 1
 
                     )
-                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
+                arabic_status = None
+                try:
+                    data = status_code.objects.get(status_code=1)
+                    arabic_status = data.text
+                except:
+                    pass
+                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
 
@@ -810,8 +822,13 @@ def approve_booking_action(request):
         status_content = current_status+"-->"+"Approved"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
-
-    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=2)
+    arabic_status = None
+    try:
+        data2 = status_code.objects.get(status_code=2)
+        arabic_status = data2.text
+    except:
+        pass
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=2,Status=arabic_status)
     data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=2,read_status=1)
 
     messages.success(request,"You successfully approved")
@@ -860,8 +877,13 @@ def cancel_booking_action(request):
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
 
-
-    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=3)
+    arabic_status = None
+    try:
+        data3 = status_code.objects.get(status_code=3)
+        arabic_status = data3.text
+    except:
+        pass
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=3,Status=arabic_status)
     data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=3,read_status=1)
 
     messages.success(request,"You successfully cancelled")
@@ -905,17 +927,33 @@ def rest_to_available_booking_action(request):
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
     data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0)
-    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None)
+    arabic_status = None
+    try:
+        data34 = status_code.objects.get(status_code=0)
+        arabic_status = data34.text
+    except:
+        pass
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status)
     
 
     messages.success(request,"You successfully Reset")
     return redirect(request.META['HTTP_REFERER'])
 
 
+
+
+
+
 @login_required(login_url='/')
 def rest_to_available_booking_action_sold_booking(request):
     id  = request.GET.get("id")
-    data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None)
+    arabic_status = None
+    try:
+        data = status_code.objects.get(status_code=0)
+        arabic_status = data.text
+    except:
+        pass
+    data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status)
     messages.success(request,"You successfully Reset")
     return redirect(request.META['HTTP_REFERER'])
 
@@ -1272,6 +1310,14 @@ def admin_book_plot_action(request):
         plot_id = request.POST.get("plot_id",False)
         data = intractive_map.objects.get(id=plot_id)
         status = data.current_status
+        bank_mapping_id = None
+        try:
+            data_bank_mapping = Bank_details.objects.get(bank_name=customer_bank)
+            bank_mapping_id = data_bank_mapping.id
+        except:
+            pass
+
+        
         if status == '0':
             try:
                 data_exists = Customer_details.objects.get(customer_id=customer_id)
@@ -1286,12 +1332,15 @@ def admin_book_plot_action(request):
                     phone = customer_phone,
                     bank = customer_bank,
                     read_status = 0,
-                    booking_status = 1
+                    booking_status = 1,
+                    bank_relation_id_id = bank_mapping_id
 
                 )
 
             except Customer_details.DoesNotExist:
-                inser_customer_details = Customer_details.objects.create(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank,created_by=request.user)
+                inser_customer_details = Customer_details.objects.create(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank,created_by=request.user,
+                bank_relation_id_id = bank_mapping_id
+                )
 
             
                 data_save = user_request_plot.objects.create(
@@ -1304,10 +1353,17 @@ def admin_book_plot_action(request):
                     phone = customer_phone,
                     bank = customer_bank,
                     read_status = 0,
-                    booking_status = 1
+                    booking_status = 1,
+                    bank_relation_id_id = bank_mapping_id
 
                 )
-            data_update = intractive_map.objects.filter(id=plot_id).update(current_status=1,Phoneno=customer_phone,customer_id=customer_id,Bank=customer_bank,Name=customer_name)
+            arabic_status = None
+            try:
+                data = status_code.objects.get(status_code=1)
+                arabic_status = data.text
+            except:
+                pass
+            data_update = intractive_map.objects.filter(id=plot_id).update(Status=arabic_status,current_status=1,Phoneno=customer_phone,customer_id=customer_id,Bank=customer_bank,Name=customer_name)
             messages.success(request,"You successfully created your booking")
             
             return JsonResponse({"message":"success"},safe=False)

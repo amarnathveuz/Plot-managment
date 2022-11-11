@@ -58,6 +58,20 @@
                                                         border: none;" type="button"
                                                         class="btn btn-pri pay discard-payroll"> Reset to Available
                                                     </button></a>
+                                                    {% else %}
+
+                                                    {% if available_booking %}
+                                                    {% else %}
+                                                    {% if data.current_status == '0' %}
+
+                                                    {% else %}
+                                                    <a href="#"  onclick="available_button_action1()"><button style="background-color: #6b8119;
+                                                        color: white;
+                                                        border: none;" type="button"
+                                                        class="btn btn-pri pay discard-payroll"> Reset to Available (No booking ) 
+                                                    </button></a>
+                                                    {% endif %}
+                                                    {% endif %}
 
                                                     {% endif %}
 
@@ -327,7 +341,7 @@
                                                                 </div>
                                                                 <div class="col-md-9 d-flex align-items-center">
                                                                     <div class="form-group  required_item w-100">
-                                                                        <select class="select2" name="Bank">
+                                                                        <select class="select2 mystyle" name="Bank" id="basiInput8" disabled>
                                                                             
                                                                             {% if data.Bank == '' %}
                                                                             <option value="select bank">Select Bank</option>
@@ -337,7 +351,10 @@
 
                                                                             {% endif %}
                                                                             {% for i in bank_details %}
+                                                                            {% if i.bank_name == data.Bank %}
+                                                                            {% else %}
                                                                             <option value="{{i.bank_name}}">{{i.bank_name}}</option>
+                                                                            {% endif %}
 
                                                                             {% endfor %}
                                                                         </select>
@@ -694,7 +711,13 @@
     var user_type = `{{user_type.is_superuser}}`
    
     function Edit_function(){
-        document.getElementById("book_now_id").style.display = "none";
+        try {
+            document.getElementById("book_now_id").style.display = "none";
+}
+catch(err) {
+ 
+}
+      
         $("#update_id").removeClass("display_name");
         $("#select_box").removeClass("select_box_clr");
         $("#select_box").addClass("select_box_clr1")
@@ -1024,7 +1047,7 @@ if (confirm(text) == true) {
         
         var ASCIICode = (evt.which) ? evt.which : evt.keyCode
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)){
-            message.innerHTML("Please Enter Decimal Numbers")
+           alert("Please Enter Decimal Numbers")
             return false;
         }
         else{
