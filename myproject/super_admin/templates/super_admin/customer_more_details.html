@@ -75,13 +75,14 @@
     {% endif %}
                                         <div class="cust-name row">
                                             <div class="col-md-1">
-                                                <input type="radio" onclick="visible_manager('manager')" {% if data.user_type == 'manager' %} checked  {% endif %} name="user_type" value="manager" id="individual" 
-                                                    > <label
-                                                    for="Individual">Manager </label><br>
+                                                <input  type="radio" id="individual" value="individual"
+                                                name="catgry"  {% if data.user_type == 'manager' %} checked {% endif %}> <label
+                                                for="Individual">Individual</label><br>
                                             </div>
                                             <div class="col">
-                                                <input  id="company" 
-                                                onclick="visible_manager('salesman')" {% if data.user_type == 'salesman' %} checked  {% endif %} name="user_type" type="radio"  value="salesman"> <label>Salesman</label><br>
+                                               <input  type="radio" {% if data.user_type == 'salesman' %} checked {% endif %}  id="company" value="company"
+                                                name="catgry" ><label
+                                                for="company">Company</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <h3 class="m-0">{{data.name|title}}</h3>
@@ -121,11 +122,11 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Mobile</h6>
+                                                <h6>Customer ID</h6>
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="number" class="input form-control mt-2" name="mobile" value="{{data.mobile}}">
+                                                    <input type="text" class="input form-control mt-2"  value="{{data.customer_id}}">
     
                                                 </div>
                                             </div>
@@ -133,72 +134,65 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Password change confirmation </h6>
+                                                <h6>Street 1</h6>
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <div class="">
-                                                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked id="access"> &nbsp;No
-                                                        &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio"  id="access">&nbsp; Yes
-                                                        <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter new password" class="form-control mt-2">
-                                                    </div>
+                                                    <input type="text" class="input form-control mt-2"  value="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}">
     
                                                 </div>
                                             </div>
+    
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Property Access </h6>
+                                                <h6>City</h6>
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <div class="">
-                                                         <input type="radio" onclick="function_access_property('full_access')" id="access" name="property_access" value="all"   {% if data.property_access == 'all' %} checked {% else %} {% endif %}> &nbsp;All access
-                                                        &nbsp;  <input  type="radio" onclick="function_access_property('property_based')" id="access"  name="property_access" {% if data.property_access == 'plot_based' %} checked {% else %} {% endif %} value="plot_based"> &nbsp;Plot based access
-                                                    </div>
+                                                    <input type="text" class="input form-control mt-2"  value="{% if data.city == None %}{% else %}{{data.city}}{% endif %}">
     
                                                 </div>
                                             </div>
+    
                                         </div>
-                                        {% if data.user_type == "manager" %}
-                                        <div class="row" id="nav_permission">
-                                         <div class="col-md-3 br-right d-flex align-items-center">
-                                             <h6>Nav permission </h6>
-                                         </div>
-                                         <div class="col-md-8 d-flex align-items-center">
-                                             <div class="form-group  required_item w-100">
-                                                 <div class=""> 
-                                                    
-                                                     <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission">&nbsp; Ploat Management&nbsp;&nbsp;&nbsp;
-                                                     <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
-                                                     <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
-                                                 </div>
-                                                 
-     
-                                             </div>
-                                         </div>
-                                     </div>
-                                        {% endif %}
-                                        <div class="row" id="manager_select_div" {% if data.user_type == 'salesman' %} {% else %} style="display: none" {% endif %}>
+
+                                        <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Select Manger</h6>
+                                                <h6>Zip</h6>
                                             </div>
-                                            
                                             <div class="col-md-8 d-flex align-items-center">
-                                               <select name="manager"  class="form-control select2">
-                                                {% if user_manger %}
-                                                <option value="{{user_manger.manager_id.id}}">{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})</option>
-                                                {% else %}
-                                                <option value="">select manager</option>
-                                                {% endif %}
-                                                {% for i in all_manger %}
-                                                {% if user_manger.manager_id.id == i.id %}
-                                                {% else %}
-                                                <option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
-                                                {% endif %}
-                                                {% endfor %}
-                                               </select>
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="text" class="input form-control mt-2"  value="{% if data.zip == None %}{% else %}{{data.zip}}{% endif %}">
+    
+                                                </div>
                                             </div>
+    
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Contract (document)</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="file" class="input form-control mt-2"  >
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Other (document)</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="file" class="input form-control mt-2"  >
+    
+                                                </div>
+                                            </div>
+    
                                         </div>
     
                                     </div>
@@ -209,7 +203,7 @@
                                             </div>
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="email" class="input form-control mt-2" name="email" value="{{data.email}}">
+                                                    <input type="text" class="input form-control mt-2"  value="{% if data.email == None %} {% else %}{{data.email}}{% endif %}">
     
                                                 </div>
                                             </div>
@@ -218,46 +212,82 @@
     
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Emp ID</h6>
+                                                <h6>Bank</h6>
                                             </div>
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="text" class="input form-control mt-2" name="empid" value="{{data.emp_id}}">
+                                                    <input type="text" class="input form-control mt-2"  value="{{data.bank}}">
     
                                                 </div>
                                             </div>
     
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Plot Listview </h6>
-                                            </div>
-                                            <div class="col-md-8 d-flex align-items-center">
-                                                <div class="form-group  required_item w-100">
-                                                    <div class="">
-                                                        <input type="radio"name="plot_list_view" {% if data.plot_list_view == "no" %} checked {% else %} {% endif %} value="no" id="access">&nbsp;No &nbsp;
-                                                            <input  name="plot_list_view" type="radio" {% if data.plot_list_view == "yes" %} checked {% else %} {% endif %} value="yes" id="access">&nbsp;Yes
-                                                    </div>
-    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3 br-right d-flex align-items-center">
-                                                <h6>Price Visibility </h6>
-                                            </div>
-                                            <div class="col-md-8 d-flex align-items-center">
-                                                <div class="form-group  required_item w-100">
-                                                    <div class="">
-                                                        <input type="radio" name="price_visibility" {% if data.price_visibility == 1 %} checked {% else %} {% endif %} value=1 id="access">&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" {% if data.price_visibility == 0 %} checked {% else %} {% endif %} value=0 id="access">&nbsp;No
-                                                    </div>
-    
-                                                </div>
-                                            </div>
                                         </div>
                                         
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Street 2</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="text" class="input form-control mt-2"  value="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}">
     
+                                                </div>
+                                            </div>
+    
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>State</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="text" class="input form-control mt-2"  value="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Company Name</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="text" class="input form-control mt-2"  value="{% if data.company_name == None %}{% else %}{{data.company_name}}{% endif %}">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Customer ID (document)</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="file" class="input form-control mt-2"  >
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+    
+
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Tax certificate</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="file" class="input form-control mt-2"  >
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
                                     </div>
                                 </div>
                          

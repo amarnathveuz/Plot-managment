@@ -1,220 +1,862 @@
-<form action="" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
-    {% csrf_token %}
-    <div class="container-fluid mt-4">
-        <div class="row">
+{% extends "super_admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <form action="update_user_action" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row edit" style="display:none;">
             <div class="col-12 px-0">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <!-- <h4 class="mb-sm-0">Payroll</h4> -->
-
                     <div class="page-title-left">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Customer Management</a>
                             </li>
-                            <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li>
-
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">Update Customer</a></li>
                         </ol>
                         <div class="margn">
-                            <a onclick="validation_action()"><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
-                                    Save
+                            <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                                    Update
                                 </button></a>
-                            <a href="user_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                            <a href="#"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll discard_button"> Discard
                                 </button></a>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
-        <div class="row pay-main">
+
         
+        
+        <div class="row pay-main edit" style="display:none;">
             
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Name</h6>
+            <input type="hidden" name="updated_id" value="{{data.id}}">
+            <div class="col-lg-12 px-0">
+                <div class="card noti-card" id="orderList">
+    
+    
+                    <div class="card-body bb-0 pt-0 p-0">
+                        <div>
+    <input type="hidden" name="remove_status" value="0" id="remove_id">
+                            <div class="payslip mb-5">
+    
+                                <div class="row pay-main mb-4">
+    
+                                    <div class="customer-head mb-4 col-md-12">
+                                      
+                                        
+                                        <div class="propic" {% if data.atatchment == '' or data.atatchment == None %}  {% else %} style="display: none" {% endif %}>
+
+                                           
+                                            <div class="small-12 medium-2 large-2 columns">
+                                                <div class="circle">
+                                                    <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
+                                                    <div class="p-image">
+                                                        <i class="fa fa-camera upload-button" aria-hidden="true"></i>
+                                                        <input class="file-upload" name="attachment" type="file" accept="image/*">
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                         
+                                           
+                                        </div>
+                                        {% if data.atatchment == '' or data.atatchment == None %}
+
+                                        {% else %}
+    
+                                        <div class="cust-logo"
+                                        style="background-image: url(./media/{{data.atatchment}});">
+                                  
+                                    <span onclick="remove_icon()"><i style="    font-size: 14px;
+                                        color: #eb3939;
+                                        font-weight: bold;" class="fa fa-remove"></i></span>
+                                    </div>
+    {% endif %}
+                                        <div class="cust-name row">
+                                            <div class="col-md-1">
+                                                <input type="radio" onclick="visible_manager('manager')" {% if data.user_type == 'manager' %} checked  {% endif %} name="user_type" value="manager" id="individual" 
+                                                    > <label
+                                                    for="Individual">Manager </label><br>
+                                            </div>
+                                            <div class="col">
+                                                <input  id="company" 
+                                                onclick="visible_manager('salesman')" {% if data.user_type == 'salesman' %} checked  {% endif %} name="user_type" type="radio"  value="salesman"> <label>Salesman</label><br>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h3 class="m-0">{{data.name|title}}</h3>
+                                            </div>
+    
+                                        </div>
+    
+                                    </div>
+                                        
+                                 
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Name</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="name" value="{{data.name}}" type="text" class="input form-control mt-2"  >
+    
+                                                </div>
+    
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Phone</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="number" name="phone" value="{{data.phone}}" class="input form-control mt-2"  >
+    
+                                                </div>
+    
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Mobile</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="number" class="input form-control mt-2" name="mobile" value="{{data.mobile}}">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Password change confirmation </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked id="access"> &nbsp;No
+                                                        &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio"  id="access">&nbsp; Yes
+                                                        <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter new password" class="form-control mt-2">
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Property Access </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                         <input type="radio" onclick="function_access_property('full_access')" id="access" name="property_access" value="all"   {% if data.property_access == 'all' %} checked {% else %} {% endif %}> &nbsp;All access
+                                                        &nbsp;  <input  type="radio" onclick="function_access_property('property_based')" id="access"  name="property_access" {% if data.property_access == 'plot_based' %} checked {% else %} {% endif %} value="plot_based"> &nbsp;Plot based access
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if data.user_type == "manager" %}
+                                        <div class="row" id="nav_permission">
+                                         <div class="col-md-3 br-right d-flex align-items-center">
+                                             <h6>Nav permission </h6>
+                                         </div>
+                                         <div class="col-md-8 d-flex align-items-center">
+                                             <div class="form-group  required_item w-100">
+                                                 <div class=""> 
+                                                    
+                                                     <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission">&nbsp; Ploat Management&nbsp;&nbsp;&nbsp;
+                                                     <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
+                                                     <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
+                                                 </div>
+                                                 
+     
+                                             </div>
+                                         </div>
+                                     </div>
+                                        {% endif %}
+                                        <div class="row" id="manager_select_div" {% if data.user_type == 'salesman' %} {% else %} style="display: none" {% endif %}>
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Select Manger</h6>
+                                            </div>
+                                            
+                                            <div class="col-md-8 d-flex align-items-center">
+                                               <select name="manager"  class="form-control select2">
+                                                {% if user_manger %}
+                                                <option value="{{user_manger.manager_id.id}}">{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})</option>
+                                                {% else %}
+                                                <option value="">select manager</option>
+                                                {% endif %}
+                                                {% for i in all_manger %}
+                                                {% if user_manger.manager_id.id == i.id %}
+                                                {% else %}
+                                                <option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                               </select>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Email</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="email" class="input form-control mt-2" name="email" value="{{data.email}}">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Emp ID</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input type="text" class="input form-control mt-2" name="empid" value="{{data.emp_id}}">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Plot Listview </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input type="radio"name="plot_list_view" {% if data.plot_list_view == "no" %} checked {% else %} {% endif %} value="no" id="access">&nbsp;No &nbsp;
+                                                            <input  name="plot_list_view" type="radio" {% if data.plot_list_view == "yes" %} checked {% else %} {% endif %} value="yes" id="access">&nbsp;Yes
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Price Visibility </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input type="radio" name="price_visibility" {% if data.price_visibility == 1 %} checked {% else %} {% endif %} value=1 id="access">&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" {% if data.price_visibility == 0 %} checked {% else %} {% endif %} value=0 id="access">&nbsp;No
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+    
+                                    </div>
+                                </div>
+                         
+    
+                            </div>
+    
+    
+    
+                        </div>
+    
+    
+    
+    
                     </div>
-                    <div class="col-md-4">
-                        <input name="name" required type="text" class="form-control">
-
-                    </div>
-                    <div id="selected_image0">
-                        <style>
-
-                            #files::-webkit-file-upload-button {
-                        
-                                visibility: hidden;
-                        
-                                user-select: none;
-                        
-                            }
-                        
-                        
-                        
-                            .file-input1 {
-                        
-                                display: none;
-                        
-                                user-select: none;
-                        
-                            }
-                        
-                        
-                        
-                            #files {
-                        
-                                display: none;
-                        
-                            }
-                            </style>
-                        <label for="files">
-
-                            <img height="23px" width="23px"
-
-                                style="margin-left:25px; cursor: pointer;width: 20%;
-                                height: 1%;    margin: -21px 39px;"
-
-                                src="{% static 'file_select.png' %}">
-
-                        </label>
-
-                        <input  class="file-input1" data-count=0 id="files"
-
-                            name="attachment" type="file"
-
-                             />
-
-                    </div>
-                    <div id="selected_image1" style="display: none">
-
-                       <span onclick="image_remove_action()"><i   style="margin-left:25px; cursor: pointer;width: 20%;
-                        height: 1%;    margin: -21px 39px;color:red;    font-weight: bold;" class="fa fa-times" aria-hidden="true"></i></span>
-                    </div>
-                    
                 </div>
-                <div class="row mt-2">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>User Type </h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> &nbsp;Manager
-                        &nbsp;&nbsp;<input onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman">&nbsp; Salesman
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Phone No</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="phone" required type="number" class="form-control">
+    
+        
+    
+            </div>
+            {% if data.property_access == 'plot_based' %}
 
-                    </div>
-                   
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Mobile </h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="mobile" required type="number" class="form-control" id="basiInput">
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Email</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="email" required type="email" class="form-control" id="basiInput">
-                    </div>
-                   
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Emp ID</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input name="empid" type="text" class="form-control" id="basiInput">
-                    </div>
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6>Password Generate Option</h6>
-                    </div>
-                    <div class="col-md-4">
-                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="Automatic" checked> &nbsp;Automatic
-                        &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="Manual"  type="radio" >&nbsp; Manual
-                        <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter password" class="form-control mt-2">
-                    </div>
+            {% if user_property %}
+            <div class="container-fluid mt-4">
+                <table class="table table-bordered" border="3">
+                    <thead>
+                      <tr>
+                        <th scope="col">PROPERTY NAME</th>
+                        <th scope="col">	UNIT NO</th>
 
-                    <div class="col-md-2 br-right d-flex align-items-center mt-4">
-                        <h6>Plot Listview</h6>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                       <input type="radio" name="plot_list_view" checked value="no">&nbsp;No &nbsp;<input name="plot_list_view" type="radio" value="yes">&nbsp;Yes 
-                    </div>
+                        <th scope="col">BLOCK NO</th>
+                        <th scope="col"> ACTION</th>
 
-                      <div class="col-md-2 br-right d-flex align-items-center mt-4">
-                        <h6>Price Visibility</h6>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                       <input type="radio" name="price_visibility" checked value=1>&nbsp;Yes &nbsp;<input name="price_visibility" type="radio" value=0>&nbsp;No 
-                    </div>
-                </div>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for j in user_property %}
+                      <tr>
+                        <th scope="row">{{j.property_mapping_id.Name}}</th>
+                        <td>{{j.property_mapping_id.UnitNo}}</td>
+                        <td>{{j.property_mapping_id.BlockNo}}</td>
+                        <td>
 
-                <div  class="row mt-2" >
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6 style="display: none" id="prop2">Select Property Access </h6>
-                    </div>
-                    <div class="col-md-4" style="display: none" id="prop1">
-                       <input type="radio" onclick="function_access_property('full_access')" name="property_access" value="all" checked> &nbsp;All access
-                       &nbsp;  <input  type="radio" onclick="function_access_property('property_based')"  name="property_access" value="plot_based"> &nbsp;Plot based access
-                    </div>
-                   
-                    <div   class="col-md-2 br-right d-flex align-items-center">
-                        <h6 style="display: none" id="property_id1">Select Property </h6>
-                    </div>
-                    <div style="display: none" id="property_id2" class="col-md-4 multipick">
-                      
-                            <select name="selected_property_list[]" class="selectpicker" multiple aria-label="Default select example"
-                                data-live-search="true">
-                                {% for i in data_property %}
-                                <option value="{{i.id}}">{{i.Name}} ({{i.UnitNo}})</option>
-                              {% endfor %}
-                            </select>
+                            <a href="user_based_property_delete?id={{j.id}}" ><i style="color: black" class="fa fa-trash" aria-hidden="true"></i></a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <br>
+            <br>
 
-                    </div>
-                </div>
-                
-                <style>
-      
-
-                    .multipick .bootstrap-select>.dropdown-toggle.bs-placeholder {
-                        padding: 6px 6px;
-                        font-size: 14px;
-                        border: 1px solid #d0d0d0;
-                    }
-                    .multipick .bootstrap-select button{
-                        padding: 6px 6px;
-                        font-size: 14px;
-                        border: 1px solid #d0d0d0;
-                    }
-                    .multipick .bootstrap-select .dropdown-menu li a{
-                        color: black;
-                    }
-                </style>
-                <div class="row mt-2" >
-                    <div class="col-md-2 br-right d-flex align-items-center">
-                        <h6 id="manager_select_div" style="display: none">Select Manger</h6>
-                    </div>
-                    <div class="col-md-4" id="manager_select_div1" style="display: none">
-                       <select name="manager" id="selected_manger_name"  class="form-control select2">
-                        <option value="select">select manager</option>
-{% for i in manager_data %}
-
-<option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
+            {% endif %}
+            {% else %}
+            {% endif %}
+        </div>
+    </form>
 
 
-{% endfor %}
 
-                       </select>
+
+
+
+
+
+
+    <div class="row view">
+        <div class="col-12 px-0">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+                <div class="page-title-left">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Customer Management</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="javascript: void(0);">View Customer</a></li>
+                    </ol>
+                    <div class="margn">
+                        <a><button type="button" style="padding: 5px 10px !important;" class="btn btn-prim pay view_button">
+                                Edit
+                            </button></a>
+                        <a href="customer_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                            </button></a>
                     </div>
-                   
                 </div>
             </div>
         </div>
     </div>
-</form>
+
+    <div class="row">
+    
+
+    </div>
+    <div class="row pay-main view">
+        <input type="hidden" name="updated_id" value="{{data.id}}">
+        <div class="col-lg-12 px-0">
+            <div class="card noti-card" id="orderList">
+
+
+                <div class="card-body bb-0 pt-0 p-0">
+                    <div>
+
+                        <div class="payslip mb-5">
+
+                            <div class="row pay-main mb-4">
+
+                                <div class="customer-head mb-4 col-md-12">
+                                    <div class="propic">
+                                        <div class="small-12 medium-2 large-2 columns">
+                                            <!-- <div class="circle">
+                                                <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
+                                                <div class="p-image">
+                                                    <i class="fa fa-camera upload-button" aria-hidden="true"></i>
+                                                    <input class="file-upload" type="file" accept="image/*">
+                                                </div>
+                                            </div> -->
+
+                                        </div>
+                                    </div>
+
+                                    <div class="cust-logo"
+                                    style="background-image: url({% static 'adminicon.jpg' %});"></div>
+
+                                    <div class="cust-name row">
+                                        <div class="col-md-1">
+                                            <input disabled type="radio" id="individual" value="individual"
+                                                name="catgry"  {% if data.user_type == 'manager' %} checked {% endif %}> <label
+                                                for="Individual">Individual</label><br>
+                                        </div>
+                                        <div class="col">
+                                            <input disabled type="radio" {% if data.user_type == 'salesman' %} checked {% endif %}  id="company" value="company"
+                                                name="catgry" ><label
+                                                for="company">Company</label>
+                                                
+                                                {% if current_booking %}
+                                                <a href="property_update?id={{current_booking.property_mapping_id.id}}"><button style="float: right;padding: 5px 10px !important;border: none; {% if current_booking.booking_status == 1 %} color: #fff;
+                                                    background-color: orange; {% elif current_booking.booking_status == 2   %}     color: #fff;
+                            background-color: #e40000;  {% elif current_booking.booking_status == 3   %}     color: #fff;
+                            background-color: gray; {% endif %}" type="button" class="btn btn-pri pay discard-payroll">
+                        
+                        
+                                                    {% if current_booking.booking_status == 1 %}
+                                                    Price Quotation
+                        
+                                                    {% elif current_booking.booking_status == 0  %}
+                                                    Available
+                        
+                                                    {% elif current_booking.booking_status == 2  %}
+                                                    Confirmed
+                        
+                                                    {% elif current_booking.booking_status == 3  %}
+                                                    Cancelled
+                                                    {% else %}
+                        
+                                                    {% endif %}
+                                                </button></a>
+                                                {% endif %}
+                                                <br>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <h3 class="m-0">{{data.name|title}}</h3>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                    
+                             
+                                <div class="col-md-6 cust-details p-0">
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Phone</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{{data.phone}}">
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Customer ID</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{{data.customer_id}}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                  
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Street 1</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                   
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>City</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{% if data.city == None %}{% else %}{{data.city}}{% endif %}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Zip</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{% if data.zip == None %}{% else %}{{data.zip}}{% endif %}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                 
+                                </div>
+                                <div class="col-md-6 cust-details p-0">
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Email</h6>
+                                        </div>
+                                        <div class="col-md-9 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{% if data.email == None %} {% else %}{{data.email}}{% endif %}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Bank</h6>
+                                        </div>
+                                        <div class="col-md-9 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{{data.bank}}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Street 2</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>State</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 br-right d-flex align-items-center">
+                                            <h6>Company Name</h6>
+                                        </div>
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <div class="form-group  required_item w-100">
+                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{% if data.company_name == None %}{% else %}{{data.company_name}}{% endif %}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                
+
+                                </div>
+                            </div>
+                            {% if history %}
+                            <div class="paytab">
+                                <ul class="nav nav-tabs nav-pay" role="tablist">
+                                    <h5>Booking History</h5>
+                                </ul>
+
+                                <div class="tab-content text-muted">
+                           
+                                    <div class="tab-pane active show" role="tabpanel">
+                                        <div class="row actvty">
+                                            <h5>{{i.dt}}</h5>
+                                        </div>
+
+                                    {% for i in history %}
+
+                                
+
+                                        <div class="row msging schdul-box mt-1" >
+                                            {% if j.user_type == "administrator" %}
+                                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                                            {% else %}
+                                            {% if j.assigned_user_id.atatchment == '' %}
+                                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                                            {% elif j.assigned_user_id.atatchment == None %}
+                                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                                            {% else %}
+                                            <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
+                                            {% endif %}
+                                            {% endif %}
+                                            <div class="col-9">
+                                                <h5>
+                                                    
+                                                {% if i.available_status == 1 %}
+                                                <span style="    color: #ff0f0f;
+                                                font-size: 15px;
+                                                font-weight: bold;">New</span>
+
+                                                {% else %} {% endif %}
+                                                    Booking Received  <span> ({{i.dt}})</span></h5>
+                                                <h6>Name: <span>{{i.name|title}}</span>
+                                                </h6>
+                                                <h6>Customer Id: <span>{{i.booking_id|title}}</span>
+                                                </h6>
+                                                <h6>Bank: <span>{{i.bank|title}}</span>
+                                                </h6>
+                                                <h6>Property No : <span>{{i.property_mapping_id.BlockNo}} {{i.property_mapping_id.UnitNo}}</span></h6>
+                                                        <h6>Phone: <span>{{i.phone}}
+                                                           </span></h6>
+                                            </div>
+                                            <div class="col text-right">
+                                                <span class="badge badge-success text-uppercase">{{i.user_id.user_type}}</span>
+                                            </div>
+                                        </div>
+                                       
+                                        {% for j in i.booking_log_id.all %}
+
+                                        <div class="row">
+                                            <i class="fas fa-level-up-alt log-level"></i>
+                                            <div class="col msging schdul-box mt-1">
+                                                {% if j.user_type == "administrator" %}
+                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                            {% else %}
+                            {% if j.assigned_user_id.atatchment == '' %}
+                            <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                            {% else %}
+                            <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
+                            {% endif %}
+                            {% endif %}
+                                                <div class="col">
+                                                {% if j.user_type == "administrator" %}
+                                                <h5>{{j.user_type|title}}  <span> {{j.dt}}</span></h5>
+                                                {% else %}
+                                                <h5> {{j.auth_user.email|title}}  <span>{{j.dt}}</span></h5>
+                                                {% endif %}
+                                                    <h6>{{j.d_text}}</span>
+                                                    </h6>
+                                                    <h6><span>{{j.status_content}}</span></h6>
+                                                </div>
+                                               
+
+                                            </div>
+                                        </div>
+
+                                        {% endfor %}
+                                    {% endfor %}
+
+
+
+                                  
+                                        
+                                       
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+    
+
+        </div>
+
+        {% if data.property_access == 'plot_based' %}
+
+        {% if user_property %}
+        <div class="container-fluid mt-4">
+            <table class="table table-bordered" border="3">
+                <thead>
+                  <tr>
+                    <th scope="col">PROPERTY NAME</th>
+                    <th scope="col">	UNIT NO</th>
+
+                    <th scope="col">BLOCK NO</th>
+                    <th scope="col">Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                {% for j in user_property %}
+                  <tr>
+                    <th scope="row">{{j.property_mapping_id.Name}}</th>
+                    <td>{{j.property_mapping_id.UnitNo}}</td>
+                    <td>{{j.property_mapping_id.BlockNo}}</td>
+                    <td>
+                    <a href="delete_property_based_access_action?id={{j.id}}"><i style="color: black" class="fa fa-trash" aria-hidden="true"></i></a>    
+                    </td>
+
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <br>
+            <br>
+        </div>
+      
+
+        {% endif %}
+        {% else %}
+        {% endif %}
+
+    </div>
+</div>
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+        <script>
+            $(document).ready(function() {
+        $('.select2').select2({
+        closeOnSelect: false
+    });
+    });
+            function visible_manager(data){
+                
+               if(data == "manager"){
+                $("#nav_permission").show()
+                var x = document.getElementById('manager_select_div').style.display = "none";
+               }
+               else{
+                $("#nav_permission").hide()
+                var x = document.getElementById('manager_select_div').style.display = "block";
+               }
+               
+            }
+        </script>
+    
+        <script>
+    
+            function password_select_function(data){
+                if(data == "manual"){
+                    var y = document.getElementById('manual_password_field').style.display = "block"
+    
+                }
+                else{
+                    var y = document.getElementById('manual_password_field').style.display = "none"
+                }
+            }
+        </script>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+       <script>
+        {% for message in messages %}
+            message1 = "{{message}}"
+           
+    
+          
+           
+            if(message1 == "error"){
+    
+                Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: "{{ message }}",
+     
+    })
+    
+    
+    
+            }
+            else{
+    
+                Swal.fire(
+                      '',
+                      '{{ message }}',
+                      '{{message.tags}}'
+                    )
+          
+            }
+        {% endfor %}
+       </script>
+    {% endif %}
+
+    <script>
+
+        function remove_image_fun(){
+            $('#image_div').hide();
+            $('#selected_image0').show();
+        }
+
+        $('#files').change(function(){
+
+            document.getElementById("selected_image0").style.display = "none"
+    document.getElementById("selected_image1").style.display = "block"
+
+
+
+        })
+
+
+        function image_remove_action(){
+            document.getElementById("selected_image0").style.display = "block"
+    document.getElementById("selected_image1").style.display = "none"
+        }
+    </script>
+
+
+     <script>
+        $(".view_button").click(function(){
+            $('.view').hide();
+            $('.edit').show();
+        })
+        $(".discard_button").click(function(){
+            $('.view').show();
+            $('.edit').hide();
+        })
+
+    </script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $(".file-upload").on('change', function () {
+            readURL(this);
+        });
+
+        $(".upload-button").on('click', function () {
+            $(".file-upload").click();
+        });
+    });
+</script>
+
+<script>
+    function remove_icon(){
+       
+        $("#remove_id").val(1)
+        $(".cust-logo").hide()
+        $(".propic").show()
+    }
+</script>
+        {% endblock %}
