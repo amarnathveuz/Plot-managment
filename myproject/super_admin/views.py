@@ -24,7 +24,7 @@ def property_management(request):
     data = intractive_map.objects.all()
     checked_list = list(data.values_list('id',flat=True))
     data_str = str(checked_list)
-    data_paginator = Paginator(data,50)
+    data_paginator = Paginator(data,10)
     try:
         page_obj = data_paginator.get_page(page_number) 
     except PageNotAnInteger:
@@ -1331,6 +1331,7 @@ def admin_book_plot_action(request):
         data = intractive_map.objects.get(id=plot_id)
         status = data.current_status
         bank_mapping_id = None
+        customer_id1 = None
         try:
             data_bank_mapping = Bank_details.objects.get(bank_name=customer_bank)
             bank_mapping_id = data_bank_mapping.id
@@ -1341,6 +1342,7 @@ def admin_book_plot_action(request):
         if status == '0':
             try:
                 data_exists = Customer_details.objects.get(customer_id=customer_id)
+                customer_id1 = data_exists.id
                 data_update = Customer_details.objects.filter(id=data_exists.id).update(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank)
                 data_save = user_request_plot.objects.create(
                     customer_id_id = data_exists.id,
@@ -1365,6 +1367,7 @@ def admin_book_plot_action(request):
                 inser_customer_details = Customer_details.objects.create(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank,created_by=request.user,
                 bank_relation_id_id = bank_mapping_id
                 )
+                customer_id1 = inser_customer_details.id
 
             
                 data_save = user_request_plot.objects.create(
@@ -1391,7 +1394,7 @@ def admin_book_plot_action(request):
                 arabic_status = data.text
             except:
                 pass
-            data_update = intractive_map.objects.filter(id=plot_id).update(Status=arabic_status,current_status=1,Phoneno=customer_phone,customer_id=customer_id,Bank=customer_bank,Name=customer_name)
+            data_update = intractive_map.objects.filter(id=plot_id).update(Status=arabic_status,current_status=1,Phoneno=customer_phone,customer_id=customer_id,Bank=customer_bank,Name=customer_name,customer_id_mapping_id=customer_id1,bank_relation_id_id=bank_mapping_id,)
             messages.success(request,"You successfully created your booking")
             
             return JsonResponse({"message":"success"},safe=False)
@@ -1437,21 +1440,18 @@ def property_card_view_filter_status(request):
 
 
 def bank_master(request):
-    bank_details_data = Bank_details.objects.all()
-   
+    data = Bank_details.objects.all()
     page_number = request.GET.get("page")
-    data_paginator = Paginator(bank_details_data, 10)
+    data_paginator = Paginator(data, 10)
     try:
         page_obj = data_paginator.get_page(page_number)
     except PageNotAnInteger:
         page_obj = data_paginator.page(1)
-
     context = {
-        'bank_details_data': bank_details_data,
+        'data': data,
         'page_obj': page_obj,
         'bank_nav':1
     }
-
     return render(request, 'super_admin/bank_master.html', context)
    
 

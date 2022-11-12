@@ -1,3 +1,5 @@
+{% load static %}
+{% load checkbox_result %}
 {% for i in data %}
 
 <tr onclick="window.location='property_update?id={{i.id}}'">
@@ -10,16 +12,28 @@
     </th>
 
     <td> {{forloop.counter}}</td>
-<td class="id">
-    
-<a  class="fw-medium link-primary">
+    <td class="fw-medium link-primary" class="id" onclick="window.location='property_update?id={{i.id}}'">
+        {% if i.Name == None %}
+        {% elif i.Name == '' %}
+        {%else%}
+        {% if i.customer_id_mapping.profile_pic == '' or i.customer_id_mapping.profile_pic == None %}
 
-{% if i.Name == None %}
-{% else %}
-{{i.Name}}
-{% endif %}
-</a>
-</td>
+        <img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/>
+       
+        {% else %}
+        <img style="width:30px;    border-radius: 50%;" src="./media/{{i.customer_id_mapping.profile_pic}}" class="m-1"/>
+        
+            {% endif %}
+            {%endif%}
+        <a style="cursor: pointer;"  class="fw-medium link-primary">
+
+            {% if i.Name == None %}
+            {% else %}
+        <span style="color: #405189;
+        font-weight: bold;" > {{i.Name}}</span>  
+            {% endif %}
+        </a>
+    </td>
 
 <td>
     {% if i.customer_id == None %}
@@ -30,6 +44,7 @@
 <td class="customer_name">
 {% if i.Phoneno == None %}
 {% else %}
+<i class="fa fa-phone m-1" style=" font-size: 9px;" ></i>
 {{i.Phoneno}}
 {% endif %}
 </td>
@@ -44,11 +59,30 @@
 {% endif %}
 </td>
 <td>
-{{i.Price|floatformat:"0"}}
+    {{ request.user|get_currency_format:i.Price }}
 </td>
 <td>{{i.Bank}}</td>
 <td>
-    {{i.Status}}
+    {% if i.current_status == "0" %}
+                <span
+                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                    background-color: #008000;">{{i.Status}}</span>
+
+                {% elif i.current_status == "1" %}
+                <span
+                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                    background-color: orange;">{{i.Status}}</span>
+
+                {% elif i.current_status == "2" %}
+                <span
+                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                        background-color: #e40000;">{{i.Status}}</span>
+                        {% elif i.current_status == "3" %}
+                        <span
+                        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: gray;">{{i.Status}}</span>
+                    {% else %}
+                    {% endif %}
 </td>
 <td class="status">
 {% if i.current_status == "0" %}

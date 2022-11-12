@@ -14,3 +14,11 @@ def check_action(value,args):
         return True
     else:
         return False
+
+
+@register.filter(name='get_currency_format')
+def get_currency_format(value,args):
+    print("value::::",str(value))
+    print("args:::",str(args))
+    ds1 =  '{:20,.2f}'.format(args)
+    return ds1
