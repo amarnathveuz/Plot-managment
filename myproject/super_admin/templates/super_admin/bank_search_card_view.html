@@ -1,0 +1,53 @@
+{% for i in data %}
+<div class='project-column'>
+    <a href="bank_detail_edit?id={{i.id}}"
+        style="text-decoration: none;color: black">
+        <div class='customer-bx'>
+            <div class="customer-content">
+                <h5>{{i.bank_name}}
+                    {% if i.status == "Active" %}
+                    <span class="badge badge-soft-success text-uppercase" style="    color: #fff;
+            background-color: #008000;">Active</span>
+
+                    {% elif i.status == "Inactive" %}
+
+                    <span class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                background-color: #e40000;">Inactive</span>
+
+                    {% endif %}
+                </h5>
+                <span class="d-flex">
+                    <h6>Swift Code : </h6>{{i.swift_code}}
+                </span>
+                <div class="row">
+                    <div class="col-md-12 px-0">
+                        <span class="d-flex">
+                            <h6>BIC : </h6>{{i.bank_identifier_code}}
+                        </span>
+                        <span class="d-flex">
+                            <h6>Branch: </h6>{{i.branch}}
+                        </span>
+                        <span class="d-flex">
+                            <h6>Address : </h6>{{i.address}}
+                        </span>
+                        <span class="d-flex">
+                            <h6>Country : </h6>{{i.country}}
+
+                    </div>
+                    <!-- <div class="col-md-6 px-0">
+                    <span class="d-flex">
+                        <h6>Land area : </h6>{{i.LandArea}}
+                    </span>
+                    <span class="d-flex">
+                        <h6>Unit type : </h6>{{i.UType}}
+                    </span>
+                    <span class="d-flex">
+                        <h6>Price : </h6>{{i.Price}}
+                    </span>
+                </div> -->
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+{% endfor %}

@@ -16,10 +16,14 @@
 
 
     <div class="container-fluid mt-4 edit" style="display:none;">
+        <form action="update_bankdetails_action" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
+            {% csrf_token %}
         <div class="row">
             <div class="col-12 px-0">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+                    
+
 
                     <div class="page-title-left">
                         <ol class="breadcrumb m-0">
@@ -28,6 +32,7 @@
                             <li class="breadcrumb-item active"><a href="javascript: void(0);">Update Bank</a></li>
 
                         </ol>
+                     
                         <div class="margn">
                             <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
                                     Update
@@ -37,24 +42,16 @@
                                 </button></a>
                                                        
                             {% if data.status == 'Active' %}
-                            <form action="update_bankdetails_action_status" method="POST" class="" style="display: inline-block;">
-                                {% csrf_token %}
-                                <input type="hidden" name="updated_id" value="{{data.id}}">
-                                <input type="hidden" name="status" value="Inactive"> 
-                                <a href=""><button style="padding: 5px 10px !important;" type="submit"
+                 
+                                <a href="update_bankdetails_action_status?type=Inctive&&id={{data.id}}"><button style="padding: 5px 10px !important;" type="button"
                                     class="btn btn-pri pay discard-payroll ">Inactive</button></a>
-                            </form>  
+                         
 
                             {% else %}
 
-                            <form action="update_bankdetails_action_status" method="POST" class=""  style="display: inline-block;">
-                                {% csrf_token %}
-                                <input type="hidden" name="updated_id" value="{{data.id}}">
-                                <input type="hidden" name="status" value="Active"> 
-                                <a href=""><button style="padding: 5px 10px !important;" type="submit"
+                                <a href="update_bankdetails_action_status?type=Active&&id={{data.id}}"><button style="padding: 5px 10px !important;" type="button"
                                     class="btn btn-pri pay discard-payroll ">Active</button></a>
-                            </form>  
-                            
+                         
                             {% endif %}
 
                         </div>
@@ -64,8 +61,7 @@
                 </div>
             </div>
         </div>
-        <form action="update_bankdetails_action" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
-            {% csrf_token %}
+       
         <div class="row pay-main edit" style="display:none;">
             <input type="hidden" name="updated_id" value="{{data.id}}">
 
@@ -192,8 +188,8 @@
 
             </div>
         </div>
+        </form>
     </div>
-</form>
 
 
 

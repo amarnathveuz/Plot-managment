@@ -650,6 +650,7 @@ def booking_action(request):
         user_type = data_user.user_type
         print("user_type:::::",str(user_type))
         bank_name = ""
+        customer_id_mapping_id = None
         if (len(phone) != 9) or (len(customer_id) != 10):
             messages.error(request, "Password or ID not in length")
             return redirect(request.META['HTTP_REFERER'])
@@ -663,6 +664,7 @@ def booking_action(request):
 
                 try:
                     data_exists = Customer_details.objects.get(customer_id=customer_id)
+                    customer_id_mapping_id = data_exists.id
                     data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank=bank_name)
                     data_save = user_request_plot.objects.create(
                         customer_id_id = data_exists.id,
@@ -681,7 +683,7 @@ def booking_action(request):
 
                 except Customer_details.DoesNotExist:
                     inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
-
+                    customer_id_mapping_id = inser_customer_details.id
 
                     data_save = user_request_plot.objects.create(
                         customer_id_id = inser_customer_details.id,
@@ -703,11 +705,12 @@ def booking_action(request):
                     arabic_status = data.text
                 except:
                     pass
-                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
+                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
             else:
                 data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
                 try:
                     data_exists = Customer_details.objects.get(customer_id=customer_id)
+                    customer_id_mapping_id = data_exists.id
                     data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank = bank_name)
                     data_save = user_request_plot.objects.create(
                         customer_id_id = data_exists.id,
@@ -726,7 +729,7 @@ def booking_action(request):
                     )
                 except Customer_details.DoesNotExist:
                     inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
-
+                    customer_id_mapping_id = inser_customer_details.id
                     data_save = user_request_plot.objects.create(
                         customer_id_id = inser_customer_details.id,
                         auth_user=request.user,
@@ -748,7 +751,7 @@ def booking_action(request):
                     arabic_status = data.text
                 except:
                     pass
-                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name)
+                data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
 
@@ -1486,16 +1489,14 @@ def update_bankdetails_action(request):
         return redirect(request.META['HTTP_REFERER'])
 
 def update_bankdetails_action_status(request):
-    updated_id = request.POST.get("updated_id",False)
-    status = request.POST.get("status",False)
- 
+    status = request.GET.get("type",False)
 
+    updated_id = request.GET.get("id",False)
     update_bank_details = Bank_details.objects.filter(id=updated_id).update(
         status = status
     )
 
     messages.success(request,str("Bank is "+str(status)))
-
     return redirect(request.META['HTTP_REFERER'])
 
 
@@ -1629,3 +1630,76 @@ def search_customer(request):
         return JsonResponse(context,safe=False)
     except:
         return JsonResponse({"message":'error'},safe=False)
+
+
+
+def next_page_action_url_Bank_details(request):
+    page_number = request.GET.get("page")
+    data = Bank_details.objects.all()
+    data_paginator = Paginator(data, 10)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+    context = {
+        "data": data,
+        'page_obj': page_obj
+    }
+    return render(request, 'super_admin/demo_result_bank_details.html', context)
+
+def bank_search_result(request):
+    data_value = request.GET.get("data_value")
+    data = Bank_details.objects.filter(bank_name__contains=data_value) or Bank_details.objects.filter(bank_identifier_code__contains=data_value) or Bank_details.objects.filter(branch__contains=data_value) or Bank_details.objects.filter(swift_code__contains=data_value) or Bank_details.objects.filter(address__contains=data_value) or Bank_details.objects.filter(country__contains=data_value) or Bank_details.objects.filter(status__contains=data_value) or Bank_details.objects.filter(dt__contains=data_value)
+    return render(request,'super_admin/bank_search_result.html', {'data': data})
+
+def filtering_bank(request):
+    try:
+        data_value = request.GET.get("data_value")
+        data = Bank_details.objects.filter(bank_name=data_value) or Bank_details.objects.filter(bank_identifier_code=data_value) or Bank_details.objects.filter(branch=data_value) or Bank_details.objects.filter(swift_code=data_value) or Bank_details.objects.filter(address=data_value) or Bank_details.objects.filter(country=data_value) or Bank_details.objects.filter(dt=data_value)
+        return render(request,'super_admin/filtering_bank.html', {'data': data})
+    except:
+        data1="No Datas Found For Your Search"
+        return render(request,'super_admin/filtering_bank.html', {'data1': data1})
+
+
+def Bank_status_group_by_action(request):
+    status = request.GET.get("status")
+    data_total_active = Bank_details.objects.filter(status='Active')
+    data_total_inactive = Bank_details.objects.filter(status='Inactive')
+    context = {
+        'data_total_active':data_total_active,
+        'data_total_inactive':data_total_inactive
+    }
+    return render(request,'super_admin/Bank_status_group_by_action.html',context)
+
+
+def bank_search_card_view(request):
+    data_value = request.GET.get("data_value")
+    data = Bank_details.objects.filter(bank_name__contains=data_value) or Bank_details.objects.filter(bank_identifier_code__contains=data_value) or Bank_details.objects.filter(branch__contains=data_value) or Bank_details.objects.filter(swift_code__contains=data_value) or Bank_details.objects.filter(address__contains=data_value) or Bank_details.objects.filter(country__contains=data_value) or Bank_details.objects.filter(status__contains=data_value) or Bank_details.objects.filter(dt__contains=data_value)
+    context = {
+        'data':data
+    }
+    return render(request,'super_admin/bank_search_card_view.html',context)
+
+
+def Bank_card_view_filter_status(request):
+    list1 = request.GET.getlist("grouping[]")
+    data = Bank_details.objects.filter(status__in=list1)
+
+    context = {
+
+        "data": data,
+    }
+
+    return render(request, 'super_admin/bank_search_card_view.html', context)
+
+
+def grouping_bank(request):
+    list = request.GET.getlist("grouping[]")
+    print(list)
+    data = Bank_details.objects.filter(status__in=list)
+
+    context = {
+        "data": data,
+    }
+    return render(request, 'super_admin/grouping_bank.html', context)

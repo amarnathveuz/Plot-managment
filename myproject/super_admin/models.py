@@ -19,6 +19,7 @@ class Bank_details(models.Model):
 
 class intractive_map(models.Model):
     Name = models.CharField(max_length=255, null=True)
+    customer_id_mapping = models.ForeignKey('super_admin.Customer_details',on_delete=models.CASCADE,related_name="intractive_map_customer_id", null=True)
     customer_id = models.CharField(max_length=255,null=True)
     Phoneno = models.CharField(max_length=255, null=True)
     UnitNo = models.IntegerField(null=True)
@@ -36,7 +37,7 @@ class intractive_map(models.Model):
     attached_file = models.FileField(upload_to="property_image",null=True)
     currency = models.CharField(max_length=255,null=True,default="SAR")
     Price_currency = models.CharField(max_length=255,null=True)
-    
+    bank_relation_id = models.ForeignKey(Bank_details,on_delete=models.CASCADE,related_name="intractive_map_Bank_details_id", null=True)
     
 
     @property

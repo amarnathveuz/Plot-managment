@@ -82,6 +82,14 @@ urlpatterns = [
     path('customer_details_update_action',views.customer_details_update_action,name='customer_details_update_action'),
     path('search_customer',views.search_customer,name="search_customer"),
 
+    path('next_page_action_url_Bank_details', views.next_page_action_url_Bank_details, name="next_page_action_url_Bank_details"),
+    path('bank_search_result',views.bank_search_result,name="bank_search_result"),
+    path('filtering_bank', views.filtering_bank, name="filtering_bank"),
+    path('Bank_status_group_by_action', views.Bank_status_group_by_action, name="Bank_status_group_by_action"),
+    path('bank_search_card_view', views.bank_search_card_view, name="bank_search_card_view"),
+    path('Bank_card_view_filter_status', views.Bank_card_view_filter_status, name="Bank_card_view_filter_status"),
+    path('grouping_bank', views.grouping_bank, name="grouping_bank"),
+
     
 
     

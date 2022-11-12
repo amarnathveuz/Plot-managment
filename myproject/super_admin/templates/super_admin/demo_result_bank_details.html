@@ -1,0 +1,336 @@
+<div class="tab-pane active" id="home1" role="tabpanel">
+
+    <div class="d-flex align-items-center justify-content-between px-2">
+        <div class="col-md-4 px-0">
+            <a href="create_bank"><button type="button" class="btn btn-prim add-btn create-button"><i
+                        class="fas fa-plus"></i>
+                    Create
+                </button></a> 
+
+            <button type="button" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Import">
+                <i class="fas fa-upload"></i>
+            </button>
+            <button type="button" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Export">
+                <i class="fas fa-download"></i>
+            </button>
+            <button type="button" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Favourite">
+                <i class="fas fa-star"></i>
+            </button>
+            <button type="button" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Print">
+                <i class="fas fa-print"></i>
+            </button>
+            <button type="button" style="display:none;"
+                class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Archive">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>
+
+
+
+        <div class="d-flex align-items-center">
+
+             <span class="text-muted d-flex align-items-center">
+                    {% if page_obj.has_previous %}
+                        <a class="next_page_action" data-url="next_page_action_url_Bank_details?page={{page_obj.previous_page_number}}"  style="color: black;" href="#"><i class="fas fa-caret-left mr-2 pagintn text-muted pagination_minus" style="font-size: 20px;margin-top: 3px;"></i></a>
+                    {% endif %}
+                    
+                    <i class="text-muted" style="font-size: 13.5px;">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</i>
+
+                    {% if page_obj.has_next %}
+                        <a class="next_page_action" data-url="next_page_action_url_Bank_details?page={{page_obj.next_page_number}}"   style="color: black;" href="#"><i class="fas fa-caret-right ml-2 pagintn text-muted pagination_add" style="font-size: 20px;margin-top: 3px;"></i></a>
+                    {% endif %}
+            </span>
+
+
+            <input type="text" class="form-cont ml-2" placeholder="Search..." autocomplete="off" id="search_value"
+                value="" onkeyup="myFunction()">
+
+                <div class="dropdown btn-group fitr">
+                    <button type="button" class="btn btn-prim dropdown-toggle" data-toggle="dropdown">
+                        <i class="fas fa-filter"></i>
+                        Filters
+                    </button>
+
+                    <div class="dropdown-menu">
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Bank Name</a>
+                            <div class="drpdwn-menu">
+                               <input id="filter_value1" type="text" class="form-control" placeholder="Name">
+                               <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('bank_name')">
+                                Apply
+                                </button>
+                            </div> 
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Bank Identifier Code</a>
+                            <div class="drpdwn-menu">
+                                <input id="filter_value2" type="text" class="form-control" placeholder="BI Code">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('bank_identifier_code')">
+                                 Apply
+                                 </button>
+                             </div>
+                        </li>
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Swift Code</a>
+                            <div class="drpdwn-menu">
+                                <input id="filter_value3" type="text" class="form-control" placeholder="Swift Code">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('swift_code')">
+                                 Apply
+                                 </button>
+                             </div>
+                        </li>
+
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Branch</a>
+                            <div class="drpdwn-menu">
+                                <input id="filter_value4" type="text" class="form-control" placeholder="Date">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('branch')">
+                                 Apply
+                                 </button>
+                             </div></li>
+
+
+                             <li><a class="dropdown-item dropdown-submenu" href="#">Country</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value5" type="text" class="form-control" placeholder="Country">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('country')">
+                                     Apply
+                                     </button>
+                                </div></li>
+
+                        <li><a class="dropdown-item dropdown-submenu" href="#">Created Date</a>
+                            <div class="drpdwn-menu">
+                                <input id="filter_value6" type="date" class="form-control" placeholder="Date">
+                                <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                 Apply
+                                 </button>
+                             </div></li>
+
+                             <li><a class="dropdown-item dropdown-submenu" href="#">Status</a>
+                                <div class="drpdwn-menu">
+                                    <label class="form-check-label" for="radio1">
+                                        <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio1" name="optradio" value="Active">Active
+                                      </label>
+                                      <label class="form-check-label" for="radio2">
+                                        <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio2" name="optradio" value="Inactive">Inactive
+                                      </label>
+                                    <!-- <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                     Apply
+                                     </button> -->
+                                 </div></li>
+
+                    </div>
+                </div>
+
+
+
+
+            <div class="dropdown btn-group grpby">
+                <button type="button" class="btn btn-prim mx-1 dropdown-toggle" data-toggle="dropdown"> <i
+                        class="fas fa-bars"></i>
+                    Group By
+                </button>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">
+                        <div class="form-check">
+                            <input type="checkbox" name="checkfield" id="g01-01" onchange="type_groupby_action(this)">
+                            &nbsp;Type
+                        </div>
+                    </a>
+
+
+                </div>
+            </div>
+
+
+
+
+            <ul class="nav nav-tabs nav-ta" role="tablist">
+                <li class="nav-item mx-1">
+                    <a class="nav-link kan-tab active" data-toggle="tab" href="#ho" role="tab" aria-selected="false">
+                        <i class="fas fa-list"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link kan-tab" data-toggle="tab" href="#pro" role="tab" aria-selected="false">
+                        <i class="fas fa-th-large"></i>
+                    </a>
+                </li>
+            </ul>
+
+
+
+
+        </div>
+    </div>
+    <input type="hidden" id="pagination_count" name="">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="ho" role="tabpanel">
+            <div class="table-responsive mb-1  mt-2">
+
+
+                <table class="table table-nowrap align-middle user_table" id="orderTable">
+                    <thead class="table-light">
+                        <tr class="text-uppercase">
+
+                            <th class="sort" data-sort="Bank-name">
+                                Bank Name</th>
+                            <th class="sort" data-sort="bank-code">
+                                Bank Identifier Code
+                            </th>
+
+                            <th class="sort" data-sort="company">
+                                Swift Code
+                            </th>
+
+                            <th class="sort" data-sort="Address">Address</th>
+
+                            <th class="sort" data-sort="Branch">
+                                Branch
+                            </th>
+
+                            <th class="sort" data-sort="country">
+                                country
+                            </th>
+
+                            <th class="sort" data-sort="company">
+                                Status
+                            </th>
+
+
+                            <th class="sort" data-sort="company">
+                                Created At
+                            </th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody class="list form-check-all append_search_result">
+                        {% for i in page_obj  %}
+                        <tr onclick="window.location='bank_detail_edit?id={{i.id}}'">
+                            <td class="id"><a href="bank_detail_edit?id={{i.id}}"
+                                    class="fw-medium link-primary">{{i.bank_name}}</a>
+                            </td>
+                            <td class="customer_name">{{i.bank_identifier_code}}
+                            </td>
+
+                            <td class="status">{{i.swift_code}}
+                            </td>
+                            <td class="product_name">{{i.address}}</td>
+
+                            <td class="status">{{i.branch}}
+                            </td>
+
+                            <td class="date">{{i.country}}</td>
+
+                            <td class="company">
+                                {% if i.status == "Active" %}
+                                <span class="badge badge-soft-success text-uppercase">Active</span>
+                                {% elif i.status == "Inactive"  %}
+                                <span style="color: red!important"
+                                    class="badge badge-soft-success text-uppercase">Inactive</span>
+
+                                {% endif %}
+                            </td>
+
+                            <td class="status">{{i.dt}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="user_table1 container-fluid"></div>
+            </div>
+        </div>
+
+
+
+        <div class="tab-pane" id="pro" role="tabpanel">
+            <div class='app plotmngmnt'>
+                <main class='project1'>
+                    <div class='project-tasks1 mb-1 card_view1'>
+                        {% for i in data %}
+                        <div class='project-column'>
+                            <a href="bank_detail_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                <div class='customer-bx'>
+                                    <div class="customer-content">
+                                        <h5>{{i.bank_name}}
+                                            {% if i.status == "Active" %}
+                                            <span class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                        background-color: #008000;">Active</span>
+
+                                            {% elif i.status == "Inactive" %}
+
+                                            <span class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                            background-color: #e40000;">Inactive</span>
+
+                                            {% endif %}
+                                        </h5>
+                                        <span class="d-flex">
+                                            <h6>Swift Code : </h6>{{i.swift_code}}
+                                        </span>
+                                        <div class="row">
+                                            <div class="col-md-12 px-0">
+                                                <span class="d-flex">
+                                                    <h6>BIC : </h6>{{i.bank_identifier_code}}
+                                                </span>
+                                                <span class="d-flex">
+                                                    <h6>Branch: </h6>{{i.branch}}
+                                                </span>
+                                                <span class="d-flex">
+                                                    <h6>Address : </h6>{{i.address}}
+                                                </span>
+                                                <span class="d-flex">
+                                                    <h6>Country : </h6>{{i.country}}
+
+                                            </div>
+                                            <!-- <div class="col-md-6 px-0">
+                                                <span class="d-flex">
+                                                    <h6>Land area : </h6>{{i.LandArea}}
+                                                </span>
+                                                <span class="d-flex">
+                                                    <h6>Unit type : </h6>{{i.UType}}
+                                                </span>
+                                                <span class="d-flex">
+                                                    <h6>Price : </h6>{{i.Price}}
+                                                </span>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </main>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<script>
+    $(".next_page_action").click(function(){
+        var url =$(this).attr('data-url')
+        $.ajax({
+            url: url,
+            data:{
+
+            },
+            success: function (data) {
+                $("#demo_result_employee").empty().append(data);
+            }
+        })
+    })
+</script>
