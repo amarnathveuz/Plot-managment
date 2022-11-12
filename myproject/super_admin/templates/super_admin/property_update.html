@@ -117,9 +117,17 @@
                                                      </a>
                      
                                                      {% endif %}
-                                                     {% if request.user|get_user_type_action:"user_type" %}
-                                                 <a href="#"  onclick="cancel_button_action()" class="btn btn-pri pay discard-payroll"> Cancel
+                                                   
+                                                     {% if available_booking.booking_status == 1 %}
+                                                     <a href="#"  onclick="cancel_button_action()" class="btn btn-pri pay discard-payroll"> Cancel 
                                                     </a>
+
+                                                    {% else %}
+                                                        {% if request.user|get_user_type_action:"user_type" %}
+                                                     <a href="#"  onclick="cancel_button_action()" class="btn btn-pri pay discard-payroll"> Cancel 
+                                                    </a>
+                                                    {% endif %}
+
                                                     {% endif %}
                      
                                                      {% endif %}

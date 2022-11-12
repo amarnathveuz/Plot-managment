@@ -1,5 +1,5 @@
  {% extends "super_admin/base10.html" %}
-
+{% load static %}
 
     {% block content %}
     <div class="container-fluid px-0">
@@ -65,17 +65,17 @@
 
 
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i>
-                        <span class="text-muted">
+
+                        <span class="text-muted d-flex align-items-center">
                             {% if page_obj.has_previous %}
-                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a>
+                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#"><i class="fas fa-caret-left mr-2 pagintn text-muted pagination_minus" style="font-size: 20px;margin-top: 3px;"></i></a>
                             {% endif %}
-                            <span>{{page_obj.number}}</span>
+                            <i class="text-muted" style="font-size: 13.5px;">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</i>
                             {% if page_obj.has_next %}
-                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                                <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#"><i class="fas fa-caret-right ml-2 pagintn text-muted pagination_add" style="font-size: 20px;margin-top: 3px;"></i></a>
                             {% endif %}
                         </span>
-                        <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
+
                         <input type="text" class="form-cont ml-2"
                             placeholder="Search..." autocomplete="off"
                             id="search_value" value="" onkeyup="myFunction()">
@@ -179,7 +179,7 @@
                                     <tr class="text-uppercase">
 
                                         <th class="sort"
-                                            data-sort="customer_name">
+                                            data-sort="customer_name" style="width:200px;">
                                             Name</th>
                                         <th class="sort"
                                             data-sort="product_name">
@@ -202,14 +202,20 @@
                                 <tbody class="list form-check-all append_search_result">
                                     {% for i in page_obj  %}
                                     <tr onclick="window.location='user_edit?id={{i.id}}'">
-                                        <td class="id"><a href="user_edit?id={{i.id}}"
-                                                class="fw-medium link-primary">{{i.name}}</a>
+                                        {% if i.atatchment == "" %}
+                                        <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                class="fw-medium link-primary">&nbsp;{{i.name}}</a>
                                         </td>
-                                        <td class="customer_name">{{i.phone}}
+                                        {% else %}
+                                        <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                        </td>
+                                        {% endif %}
+                                        <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
                                         </td>
                                         <td class="product_name">{{i.email}}</td>
 
-                                        <td class="date">{{i.mobile}}</td>
+                                        <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
                                         <td class="company">
                                             {% if i.user_type == "manager" %}
                                             <span

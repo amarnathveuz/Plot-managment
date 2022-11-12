@@ -1,3 +1,4 @@
+{% load static %}
 <div class="tab-pane active" id="home1" role="tabpanel">
     <div
         class="d-flex align-items-center justify-content-between px-2">
@@ -48,17 +49,15 @@
 
 
         <div class="d-flex align-items-center">
-            <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i>
-            <span class="text-muted">
+            <span class="text-muted d-flex align-items-center">
                 {% if page_obj.has_previous %}
-                    <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a>
+                    <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#"><i class="fas fa-caret-left mr-2 pagintn text-muted pagination_minus" style="font-size: 20px;margin-top: 3px;"></i></a>
                 {% endif %}
-                <span>{{page_obj.number}}</span>
+                <i class="text-muted" style="font-size: 13.5px;">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</i>
                 {% if page_obj.has_next %}
-                    <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                    <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#"><i class="fas fa-caret-right ml-2 pagintn text-muted pagination_add" style="font-size: 20px;margin-top: 3px;"></i></a>
                 {% endif %}
             </span>
-            <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
 
 <!--                        <i-->
 <!--                            class="fas fa-caret-left mr-1 pagintn text-muted"></i><span-->
@@ -71,41 +70,76 @@
 
 
 
-            <div class="btn-group fitr">
-                <button type="button" class="btn btn-prim"> <i
-                        class="fas fa-filter"></i>
-                    Filters
-                </button>
+           <div class="dropdown btn-group fitr">
+                            <button type="button" class="btn btn-prim dropdown-toggle" data-toggle="dropdown">
+                                <i class="fas fa-filter"></i>
+                                Filters
+                            </button>
 
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Draft</a>
-                    <a class="dropdown-item" href="#">Waiting</a>
-                    <a class="dropdown-item" href="#">Done</a>
-                    <a class="dropdown-item" href="#">Rejected</a>
+                            <div class="dropdown-menu">
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Name</a>
+                                    <div class="drpdwn-menu">
+                                       <input id="filter_value1" type="text" class="form-control" placeholder="Name">
+                                       <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('name')">
+                                        Apply
+                                        </button>
+                                    </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Email</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value2" type="email" class="form-control" placeholder="Email">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('email')">
+                                         Apply
+                                         </button>
+                                     </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Mobile</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value3" type="number" class="form-control" placeholder="Mobile">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('mobile')">
+                                         Apply
+                                         </button>
+                                     </div>
+                                </li>
+                                <li><a class="dropdown-item dropdown-submenu" href="#">Created Date</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value4" type="date" class="form-control" placeholder="Date">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                         Apply
+                                         </button>
+                                     </div></li>
 
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Add Custom
-                        Filter</a>
-                </div>
-            </div>
-            <div class="btn-group grpby">
-                <button type="button" class="btn btn-prim mx-1"> <i
-                        class="fas fa-bars"></i>
-                    Group By
-                </button>
+                                     <li><a class="dropdown-item dropdown-submenu" href="#">Status</a>
+                                        <div class="drpdwn-menu">
+                                            <label class="form-check-label" for="radio1">
+                                                <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio1" name="optradio" value="salesman">Salesman
+                                              </label>
+                                              <label class="form-check-label" for="radio2">
+                                                <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio2" name="optradio" value="manager">Manager
+                                              </label>
+                                            <!-- <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                             Apply
+                                             </button> -->
+                                         </div></li>
 
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Employees</a>
-                    <a class="dropdown-item" href="#">PaySlip
-                        Batch</a>
-                    <a class="dropdown-item" href="#">Companies</a>
-                    <a class="dropdown-item" href="#">States</a>
+                            </div>
+                        </div>
 
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Add Custom
-                        Group</a>
-                </div>
-            </div>
+                        <div class="dropdown btn-group grpby">
+                            <button type="button" class="btn btn-prim mx-1 dropdown-toggle" data-toggle="dropdown"> <i
+                                    class="fas fa-bars"></i>
+                                Group By
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#"><div class="form-check">
+                                    <input type="checkbox" name="checkfield" id="g01-01" onchange="type_groupby_action(this)"> &nbsp;Type
+                                  </div></a>
+
+
+                            </div>
+                        </div>
+
             <ul class="nav nav-tabs nav-ta" role="tablist">
                 <li class="nav-item mx-1">
                     <a class="nav-link kan-tab active"
@@ -139,7 +173,7 @@
                     <thead class="table-light">
                         <tr class="text-uppercase">
                             <th class="sort"
-                                data-sort="customer_name">
+                                data-sort="customer_name" style="width:200px;">
                                 Name</th>
                             <th class="sort"
                                 data-sort="product_name">
@@ -159,15 +193,21 @@
                     </thead>
                     <tbody class="list form-check-all append_search_result">
                         {% for i in page_obj  %}
-                        <tr onclick=onclick="window.location='user_edit?id={{i.id}}'">
-                            <td class="id"><a href="user_edit?id={{i.id}}"
-                                    class="fw-medium link-primary">{{i.name}}</a>
+                        <tr onclick="window.location='user_edit?id={{i.id}}'">
+                            {% if i.atatchment == "" %}
+                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                    class="fw-medium link-primary">&nbsp;{{i.name}}</a>
                             </td>
-                            <td class="customer_name">{{i.phone}}
+                            {% else %}
+                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                    class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                            </td>
+                            {% endif %}
+                            <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
                             </td>
                             <td class="product_name">{{i.email}}</td>
 
-                            <td class="date">{{i.mobile}}</td>
+                            <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
                             <td class="company">
                                 {% if i.user_type == "manager" %}
                                 <span
@@ -194,13 +234,14 @@
         <div class="tab-pane" id="pro" role="tabpanel">
                         <div class='app'>
                             <main class='project1'>
-                                <div class='project-tasks1 mb-1'>
+                                <div class='project-tasks1 mb-1 append_card_view'>
                                 {% for i in data %}
                                     <div class='project-column'>
+                                        <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
                                         <div class="customer-bx">
-                                            <div class="cust-img">
-                                                <img class="cust-img" src="{{i.imageURL}}">
-                                            </div>
+                                            <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+
+                                                        </div>
                                             <div class="customer-content">
                                                 <h5>{{i.name}}</h5>
                                                 <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
@@ -214,6 +255,7 @@
                                                 {% endif %}
                                             </div>
                                         </div>
+                                        </a>
                                     </div>
                                 {% endfor %}
                                 </div>
@@ -242,3 +284,166 @@
         })
 </script>
 
+
+<script>
+        function myFunction(){
+            $(".user_table").show()
+            $(".user_table1").hide()
+            var x = document.getElementById("search_value").value;
+            redirect_url = "user_search_result"
+            $.ajax({
+                url : redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+                $(".append_search_result").empty().append(data)
+
+                card_view_redirect_url = 'user_search_card_view'
+            $.ajax({
+                url : card_view_redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+
+                    // alert(data)
+                $(".append_card_view").empty().append(data)
+                }
+            })
+
+                }
+            })
+
+        }
+    </script>
+
+
+<script>
+        $(".group").click(function(){
+
+            var listCheck = [];
+            $("input[name='optradio']:checked").each(function() {
+                $(".user_table").show()
+            $(".user_table1").hide()
+                listCheck .push($(this).val());
+            });
+            var url =$(this).attr('data-url')
+            $.ajax({
+                url: url,
+                data:{
+                    'grouping[]': listCheck
+                },
+                success: function (data) {
+                    $(".append_search_result").empty().append(data);
+
+                    var card_view_redirect_url = 'card_view_filter_status'
+                    $.ajax({
+                url: card_view_redirect_url,
+                data:{
+                    'grouping[]': listCheck
+                },
+                success: function (data) {
+
+                    $(".append_card_view").empty().append(data);
+                }
+            })
+
+                }
+            })
+        })
+    </script>
+
+<div class="append_group_by">
+
+</div>
+
+
+    <script>
+        function submit_filter(type){
+            $(".user_table").show()
+            $(".user_table1").hide()
+        if (type == "name") {
+            var x = document.getElementById("filter_value1").value;
+        }
+        else if (type == "email") {
+            var x = document.getElementById("filter_value2").value;
+        }
+        else if (type == "mobile") {
+            var x = document.getElementById("filter_value3").value;
+        }
+        else {
+            var x = document.getElementById("filter_value4").value;
+        }
+            redirect_url = "filtering_user"
+            $.ajax({
+                url : redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+                $(".append_search_result").empty().append(data)
+
+
+                card_view_redirect_url = 'user_search_card_view'
+            $.ajax({
+                url : card_view_redirect_url,
+                data :{
+                    'data_value':x
+                },
+                type:'GET',
+                success: function (data) {
+
+                    // alert(data)
+                $(".append_card_view").empty().append(data)
+                }
+            })
+                }
+            })
+        }
+        function type_groupby_action(checkboxElem) {
+  if (checkboxElem.checked) {
+
+    redirect_group_by_url = 'user_type_group_by_action'
+    $.ajax({
+        url:redirect_group_by_url,
+        data:{
+            'status':'type'
+        },
+        type:'GET',
+        success:function(data){
+            $(".user_table1").show()
+            $(".user_table").hide()
+
+             $(".user_table1").empty().append(data)
+
+
+             var card_view_redirect_url = 'card_view_group_by_status'
+                    $.ajax({
+                url: card_view_redirect_url,
+                data:{
+                    'status':'type'
+                },
+                success: function (data) {
+
+
+                    $(".append_card_view").empty().append(data);
+                }
+            })
+
+
+
+
+        }
+
+    })
+  } else {
+    $(".user_table1").hide()
+            $(".user_table").show()
+  }
+}
+
+    </script>

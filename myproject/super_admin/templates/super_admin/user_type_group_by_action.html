@@ -1,4 +1,4 @@
-
+{% load static %}
 
 	<div class="col-md-12">
     	<div class="panel panel-default">
@@ -45,11 +45,21 @@
 								  		
 											<tbody>
 												{% for i in data_total_manager %}
-                        <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
-													<td> <a href="user_edit?id={{i.id}}">{{i.name}}</a></td>
-													<td>{{i.phone}}</td>
-													<td>{{i.email}}</td>
-													<td> {{i.mobile}}</td>
+                        <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10" onclick="window.location='user_edit?id={{i.id}}'">
+                                                    {% if i.atatchment == "" %}
+                                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                    </td>
+                                                    {% else %}
+                                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                    </td>
+                                                    {% endif %}
+													<td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
+                                        </td>
+                                        <td class="product_name">{{i.email}}</td>
+
+                                        <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
 													<td> {{i.dt}}</td>
 													<td> 
 													{{i.user_type}}
@@ -95,10 +105,20 @@
                                                           <tbody>
                                                               {% for i in data_total_salesman %}
                                       <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
-                                                                  <td> <a href="user_edit?id={{i.id}}">{{i.name}}</a></td>
-                                                                  <td>{{i.phone}}</td>
-                                                                  <td>{{i.email}}</td>
-                                                                  <td> {{i.mobile}}</td>
+                                                                  {% if i.atatchment == "" %}
+                                                                  <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                                  </td>
+                                                                  {% else %}
+                                                                  <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                                        class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                                  </td>
+                                                                  {% endif %}
+                                                                  <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
+                                                                    </td>
+                                                                    <td class="product_name">{{i.email}}</td>
+
+                                                                    <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
                                                                   <td> {{i.dt}}</td>
                                                                   <td> 
                                                                   {{i.user_type}}

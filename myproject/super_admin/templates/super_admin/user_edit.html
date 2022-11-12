@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="container-fluid mt-4">
-    <form action="update_user_action" method="POST" enctype="multipart/form-data">
+    <form action="update_user_action" name="frmUser" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row edit" style="display:none;">
             <div class="col-12 px-0">
@@ -15,7 +15,7 @@
                             <li class="breadcrumb-item active"><a href="javascript: void(0);">Update User</a></li>
                         </ol>
                         <div class="margn">
-                            <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                            <a><button onclick="validation_action()" type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
                                     Update
                                 </button></a>
                             <a href="#"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll discard_button"> Discard
@@ -141,6 +141,8 @@
                                                         <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="no" checked id="access"> &nbsp;No
                                                         &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="yes"  type="radio"  id="access">&nbsp; Yes
                                                         <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter new password" class="form-control mt-2">
+                                                        <input style="display: none" id="manual_password_field1" type="password" name="re-password"  placeholder="Re-password" class="form-control mt-2" onkeyup="validation()">
+                                                        <span id='message'></span>
                                                     </div>
     
                                                 </div>
@@ -693,14 +695,43 @@
             function password_select_function(data){
                 if(data == "manual"){
                     var y = document.getElementById('manual_password_field').style.display = "block"
+                    var z = document.getElementById('manual_password_field1').style.display = "block"
     
                 }
                 else{
                     var y = document.getElementById('manual_password_field').style.display = "none"
+                    var z = document.getElementById('manual_password_field1').style.display = "none"
                 }
             }
         </script>
-    
+
+<script>
+    function validation() {
+  if ($('#manual_password_field').val() == $('#manual_password_field1').val()) {
+    $('#message').html('Matching').css('color', 'green');
+  } else
+    $('#message').html('Not Matching').css('color', 'red');
+}
+</script>
+
+<script>
+    function validation_action(){
+    event.preventDefault()
+    x = document.getElementById("manual_password_field").value;
+    y = document.getElementById("manual_password_field1").value;
+    if (x == y){
+        document.forms["frmUser"].submit();
+    }
+    else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Password Doesnot Match!',
+        })
+    }
+    }
+</script>
+
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {% if messages %}

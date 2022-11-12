@@ -1,3 +1,4 @@
+{% load static %}
 {% for i in data  %}
 <tr>
 <!--    <th scope="row">-->
@@ -7,14 +8,20 @@
 <!--            data-checkall-group="group1"-->
 <!--            id="checkbox1-1">-->
 <!--    </th>-->
-    <td class="id"><a href="user_edit?id={{i.id}}"
-            class="fw-medium link-primary">{{i.name}}</a>
+    {% if i.atatchment == "" %}
+    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
     </td>
-    <td class="customer_name">{{i.phone}}
+    {% else %}
+    <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+    </td>
+    {% endif %}
+    <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
     </td>
     <td class="product_name">{{i.email}}</td>
 
-    <td class="date">{{i.mobile}}</td>
+    <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
     <td class="company">
         {% if i.user_type == "manager" %}
         <span
