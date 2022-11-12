@@ -680,6 +680,10 @@ def booking_action(request):
                         booking_status = 1
 
                     )
+                    text_content = "Booking report submitted ("+str(request.user)+")"
+                    status_content = 'Available'+"-->"+"Price Quotation"
+                    save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id)
+                    save_log.save()
 
                 except Customer_details.DoesNotExist:
                     inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
@@ -699,6 +703,10 @@ def booking_action(request):
                         booking_status = 1
 
                     )
+                    text_content = "Booking report submitted ("+str(request.user)+")"
+                    status_content = 'Available'+"-->"+"Price Quotation"
+                    save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id)
+                    save_log.save()
                 arabic_status = None
                 try:
                     data = status_code.objects.get(status_code=1)
@@ -727,6 +735,10 @@ def booking_action(request):
                         booking_status = 1
 
                     )
+                    text_content = "Booking report submitted ("+str(request.user)+")"
+                    status_content = 'Available'+"-->"+"Price Quotation"
+                    save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id)
+                    save_log.save()
                 except Customer_details.DoesNotExist:
                     inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
                     customer_id_mapping_id = inser_customer_details.id
@@ -745,6 +757,10 @@ def booking_action(request):
                         booking_status = 1
 
                     )
+                    text_content = "Booking report submitted ("+str(request.user)+")"
+                    status_content = 'Available'+"-->"+"Price Quotation"
+                    save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id)
+                    save_log.save()
                 arabic_status = None
                 try:
                     data = status_code.objects.get(status_code=1)
@@ -752,6 +768,7 @@ def booking_action(request):
                 except:
                     pass
                 data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+            
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
 
@@ -1339,6 +1356,10 @@ def admin_book_plot_action(request):
                     bank_relation_id_id = bank_mapping_id
 
                 )
+                text_content = "Booking report submitted ("+str(request.user)+")"
+                status_content = 'Available'+"-->"+"Price Quotation"
+                save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_submit")
+                save_log.save()
 
             except Customer_details.DoesNotExist:
                 inser_customer_details = Customer_details.objects.create(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank,created_by=request.user,
@@ -1360,6 +1381,10 @@ def admin_book_plot_action(request):
                     bank_relation_id_id = bank_mapping_id
 
                 )
+                text_content = "Booking report submitted ("+str(request.user)+")"
+                status_content = 'Available'+"-->"+"Price Quotation"
+                save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_submit")
+                save_log.save()
             arabic_status = None
             try:
                 data = status_code.objects.get(status_code=1)
