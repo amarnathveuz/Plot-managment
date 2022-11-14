@@ -1834,31 +1834,9 @@ def property_more_details_page(request):
     id = request.GET.get("id",False)
     data = user_request_plot.objects.get(id=id)
     current_status = data.available_status
-    if current_status == 1:
-        mapping_id = data.property_mapping_id.id
-        print("mapping_id:::::",str(mapping_id))
-        data = intractive_map.objects.get(id=mapping_id)
+    context = {
+        'data':data
+    }
 
-        currency_price = '{:20,.2f}'.format(data.Price)
-        multiple_image_data = intractive_map_multiple_image.objects.filter(mapping_id_id=mapping_id)
-        history = user_request_plot.objects.filter(property_mapping_id=mapping_id).order_by("-id")
-
-        user_type = User.objects.get(id=request.user.id)
-        available_booking = ''
-        try:
-            available_booking = user_request_plot.objects.get(property_mapping_id_id=mapping_id,available_status=1)
-        except:
-            pass
-
-        bank_details = Bank_details.objects.all()
-
-        context = {
-            'data':data,
-            'multiple_image_data':multiple_image_data,
-            'history':history,
-            'available_booking':available_booking,
-            'user_type':user_type,
-            'bank_details':bank_details,
-            'currency_price':currency_price
-        }
-        return render(request,'super_admin/property_update.html',context)
+    
+    return render(request,'super_admin/property_more_details_page.html',context)
