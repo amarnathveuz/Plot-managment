@@ -1810,6 +1810,7 @@ def customer_view_booking_property_details(request):
     
     page_obj = ""
     page_number = request.GET.get("page")
+    customer_name = Customer_details.objects.get(id=id)
     data = user_request_plot.objects.filter(customer_id_id=id).order_by("-id")
     checked_list = list(data.values_list('id',flat=True))
     data_str = str(checked_list)
@@ -1822,7 +1823,8 @@ def customer_view_booking_property_details(request):
     context = {
         "data":data,
         'page_obj': page_obj,
-        'checked_list':checked_list
+        'checked_list':checked_list,
+        'customer_name':customer_name.name
     }
 
     return render(request,'super_admin/customer_view_booking_property_details.html',context)
@@ -1834,8 +1836,10 @@ def property_more_details_page(request):
     id = request.GET.get("id",False)
     data = user_request_plot.objects.get(id=id)
     current_status = data.available_status
+    history = booking_log.objects.filter(booking_id_id=id)
     context = {
-        'data':data
+        'data':data,
+        'history':history
     }
 
     

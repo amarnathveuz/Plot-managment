@@ -55,8 +55,8 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <input type="hidden" name="id" value="{{data.id}}">
-                                                    <h3 id="old_block_unit" class="leave-head">{{data.BlockNo}}
-                                                        {{data.UnitNo}}</h3>
+                                                    <h3 id="old_block_unit" class="leave-head">{{data.property_mapping_id.BlockNo}}
+                                                        {{data.property_mapping_id.UnitNo}}</h3>
 
                                                     <div class="row" id="unit_block" style="display:none;">
                                                         <div class="col-md-4">
@@ -84,40 +84,40 @@
 
                                                 <div class="col text-right" id="current_status_id">
 
-                                                    {% if data.current_status == "0" %}
+                                                    {% if data.booking_status == 0 %}
                                                     <button style="background-color: #008000; " type="button"
                                                         class="btn btn-pri pay discard-payroll noti-tag">Available
                                                     </button>
-                                                    {% elif data.current_status == "1" %}
+                                                    {% elif data.booking_status == 1 %}
                                                     <button style="background-color: orange; " type="button"
                                                         class="btn btn-pri pay discard-payroll noti-tag">Price Quotation
                                                     </button>
-                                                    {% elif data.current_status == "2" %}
+                                                    {% elif data.booking_status == 2 %}
                                                     <button style="background-color: #e40000;" type="button"
                                                         class="btn btn-pri pay discard-payroll noti-tag">Sold
                                                     </button>
-                                                    {% elif data.current_status == "3" %}
+                                                    {% elif data.booking_status == 3 %}
                                                     <button style="background-color: gray;" type="button"
                                                         class="btn btn-pri pay discard-payroll noti-tag">Cancelled
                                                     </button>
                                                     {%endif%}
 
 
-                                                    {% if data.current_status == "0" %}
+                                                    {% if data.booking_status == 0 %}
                                                     <button style="background-color: #008000; " type="button"
-                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                        class="btn btn-pri pay discard-payroll noti-tag">متاح
                                                     </button>
-                                                    {% elif data.current_status == "1" %}
+                                                    {% elif data.booking_status == 1 %}
                                                     <button style="background-color: orange; " type="button"
-                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                        class="btn btn-pri pay discard-payroll noti-tag">عرض سعر
                                                     </button>
-                                                    {% elif data.current_status == "2" %}
+                                                    {% elif data.booking_status == 2 %}
                                                     <button style="background-color: #e40000;" type="button"
-                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                        class="btn btn-pri pay discard-payroll noti-tag">تم الربط
                                                     </button>
-                                                    {% elif data.current_status == "3" %}
+                                                    {% elif data.booking_status == 3 %}
                                                     <button style="background-color: gray;" type="button"
-                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                        class="btn btn-pri pay discard-payroll noti-tag">ألغيت
                                                     </button>
                                                     {%endif%}
 
@@ -161,7 +161,7 @@
 
                                                             <div class="form-group  required_item w-100">
                                                                 <input type="text" id="basiInput1" disabled name="Name"
-                                                                    value="{% if data.Name == None %}{% else %}{{data.Name}}{% endif %}"
+                                                                    value="{% if data.name == None %}{% else %}{{data.name}}{% endif %}"
                                                                     class="input form-control mystyle" placeholder="">
                                                             </div>
 
@@ -179,7 +179,7 @@
                                                                     onkeyup="startdigit(this)" maxlength="9"
                                                                     minlength="9" id="basiInput31" disabled
                                                                     name="Phoneno"
-                                                                    value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}"
+                                                                    value="{%if data.phone == None %}{% else %}{{data.phone}}{% endif %}"
                                                                     class="input form-control mystyle" placeholder="">
                                                                     <div style="color: red; display:none ;" id="new_id"></div>
                                                             </div>
@@ -192,7 +192,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="form-group  required_item w-100">
-                                                                <input name="LandArea" value="{{data.LandArea}}"
+                                                                <input name="LandArea" value="{{data.property_mapping_id.LandArea}}"
                                                                     id="basiInput5" disabled type="text"
                                                                     class="input form-control mystyle">
                                                             </div>
@@ -215,7 +215,7 @@
                                                                
                                                                 name="customer_id" type="text" id="customer_id"
                                                                 disabled
-                                                                value="{%if data.customer_id == None %}{%else %}{{data.customer_id}}{% endif %}"
+                                                                value="{%if data.booking_id == None %}{%else %}{{data.booking_id}}{% endif %}"
                                                                 class="input form-control mystyle">
                                                             </div>
                                                         </div>
@@ -229,7 +229,7 @@
                                                         <div class="col-md-8 d-flex align-items-start">
                                                             <div class="form-group  required_item w-100">
                                                                 <input name="UnitArea" id="basiInput4" disabled
-                                                                    value="{{data.UnitArea}}" type="text"
+                                                                    value="{{data.property_mapping_id.UnitArea}}" type="text"
                                                                     class="input form-control mystyle">
 
                                                             </div>
@@ -243,7 +243,7 @@
                                                         <div class="col-md-8">
                                                             <div class="form-group  required_item w-100">
                                                                 <input name="UType" type="text" id="basiInput6" disabled
-                                                                    value="{% if data.UType == None %}{% else %}{{data.UType}}{% endif %}"
+                                                                    value="{% if data.property_mapping_id.UType == None %}{% else %}{{data.property_mapping_id.UType}}{% endif %}"
                                                                     class="input form-control mystyle">
                                                             </div>
                                                         </div>
@@ -276,7 +276,7 @@
                                                                 <input  
                                                                 onkeypress="return onlyNumberKey(event)"
                                                                 id="price_id" disabled
-                                                                value="{{currency_price}}" type="text"
+                                                                value="{{data.Price|floatformat:"0"}}" type="text"
                                                                 class="input form-control mystyle">
                                                                 <!-- <input name="Price"
                                                                     onkeypress="return onlyNumberKey(event)"
@@ -287,7 +287,7 @@
 
                                                             <div class="form-group  required_item w-100"  style="min-width: 50px;">
                                                                 <input name="currency" id="basiInput9" disabled
-                                                                    value="{{data.currency}}" type="text"
+                                                                    value="SAR" type="text"
                                                                     class="input form-control mystyle">
                                                             </div>
                                                         </div>
@@ -318,7 +318,7 @@
                                                                     <option value="select bank">Select Bank</option>
 
                                                                     {% else %}
-                                                                    <option value="{{data.Bank}}">{{data.Bank}}</option>
+                                                                    <option value="{{data.Bank}}">{{data.bank}}</option>
 
                                                                     {% endif %}
                                                                     {% for i in bank_details %}
@@ -516,61 +516,8 @@
                                                         <!-- <h5></h5> -->
                                                     </div>
 
-                                                    {% for i in history %}
-
-                                                    {% if i.available_status == 1 %}
-
-                                                    {% else %}
-
-                                                    <div class="row msging schdul-box mt-1">
-                                                        {% if j.user_type == "administrator" %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                                        {% else %}
-                                                        {% if j.assigned_user_id.atatchment == '' %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                                        {% elif j.assigned_user_id.atatchment == None %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                                        {% else %}
-                                                        <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
-                                                        {% endif %}
-                                                        {% endif %}
-                                                        <div class="col-9 bookng-nw pl-0">
-                                                            <h5>New Booking Received <span> ({{i.dt}})</span></h5>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Name </h6><span>:
-                                                                    {{i.name|title}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Customer ID </h6><span>:
-                                                                    {{i.booking_id}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Bank </h6><span>:
-                                                                    {{i.bank}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Email </h6><span>:
-                                                                    {{i.user_id.email|title}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Property No </h6><span>:
-                                                                    {{i.property_mapping_id.BlockNo}}
-                                                                    {{i.property_mapping_id.UnitNo}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Phone </h6><span>:
-                                                                    {{i.phone}}</span>
-                                                            </div>
-
-
-                                                        </div>
-                                                        <div class="col text-right">
-                                                            <span
-                                                                class="badge badge-success text-white text-uppercase">{{i.user_id.user_type}}</span>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% for j in i.booking_log_id.all %}
+                                           
+                                                    {% for j in history %}
 
                                                     <div class="row">
                                                         <i class="fas fa-level-up-alt log-level"></i>
@@ -622,7 +569,7 @@
                                                     </div>
 
                                                     {% endfor %}
-                                                    {% endfor %}
+                                                
 
 
 

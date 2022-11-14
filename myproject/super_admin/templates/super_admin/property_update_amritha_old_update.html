@@ -49,17 +49,18 @@
                                         </button></a>
                                     {% endif %}
 
+
+
                                     {% if available_booking %}
 
                                     {% else %}
 
                                     {% if data.current_status == "2" %}
-                                    <button style="background-color: #6b8119;
+                                    <a href="#" onclick="available_button_action1()"><button style="background-color: #6b8119;
                                                         color: white;
-                                                        border: none;" type="button"  id="btn-confirm"
+                                                        border: none;" type="button"
                                             class="btn btn-pri pay discard-payroll"> Reset to Available
-                                        </button>
-                                       
+                                        </button></a>
                                     {% else %}
 
                                     {% if available_booking %}
@@ -67,13 +68,11 @@
                                     {% if data.current_status == '0' %}
 
                                     {% else %}
-
-                                        <button style="background-color: #6b8119;
+                                    <a href="#" onclick="available_button_action1()"><button style="background-color: #6b8119;
                                                         color: white;
-                                                        border: none;" type="button" id="btn-confirm"
-                                            class="btn btn-pri pay discard-payroll"> Reset to Available (No booking)
-                                        </button>
-                                       
+                                                        border: none;" type="button"
+                                            class="btn btn-pri pay discard-payroll"> Reset to Available (No booking )
+                                        </button></a>
                                     {% endif %}
                                     {% endif %}
 
@@ -82,6 +81,9 @@
                                     {% endif %}
 
                                     {% if available_booking %}
+
+
+
 
                                     {% if available_booking.booking_status == 3   %}
 
@@ -90,11 +92,11 @@
 
                                     {% if request.user|get_user_type_action:"user_type" %}
 
-                                    <button style="background-color: #008000;
+                                    <a href="#" onclick="available_button_action()"><button style="background-color: #008000;
                                                          color: white;
-                                                         border: none;" type="button" id="btn-confirm2"
+                                                         border: none;" type="button"
                                             class="btn btn-pri pay discard-payroll"> Reset to Available
-                                        </button>
+                                        </button></a>
                                     {% endif %}
 
                                     {% else %}
@@ -109,7 +111,7 @@
 
                                     {% else %}
 
-                                    <a href="#" id="btn-confirm3" class="btn btn-prim pay">
+                                    <a href="#" onclick="sold_button_action()" class="btn btn-prim pay">
 
                                         Confirm & Sell
 
@@ -117,12 +119,19 @@
 
                                     {% endif %}
                                     {% if request.user|get_user_type_action:"user_type" %}
-                                    <a href="#" id="btn-confirm4" 
+                                    <a href="#" onclick="cancel_button_action()"
                                         class="btn btn-pri pay discard-payroll"> Cancel
                                     </a>
                                     {% endif %}
 
                                     {% endif %}
+
+
+
+
+
+
+
 
 
                                     {% else %}
@@ -170,77 +179,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Reset to Available Confirmation?</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click" id="modal-btn-no">No</button>
-                        <button type="button" class="btn btn-primary reset_to_available" id="modal-btn-si">Yes</button>
-
-                       
-                        
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal2">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Reset to Available Confirmation?</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click" id="modal-btn-no2">No</button>
-                        <button type="button" class="btn btn-primary reset_to_available2" id="modal-btn-si">Yes</button>
-
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal3">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Approval Confirmation?</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click" id="modal-btn-no3">No</button>
-                        <button type="button" class="btn btn-primary approval_confirmation" id="modal-btn-si">Yes</button>
-
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal4">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Cancel Confirmation?</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click4" id="modal-btn-no4">No</button>
-                        <button type="button" class="btn btn-primary cancel_confirmation" id="modal-btn-si">Yes</button>
-
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-                <!-- <div class="alert" role="alert" id="result"></div> -->
 
             <div class="row">
                 <div class="col-lg-12 px-0">
@@ -361,7 +299,6 @@
                                                                 <input type="text" id="basiInput1" disabled name="Name"
                                                                     value="{% if data.Name == None %}{% else %}{{data.Name}}{% endif %}"
                                                                     class="input form-control mystyle" placeholder="">
-                                                                    <div style="color: red; display:none ;" id="name_id"></div>
                                                             </div>
 
                                                         </div>
@@ -376,8 +313,8 @@
                                                             <div class="form-group  required_item w-100">
                                                                 <input required type="text" autocomplete="off"
                                                                     onkeyup="startdigit(this)" maxlength="9"
-                                                                    minlength="9"  id="basiInput31" disabled
-                                                                    name="Phoneno" onkeypress="return onlyNumberKey_phone(event)"
+                                                                    minlength="9" id="basiInput31" disabled
+                                                                    name="Phoneno"
                                                                     value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}"
                                                                     class="input form-control mystyle" placeholder="">
                                                                     <div style="color: red; display:none ;" id="new_id"></div>
@@ -410,13 +347,12 @@
                                                         <div class="col-md-8 d-flex align-items-start">
                                                             <div class="form-group  required_item w-100">
                                                                     <input autocomplete="off" maxlength="10" minlength="10"
-                                                                    onkeypress="return onlyNumberKey_customer(event)" required
+                                                                onkeyup="customer_length()" required
                                                                
                                                                 name="customer_id" type="text" id="customer_id"
                                                                 disabled
                                                                 value="{%if data.customer_id == None %}{%else %}{{data.customer_id}}{% endif %}"
                                                                 class="input form-control mystyle">
-                                                                <div style="color: red; display:none ;" id="customer_div"></div>
                                                             </div>
                                                         </div>
 
@@ -463,7 +399,7 @@
                                                       
                                                         <div class="col-md-4 d-flex align-items-start">
                                                             <div class="form-group  required_item w-100 mr-2"
-                                                                style="min-width: 100px;">
+                                                                style="min-width: 70%;">
                                                                 
                                                                 <input name="Price" style="display:none;"
                                                                 onkeypress="return onlyNumberKey(event)"
@@ -489,7 +425,6 @@
                                                                 <input name="currency" id="basiInput9" disabled
                                                                     value="{{data.currency}}" type="text"
                                                                     class="input form-control mystyle">
-                                                                
                                                             </div>
                                                         </div>
                                                        
@@ -531,7 +466,6 @@
 
                                                                     {% endfor %}
                                                                 </select>
-                                                                <div style="color: red; display:none ;" id="customerbank_div"></div>
                                                                 <!-- <input name="Bank" id="basiInput8" disabled value="{{data.Bank}}" type="text" class="input mt-2 form-control mystyle">     -->
                                                             </div>
                                                         </div>
@@ -884,8 +818,7 @@
             '{{ message }}',
             '{{message.tags}}'
         )
-    }
-     {% endfor %}
+    } {% endfor %}
 </script>
 {% endif %}
 
@@ -1094,25 +1027,60 @@
 </script>
 
 
-
-
 <script>
-      $(".reset_to_available").click(function () {
-        location.href = 'rest_to_available_booking_action_sold_booking?id=' + `{{data.id}}` + '';
-      })
+    function sold_button_action() {
+        let text = "Approval Confirmation?";
+        if (confirm(text) == true) {
 
-      $(".reset_to_available2").click(function () {
-        location.href = 'rest_to_available_booking_action?id=' + `{{available_booking.id}}` + '';
 
-      })
-      $(".approval_confirmation").click(function () {
-        location.href = 'approve_booking_action?id=' + `{{available_booking.id}}` + '';
+            location.href = 'approve_booking_action?id=' + `{{available_booking.id}}` + '';
 
-      })
-      $(".cancel_confirmation").click(function () {
-        location.href = 'cancel_booking_action?id=' + `{{available_booking.id}}` + '';
+        } else {
 
-      })
+        }
+    }
+
+    function cancel_button_action() {
+
+        let text = "Cancel Confirmation?";
+        if (confirm(text) == true) {
+
+
+            location.href = 'cancel_booking_action?id=' + `{{available_booking.id}}` + '';
+
+        } else {
+
+        }
+
+    }
+
+    function available_button_action() {
+
+        let text = "Reset to Available Confirmation?";
+        if (confirm(text) == true) {
+
+
+            location.href = 'rest_to_available_booking_action?id=' + `{{available_booking.id}}` + '';
+
+        } else {
+
+        }
+
+    }
+
+    function available_button_action1() {
+
+        let text = "Reset to Available Confirmation?";
+        if (confirm(text) == true) {
+
+
+            location.href = 'rest_to_available_booking_action_sold_booking?id=' + `{{data.id}}` + '';
+
+        } else {
+
+        }
+
+    }
 </script>
 
 
@@ -1122,6 +1090,7 @@
 
         $(".new_booking_action").hide()
         $(".submit_booking_action").show()
+
 
         var element1 = document.getElementById("basiInput1");
         element1.classList.remove("mystyle");
@@ -1149,59 +1118,33 @@
         var customer_id = $("#customer_id").val()
         var customer_bank = $("#basiInput8").val()
         var plot_id = `{{data.id}}`
-        if (customer_name == '') {
-           
-            document.getElementById("name_id").style.display = "block";
-            document.getElementById("name_id").innerHTML = "Please fill out name!";
-            // $("#basiInput1").css("border", "1px solid red");
-            }
-         
-        else if (customer_phone.length != 9) {
-           
-            document.getElementById("new_id").style.display = "block";
-            document.getElementById("new_id").innerHTML = "Phone number must in 9 digits!";
-            document.getElementById("name_id").style.display = "none";
-            // $("#basiInput31").css("border", "1px solid red");
-            }
-          
-        else if (customer_phone == '') {
-           
-            document.getElementById("new_id").style.display = "block";
-            document.getElementById("new_id").innerHTML = "Please fill out phone!";
-            document.getElementById("name_id").style.display = "none";
-            // $("#basiInput31").css("border", "1px solid red");
-            }
-            
-        else if (customer_id == '') {
-            
-            document.getElementById("customer_div").style.display = "block";
-            document.getElementById("customer_div").innerHTML = "Please fill out customer id!";
-            document.getElementById("name_id").style.display = "none";
-            document.getElementById("new_id").style.display = "none";
-            // $("#customer_id").css("border", "1px solid red");
-            
 
-        }else if (customer_id.length != 10) {
-            
-            document.getElementById("customer_div").style.display = "block";
-            document.getElementById("customer_div").innerHTML = "Customer id must in 10 digits!";
-            document.getElementById("name_id").style.display = "none";
-            document.getElementById("new_id").style.display = "none";
-            // $("#customer_id").css("border", "1px solid red");
+        if (customer_phone == '') {
+            alert("Please fill out phone")
+            if (customer_phone.length != 9) {
+                alert("Phone number must in 9 digits")
+            }
 
-        // }else if (customer_id.length == 10) {
-        //     document.getElementById("customer_div").style.display = "none";
-        
+            $("#basiInput31").css("border", "1px solid red");
+        } else if (customer_name == '') {
+            alert("Please fill out name")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid red");
+
+        } else if (customer_id == '') {
+            alert("Please fill out customer id")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid #eaf0f9");
+            $("#customer_id").css("border", "1px solid red");
+
         } else if (customer_bank == '') {
-          
-            document.getElementById("customerbank_div").style.display = "block";
-            document.getElementById("customerbank_div").innerHTML = "Please fill out bank!";
-            document.getElementById("name_id").style.display = "none";
-            document.getElementById("new_id").style.display = "none";
-            document.getElementById("customer_div").style.display = "none";
+            alert("Please fill out bank")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid #eaf0f9");
+            $("#customer_id").css("border", "1px solid #eaf0f9");
+            $("#basiInput8").css("border", "1px solid red");
 
-        } else  {
-            document.getElementById("customer_div").style.display = "none";
+        } else {
             redirect_url = "admin_book_plot_action"
             $.ajax({
                 url: redirect_url,
@@ -1229,12 +1172,14 @@
             })
 
         }
+
     })
 </script>
 
 
 <script>
     function onlyNumberKey(evt) {
+
         var ASCIICode = (evt.which) ? evt.which : evt.keyCode
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
             document.getElementById("decimal_no").style.display = "block";
@@ -1247,184 +1192,34 @@
         }
     }
 </script>
-<script>
-    function onlyNumberKey_customer(evt) {
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
-            document.getElementById("customer_div").style.display = "block";
-            document.getElementById("customer_div").innerHTML = "Please Enter Decimal No"
-            // alert("Please Enter Decimal Numbers")
-            return false;
-        } else {
-            document.getElementById("customer_div").style.display = "none";
-            return true;
-        }
-    }
-</script>
-
-<script>
-    function onlyNumberKey_phone(evt) {
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
-            // document.getElementById("new_id").style.display = "block";
-            // document.getElementById("new_id").innerHTML = "Please Enter Decimal No"
-            // alert("Please Enter Decimal Numbers")
-            return false;
-        } else {
-            // document.getElementById("new_id").style.display = "none";
-            return true;
-        }
-    }
-</script>
-
 
 
 
 <script>
     function startdigit(event) {
         val = event.value;
-
-        if (val.startsWith("5") === false)  {
+        if (val.startsWith("5") === false) {
             document.getElementById("new_id").style.display = "block";
             document.getElementById("new_id").innerHTML = "Phone number should start from 5!";
             // alert("Phone number should start from 5")
             event.value = "";
         }
         else if (val.startsWith("5") === true) {
-            document.getElementById("new_id").style.display = "none"; 
+            document.getElementById("new_id").style.display = "none";
+            
         }
-        // else if(val.length != 9){
-        //     document.getElementById("new_id").style.display = "block";
-        //     document.getElementById("new_id").innerHTML = "Phone number must in 9 digits!";
-        // }
-        // else if (val.length == 9){
-        //     document.getElementById("new_id").style.display = "none"; 
-        // }
 
     }
 </script>
+<!-- <script>
+     function customer_length(){
 
-
-<script>
-    var modalConfirm = function(callback){
-  
-  $("#btn-confirm").on("click", function(){
-    $("#mi-modal").modal('show');
-  });
-
-  $("#modal-btn-si").on("click", function(){
-    callback(true);
-    $("#mi-modal").modal('hide');
-  });
-  
-  $("#modal-btn-no").on("click", function(){
-    callback(false);
-    $("#mi-modal").modal('hide');
-  });
-};
-
-modalConfirm(function(confirm){
-  if(confirm){
-    //Acciones si el usuario confirma
-    $("#result").html("CONFIRMADO");
-  }else{
-    //Acciones si el usuario no confirma
-    $("#result").html("NO CONFIRMADO");
-  }
-});
-</script>
-
-
-
-
-<script>
-    var modalConfirm = function(callback){
-  
-  $("#btn-confirm2").on("click", function(){
-    $("#mi-modal2").modal('show');
-  });
-
-  $("#modal-btn-si").on("click", function(){
-    callback(true);
-    $("#mi-modal2").modal('hide');
-  });
-  
-  $("#modal-btn-no2").on("click", function(){
-    callback(false);
-    $("#mi-modal2").modal('hide');
-  });
-};
-
-modalConfirm(function(confirm){
-  if(confirm){
-    //Acciones si el usuario confirma
-    $("#result").html("CONFIRMADO");
-  }else{
-    //Acciones si el usuario no confirma
-    $("#result").html("NO CONFIRMADO");
-  }
-});
-</script>
-
-
-<script>
-    var modalConfirm = function(callback){
-  
-  $("#btn-confirm3").on("click", function(){
-    $("#mi-modal3").modal('show');
-  });
-
-  $("#modal-btn-si").on("click", function(){
-    callback(true);
-    $("#mi-modal3").modal('hide');
-  });
-  
-  $("#modal-btn-no3").on("click", function(){
-    callback(false);
-    $("#mi-modal3").modal('hide');
-  });
-};
-
-modalConfirm(function(confirm){
-  if(confirm){
-    //Acciones si el usuario confirma
-    $("#result").html("CONFIRMADO");
-  }else{
-    //Acciones si el usuario no confirma
-    $("#result").html("NO CONFIRMADO");
-  }
-});
-</script>
-
-
-<script>
-    var modalConfirm = function(callback){
-  
-  $("#btn-confirm4").on("click", function(){
-    $("#mi-modal4").modal('show');
-  });
-
-  $("#modal-btn-si").on("click", function(){
-    callback(true);
-    $("#mi-modal4").modal('hide');
-  });
-  
-  $("#modal-btn-no4").on("click", function(){
-    callback(false);
-    $("#mi-modal4").modal('hide');
-  });
-};
-
-modalConfirm(function(confirm){
-  if(confirm){
-    //Acciones si el usuario confirma
-    $("#result").html("CONFIRMADO");
-  }else{
-    //Acciones si el usuario no confirma
-    $("#result").html("NO CONFIRMADO");
-  }
-});
-</script>
+    var customer_id = document.getElementById('customer_id');
+    if(customer_id.value.length!=10){
+        alert("customer id must contain 10 digits")
+    }
+}
+</script> -->
 
 
 {% endblock %}
