@@ -171,7 +171,7 @@
                                              <div class="form-group  required_item w-100">
                                                  <div class=""> 
                                                     
-                                                     <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission">&nbsp; Ploat Management&nbsp;&nbsp;&nbsp;
+                                                     <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission">&nbsp; Plot Management&nbsp;&nbsp;&nbsp;
                                                      <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
                                                      <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
                                                  </div>
@@ -410,7 +410,7 @@
                                         </div>
                                         <div class="col-md-8 d-flex align-items-center">
                                             <div class="form-group  required_item w-100">
-                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{{data.phone}}">
+                                                <input type="text" class="input form-control mt-2" disabled="" value="{{data.phone}}">
 
                                             </div>
 
@@ -423,7 +423,7 @@
                                         </div>
                                         <div class="col-md-8 d-flex align-items-center">
                                             <div class="form-group  required_item w-100">
-                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{{data.mobile}}">
+                                                <input type="text" class="input form-control mt-2" disabled="" value="{{data.mobile}}">
 
                                             </div>
                                         </div>
@@ -467,7 +467,7 @@
                                         <div class="col-md-8 d-flex align-items-center">
                                             <div class="form-group  required_item w-100">
                                                 <div class="">
-                                                    <input type="text" class="input form-control mt-2" disabled="" placeholder="{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})">
+                                                    <input type="text" class="input form-control mt-2" disabled="" value="{{user_manger.manager_id.name}} ({{user_manger.manager_id.email}})">
                                                    
                                                 </div>
 
@@ -485,7 +485,7 @@
                                         <div class="form-group  required_item w-100">
                                             <div class=""> 
                                                
-                                                <input {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"  disabled value="1" name="manager_nav_ploat_permission">&nbsp; Ploat Management&nbsp;&nbsp;&nbsp;
+                                                <input {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"  disabled value="1" name="manager_nav_ploat_permission">&nbsp; Plot Management&nbsp;&nbsp;&nbsp;
                                                 <input {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
                                                 <input {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
                                             </div>
@@ -505,7 +505,7 @@
                                         </div>
                                         <div class="col-md-9 d-flex align-items-center">
                                             <div class="form-group  required_item w-100">
-                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{{data.email}}">
+                                                <input type="text" class="input form-control mt-2" disabled="" value="{{data.email}}">
 
                                             </div>
                                         </div>
@@ -518,7 +518,7 @@
                                         </div>
                                         <div class="col-md-9 d-flex align-items-center">
                                             <div class="form-group  required_item w-100">
-                                                <input type="text" class="input form-control mt-2" disabled="" placeholder="{{data.emp_id}}">
+                                                <input type="text" class="input form-control mt-2" disabled="" value="{{data.emp_id}}">
 
                                             </div>
                                         </div>

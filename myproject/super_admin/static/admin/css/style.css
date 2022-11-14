@@ -7724,7 +7724,7 @@ textarea.form-control {
     border-radius: 3px;
     max-width: 100%;
     padding: 6px 6px;
-    font-size: 14px;
+    font-size: 13px;
     -webkit-box-shadow: none;
     box-shadow: none;
     -webkit-transition: all 300ms linear;
@@ -13248,7 +13248,7 @@ body.modal-open {
   }
 
   .nav-pay{
-    background-color: #f6fafd;
+    background-color: #dddddd26;
   }
   
   .nav-pay .nav-link.active{
@@ -13931,8 +13931,8 @@ body.modal-open {
     padding: 5px;
   }
   
-  .payslip .form-control{
-    padding: 0.3rem 0.5rem;
+  .payslip .form-control {
+    padding: 0.1rem 0.3rem;
     margin-bottom: 7px;
   }
   
@@ -14239,6 +14239,18 @@ select {
     color: #212529;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
+}
+
+.bankselect select {
+    text-transform: none;
+    width: 100%;
+    padding: 0.1rem 0.3rem;
+    font-size: 13px;
+    color: #212529;
+    border: 1px solid #eaf0f9;
+    border-radius: 0.25rem;
+    background-color: #dddddd26;
+    margin-bottom: 7px;
 }
 
 .payslip h6 {
@@ -15296,22 +15308,40 @@ ul {
     font-weight: 600;
 }
 
+.nav-tabs {
+    border-top: 1px solid #eaf0f9 !important;
+    border-bottom: 1px solid #eaf0f9 !important;
+}
+
 .schdul-box{
-    background-color: #f6fafd;
+    background-color: #fafafa;
     padding: 10px;
+}
+
+.bookng-nw h6{
+    margin: 0 0 .4em !important;
+}
+.bookng-nw h5{
+    margin: 0 0 .4em !important;
 }
 
 .schdul-box h6{
     padding-left: 0;
+    font-size: 11px;
+    font-weight: 400;
+    margin: 0 0 .4rem;
 }
 
-.schdul-box h6 span{
+.schdul-box span{
     font-weight: 400;
     color: #6c757d;
+    font-size: 11px;
 }
 
 .schdul-box h5{
     color: #545454;
+    font-size: 13px;
+    margin: 0 0 .4rem;
 }
 
 .schdul-box h5 span{
@@ -15946,7 +15976,7 @@ table.dataTable thead th{
 }
 
 .nav-pay h5{
-    font-weight: 600;
+    font-weight: 500;
     padding-left: 10px;
 }
 
@@ -16023,4 +16053,13 @@ table.dataTable thead th{
     height: 33px;
     font-size: 20px;
     transform: rotate(90deg);
+}
+
+.discard-payroll:hover{
+    text-decoration: none;
+    color: #000;
+}
+
+.noti-tag:hover{
+    color: white;
 }

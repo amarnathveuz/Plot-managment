@@ -230,6 +230,39 @@ def create_user(request):
                 )
                 messages.success(request,str('Created'))
                 return redirect(request.META['HTTP_REFERER'])
+        elif user_type == "admin":
+            if User.objects.filter(username=email).exists():
+                messages.warning(request,str("An account with the given username alredy exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            else:
+                user = User.objects.create_user(email, email, password,is_staff=True,is_active=True,is_superuser=True)
+                user.save()
+                data1 = Token.objects.create(user=user)
+                save_user_data = user_Details.objects.create(
+                    auth_user = user,
+                    name = name,
+                    phone = phone,
+                    email = email,
+                    mobile = mobile,
+                    emp_id = empid,
+                    address1 = address1,
+                    address2 = address2,
+                    city = city,
+                    state = state,
+                    country = country,
+                    zip = zip,
+                    password_geration_type = password_select,
+                    user_type = user_type,
+                    atatchment =  attachment,
+                    created_by = request.user,
+                    plot_list_view = plot_list_view,
+                    price_visibility = price_visibility,
+                    property_access = "all"
+
+                )
+                messages.success(request,str('Created'))
+                return redirect(request.META['HTTP_REFERER'])
+            
 
             pass
 
@@ -355,6 +388,15 @@ def property_update(request):
         UType = request.POST.get("UType")
         Price = request.POST.get("Price")
         Bank = request.POST.get("Bank")
+        print("bank:::::",str(Bank))
+        if Bank == "select bank":
+            messages.error(request, "Select Bank")
+            return redirect(request.META['HTTP_REFERER'])
+        
+        bank_mapping_id = None
+        
+        bank_data = Bank_details.objects.get(bank_name=Bank)
+        bank_mapping_id = bank_data.id
         current_status = request.POST.get("current_status")
         currency = request.POST.get("currency")
         customer_id = request.POST.get("customer_id")
@@ -392,11 +434,22 @@ def property_update(request):
                 Bank =Bank,
                 current_status = current_status,
                 currency = currency,
-                customer_id = customer_id
+                customer_id = customer_id,
+                bank_relation_id_id = bank_mapping_id
             )
+            try:
+                data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
+                update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
+            except:
+                pass
         else:
             data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,  Name=Name,
-                Bank =Bank, currency = currency,customer_id = customer_id)
+                Bank =Bank, currency = currency,customer_id = customer_id,bank_relation_id_id = bank_mapping_id)
+            try:
+                data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
+                update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
+            except:
+                pass
 
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
@@ -408,6 +461,8 @@ def property_update(request):
     else:    
         id = request.GET.get("id")
         data = intractive_map.objects.get(id=id)
+
+        currency_price = '{:20,.2f}'.format(data.Price)
         multiple_image_data = intractive_map_multiple_image.objects.filter(mapping_id_id=id)
         history = user_request_plot.objects.filter(property_mapping_id=id).order_by("-id")
 
@@ -426,7 +481,8 @@ def property_update(request):
             'history':history,
             'available_booking':available_booking,
             'user_type':user_type,
-            'bank_details':bank_details
+            'bank_details':bank_details,
+            'currency_price':currency_price
         }
         return render(request,'super_admin/property_update.html',context)
 
@@ -643,6 +699,7 @@ def booking_action(request):
     if request.method == "POST":
         name = request.POST.get("name",False)
         plot_id_mapping_id = request.POST.get("plot_id_mapping_id",False)
+        data_plot = intractive_map.objects.get(id=plot_id_mapping_id)
         customer_id = request.POST.get("b_id",False)
         phone = request.POST.get("phone",False)
         bank = request.POST.get("bank",False)
@@ -677,7 +734,8 @@ def booking_action(request):
                         bank_relation_id_id = bank,
                         bank = bank_name,
                         read_status = 0,
-                        booking_status = 1
+                        booking_status = 1,
+                        Price = data_plot.Price
 
                     )
                     text_content = "Booking report submitted ("+str(request.user)+")"
@@ -700,7 +758,8 @@ def booking_action(request):
                         bank_relation_id_id = bank,
                         bank=bank_name,
                         read_status = 0,
-                        booking_status = 1
+                        booking_status = 1,
+                        Price = data_plot.Price
 
                     )
                     text_content = "Booking report submitted ("+str(request.user)+")"
@@ -732,7 +791,8 @@ def booking_action(request):
                         bank=bank_name,
                         manager_id_id = data_user_manger.manager_id.id,
                         read_status = 0,
-                        booking_status = 1
+                        booking_status = 1,
+                        Price = data_plot.Price
 
                     )
                     text_content = "Booking report submitted ("+str(request.user)+")"
@@ -754,7 +814,8 @@ def booking_action(request):
                         bank=bank_name,
                         manager_id_id = data_user_manger.manager_id.id,
                         read_status = 0,
-                        booking_status = 1
+                        booking_status = 1,
+                        Price = data_plot.Price
 
                     )
                     text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1329,6 +1390,7 @@ def admin_book_plot_action(request):
         customer_bank = request.POST.get("customer_bank",False)
         plot_id = request.POST.get("plot_id",False)
         data = intractive_map.objects.get(id=plot_id)
+        price_amount = data.Price
         status = data.current_status
         bank_mapping_id = None
         customer_id1 = None
@@ -1355,7 +1417,8 @@ def admin_book_plot_action(request):
                     bank = customer_bank,
                     read_status = 0,
                     booking_status = 1,
-                    bank_relation_id_id = bank_mapping_id
+                    bank_relation_id_id = bank_mapping_id,
+                    Price = price_amount
 
                 )
                 text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1381,7 +1444,8 @@ def admin_book_plot_action(request):
                     bank = customer_bank,
                     read_status = 0,
                     booking_status = 1,
-                    bank_relation_id_id = bank_mapping_id
+                    bank_relation_id_id = bank_mapping_id,
+                    Price = price_amount
 
                 )
                 text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1408,8 +1472,15 @@ def admin_book_plot_action(request):
 
 def customer_management(request):
     data = Customer_details.objects.all().order_by("-id")
+    page_number = request.GET.get("page")
+    data_paginator = Paginator(data, 10)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
     context = {
-        'data':data
+        'data':data,
+        'page_obj': page_obj
     }
     return render(request,'super_admin/customer_management.html',context)
 
@@ -1422,13 +1493,15 @@ def customer_more_details(request):
         current_booking = user_request_plot.objects.get(customer_id_id=data.id,available_status=1)
     except:
         pass
-    booking_history = user_request_plot.objects.filter(customer_id_id=data.id)
+    booking_history = user_request_plot.objects.filter(customer_id_id=data.id).order_by("-id")
     bank_instance = Bank_details.objects.all()
+    booking_history_count = booking_history.count()
     context = {
         'data':data,
         'current_booking':current_booking,
         'history':booking_history,
-        'bank_instance':bank_instance
+        'bank_instance':bank_instance,
+        'booking_history_count':booking_history_count
     }
     return render(request,'super_admin/customer_more_details.html',context)
     
@@ -1728,3 +1801,64 @@ def grouping_bank(request):
         "data": data,
     }
     return render(request, 'super_admin/grouping_bank.html', context)
+
+
+
+def customer_view_booking_property_details(request):
+
+    id = request.GET.get("id")
+    
+    page_obj = ""
+    page_number = request.GET.get("page")
+    data = user_request_plot.objects.filter(customer_id_id=id).order_by("-id")
+    checked_list = list(data.values_list('id',flat=True))
+    data_str = str(checked_list)
+    data_paginator = Paginator(data,10)
+    try:
+        page_obj = data_paginator.get_page(page_number) 
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+
+    context = {
+        "data":data,
+        'page_obj': page_obj,
+        'checked_list':checked_list
+    }
+
+    return render(request,'super_admin/customer_view_booking_property_details.html',context)
+
+
+
+def property_more_details_page(request):
+
+    id = request.GET.get("id",False)
+    data = user_request_plot.objects.get(id=id)
+    current_status = data.available_status
+    if current_status == 1:
+        mapping_id = data.property_mapping_id.id
+        print("mapping_id:::::",str(mapping_id))
+        data = intractive_map.objects.get(id=mapping_id)
+
+        currency_price = '{:20,.2f}'.format(data.Price)
+        multiple_image_data = intractive_map_multiple_image.objects.filter(mapping_id_id=mapping_id)
+        history = user_request_plot.objects.filter(property_mapping_id=mapping_id).order_by("-id")
+
+        user_type = User.objects.get(id=request.user.id)
+        available_booking = ''
+        try:
+            available_booking = user_request_plot.objects.get(property_mapping_id_id=mapping_id,available_status=1)
+        except:
+            pass
+
+        bank_details = Bank_details.objects.all()
+
+        context = {
+            'data':data,
+            'multiple_image_data':multiple_image_data,
+            'history':history,
+            'available_booking':available_booking,
+            'user_type':user_type,
+            'bank_details':bank_details,
+            'currency_price':currency_price
+        }
+        return render(request,'super_admin/property_update.html',context)

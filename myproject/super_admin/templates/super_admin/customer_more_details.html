@@ -414,7 +414,7 @@
                                                 for="company">Company</label>
                                                 
                                                 {% if current_booking %}
-                                                <a href="property_update?id={{current_booking.property_mapping_id.id}}"><button style="float: right;padding: 5px 10px !important;border: none; {% if current_booking.booking_status == 1 %} color: #fff;
+                                                <!-- <a href="property_update?id={{current_booking.property_mapping_id.id}}"><button style="float: right;padding: 5px 10px !important;border: none; {% if current_booking.booking_status == 1 %} color: #fff;
                                                     background-color: orange; {% elif current_booking.booking_status == 2   %}     color: #fff;
                             background-color: #e40000;  {% elif current_booking.booking_status == 3   %}     color: #fff;
                             background-color: gray; {% endif %}" type="button" class="btn btn-pri pay discard-payroll">
@@ -434,8 +434,26 @@
                                                     {% else %}
                         
                                                     {% endif %}
-                                                </button></a>
+                                                </button></a> -->
                                                 {% endif %}
+
+                                                <a class="m-1" href="customer_view_booking_property_details?id={{data.id}}" style="       color: #fff;
+                                                background-color: rgb(255 54 54);
+                                                border-color: rgb(0, 0, 0);
+                                                border: 1px solid transparent;
+                                                padding: 5px 10px;
+                                                font-size: .8125rem;
+                                                border-radius: 0.25rem;
+                                                float: right;">Plot {{booking_history_count}}</a>
+
+<a class="m-1" href="" style="    color: #fff;
+background-color: rgb(0, 0, 0);
+border-color: rgb(0, 0, 0);
+border: 1px solid transparent;
+padding: 5px 10px;
+font-size: .8125rem;
+border-radius: 0.25rem;
+float: right;">Documents 1</a>
                                                 <br>
                                         </div>
                                         <div class="col-md-12">
@@ -729,11 +747,28 @@
                                                 {% if j.user_type == "administrator" %}
                             <img src="{% static 'adminicon.jpg' %}" alt="">
                             {% else %}
+
                             {% if j.assigned_user_id.atatchment == '' %}
                             <img src="{% static 'adminicon.jpg' %}" alt="">
 
                             {% else %}
+                            {% if j.assigned_user_id.atatchment == None %}
+                            {% if j.log_type == 'booking_submit' %} 
+                            {% if j.action_appy_user.atatchment == '' %}
+                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                            {% elif j.action_appy_user.atatchment == None %}
+                            <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                            {% else %}
+
+                            <img src="../media/{{j.action_appy_user.atatchment}}" alt="">
+                            {% endif %}
+                            {% else %}
+
+                            {% endif %}
+                            {% else %}
                             <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
+                            {% endif %}
                             {% endif %}
                             {% endif %}
                                                 <div class="col">

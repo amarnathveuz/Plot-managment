@@ -1,0 +1,1111 @@
+
+{% extends "super_admin/base.html" %}
+{% load static %}
+{% load notification %}
+{% block content %}
+    <style>
+        .form-control.mystyle{
+        background-color: #8c95a126;
+        
+        
+    }
+    </style>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+
+    <div class="content">
+                <div class="container-fluid px-0 customer-contact">
+
+
+                    <div class="row">
+                        <div class="col-12 px-0">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+
+
+                                <div class="page-title-left w-100">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Property Management</a>
+                                        </li>
+                                        <li class="breadcrumb-item active"><a href="javascript: void(0);">Edit</a></li>
+
+                                    </ol>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="margn">
+                                       {% if request.user|get_nav_permission:"property_update_permission" %}
+                                            <a><button onclick="Edit_function()" id="edit_id" type="button" class="btn btn-prim pay edit-cont-btn">
+                                                    Edit
+                                                </button></a>
+                                                
+                                                <style>
+                                                    .display_name{
+                                                        display: none!important;
+                                                    }
+                                                </style>
+                                                <a><button type="submit" id="update_id"  class="btn btn-prim pay edit-cont-btn display_name">
+                                                        Update
+                                                    </button></a>
+                                                    {% endif %}
+
+                                                    
+
+                                                    {% if available_booking %}
+
+                                                    {% else %}
+
+                                                    {% if data.current_status == "2" %}
+                                                    <a href="#"  onclick="available_button_action1()"><button style="background-color: #6b8119;
+                                                        color: white;
+                                                        border: none;" type="button"
+                                                        class="btn btn-pri pay discard-payroll"> Reset to Available
+                                                    </button></a>
+                                                    {% else %}
+
+                                                    {% if available_booking %}
+                                                    {% else %}
+                                                    {% if data.current_status == '0' %}
+
+                                                    {% else %}
+                                                    <a href="#"  onclick="available_button_action1()"><button style="background-color: #6b8119;
+                                                        color: white;
+                                                        border: none;" type="button"
+                                                        class="btn btn-pri pay discard-payroll"> Reset to Available (No booking ) 
+                                                    </button></a>
+                                                    {% endif %}
+                                                    {% endif %}
+
+                                                    {% endif %}
+
+                                                    {% endif %}
+
+                                               {% if available_booking %}
+
+
+
+
+                                                    {% if available_booking.booking_status == 3   %}
+
+                                                    {% if available_booking.reset_to_availale == None %}
+
+
+                                                    {% if request.user|get_user_type_action:"user_type" %}
+                     
+                                                     <a href="#"  onclick="available_button_action()"><button style="background-color: #008000;
+                                                         color: white;
+                                                         border: none;" type="button"
+                                                         class="btn btn-pri pay discard-payroll"> Reset to Available
+                                                     </button></a>
+                                                     {% endif %}
+                     
+                                                     {% else %}
+                     
+                     
+                                                     {% endif %}
+                                                
+                     
+                                                 {% else %}
+                                                
+                                                 {% if available_booking.booking_status == 2 %}
+                                                
+                                                 {% else %}
+                     
+                                                 <a href="#" onclick="sold_button_action()" class="btn btn-prim pay">
+                                                   
+                                                             Confirm & Sell
+                                                      
+                                                     </a>
+                     
+                                                     {% endif %}
+                                                   
+                                                     {% if available_booking.booking_status == 1 %}
+                                                     <a href="#"  onclick="cancel_button_action()" class="btn btn-pri pay discard-payroll"> Cancel 
+                                                    </a>
+
+                                                    {% else %}
+                                                        {% if request.user|get_user_type_action:"user_type" %}
+                                                     <a href="#"  onclick="cancel_button_action()" class="btn btn-pri pay discard-payroll"> Cancel 
+                                                    </a>
+                                                    {% endif %}
+
+                                                    {% endif %}
+                     
+                                                     {% endif %}
+
+
+
+
+
+
+
+                                                   
+
+                                                    {% else %}
+
+                                                    {% endif %}
+                                            <!-- <a href="property_management"><button type="button"
+                                                    class="btn btn-pri pay create-button create-cont-btn">
+                                                    Discard
+                                                </button></a> -->
+                                                {% if history %}
+                                                {% if request.user|get_user_type_action:"user_type" %}
+                                            <a href="property_booking_history?id={{data.id}}"><button type="button"
+                                                    class="btn btn-pri pay create-button create-cont-btn">
+                                                    Booking History
+                                                </button></a>
+
+                                                {% endif  %}
+                                                {% endif %}
+
+                                                {% if request.user|get_user_type_action:"user_type" %}
+                                                <a id="book_now_id" style="background: black;
+                                                border: none;
+                                                color: white;" href="#" class="btn btn-pri pay create-button create-cont-btn new_booking_action">
+                                            Book Now
+                                           </a>
+
+                                           <a style="    background: black;
+                                           border: none;
+                                           color: white;display: none;" href="#" class="btn btn-pri pay create-button create-cont-btn submit_booking_action">
+                                      Submit 
+                                      </a>
+                                                {% endif %}
+                                        </div>
+                                        <div class="contact-pag d-flex align-items-center">
+                                            <!-- <i class="fas fa-caret-left mr-1 pagintn text-muted"
+                                                        aria-hidden="true"></i><span class="text-muted"> 1 0f
+                                                        10</span><i class="fas fa-caret-right ml-1 pagintn text-muted"
+                                                        aria-hidden="true"></i> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 px-0">
+                            <div class="card noti-card" id="orderList">
+                                <div class="card-body bb-0 pt-0 p-0">
+                                    <div>
+                                        <div class="payslip mb-5">
+                                            <div class="row pay-main mb-2">
+                                                <div class="customer-head mb-4 col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <input type="hidden" name="id" value="{{data.id}}">
+                                                            <h3 id="old_block_unit" class="leave-head">{{data.BlockNo}} {{data.UnitNo}}</h3>
+
+                                                            <div class="row" id="unit_block" style="display:none;">
+                                                                <div
+                                                                    class="col-md-4">
+                                                                    <h6>Unit No | Block No</h6>
+                                                                </div>
+                                                                <div class="col-md-4 d-flex align-items-center">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input style="outline: none;" type="text" id="basiInput2"  name="UnitNo" value="{{data.UnitNo}}" class="input form-control mystyle">
+                                                                    </div>
+
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="BlockNo" id="basiInput3"  value="{{data.BlockNo}}" type="text" class="input form-control mystyle">
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            
+
+                                                            <div class="form-group  required_item">
+                                                                <input type="text" id="basiInput1" disabled name="Name" value="{% if data.Name == None %}{% else %}{{data.Name}}{% endif %}" class="input mt-2 form-control mystyle"
+                                                                     placeholder="">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col text-right" id="current_status_id">
+                                                            {% if data.current_status == "0" %}
+                                                            <button style="background-color: #008000; " type="button"
+                                                                class="btn btn-pri pay discard-payroll noti-tag">Available
+                                                            </button>
+                                                            {% elif data.current_status == "1" %}
+                                                            <button style="background-color: orange; " type="button"
+                                                                class="btn btn-pri pay discard-payroll noti-tag">Price Quotation
+                                                            </button>
+                                                            {% elif data.current_status == "2" %}
+                                                            <button style="background-color: #e40000;" type="button"
+                                                                class="btn btn-pri pay discard-payroll noti-tag">Sold
+                                                            </button>
+                                                            {% elif data.current_status == "3" %}
+                                                            <button style="background-color: gray;" type="button"
+                                                                class="btn btn-pri pay discard-payroll noti-tag">Cancelled
+                                                            </button>
+                                                            {%endif%}
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-6 cust-details p-0">
+
+                                                            <div class="row" id="unit_no_id" style="display: none;"> 
+                                                                <div class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Unit No</h6>
+                                                                </div>
+                                                                <div class="col-md-8 d-flex align-items-center">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input type="number" id="basiInput2" disabled name="UnitNo" value="{{data.UnitNo}}" class="input mt-2 form-control mystyle">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" id="block_no_id" style="display: none;"> 
+                                                                <div class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Block No</h6>
+                                                                </div>
+                                                                <div class="col-md-8 d-flex align-items-center">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="BlockNo" id="basiInput3" disabled value="{{data.BlockNo}}" type="number" class="input mt-2 form-control mystyle">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row"> 
+                                                                <div class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Phone</h6>
+                                                                </div>
+                                                                <div class="col-md-8 d-flex align-items-center">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input required type="text" autocomplete="off" onkeyup="startdigit(this)" maxlength="9" minlength="9"  id="basiInput31" disabled name="Phoneno" value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}" class="input mt-2 form-control mystyle"
+                                                                        placeholder="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Unit Area</h6>
+                                                                </div>
+                                                                <div class="col-md-8 d-flex align-items-center">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="UnitArea" id="basiInput4" disabled value="{{data.UnitArea}}" type="text" class="input mt-2 form-control mystyle">
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Land Area </h6>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="LandArea" value="{{data.LandArea}}" id="basiInput5" disabled type="text" class="input mt-2 form-control mystyle">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Unit Type </h6>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="UType" type="text" id="basiInput6" disabled value="{% if data.UType == None %}{% else %}{{data.UType}}{% endif %}" class="input mt-2 form-control mystyle">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Customer ID </h6>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input autocomplete="off" maxlength="10" minlength="10"  onkeyup="customer_length()" required onkeypress="return onlyNumberKey(event)" name="customer_id" type="text" id="customer_id" disabled value="{%if data.customer_id == None %}{%else %}{{data.customer_id}}{% endif %}" class="input mt-2 form-control mystyle">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-6 cust-details p-0">
+                    
+                                                            <input type="text" value="{{currency_price}}">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Price</h6>
+                                                                </div>
+                                                                <div class="col-md-4 d-flex align-items-center">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="Price" onkeypress="return onlyNumberKey(event)" id="basiInput7" disabled value="{{data.Price|floatformat:"0"}}" type="number" class="input mt-2 form-control mystyle">
+                                                                    </div>
+
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <input name="currency" id="basiInput9" disabled value="{{data.currency}}" type="text" class="input mt-2 form-control mystyle" >
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Bank </h6>
+                                                                </div>
+                                                                <div class="col-md-9 d-flex align-items-center">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <select class="select2 mystyle" name="Bank" id="basiInput8" disabled>
+                                                                            
+                                                                            {% if data.Bank == '' %}
+                                                                            <option value="select bank">Select Bank</option>
+                                                                            
+                                                                            {% else %}
+                                                                            <option value="{{data.Bank}}">{{data.Bank}}</option>
+
+                                                                            {% endif %}
+                                                                            {% for i in bank_details %}
+                                                                            {% if i.bank_name == data.Bank %}
+                                                                            {% else %}
+                                                                            <option value="{{i.bank_name}}">{{i.bank_name}}</option>
+                                                                            {% endif %}
+
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <!-- <input name="Bank" id="basiInput8" disabled value="{{data.Bank}}" type="text" class="input mt-2 form-control mystyle">     -->
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <div id="status_show" class="row" style="display: none;">
+                                                                <div 
+                                                                    class="col-md-3 br-right d-flex align-items-center">
+                                                                    <h6>Status </h6>
+                                                                </div>
+                                                                <div class="col-md-9 d-flex align-items-center" id="select_div" >
+                                                                    <style>
+                                                                        .select_box_clr{
+                                                                            background-color:#8c95a126!important;
+                                                                        }
+                                                                        .select_box_clr1{
+                                                                            background-color: #ffffff!important;
+                                                                        }
+                                                                    </style>
+                                                                        <select id="select_box" disabled name="current_status" class="floatLabel form-select mystyle select_box_clr"
+                                                                        aria-placeholder="Employee">
+                                                                       
+                                                                        {% if data.current_status == "0" %}
+                                                                        <option value="0">Available</option>
+                                                
+                                                                        {% elif data.current_status == "1" %}
+                                                                        <option value="1">Price Quotation</option>
+                                                
+                                                                        {% elif data.current_status == "2" %}
+                                                                        <option value="2">Sold</option>
+                                                                        {% elif data.current_status == "3" %}
+                                                                        <option value="3">Cancelled</option>
+                                                                        {% endif %}
+                                                                       
+                                                                        {% if data.current_status == "0" %}
+                                                
+                                                                        {% else %}
+                                                                        <option value="0">Available</option>
+                                                                        {% endif %}
+                                                
+                                                                        {% if data.current_status == "1" %}
+                                                
+                                                                        {% else %}
+                                                                        <option value="1">Price Quotation</option>
+                                                                        {% endif %}
+                                                                        {% if data.current_status == "2" %}
+                                                
+                                                                        {% else %}
+                                                                        <option value="2">Sold</option>
+                                                                        {% endif %}
+                                                                        {% if data.current_status == "3" %}
+                                                
+                                                                        {% else %}
+                                                                        <option value="3">Cancelled</option>
+                                                                        {% endif %}
+                                                                       
+                                                                    </select>
+                                                                    </div>
+
+                                                            </div>
+
+
+
+                                                          {% if user_type.is_superuser %}
+                                                            <div class="row">
+                                                                
+                                                                <div
+                                                                    class="col-md-3 br-right d-flex align-items-start">
+                                                                    <h6>Attachments</h6>
+                                                                </div>
+                                                                                                                               <div class="col-md-9 d-flex align-items-start" >
+                                                                    
+                                                                    
+                                                                    
+                                                                   <div id="attachment_id12" class="row w-100" style="display: block">
+                                                                    <script>
+                                                                        function redirectIt(obj){
+                                                                            
+    var goToLink = obj.getAttribute("href");
+    window.location.href=goToLink;
+}
+                                                                    </script>
+                                                                    {% for i in multiple_image_data %}
+                                                                    <div class="files-wr1 w-100" data-count-files="1">
+                                                                        <div class="one-file">
+                                                                            <a class="file-item"><span class="file-name max-lines" style="width: 100%;">{{i.image_name}}</span>
+                                                                               
+                                                                              
+                                                                                <span onclick="redirectIt(this)" href="delete_image_action?id={{i.id}}" class="btn " style="margin-left: 5px;
+                                                                                width: 20px;
+                                                                                height: 20px;
+                                                                                border-radius: 3px;
+                                                                                color: #fff;
+                                                                                text-align: center;
+                                                                                padding: 2px;
+                                                                                font-size: 11px;
+                                                                                transition: all 0.2s;
+                                                                                background-color: #be0000;">
+                                                                                    
+                                                                                    <i class="fa fa-times" aria-hidden="true" ></i>
+                                                                                </span>
+                                                                            </a>
+                                                                            </a>
+                                                                        </div>
+                                                                       <style>
+                                                                           .max-lines {
+                                                                               display: block;
+                                                                               text-overflow: ellipsis;
+                                                                               white-space: nowrap;
+                                                                               word-wrap: break-word;
+                                                                               overflow: hidden;
+                                                                           }
+                                                                       </style>
+                                                                    </div>
+
+                                                                    {% endfor %}
+                                                                   </div>
+                                                                                                                                <div class="files-wr w-100" id="selected_image0" data-count-files="0" style="display: none ;">
+                                                                        <div class="one-file"><label for="file-3">Attach
+                                                                                file</label><input type="file"
+                                                                                name="attachment" id="file-3">
+                                                                            <a class="file-item hide-btn"><span
+                                                                                    class="file-name"></span><span
+                                                                                    class="btn btn-del-file"><i
+                                                                                        class="fa fa-times"
+                                                                                        aria-hidden="true"></i></span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="one-file"><label for="file-2">Attach
+                                                                                file</label><input type="file"
+                                                                                name="attachment" id="file-2">
+                                                                            <a class="file-item hide-btn"><span
+                                                                                    class="file-name"></span><span
+                                                                                    class="btn btn-del-file"><i
+                                                                                        class="fa fa-times"
+                                                                                        aria-hidden="true"></i></span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="one-file">
+                                                                            <label for="file-1">Attach file</label>
+                                                                            <input name="attachment" id="file-1"
+                                                                                type="file">
+                                                                            <a class="file-item hide-btn">
+                                                                                <span class="file-name"></span>
+                                                                                <span class="btn btn-del-file"><i
+                                                                                        class="fa fa-times"
+                                                                                        aria-hidden="true"></i></span>
+                                                                                </a>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                    
+                                                                    <!-- <a style="color: black;
+                                                                    font-weight: bold;" target="_blank" href="./media/{{i.attached_file}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                    <a style="color: black;
+                                                                    font-weight: bold;" href="delete_image_action?id={{i.id}}"><i class="fa fa-trash" aria-hidden="true"></i></a> -->
+                                                                </div>
+
+                                                               
+
+
+                                                                </div>
+
+                                                                {% endif %}
+
+                                                            
+                                                               
+                                                               
+                                                            </div>
+
+                                                            
+
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                {% if history %}
+                                                <div class="paytab">
+                                                    <ul class="nav nav-tabs nav-pay" role="tablist">
+                                                        <h5>Log</h5>
+                                                    </ul>
+    
+                                                    <div class="tab-content text-muted">
+                                               
+                                                        <div class="tab-pane active show" role="tabpanel">
+                                                            <div class="row actvty">
+                                                                <h5>{{i.dt}}</h5>
+                                                            </div>
+    
+                                                        {% for i in history %}
+
+                                                       {% if i.available_status == 1 %}
+    
+                                                       {% else %}
+    
+                                                            <div class="row msging schdul-box mt-1" >
+                                                                {% if j.user_type == "administrator" %}
+                                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                                {% else %}
+                                                                {% if j.assigned_user_id.atatchment == '' %}
+                                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                                {% elif j.assigned_user_id.atatchment == None %}
+                                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                                {% else %}
+                                                                <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
+                                                                {% endif %}
+                                                                {% endif %}
+                                                                <div class="col-9">
+                                                                    <h5>New Booking Received  <span> ({{i.dt}})</span></h5>
+                                                                    <h6>Name: <span>{{i.name|title}}</span>
+                                                                    </h6>
+                                                                    <h6>Customer ID: <span>{{i.booking_id}}</span>
+                                                                    </h6>
+                                                                    <h6>Bank: <span>{{i.bank}}</span>
+                                                                    </h6>
+                                                                    <h6>Email: <span>{{i.user_id.email|title}}</span>
+                                                                    </h6>
+                                                                    <h6>Property No : <span>{{i.property_mapping_id.BlockNo}} {{i.property_mapping_id.UnitNo}}</span></h6>
+                                                                            <h6>Phone: <span>{{i.phone}}
+                                                                               </span></h6>
+                                                                </div>
+                                                                <div class="col text-right">
+                                                                    <span class="badge badge-success text-uppercase">{{i.user_id.user_type}}</span>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% for j in i.booking_log_id.all %}
+    
+                                                            <div class="row">
+                                                                <i class="fas fa-level-up-alt log-level"></i>
+                                                                <div class="col msging schdul-box mt-1">
+                                                                    {% if j.user_type == "administrator" %}
+                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                {% else %}
+                                                {% if j.assigned_user_id.atatchment == '' %}
+                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                                                {% else %}
+                                                {% if j.assigned_user_id.atatchment == None %}
+                                                {% if j.log_type == 'booking_submit' %} 
+                                                {% if j.action_appy_user.atatchment == '' %}
+                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                                                {% elif j.action_appy_user.atatchment == None %}
+                                                <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                                                {% else %}
+
+                                                <img src="../media/{{j.action_appy_user.atatchment}}" alt="">
+                                                {% endif %}
+
+                                                {% else %}
+
+                                                {% endif %}
+
+                                                {% else %}
+                                                <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
+                                                {% endif %}
+                                                {% endif %}
+                                                {% endif %}
+                                                                    <div class="col">
+                                                                    {% if j.user_type == "administrator" %}
+                                                                    <h5>{{j.user_type|title}}  <span> {{j.dt}}</span></h5>
+                                                                    {% else %}
+                                                                    <h5> {{j.auth_user.email}}  <span>{{j.dt}}</span></h5>
+                                                                    {% endif %}
+                                                                        <h6>{{j.d_text}}</span>
+                                                                        </h6>
+                                                                        <h6><span>{{j.status_content}}</span></h6>
+                                                                    </div>
+                                                                   
+        
+                                                                </div>
+                                                            </div>
+    
+                                                            {% endfor %}
+                                                        {% endfor %}
+    
+    
+    
+                                                      
+                                                            
+                                                           
+    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+
+                                          
+                                        </div>
+
+
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+</form>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+        
+{% if messages %}
+   <script>
+    {% for message in messages %}
+        message1 = "{{message}}"
+        if(message1 == "error"){
+            Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: "{{ message }}",
+})
+
+        }
+        else{
+            Swal.fire(
+				  '',
+				  '{{ message }}',
+				  '{{message.tags}}'
+				)
+            }
+    {% endfor %}
+   </script>
+{% endif %}
+
+<script>
+   
+    function image_change(count){
+       
+        document.getElementById("files"+count).style.display = "block"
+    }
+    count = 1
+    function add_multiple_file_btn(){
+        $(".apendcompany").append(`   <label for="files`+count+`">
+        <img height="23px" width="23px"
+            style="margin-left:25px; cursor: pointer;width: 18%;
+            height: 1%;"
+            src="{% static 'file_select.png' %}">
+        </label>
+        <input class="dfffff" style="    margin-top: -39px;" class="file-input1" onchange="image_change(`+count+`)" data-count=0 id="files`+count+`"
+        name="attachment_old" type="file"
+
+        />`)
+        count = count + 1
+    }
+</script>
+
+<script>
+    var user_type = `{{user_type.is_superuser}}`
+   
+    function Edit_function(){
+        try {
+            document.getElementById("book_now_id").style.display = "none";
+}
+catch(err) {
+ 
+}
+      
+        $("#update_id").removeClass("display_name");
+        $("#select_box").removeClass("select_box_clr");
+        $("#select_box").addClass("select_box_clr1")
+        document.getElementById("select_box" ).disabled=false;
+
+        document.getElementById("current_status_id").style.display = "none";
+       
+        document.getElementById("unit_block").style.display = "block";
+        document.getElementById("old_block_unit").style.display = "none";
+
+
+        
+
+        // document.getElementById("unit_no_id").style.display = "flex";
+        // document.getElementById("block_no_id").style.display = "flex";
+        
+        document.getElementById("edit_id").style.display = "none";
+        // document.getElementById("status_show").style.display = "flex";
+        var element1 = document.getElementById("basiInput1");
+        element1.classList.remove("mystyle");
+        document.getElementById("basiInput1").disabled = false;
+
+        var element2 = document.getElementById("basiInput2");
+        element2.classList.remove("mystyle");
+        document.getElementById("basiInput2").disabled = false;
+        var element2 = document.getElementById("customer_id");
+        element2.classList.remove("mystyle");
+        document.getElementById("customer_id").disabled = false;
+
+
+        var element3 = document.getElementById("basiInput3");
+        
+        element3.classList.remove("mystyle");
+        document.getElementById("basiInput3").disabled = false;
+       
+        var element31 = document.getElementById("basiInput31");
+        element31.classList.remove("mystyle");
+        document.getElementById("basiInput31").disabled = false;
+
+       
+
+        var element4 = document.getElementById("basiInput4");
+        element4.classList.remove("mystyle");
+        document.getElementById("basiInput4").disabled = false;
+        
+        var element5 = document.getElementById("basiInput5");
+        element5.classList.remove("mystyle");
+        document.getElementById("basiInput5").disabled = false;
+        
+        var element6 = document.getElementById("basiInput6");
+        element6.classList.remove("mystyle");
+        document.getElementById("basiInput6").disabled = false;
+        if(user_type=='False'){
+            $("#basiInput2").prop("readonly", true);
+            $("#basiInput3").prop("readonly", true);
+            // $("#basiInput1").prop("readonly", true);
+            $("#basiInput4").prop("readonly", true);
+            $("#basiInput5").prop("readonly", true);
+            $("#basiInput6").prop("readonly", true);
+            document.getElementById("basiInput2").disabled = true;
+            document.getElementById("basiInput3").disabled = true;
+            // document.getElementById("basiInput1").disabled = true;
+            document.getElementById("basiInput4").disabled = true;
+            document.getElementById("basiInput5").disabled = true;
+            document.getElementById("basiInput6").disabled = true;
+        }
+        else{
+            $("#attachment_id12").hide()
+            document.getElementById("selected_image0").style.display = "block";
+        }
+
+        var element7 = document.getElementById("basiInput7");
+        element7.classList.remove("mystyle");
+        document.getElementById("basiInput7").disabled = false;
+
+        var element8 = document.getElementById("basiInput8");
+        element8.classList.remove("mystyle");
+        document.getElementById("basiInput8").disabled = false;
+
+        var element9 = document.getElementById("basiInput9");
+        element9.classList.remove("mystyle");
+        document.getElementById("basiInput9").disabled = false;
+
+        var element10 = document.getElementById("basiInput10");
+        element10.classList.remove("mystyle");
+        document.getElementById("basiInput10").disabled = false;
+
+        var element11 = document.getElementById("basiInput11");
+        element11.classList.remove("mystyle");
+        document.getElementById("basiInput11").disabled = false;
+
+        var element12 = document.getElementById("basiInput12");
+        element12.classList.remove("mystyle");
+        document.getElementById("basiInput12").disabled = false;
+
+        var element13 = document.getElementById("basiInput13");
+        element13.classList.remove("mystyle");
+        document.getElementById("basiInput13").disabled = false;
+
+       
+
+    }
+</script>
+
+
+<script>
+    $(function () {
+       
+        var countFiles = 1,
+            $body = $('body'),
+            typeFileArea = ['txt', 'doc', 'docx', 'ods'],
+            coutnTypeFiles = typeFileArea.length;
+
+        //create new element
+        $body.on('click', '.files-wr label', function () {
+            var wrapFiles = $('.files-wr'),
+                newFileInput;
+
+            countFiles = wrapFiles.data('count-files') + 1;
+            wrapFiles.data('count-files', countFiles);
+                console.log(countFiles,wrapFiles);
+            newFileInput = '<div class="one-file"><label for="file-' + countFiles +
+                '">Attach file</label>' +
+                '<input type="file" name="attachment" id="file-' + countFiles +
+                '"><div class="file-item hide-btn">' +
+                '<span class="file-name"></span><span class="btn btn-del-file"><i class="fa fa-times"></i></span></div></div>';
+            wrapFiles.prepend(newFileInput);
+        });
+
+        //show text file and check type file
+        $body.on('change', 'input[type="file"]', function () {
+            var $this = $(this),
+                valText = $this.val(),
+                fileName = valText.split(/(\\|\/)/g).pop(),
+                fileItem = $this.siblings('.file-item'),
+                beginSlice = fileName.lastIndexOf('.') + 1,
+                typeFile = fileName.slice(beginSlice);
+
+            fileItem.find('.file-name').text(fileName);
+            if (valText != '') {
+                fileItem.removeClass('hide-btn');
+
+                for (var i = 0; i < coutnTypeFiles; i++) {
+
+                    if (typeFile == typeFileArea[i]) {
+                        $this.parent().addClass('has-mach');
+                    }
+                }
+            } else {
+                fileItem.addClass('hide-btn');
+            }
+
+            if (!$this.parent().hasClass('has-mach')) {
+                $this.parent().addClass('error');
+            }
+        });
+
+        //remove file
+        $body.on('click', '.btn-del-file', function () {
+            var elem = $(this).closest('.one-file');
+            elem.fadeOut(400);
+            setTimeout(function () {
+                elem.remove();
+            }, 400);
+        });
+    });
+</script>
+
+
+<script>
+    function sold_button_action() {
+        let text = "Approval Confirmation?";
+        if (confirm(text) == true) {
+           
+           
+            location.href = 'approve_booking_action?id='+`{{available_booking.id}}`+'';
+            
+        } else {
+          
+        }
+    }
+
+    function cancel_button_action(){
+
+        let text = "Cancel Confirmation?";
+        if (confirm(text) == true) {
+           
+           
+            location.href = 'cancel_booking_action?id='+`{{available_booking.id}}`+'';
+            
+        } else {
+          
+        }
+        
+    }
+
+    function available_button_action(){
+
+        let text = "Reset to Available Confirmation?";
+        if (confirm(text) == true) {
+           
+           
+            location.href = 'rest_to_available_booking_action?id='+`{{available_booking.id}}`+'';
+            
+        } else {
+          
+        }
+
+    }
+
+    function available_button_action1(){
+
+let text = "Reset to Available Confirmation?";
+if (confirm(text) == true) {
+   
+   
+    location.href = 'rest_to_available_booking_action_sold_booking?id='+`{{data.id}}`+'';
+    
+} else {
+  
+}
+
+}
+</script>
+
+
+<script>
+    $(".new_booking_action").click(function(){
+        document.getElementById("edit_id").style.display = "none";
+
+        $(".new_booking_action").hide()
+        $(".submit_booking_action").show()
+
+        
+        var element1 = document.getElementById("basiInput1");
+        element1.classList.remove("mystyle");
+        document.getElementById("basiInput1").disabled = false;
+
+        var element2 = document.getElementById("basiInput31");
+        element2.classList.remove("mystyle");
+        document.getElementById("basiInput31").disabled = false;
+
+        
+        var element3 = document.getElementById("customer_id");
+        element3.classList.remove("mystyle");
+        document.getElementById("customer_id").disabled = false;
+
+        var element4 = document.getElementById("basiInput8");
+        element4.classList.remove("mystyle");
+        document.getElementById("basiInput8").disabled = false;
+    })
+
+
+    $(".submit_booking_action").click(function(){
+
+        var customer_name = $("#basiInput1").val()
+        var customer_phone = $("#basiInput31").val()
+        var customer_id = $("#customer_id").val()
+        var customer_bank = $("#basiInput8").val()
+        var plot_id = `{{data.id}}`
+       
+        if(customer_phone == ''){
+            alert("Please fill out phone")
+            if(customer_phone.length != 9){
+                alert("Phone number must in 9 digits")
+            }
+
+            $("#basiInput31").css("border", "1px solid red");
+        }
+        else if(customer_name == ''){
+            alert("Please fill out name")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid red");
+
+        }
+        else if (customer_id==''){
+            alert("Please fill out customer id")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid #eaf0f9");
+            $("#customer_id").css("border", "1px solid red");
+
+        }
+        else if (customer_bank==''){
+            alert("Please fill out bank")
+            $("#basiInput31").css("border", "1px solid #eaf0f9");
+            $("#basiInput1").css("border", "1px solid #eaf0f9");
+            $("#customer_id").css("border", "1px solid #eaf0f9");
+            $("#basiInput8").css("border", "1px solid red");
+
+        }
+        else{
+            redirect_url = "admin_book_plot_action"
+        $.ajax({
+            url : redirect_url,
+            data :{
+                'customer_name':customer_name,
+                'customer_phone':customer_phone,
+                'customer_id':customer_id,
+                'customer_bank':customer_bank,
+                'plot_id':plot_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type:'POST',
+            success: function (data) {
+              if(data['message'] == "success"){
+                window.location.reload();
+              }
+              else{
+                Swal.fire({
+  icon: 'error',
+  title: 'This plot is not available.',
+  text: "Please rest old booking",
+})
+
+              }
+            }
+            })
+                
+        }
+
+    })
+</script>
+
+
+<script>
+    function onlyNumberKey(evt) {
+        
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)){
+           alert("Please Enter Decimal Numbers")
+            return false;
+        }
+        else{
+        return true;
+        }
+    }
+</script>
+
+
+<script>
+    function startdigit(event){
+        val = event.value;
+        if (val.startsWith("5") === false){
+            alert("Phone number should start from 5")
+            event.value= "";
+        }
+        
+    }
+</script>
+<!-- <script>
+     function customer_length(){
+
+    var customer_id = document.getElementById('customer_id');
+    if(customer_id.value.length!=10){
+        alert("customer id must contain 10 digits")
+    }
+}
+</script> -->
+
+
+    {% endblock %}

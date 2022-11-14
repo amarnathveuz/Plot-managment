@@ -208,14 +208,16 @@
                             <td class="product_name">{{i.email}}</td>
 
                             <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
-                            <td class="company">
+                            <td class="company">    
                                 {% if i.user_type == "manager" %}
                                 <span
                                     class="badge badge-soft-success text-uppercase">Manager</span>
                                 {% elif i.user_type == "salesman"  %}
                                 <span style="color: red!important"
                                     class="badge badge-soft-success text-uppercase">Salesman</span>
-
+                                    {% elif i.user_type == "admin"  %}
+                                    <span style="color: rgb(35, 43, 156)!important"
+                                        class="badge badge-soft-success text-uppercase">Admin</span>
                                 {% endif %}
                                 </td>
                             <td class="status">{{i.dt}}

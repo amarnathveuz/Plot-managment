@@ -3501,7 +3501,7 @@
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h4 class="mb-0 plotNumber"></h4>
-              <span class="badge" id="badge_name">Available</span>
+              <span class="badge ">Available</span>
             </div>
 
             <div class="popup-show">
@@ -3626,7 +3626,7 @@
                   </div>
                   <div class="col-9">
                     <span class="d-flex">:
-                    <select name="bank" required class="form-control ml-1 mb-4 bank" style="font-size: 11px !important;">
+                    <select name="bank" class="form-control ml-1 mb-4 bank" style="font-size: 11px !important;">
                       <option selected disabled value="">Select Bank</option>
                       {% for i in data_bank %}
                       <option value="{{i.id}}">{{i.bank_name}}</option>
@@ -3643,96 +3643,6 @@
               </div>
               </form>
             </div>
-
-
-<!--            booking details          -->
-
-
-            <div class="info_new" style="display: none;">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <h6>Unit Type</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="unit_type"> </span>
-                  </div>
-                  <div class="col-5">
-                    <h6>Unit Area</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="unit_area"> </span>
-                  </div>
-                  <div class="col-5">
-                    <h6>Land Area</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="land_area"> </span>
-                  </div>
-
-                  {% if user_data.price_visibility == 1 %}
-                  <div class="col-5">
-                    <h6>Price</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="price"> </span>
-                  </div>
-                  {% else %}
-
-                  {% endif %}
-                  <div class="col-5">
-                    <h6>Attached Files</h6>
-                  </div>
-                  <div class="col-7 attachmnt">
-                    <span>:
-                      <!-- <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
-                      <a href="#" target="_blank" class="fas fa-file-image ml-2"
-                        download></a> -->
-                      </span>
-                  </div>
-                </div>
-
-                <hr>
-                <div class="row">
-                  <div class="col-5">
-                    <h6>Name</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="name_booked"> </span>
-                  </div>
-                  <div class="col-5">
-                    <h6>ID</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="id_booked"> </span>
-                  </div>
-                  <div class="col-5">
-                    <h6>Phone</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="phone_booked"> </span>
-                  </div>
-                  <div class="col-5">
-                    <h6>Bank</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="bank_booked"> </span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer text-right">
-
-                <a href="#!" class="btn btn-light cls">Close</a>
-
-
-              </div>
-            </div>
-
-
-<!--            end                      -->
-
-
-
           </div>
 
         </div>
@@ -3835,30 +3745,10 @@
         var attachmentFiles = response.data.attachement_multiple_filea;
         console.log(data.UType);
         $('.plotNumber').html(data.BlockNo+data.UnitNo)
-        var u_type = "";
-        if(data.UType !=null)
-          {
-            u_type = data.UType;
-          }
-        $('.unit_type').html(":  " + u_type);
-        var u_unitarea = "";
-        if(data.UnitArea !=null)
-          {
-            u_unitarea = data.UnitArea;
-          }
-        $('.unit_area').html(":  " + u_unitarea);
-        var u_landarea = "";
-        if(data.LandArea !=null)
-          {
-            u_landarea = data.LandArea;
-          }
-        $('.land_area').html(":  " + u_landarea);
-        var u_price = "";
-        if(data.Price !=null)
-          {
-            u_price = data.Price;
-          }
-        $('.price').html(":  " + u_price);
+        $('.unit_type').html(":" + data.UType);
+        $('.unit_area').html(":" + data.UnitArea);
+        $('.land_area').html(":" + data.LandArea);
+        $('.price').html(":" + data.Price);
         $(".plot_id_mapping_id").val(data.id);
         $('.result-attachment').remove();
         // file attachment 
@@ -3943,95 +3833,17 @@
         if (data.current_status == "0") {
           $('.badge').html('Available')
           $('.badge').addClass('badge-green');
-          $('.info_new').hide();
         } else if (data.current_status == "1") {
           $('.badge').html('Price Quotation')
           $('.badge').addClass('badge-orng');
-          $('.popup-show').hide();
-          $('.info_new').show();
-          var u_name = "";
-          if(data.Name !=null)
-          {
-            u_name = data.Name;
-          }
-          $('.name_booked').html(":  " + u_name);
-          var u_id = "";
-          if(data.customer_id !=null)
-          {
-            u_id = data.customer_id;
-          }
-          $('.id_booked').html(":  " + u_id);
-          var u_phone = "";
-          if(data.Phoneno !=null)
-          {
-            u_phone = data.Phoneno;
-          }
-          $('.phone_booked').html(":  " + u_phone);
-          var u_bank = "";
-          if(data.Bank !=null)
-          {
-            u_bank = data.Bank;
-          }
-          $('.bank_booked').html(":  " + u_bank);
+
         } else if (data.current_status == "2") {
           $('.badge').html('Sold')
           $('.badge').addClass('badge-red');
           $('.book-div').hide();
-          $('.popup-show').hide();
-          $('.info_new').show();
-          var u_name = "";
-          if(data.Name !=null)
-          {
-            u_name = data.Name;
-          }
-          $('.name_booked').html(":  " + u_name);
-          var u_id = "";
-          if(data.customer_id !=null)
-          {
-            u_id = data.customer_id;
-          }
-          $('.id_booked').html(":  " + u_id);
-          var u_phone = "";
-          if(data.Phoneno !=null)
-          {
-            u_phone = data.Phoneno;
-          }
-          $('.phone_booked').html(":  " + u_phone);
-          var u_bank = "";
-          if(data.Bank !=null)
-          {
-            u_bank = data.Bank;
-          }
-          $('.bank_booked').html(":  " + u_bank);
         } else if (data.current_status == "3") {
           $('.badge').html('Cancelled')
           $('.badge').addClass('badge-gray');
-          $('.popup-show').hide();
-          $('.info_new').show();
-          var u_name = "";
-          if(data.Name !=null)
-          {
-            u_name = data.Name;
-          }
-          $('.name_booked').html(":  " + u_name);
-          var u_id = "";
-          if(data.customer_id !=null)
-          {
-            u_id = data.customer_id;
-          }
-          $('.id_booked').html(":  " + u_id);
-          var u_phone = "";
-          if(data.Phoneno !=null)
-          {
-            u_phone = data.Phoneno;
-          }
-          $('.phone_booked').html(":  " + u_phone);
-          var u_bank = "";
-          if(data.Bank !=null)
-          {
-            u_bank = data.Bank;
-          }
-          $('.bank_booked').html(":  " + u_bank);
         }
 
       });
@@ -4058,6 +3870,7 @@
       {
 
       })
+
     })
 
     $(document).ready(function () {

@@ -90,6 +90,13 @@ urlpatterns = [
     path('Bank_card_view_filter_status', views.Bank_card_view_filter_status, name="Bank_card_view_filter_status"),
     path('grouping_bank', views.grouping_bank, name="grouping_bank"),
 
+
+
+    path('customer_view_booking_property_details',views.customer_view_booking_property_details,name='customer_view_booking_property_details'),
+    path('property_more_details_page',views.property_more_details_page,name='property_more_details_page'),
+    
+
+
     
 
     

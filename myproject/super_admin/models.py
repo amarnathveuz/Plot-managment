@@ -79,7 +79,8 @@ password_generate_option = (
 
 login_user_type = (
     ("manager","manager"),
-    ("salesman","salesman")
+    ("salesman","salesman"),
+    ("admin","admin")
 )
 property_access_option =(
     ("all","all"),
@@ -167,6 +168,7 @@ class user_request_plot(common):
     contract_certi = models.FileField(upload_to="customer_document",null=True)
     tax_certificate  = models.FileField(upload_to="customer_document",null=True)
     other_document = models.FileField(upload_to="customer_document",null=True)
+    Price = models.FloatField(blank=True, null=True)
 
 
 
