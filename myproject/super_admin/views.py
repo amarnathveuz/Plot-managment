@@ -607,8 +607,20 @@ def update_user_action(request):
         )
         print("password_select:::::",str(password_select))
         if password_select == "yes":
-            user_data = user_Details.objects.get(id=updated_id)
             password = request.POST.get("password",False)
+            if password == None:
+                messages.warning(request,"password required")
+                return redirect(request.META['HTTP_REFERER'])
+            elif password == False:
+                messages.warning(request,"password required")
+                return redirect(request.META['HTTP_REFERER'])
+            elif password == '':
+                messages.warning(request,"password required")
+                return redirect(request.META['HTTP_REFERER'])
+
+            
+            user_data = user_Details.objects.get(id=updated_id)
+            
             u = User.objects.get(id=user_data.auth_user.id)
             u.set_password(password)
             u.save()

@@ -1,13 +1,17 @@
 
+<div class="container-fluid py-2 horizontal-scroll" >
+    <div class="d-flex flex-row flex-nowrap">
+
+
 {% for i in data %}
 
-    <div class="col-md-12">
+    <div class="col-md-12 card card-body ">
         <h6>{{i.name}} ({{i.user_request_plot_customer_id.all.count}})</h6>
 
 
     {% for j in i.user_request_plot_customer_id.all %}
 
-        <div class='project-column'>
+        <div class='project-column horizontal-scroll__item'>
             <a href="customer_more_details?id={{i.id}}" style="text-decoration: none;color: black">
             <div class='customer-bx'>
                 <div class="customer-content">
@@ -80,9 +84,18 @@
         </div>
 
     {% endfor %}
-    
+
     </div>
 
 {% endfor %}
+
+    </div>
+</div>
+
+
+
+
+
+
 
 

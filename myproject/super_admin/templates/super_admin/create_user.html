@@ -28,9 +28,9 @@
 
                         </ol>
                         <div class="margn">
-                            <a onclick="validation_action()"><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                            <button onclick="validation_action()" type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
                                     Save
-                                </button></a>
+                                </button>
                             <a href="user_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
                                 </button></a>
                         </div>
@@ -71,13 +71,13 @@
                                        
                                         <div class="cust-name row">
                                             <div class="col-md-1">
-                                                <input  id="individual" type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> <label
+                                                <input  id="user_type1" type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> <label
                                                     for="Individual">Manager</label><br>
                                             </div>
                                             <div class="col">
-                                                <input  id="company" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
+                                                <input  id="user_type1" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
                                                     for="company">Salesman</label>&nbsp;&nbsp;&nbsp;
-                                                    <input  id="company" onclick="visible_manager('manager')" name="user_type"  type="radio"  value="admin"><label
+                                                    <input  id="user_type1" onclick="visible_manager('manager')" name="user_type"  type="radio"  value="admin"><label
                                                     for="company">Admin</label><br>
                                             </div>
                                             
@@ -85,7 +85,7 @@
                                               <div class="row">
     
                                                 <div class="col-md-4">
-                                                    <input name="name" required type="text" placeholder="Name" class="form-control">
+                                                    <input name="name" id="form_name" required type="text" placeholder="Name" class="form-control">
                                                 </div>
                                               </div>
                                             </div>
@@ -102,7 +102,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input name="phone" required type="number" class="input form-control mt-2" >
+                                                    <input id="form_phone"  name="phone" required type="number" class="input form-control mt-2" >
     
                                                 </div>
     
@@ -115,7 +115,7 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input name="mobile" required maxlength="9" minlength="9" type="text" pattern="\d*" class="form-control" id="basiInput" onkeyup="javascript:checkContents(this)">
+                                                    <input name="mobile" required maxlength="9" minlength="9" type="text" pattern="\d*" class="form-control" id="form_mobile" onkeyup="javascript:checkContents(this)">
                                                     <div style="display:none;color:red;" class="form-control-feedback user_table1">*Phone should be 9 digits and start with 5</div>
                                                 </div>
                                             </div>
@@ -131,7 +131,10 @@
                                                         <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="Automatic" checked id="access">  &nbsp;Automatic
                             &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="Manual"  type="radio" id="access" >&nbsp; Manual
                             <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter password" class="form-control mt-2">
-                                                    </div>
+                            <input style="display: none" id="re_manual_password_field" type="password" name="re_password"  placeholder="Confirm  password" class="form-control mt-2" onkeyup="validation()">
+                                                 
+                            <span id='message'></span>
+                        </div>
     
                                                 </div>
                                             </div>
@@ -199,7 +202,7 @@
                                             </div>
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input name="email" required type="email" class="form-control" id="basiInput">
+                                                    <input name="email" required type="email" class="form-control" id="form_email">
     
                                                 </div>
                                             </div>
@@ -212,7 +215,7 @@
                                             </div>
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input name="empid" maxlength="10" minlength="10" type="text" class="form-control" id="basiInput" onkeyup="search_details(this)">
+                                                    <input name="empid" maxlength="10" minlength="10" type="text" class="form-control" id="form_emp" onkeyup="search_details(this)">
                                                     <div style="display:none;color:red;" class="form-control-feedback user_table">*ID should be 10 digits...</div>
                                                 </div>
                                             </div>
@@ -294,7 +297,9 @@ var user_type = ''
             var x = document.getElementById('prop2').style.display = "block";
            }
            else{
+            
             user_type = 'salesman'
+            
             var x = document.getElementById('manager_select_div').style.display = "block";
             var x = document.getElementById('manager_select_div1').style.display = "block";
             var x = document.getElementById('prop1').style.display = "none";
@@ -306,13 +311,19 @@ var user_type = ''
 
     <script>
 
+        var password_type = 0
+
         function password_select_function(data){
             if(data == "manual"){
                 var y = document.getElementById('manual_password_field').style.display = "block"
+                var y = document.getElementById('re_manual_password_field').style.display = "block"
+                password_type = 1
 
             }
             else{
                 var y = document.getElementById('manual_password_field').style.display = "none"
+                var y = document.getElementById('re_manual_password_field').style.display = "none"
+                password_type = 0
             }
         }
     </script>
@@ -367,19 +378,102 @@ function image_remove_action(){
 </script>
 
 <script>
-function validation_action(event){
+function validation_action(){
+    
+
+    
     event.preventDefault()
+
+    var form_name = $("#form_name").val()
+    var form_phone = $("#form_phone").val()
+    var form_email = $("#form_email").val()
+    var form_emp = $("#form_emp").val()
+    var form_mobile = $("#form_mobile").val()
+    var manual_password_field = $("#manual_password_field").val()
+    var re_manual_password_field = $("#re_manual_password_field").val()
+    
+ 
+
     if(user_type == "manager"){
 
-        document.forms["frmUser"].submit();
+        if (form_name == ''  ){
+            document.getElementById("form_name").style.borderColor = "red";
+
+        }
+        else if (form_phone == ''){
+            document.getElementById("form_phone").style.borderColor = "red";
+
+        }
+        else if (form_email == ''){
+            document.getElementById("form_email").style.borderColor = "red";
+
+        }
+        else if (form_emp == ''){
+            document.getElementById("form_emp").style.borderColor = "red";
+
+        }
+        else if (form_mobile == ''){
+            document.getElementById("form_mobile").style.borderColor = "red";
+
+        }
+        else if(password_type == 1){
+            if (manual_password_field == re_manual_password_field){
+                document.forms["frmUser"].submit();
+
+            }
+            else{
+                $('#message').html('Not Matching').css('color', 'red');
+            }
+            
+        }
+        else{
+            document.forms["frmUser"].submit();
+        }
+
+        
     }
     else if(user_type == "salesman"){
+      
        
         var e = document.getElementById("selected_manger_name");
 var value = e.options[e.selectedIndex].value;
+
 if(value == "select"){
     alert("select manger")
 }
+
+if (form_name == ''  ){
+            document.getElementById("form_name").style.borderColor = "red";
+
+        }
+        else if (form_phone == ''){
+            document.getElementById("form_phone").style.borderColor = "red";
+
+        }
+        else if (form_email == ''){
+            document.getElementById("form_email").style.borderColor = "red";
+
+        }
+        else if (form_emp == ''){
+            document.getElementById("form_emp").style.borderColor = "red";
+
+        }
+        else if (form_mobile == ''){
+            document.getElementById("form_mobile").style.borderColor = "red";
+
+        }
+        else if(password_type == 1){
+            if (manual_password_field == re_manual_password_field){
+                document.forms["frmUser"].submit();
+
+            }
+            else{
+                $('#message').html('Not Matching').css('color', 'red');
+            }
+            
+        }
+        
+
 else{
     document.forms["frmUser"].submit();
 }
@@ -454,5 +548,18 @@ else{
         $(".user_table").hide()
 }
   }
+</script>
+
+<script>
+ function validation() {
+    if ($('#manual_password_field').val() == $('#re_manual_password_field').val()) {
+    $('#message').html('Matching').css('color', 'green');
+  } else{
+    $('#message').html('Not Matching').css('color', 'red');
+
+  }
+ 
+
+ }
 </script>
     {% endblock %}
