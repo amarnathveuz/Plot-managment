@@ -473,7 +473,10 @@ def property_update(request):
         except:
             pass
 
-        bank_details = Bank_details.objects.all()
+        bank_details = Bank_details.objects.filter(status="Active")
+        print("valll:::::",str(currency_price))
+        cv = str(currency_price).replace(" ", "")
+        
 
         context = {
             'data':data,
@@ -482,7 +485,7 @@ def property_update(request):
             'available_booking':available_booking,
             'user_type':user_type,
             'bank_details':bank_details,
-            'currency_price':currency_price
+            'currency_price':cv
         }
         return render(request,'super_admin/property_update.html',context)
 
@@ -696,7 +699,7 @@ def home(request):
 @login_required(login_url='/')
 def plot(request):
     data = intractive_map.objects.all()
-    data_bank = Bank_details.objects.all()
+    data_bank = Bank_details.objects.filter(status="Active")
     user_data = user_Details.objects.get(auth_user=request.user)
     context = {
         'data':data,

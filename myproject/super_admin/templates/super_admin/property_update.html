@@ -8,8 +8,43 @@
 
 
     }
+    .schdul-box{
+
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.08);
+
+}
+    
 </style>
 
+
+  
+  <!-- Modal HTML -->
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="icon-box">
+            <i style="    color: white;
+            font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i>
+          </div>
+          <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Do you really want to delete these records? This process cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+
+          <form action="delete_image_action" method="GET">
+            <input type="hidden" id="id111" name="id">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        
+        </div>
+      </div>
+    </div>
+  </div>
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
@@ -174,70 +209,120 @@
 
 
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
-                <div class="modal-dialog modal-sm">
+               
+                <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Reset to Available Confirmation?</h4>
+                      <div class="modal-header">
+                        <div class="icon-box">
+                          <!-- <i style="    color: white;
+                          font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
+                        </div>
+                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you really want to Reset to Available these records? This process cannot be undone.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+              
+                        <form action="delete_image_action" method="GET">
+                          <input type="hidden" id="id111" name="id">
+                          <button type="button" class="btn btn-danger reset_to_available">Yes</button>
+                        </form>
+                      
+                      </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click" id="modal-btn-no">No</button>
-                        <button type="button" class="btn btn-primary reset_to_available" id="modal-btn-si">Yes</button>
+                  </div>
 
-                       
-                        
-                    </div>
-                    </div>
-                </div>
+              
             </div>
 
 
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal2">
-                <div class="modal-dialog modal-sm">
+                <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Reset to Available Confirmation?</h4>
+                      <div class="modal-header">
+                        <div class="icon-box">
+                          <!-- <i style="    color: white;
+                          font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
+                        </div>
+                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you really want to Reset to Available these records? This process cannot be undone.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+              
+                        <form action="delete_image_action" method="GET">
+                          <input type="hidden" id="id111" name="id">
+                          <button type="button" class="btn btn-danger reset_to_available2">Yes</button>
+                        </form>
+                      
+                      </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click" id="modal-btn-no2">No</button>
-                        <button type="button" class="btn btn-primary reset_to_available2" id="modal-btn-si">Yes</button>
-
-                    </div>
-                    </div>
-                </div>
+                  </div>
+                
             </div>
 
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal3">
-                <div class="modal-dialog modal-sm">
+                <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Approval Confirmation?</h4>
+                      <div class="modal-header">
+                        <div class="icon-box">
+                          <!-- <i style="    color: white;
+                          font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
+                        </div>
+                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you really want to approve these records? This process cannot be undone.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+              
+                        <form action="delete_image_action" method="GET">
+                          <input type="hidden" id="id111" name="id">
+                          <button type="button" class="btn btn-danger approval_confirmation">Yes</button>
+                        </form>
+                      
+                      </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click" id="modal-btn-no3">No</button>
-                        <button type="button" class="btn btn-primary approval_confirmation" id="modal-btn-si">Yes</button>
+                  </div>
 
-                    </div>
-                    </div>
-                </div>
+
+              
             </div>
 
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal4">
-                <div class="modal-dialog modal-sm">
+                <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Cancel Confirmation?</h4>
+                      <div class="modal-header">
+                        <div class="icon-box">
+                          <!-- <i style="    color: white;
+                          font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
+                        </div>
+                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Do you really want to cancel these records? This process cannot be undone.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+              
+                        <form action="delete_image_action" method="GET">
+                          <input type="hidden" id="id111" name="id">
+                          <button type="button" class="btn btn-danger cancel_confirmation">Yes</button>
+                        </form>
+                      
+                      </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default no_click4" id="modal-btn-no4">No</button>
-                        <button type="button" class="btn btn-primary cancel_confirmation" id="modal-btn-si">Yes</button>
-
-                    </div>
-                    </div>
-                </div>
+                  </div>
+             
             </div>
 
                 <!-- <div class="alert" role="alert" id="result"></div> -->
@@ -503,10 +588,14 @@
                                                         <div class="col-md-9 d-flex align-items-start">
                                                             <style>
                                                                 .select_box_bank{
-                                                                    background-color:#dddddd26!important;
+                                                                    background-color: #f6fafd!important;
+                                                                    margin-bottom: 10px;
                                                                 }
                                                                 .select_box_bank1{
                                                                     background-color: #ffffff!important;
+                                                                }
+                                                                select{
+                                                                    border: 1px solid #eaf0f9;
                                                                 }
                                                             </style>
                                                             <div class="form-group  required_item w-100 bankselect ">
@@ -618,16 +707,16 @@
                                                                     }
                                                                 </script>
                                                                 {% for i in multiple_image_data %}
-                                                                <div class="files-wr1 w-100" data-count-files="1">
+                                                                <div class="files-wr1 w-100 mt-1" data-count-files="1">
                                                                     <div class="one-file">
-                                                                        <a class="file-item"><span
+                                                                        <a class="file-item d-flex"><span
                                                                                 class="file-name max-lines"
                                                                                 style="width: 100%;">{{i.image_name}}</span>
 
 
-                                                                            <span onclick="redirectIt(this)"
-                                                                                href="delete_image_action?id={{i.id}}"
-                                                                                class="btn " style="margin-left: 5px;
+                                                                            <span data-id="{{i.id}}" onclick="redirectIt(this)"
+                                                                                href="#"
+                                                                                class="btn delete_attach" style="margin-left: 5px;
                                                                                 width: 20px;
                                                                                 height: 20px;
                                                                                 border-radius: 3px;
@@ -705,79 +794,120 @@
                                             </div>
 
                                         </div>
-                                        {% if history %}
+                                   
+
+
+                                        <style>
+                                            .nav-contact .nav-item{
+                                                border-left: 1px solid #dee2e6;
+                                                border-right: 0px !important;
+                                            }
+                                            .form-control{
+                                                font-size: 13px !important;
+                                            }
+                                            .nav-contact .nav-link {
+                                            margin: 4px 10px;
+                                            background-color: transparent !important;
+                                            color: #000 !important;
+                                            border: 0;
+                                            box-shadow: none;
+                                            padding: 3px 0;
+                                            width: 115px;
+                                        }
+                                        .payslip .form-control {
+                                            padding: 0.2rem 0.5rem;
+                                            margin-bottom: 7px;
+                                        }
+                                        .payslip{
+                                            margin: 12px 10px;
+                                        }
+                                        .form-control:disabled, .form-control[readonly]{
+                                            background-color: #f6fafd;
+                                        }
+                                        .log-level{
+                                            margin: 25px 10px 0 0;
+                                        }
+                                        @media only screen and (max-width:1366px) {
+                                           .sub-bx h5 {
+                                            font-size: 13px;
+                                        }
+                                        .sub-bx h6 {
+                                            font-size: 12px;
+                                            font-weight: 400;
+                                        }
+                                        }
+                                        </style>
+
                                         <div class="paytab w-100">
                                             <ul class="nav nav-tabs nav-pay" role="tablist">
-                                                <h5 style="margin: 7px 0;">Log</h5>
+                                                <h5>Booking History</h5>
                                             </ul>
-
                                             <div class="tab-content text-muted">
-
+                                       
                                                 <div class="tab-pane active show" role="tabpanel">
-                                                    <div class="row actvty">
-                                                        <!-- <h5></h5> -->
-                                                    </div>
 
                                                     {% for i in history %}
+                                                <div class="row mt-3 pb-3" style="border-bottom: 1px solid #f1f1f1;">
 
                                                     {% if i.available_status == 1 %}
 
                                                     {% else %}
+                                                    <div class="col-md-3">
+                                                        <div class="row msging schdul-box mt-1">
+                                                            {% if j.user_type == "administrator" %}
+                                                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                            {% else %}
+                                                            {% if j.assigned_user_id.atatchment == '' %}
+                                                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                            {% elif j.assigned_user_id.atatchment == None %}
+                                                            <img src="{% static 'adminicon.jpg' %}" alt="">
+                                                            {% else %}
+                                                            <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
+                                                            {% endif %}
+                                                            {% endif %}
+                                                           
+                                                            <div class="col">
+                                                                <div class="row">
+                                                                    <div class="col px-0">
+                                                                        <h5>New Booking Received <span> ({{i.dt}})</span></h5>
+                                                                    </div>
+                                                                    <div class="col px-0 d-flex align-items-center justify-content-end">
+                                                                        {% if i.user_id.user_type == None %}
+                                                                        <span class="badge badge-success text-uppercase">Administrator</span>
 
-                                                    <div class="row msging schdul-box mt-1">
-                                                        {% if j.user_type == "administrator" %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                                        {% else %}
-                                                        {% if j.assigned_user_id.atatchment == '' %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                                        {% elif j.assigned_user_id.atatchment == None %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                                        {% else %}
-                                                        <img src="../media/{{j.assigned_user_id.atatchment}}" alt="">
-                                                        {% endif %}
-                                                        {% endif %}
-                                                        <div class="col-9 bookng-nw pl-0">
-                                                            <h5>New Booking Received <span> ({{i.dt}})</span></h5>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Name </h6><span>:
-                                                                    {{i.name|title}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Customer ID </h6><span>:
-                                                                    {{i.booking_id}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Bank </h6><span>:
-                                                                    {{i.bank}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Email </h6><span>:
-                                                                    {{i.user_id.email|title}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Property No </h6><span>:
-                                                                    {{i.property_mapping_id.BlockNo}}
-                                                                    {{i.property_mapping_id.UnitNo}}</span>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <h6 style="width: 80px;">Phone </h6><span>:
-                                                                    {{i.phone}}</span>
-                                                            </div>
+                                                                        {% elif i.user_id.user_type == '' %}
+                                                                        <span class="badge badge-success text-uppercase">Administrator</span>
 
+                                                                        {% else %}
+                                                                        <span class="badge badge-success text-uppercase">{{i.user_id.user_type}}</span>
 
-                                                        </div>
-                                                        <div class="col text-right">
-                                                            <span
-                                                                class="badge badge-success text-white text-uppercase">{{i.user_id.user_type}}</span>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                               
+                                                                <h6 class="mt-0">Name: <span> {{i.name|title}}</span>
+                                                                </h6>
+                                                                <h6>Customer ID: <span>  {{i.booking_id}}</span>
+                                                                </h6>
+                                                                <h6>Bank: <span>   {{i.bank}}</span>
+                                                                </h6>
+                                                                <h6>Property No : <span>{{i.property_mapping_id.BlockNo}}
+                                                                    {{i.property_mapping_id.UnitNo}}</span></h6>
+                                                                        <h6>Phone: <span>{{i.phone}}</span></h6>
+                                                            </div>
+                                                            
+
                                                         </div>
                                                     </div>
                                                     {% endif %}
-                                                    {% for j in i.booking_log_id.all %}
-
-                                                    <div class="row">
-                                                        <i class="fas fa-level-up-alt log-level"></i>
-                                                        <div class="col msging schdul-box mt-1 d-flex">
-                                                            {% if j.user_type == "administrator" %}
+                                                    <div class="col-md-9 px-0">
+                                                        <div class="row">
+                                                            {% for j in i.booking_log_id.all %}
+                                                            <div class="col-md-3 px-0">
+                                                                <div class="row">
+                                                                    <i class="fas fa-level-up-alt log-level"></i>
+                                                                    <div class="col msging schdul-box mt-1">
+                                                                        {% if j.user_type == "administrator" %}
                                                             <img src="{% static 'adminicon.jpg' %}" alt="">
                                                             {% else %}
                                                             {% if j.assigned_user_id.atatchment == '' %}
@@ -808,34 +938,39 @@
                                                             {% endif %}
                                                             {% endif %}
                                                             {% endif %}
-                                                            <div class="col-9 pl-0">
-                                                                {% if j.user_type == "administrator" %}
+                                                                        <div class="col px-0 sub-bx">
+                                                                            {% if j.user_type == "administrator" %}
                                                                 <h5>{{j.user_type|title}} <span> {{j.dt}}</span></h5>
                                                                 {% else %}
                                                                 <h5> {{j.auth_user.email}} <span>{{j.dt}}</span></h5>
                                                                 {% endif %}
                                                                 <h6>{{j.d_text}}</span>
                                                                 </h6>
-                                                                <h6><span>{{j.status_content}}</span></h6>
+                                                                <h6><span style="font-weight: 500;
+                                                                    color: #105797;">{{j.status_content}}</span></h6>
+                                                                        </div>
+                                                                       
+            
+                                                                    </div>
+                                                                </div>
                                                             </div>
-
-
+                                                            {% endfor %}
+                                                           
+                                                            
+                                                             
                                                         </div>
+                                                       
+                                                       
                                                     </div>
-
+                                                </div>
+                                                    
+                                              
                                                     {% endfor %}
-                                                    {% endfor %}
-
-
-
-
-
-
+                                                   
 
                                                 </div>
                                             </div>
                                         </div>
-                                        {% endif %}
                                     </div>
 
 
@@ -1426,5 +1561,14 @@ modalConfirm(function(confirm){
 });
 </script>
 
+<script>
+
+    $(".delete_attach").click(function(){
+        var id = $(this).attr("data-id")
+       
+        $("#id111").val(id)
+        $("#myModal").modal('show');
+    })
+</script>
 
 {% endblock %}
