@@ -22,7 +22,7 @@
 
                     <div class="page-title-left">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a>
+                            <li class="breadcrumb-item"><a href="user_management">User Management</a>
                             </li>
                             <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li>
 
@@ -115,8 +115,8 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input name="mobile" required type="number" class="form-control" id="basiInput">
-    
+                                                    <input name="mobile" required maxlength="9" minlength="9" type="text" pattern="\d*" class="form-control" id="basiInput" onkeyup="javascript:checkContents(this)">
+                                                    <div style="display:none;color:red;" class="form-control-feedback user_table1">*Phone should be 9 digits and start with 5</div>
                                                 </div>
                                             </div>
     
@@ -212,8 +212,8 @@
                                             </div>
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input name="empid" type="text" class="form-control" id="basiInput">
-    
+                                                    <input name="empid" maxlength="10" minlength="10" type="text" class="form-control" id="basiInput" onkeyup="search_details(this)">
+                                                    <div style="display:none;color:red;" class="form-control-feedback user_table">*ID should be 10 digits...</div>
                                                 </div>
                                             </div>
     
@@ -429,5 +429,30 @@ else{
             $(".file-upload").click();
         });
     });
+</script>
+
+<script type="text/javascript">
+   var checkContents = function(input) {
+      var text = input.value;
+      if(!/[5]/.test(text))
+         input.value = "";
+         if (input.value.length != 9) {
+    $(".user_table1").show()
+  }
+  else if(input.value.length == 9) {
+    $(".user_table1").hide()
+  }
+   }
+</script>
+
+<script>
+  function search_details(status){
+  if (status.value.length != 10) {
+    $(".user_table").show()
+        }
+        else if (status.value.length == 10){
+        $(".user_table").hide()
+}
+  }
 </script>
     {% endblock %}

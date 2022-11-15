@@ -1844,3 +1844,180 @@ def property_more_details_page(request):
 
     
     return render(request,'super_admin/property_more_details_page.html',context)
+
+
+
+def view_customer_document(request):
+    id = request.GET.get("id")
+    data =  Customer_details.objects.get(id=id)
+    context = {
+        'id':id,
+        'data':data
+    }
+    return render(request,'super_admin/view_customer_document.html',context)
+
+
+def create_customer_document(request):
+    if request.method == "POST":
+        id = request.POST.get("id")
+        type = request.POST.get("type")
+        document_file = request.FILES['document_file']
+        from datetime import date
+        import os
+        today = date.today()
+        if type == "customer_id":
+            extesion = os.path.splitext(str(document_file))[1]
+            update_save = Customer_details.objects.get(id=id)
+            update_save.customer_doc_id = document_file
+            update_save.customer_doc_id_update_dt = today
+            update_save.customer_doc_id_extesion = extesion
+            update_save.customer_doc_id_name = document_file.name
+            update_save.save()
+        elif type == "contract":
+            extesion = os.path.splitext(str(document_file))[1]
+            update_save = Customer_details.objects.get(id=id)
+            update_save.contract_certi = document_file
+            update_save.contract_certi_update_dt = today
+            update_save.contract_certi_extesion = extesion
+            update_save.contract_certi_name = document_file.name
+            update_save.save()
+        elif type == "tax_certificate":
+            extesion = os.path.splitext(str(document_file))[1]
+            update_save = Customer_details.objects.get(id=id)
+            update_save.tax_certificate = document_file
+            update_save.tax_certificate_update_dt = today
+            update_save.tax_certificate_extesion = extesion
+            update_save.tax_certificate_name = document_file.name
+            update_save.save()
+        elif type == "other":
+            extesion = os.path.splitext(str(document_file))[1]
+            update_save = Customer_details.objects.get(id=id)
+            update_save.other_document = document_file
+            update_save.other_document_update_dt = today
+            update_save.other_document_extesion = extesion
+            update_save.other_document_name = document_file.name
+            update_save.save()
+        messages.success(request,str("Created"))
+
+        return redirect(request.META['HTTP_REFERER'])
+
+
+
+
+        
+
+        pass
+    else:
+        id = request.GET.get("id")
+        return render(request,'super_admin/create_customer_document.html',{"id":id})
+
+
+
+
+@login_required(login_url='/')
+def export_excel_customer_booking(request):
+    from datetime import date
+    today = date.today()
+    response = HttpResponse(content_type='application/ms-excel')
+    file_name_new = 'property('+str(today)+").xls"
+    response['Content-Disposition'] = 'attachment; filename='+file_name_new
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Property details') 
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['Name','Id', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area','U Type','Price','Bank','Status(AR)','Status(EN)']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style) 
+
+    font_style = xlwt.XFStyle()
+    exportid1=request.GET.getlist('selected_data')
+    li = list(exportid1[0].split(","))
+    cleanedList = [x for x in li if x != 'NaN']
+    user_request_plot_id = user_request_plot.objects.filter(id__in=cleanedList)
+    property_mapping_id = list(user_request_plot_id.values_list("property_mapping_id",flat=True))
+   
+    rows = user_request_plot.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(booking_status=0,then=Value("Available")),When(booking_status=1,then=Value("Price Quotation")),When(booking_status=2,then=Value("Sold")),When(booking_status=3,then=Value("Cancelled")))).values('name', 'booking_id', 'phone', 'property_mapping_id__UnitNo', 'property_mapping_id__BlockNo','property_mapping_id__UnitArea','property_mapping_id__LandArea','property_mapping_id__UType','Price','bank','booking_status','statusnew')
+   
+    for row in rows:
+        row_num += 1
+       
+        for col_num in row.keys():
+            numb1 =   list(row.keys()).index(col_num)
+         
+            if numb1 == 10:
+                 ds1 =  row[col_num]
+                 query_instance = status_code.objects.get(status_code=int(ds1))
+                 ws.write(row_num, list(row.keys()).index(col_num),query_instance.text, font_style)
+            else:
+                ws.write(row_num, list(row.keys()).index(col_num), row[col_num], font_style)
+    wb.save(response)
+    return response
+
+
+
+def next_page_action_url_Customer_details(request):
+    page_number = request.GET.get("page")
+    data = Customer_details.objects.all().order_by('-id')
+    data_paginator = Paginator(data, 10)
+
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+    context = {
+        "data": data,
+        'page_obj': page_obj
+    }
+
+    return render(request, 'super_admin/demo_result_Customer_details.html', context)
+
+
+def Customer_detail_search_result(request):
+    data_value = request.GET.get("data_value")
+    data = Customer_details.objects.filter(name__contains=data_value) or Customer_details.objects.filter(customer_id__contains=data_value) or Customer_details.objects.filter(phone__contains=data_value) or Customer_details.objects.filter(bank__contains=data_value) or user_Details.objects.filter(email__contains=data_value) or Customer_details.objects.filter(dt__contains=data_value)
+    return render(request,'super_admin/Customer_detail_search_result.html', {'data': data})
+
+
+
+def Customer_search_card_view(request):
+    data_value = request.GET.get("data_value")
+    data = Customer_details.objects.filter(name__contains=data_value) or Customer_details.objects.filter(customer_id__contains=data_value) or Customer_details.objects.filter(phone__contains=data_value) or Customer_details.objects.filter(bank__contains=data_value) or user_Details.objects.filter(email__contains=data_value) or Customer_details.objects.filter(dt__contains=data_value)
+    context = {
+        'data':data
+    }
+    return render(request,'super_admin/Customer_search_card_view.html',context)
+
+
+
+def filtering_customer(request):
+    try:
+        data_value = request.GET.get("data_value")
+        data = Customer_details.objects.filter(name=data_value) or Customer_details.objects.filter(customer_id=data_value) or Customer_details.objects.filter(phone=data_value) or Customer_details.objects.filter(bank=data_value) or user_Details.objects.filter(email=data_value) or Customer_details.objects.filter(dt=data_value)
+        return render(request,'super_admin/filtering_customer.html', {'data': data})
+    except:
+        data1="No Datas Found For Your Search"
+        return render(request,'super_admin/filtering_customer.html', {'data1': data1})
+
+
+def customer_name_group_by_action(request):
+
+    data = Customer_details.objects.all().order_by('-id')
+    context = {
+        "data": data,
+        # 'booking_history':booking_history,
+   
+    }
+    return render(request,'super_admin/customer_name_group_by_action.html',context)
+
+
+
+def customer_name_group_by_action_card_view(request):
+    data = Customer_details.objects.all().order_by('-id')
+    context = {
+        "data": data,
+        # 'booking_history':booking_history,
+   
+    }
+
+    return render(request,'super_admin/customer_name_group_by_action_card_view.html',context)

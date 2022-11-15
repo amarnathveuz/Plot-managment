@@ -1,0 +1,284 @@
+{% extends "super_admin/base.html" %}
+
+{% load static %}
+{% block content %}
+<div class="container-fluid px-0">
+    <div class="row">
+        <div class="col-12 buttns">
+            <h5>Customer Documents</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-4">
+    <div class="tab-content">
+
+        <div class="tab-content contnt" id="demo_result_employee">
+
+        <div class="tab-pane active" id="home1" role="tabpanel">
+
+            <div class="d-flex align-items-center justify-content-between px-2">
+                <div class="col-md-4 px-0">
+                    <a href="create_customer_document?id={{id}}"><button type="button"
+                            class="btn btn-prim add-btn create-button"><i
+                                class="fas fa-plus"></i>
+                            Create
+                        </button></a>
+    
+                    <!-- <button onclick="Export()" type="button"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns"
+                        data-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title=""
+                        data-bs-original-title="Import">
+                        <i class="fas fa-upload"></i>
+                    </button> -->
+
+
+
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Export">
+                        <i class="fas fa-download"></i>
+                    </button>
+
+
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Favourite">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Print">
+                        <i class="fas fa-print"></i>
+                    </button>
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Archive">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+
+                </div>
+
+
+
+
+            </div>
+
+            <input type="hidden" id="pagination_count" name="">
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+           
+
+
+
+                <div  >
+                    <div class='app'>
+                        <main class='project'>
+
+                            <div class='project-tasks1 mb-1 append_card_view'>
+
+                            {% if data.customer_doc_id == None %}
+                            
+                            {% elif data.customer_doc_id == '' %}
+
+                            {% else %}
+                                <div class='project-column'>
+                                    <a href="" style="text-decoration: none;color: black">
+                                    <div class="customer-bx">
+                                       
+                                        {% if data.customer_doc_id_extesion == '.pdf' %}
+                                        <div class="cust-img"
+                                        style="background-image: url('{% static 'images/pdf.svg' %}');"></div>
+                                        {% elif data.customer_doc_id_extesion == '.png' %}
+                                        <div class="cust-img"
+                                        style="background-image: url('{% static 'images/image.svg' %}');"></div>
+                                        {% elif data.customer_doc_id_extesion == '.jpg' %}
+                                        <div class="cust-img"
+                                        style="background-image: url('{% static 'images/image.svg' %}');"></div>
+
+                                        
+                                        {% else %}
+                                        <div class="cust-img"
+                                        style="background-image: url('{% static 'images/image.svg' %}');"></div>
+
+                                        {% endif %}
+
+                                         
+                                        <div class="customer-content">
+
+                                            <h5>Customer ID (document)</h5>
+                                            <p>
+                                                {{data.customer_doc_id_name}}
+                                            </p>
+                                            <p>{{data.customer_doc_id_update_dt}} <a target="_blank" href="../media/{{data.customer_doc_id}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                           
+                                            
+                                        </div>
+
+                                    </div>
+                                </a>
+                                </div>
+
+                                {% endif %}
+                           
+
+
+                                {% if data.contract_certi == None %}
+                            
+                                {% elif data.contract_certi == '' %}
+    
+                                {% else %}
+                                    <div class='project-column'>
+                                        <a href="" style="text-decoration: none;color: black">
+                                        <div class="customer-bx">
+                                           
+                                            {% if data.contract_certi_extesion == '.pdf' %}
+                                            <div class="cust-img"
+                                            style="background-image: url('{% static 'images/pdf.svg' %}');"></div>
+                                            {% elif data.contract_certi_extesion == '.png' %}
+                                            <div class="cust-img"
+                                            style="background-image: url('{% static 'images/image.svg' %}');"></div>
+                                            {% elif data.contract_certi_extesion == '.jpg' %}
+                                            <div class="cust-img"
+                                            style="background-image: url('{% static 'images/image.svg' %}');"></div>
+    
+                                            
+                                            {% else %}
+                                            <div class="cust-img"
+                                            style="background-image: url('{% static 'images/image.svg' %}');"></div>
+    
+                                            {% endif %}
+    
+                                             
+                                            <div class="customer-content">
+    
+                                                <h5>Contract Document</h5>
+                                                <p>
+                                                    {{data.contract_certi_name}}
+                                                </p>
+                                                <p>{{data.contract_certi_update_dt}} <a target="_blank" href="../media/{{data.contract_certi}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                               
+                                                
+                                            </div>
+    
+                                        </div>
+                                    </a>
+                                    </div>
+    
+                                    {% endif %}
+
+
+
+
+                                    {% if data.tax_certificate == None %}
+                            
+                                    {% elif data.tax_certificate == '' %}
+        
+                                    {% else %}
+                                        <div class='project-column'>
+                                            <a href="" style="text-decoration: none;color: black">
+                                            <div class="customer-bx">
+                                               
+                                                {% if data.tax_certificate_extesion == '.pdf' %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/pdf.svg' %}');"></div>
+                                                {% elif data.tax_certificate_extesion == '.png' %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/image.svg' %}');"></div>
+                                                {% elif data.tax_certificate_extesion == '.jpg' %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/image.svg' %}');"></div>
+        
+                                                
+                                                {% else %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/image.svg' %}');"></div>
+        
+                                                {% endif %}
+        
+                                                 
+                                                <div class="customer-content">
+        
+                                                    <h5>Tax Certificate</h5>
+                                                    <p>
+                                                        {{data.tax_certificate_name}}
+                                                    </p>
+                                                    <p>{{data.tax_certificate_update_dt}} <a target="_blank" href="../media/{{data.tax_certificate}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                                   
+                                                    
+                                                </div>
+        
+                                            </div>
+                                        </a>
+                                        </div>
+        
+                                        {% endif %}
+    
+    
+
+                                        {% if data.other_document == None %}
+                            
+                                    {% elif data.other_document == '' %}
+        
+                                    {% else %}
+                                        <div class='project-column'>
+                                            <a href="" style="text-decoration: none;color: black">
+                                            <div class="customer-bx">
+                                               
+                                                {% if data.other_document_extesion == '.pdf' %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/pdf.svg' %}');"></div>
+                                                {% elif data.other_document_extesion == '.png' %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/image.svg' %}');"></div>
+                                                {% elif data.other_document_extesion == '.jpg' %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/image.svg' %}');"></div>
+        
+                                                
+                                                {% else %}
+                                                <div class="cust-img"
+                                                style="background-image: url('{% static 'images/image.svg' %}');"></div>
+        
+                                                {% endif %}
+        
+                                                 
+                                                <div class="customer-content">
+        
+                                                    <h5>Other Document</h5>
+                                                    <p>
+                                                        {{data.other_document_name}}
+                                                    </p>
+                                                    <p>{{data.other_document_update_dt}} <a target="_blank" href="../media/{{data.other_document}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                                   
+                                                    
+                                                </div>
+        
+                                            </div>
+                                        </a>
+                                        </div>
+        
+                                        {% endif %}
+    
+
+                            </div>
+                        </main>
+
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <br>
+
+        </div>
+
+    </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+
+
+{% endblock %}

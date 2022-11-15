@@ -1,0 +1,165 @@
+{% extends "super_admin/base.html" %}
+
+{% load static %}
+{% block content %}
+
+
+
+<div class="row">
+
+
+</div>
+<form action="" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
+    {% csrf_token %}
+    <input type="hidden" value="{{id}}" name="id">
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+
+                    <div class="page-title-left">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="view_customer_document?id={{id}}">Customer Document</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li>
+
+                        </ol>
+                        <div class="margn">
+                            <a><button type="submit" style="padding: 5px 10px !important;"
+                                    class="btn btn-prim pay">
+                                    Save
+                                </button></a>
+                            <a href="bank_master"><button style="padding: 5px 10px !important;" type="button"
+                                    class="btn btn-pri pay discard-payroll"> Discard
+                                </button></a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row pay-main">
+
+
+            <div class="col-lg-12 px-0">
+                <div class="card noti-card" id="orderList">
+
+
+                    <div class="card-body bb-0 pt-0 p-0">
+                        <div>
+
+                            <div class="payslip mb-5">
+
+                                <div class="row pay-main mb-4">
+
+                                   
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Document Type</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <select class="form-control" name="type">
+                                                        <option>Select Document Type</option>
+
+                                                        <option  value="customer_id">Customer ID (document)</option>
+                                                        <option value="contract">Contract (document)</option>
+                                                        <option value="tax_certificate">Tax certificate</option>
+                                                        <option value="other">Other (document)</option>
+                                                    </select>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                       
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Select File</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="document_file" required type="file"
+                                                        class="form-control mt-2">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                   
+                                    </div>
+                                
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+
+<script src="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js">
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+<script>
+    {% for message in messages %}
+
+    message1 = "{{message}}"
+
+
+    if (message1 == "error") {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ message }}",
+        })
+
+    } else {
+
+        Swal.fire(
+            '',
+            '{{ message }}',
+            '{{message.tags}}'
+        )
+
+    } 
+    {% endfor %}
+</script>
+
+{% endif %}
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+
+
+{% endblock %}

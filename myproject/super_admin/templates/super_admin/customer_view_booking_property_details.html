@@ -377,40 +377,56 @@
                                 <div class='project-tasks1 mb-1 card_view1'>
                                 {% for i in data %}
                                     <div class='project-column'>
-                                        <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
+                                        <a href="property_update?id={{i.property_mapping_id.id}}" style="text-decoration: none;color: black">
                                         <div class='customer-bx'>
                                             <div class="customer-content">
-                                                <h5> {% if i.Name == None %}{% else %}{{i.Name}}{% endif %}
-                                                    {% if i.current_status == "0" %}
+                                                <h5> {% if i.name == None %}{% else %}{{i.name}}{% endif %}
+                                                    {% if i.booking_status == 0 %}
                                             <span
                                                 class="badge badge-soft-success text-uppercase" style="    color: #fff;
                                                 background-color: #008000;">Available</span>
         
-                                            {% elif i.current_status == "1" %}
+                                            {% elif i.booking_status == 1 %}
                                             <span
                                             class="badge badge-soft-success text-uppercase" style="    color: #fff;
                                                 background-color: orange;">Price Quotation</span>
         
-                                            {% elif i.current_status == "2" %}
+                                            {% elif i.booking_status == 2 %}
                                             <span
                                             class="badge badge-soft-success text-uppercase" style="    color: #fff;
                                                     background-color: #e40000;">Sold</span>
-                                                    {% elif i.current_status == "3" %}
+                                                    {% elif i.booking_status == 3 %}
                                                     <span
                                                     class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                            background-color: gray;">Cancelled</span>
+                                                            background-color: rgb(138, 23, 23);">Cancelled</span>
                                                 {% else %}
                                                 {% endif %}
                                                    </h5>
                                                    <div class="row">
                                                    <div class="col-md-6 px-0">
                                                    <span class="d-flex">
-                                                    <h6>Status(AR):</h6>{{i.Status}}
-                                                   </span>
+                                                    <h6>Status(AR):</h6>
+                                                    {% if i.booking_status == 0 %}
+                                                    متاح
+
+                                                    {% elif i.booking_status == 1 %}
+                                                    عرض سعر
+
+                                                    {% elif i.booking_status == 2 %}
+
+                                                    تم الربط
+                                                   
+                                                    {% elif i.booking_status == 3 %}
+
+                                                    ألغيت
+                                                    {% else %}
+                                                    {% endif %}
+                                                </span>
+
                                                    </div>
                                                    <div class="col-md-6 px-0">
                                                     <span class="d-flex">
-                                                        <h6>Id: </h6>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}
+                                                        <h6>Id: </h6>{% if i.booking_id == None %}{%else%}{{i.booking_id}}{%endif%}
                                                     </span>
                                                    </div>
                                                    </div>
@@ -419,30 +435,30 @@
                                                 <div class="row">
                                                     <div class="col-md-6 px-0">
                                                         <span class="d-flex">
-                                                            <h6>Phone:</h6>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}
+                                                            <h6>Phone:</h6>{% if i.phone == None %}{%else%}{{i.phone}}{%endif%}
                                                         </span>
                                                         <span class="d-flex">
-                                                            <h6>Unit no : </h6>{% if i.UnitNo == None %}{%else%}{{i.UnitNo}}{%endif%}
+                                                            <h6>Unit no : </h6>{% if i.property_mapping_id.UnitNo == None %}{%else%}{{i.property_mapping_id.UnitNo}}{%endif%}
                                                         </span>
                                                         <span class="d-flex">
-                                                            <h6>Block no : </h6>{{i.BlockNo}}
+                                                            <h6>Block no : </h6>{{i.property_mapping_id.BlockNo}}
                                                         </span>
                                                         <span class="d-flex">
-                                                            <h6>Unit area : </h6>{{i.UnitArea}}
+                                                            <h6>Unit area : </h6>{{i.property_mapping_id.UnitArea}}
                                                         </span>
                                                     </div>
                                                     <div class="col-md-6 px-0">
                                                         <span class="d-flex">
-                                                            <h6>Bank : </h6>{{i.Bank}}
+                                                            <h6>Bank : </h6>{{i.bank}}
                                                         </span>
                                                         <span class="d-flex">
-                                                            <h6>Land area : </h6>{{i.LandArea}}
+                                                            <h6>Land area : </h6>{{i.property_mapping_id.LandArea}}
                                                         </span>
                                                         <span class="d-flex">
-                                                            <h6>Unit type : </h6>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}
+                                                            <h6>Unit type : </h6>{% if i.property_mapping_id.UType == None %}{%else%}{{i.property_mapping_id.UType}}{%endif%}
                                                         </span>
                                                         <span class="d-flex">
-                                                            <h6>Price currency:</h6> {{i.Price|floatformat:"0"}}
+                                                            <h6>Price currency:</h6>{% if i.Price == None %}{%else%} {{i.Price}}{%endif%}
                                                         </span>
                                                     </div>
                                                 </div>                                                           
@@ -469,7 +485,7 @@
         $(".append_pro2").show()
         $(".append_pro1").hide()
         var x = document.getElementById("search_value").value;
-        redirect_url = "property_search_result"
+        redirect_url = "customer_view_booking_search_result"
         $.ajax({
             url : redirect_url,
             data :{
@@ -830,7 +846,7 @@
 <script>
 function Export() {
     url=check_list
-    window.location.href = "/export_excel/?selected_data="+url 
+    window.location.href = "/export_excel_customer_booking/?selected_data="+url 
 }
 </script>
 <script>

@@ -147,6 +147,22 @@ class Customer_details(common):
     other_document = models.FileField(upload_to="customer_document",null=True)
     bank_relation_id = models.ForeignKey(Bank_details,on_delete=models.CASCADE,related_name="Customer_details_Bank_details_id", null=True)
     profile_pic = models.FileField(upload_to="customer_document",null=True)
+    customer_doc_id_update_dt = models.DateField(null=True)
+    contract_certi_update_dt = models.DateField(null=True)
+    tax_certificate_update_dt = models.DateField(null=True)
+    other_document_update_dt = models.DateField(null=True)
+    customer_doc_id_extesion = models.CharField(max_length=255,null=True)
+    contract_certi_extesion = models.CharField(max_length=255,null=True)
+    tax_certificate_extesion = models.CharField(max_length=255,null=True)
+    other_document_extesion = models.CharField(max_length=255,null=True)
+    customer_doc_id_name = models.CharField(max_length=255,null=True)
+    contract_certi_name = models.CharField(max_length=255,null=True)
+    tax_certificate_name = models.CharField(max_length=255,null=True)
+    other_document_name = models.CharField(max_length=255,null=True)
+
+
+
+
     
 
 class user_request_plot(common):

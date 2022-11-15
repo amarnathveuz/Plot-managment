@@ -95,6 +95,20 @@ urlpatterns = [
     path('customer_view_booking_property_details',views.customer_view_booking_property_details,name='customer_view_booking_property_details'),
     path('property_more_details_page',views.property_more_details_page,name='property_more_details_page'),
     
+    path('view_customer_document',views.view_customer_document,name='view_customer_document'),
+    path('create_customer_document',views.create_customer_document,name='create_customer_document'),
+
+    path('export_excel_customer_booking/',views.export_excel_customer_booking,name='export_excel_customer_booking'),
+
+    path('next_page_action_url_Customer_details',views.next_page_action_url_Customer_details,name='next_page_action_url_Customer_details'),
+    path('Customer_detail_search_result',views.Customer_detail_search_result,name='Customer_detail_search_result'),
+    path('Customer_search_card_view',views.Customer_search_card_view,name='Customer_search_card_view'),
+    path('filtering_customer',views.filtering_customer,name='filtering_customer'),
+    path('customer_name_group_by_action',views.customer_name_group_by_action,name='customer_name_group_by_action'),
+    path('customer_name_group_by_action_card_view',views.customer_name_group_by_action_card_view,name='customer_name_group_by_action_card_view'),
+
+
+    
 
 
     

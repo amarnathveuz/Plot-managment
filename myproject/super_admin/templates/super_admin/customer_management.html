@@ -164,7 +164,7 @@
 
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#"><div class="form-check">
-                                <input type="checkbox" name="checkfield" id="g01-01" onchange="name_groupby_action(this)"> &nbsp;Name
+                                <input type="checkbox" name="checkfield" id="g01-01" onchange="name_groupby_action(this)"> &nbsp;Booking Based
                               </div></a>
                              
                         </div>
@@ -232,28 +232,23 @@
                             <tbody class="list form-check-all append_search_result">
                                 {% for i in page_obj %}
                                 <tr>
-                                            {% if i.profile_pic == '' %}
-                                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
-                                                    class="fw-medium link-primary">&nbsp;{{i.name}}</a>
-                                            </td>
-                                            {% elif data.profile_pic == None %}
 
-                                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
-                                                class="fw-medium link-primary">&nbsp;{{i.name}}</a>
-                                        </td>
-
-                                            {% else %}
-                                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.profile_pic}}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
-                                                    class="fw-medium link-primary">&nbsp;{{i.name}}</a>
-                                            </td>
-                                            {% endif %}
-
-
-
-
-
-                                        </a>
+                                    {% if i.profile_pic == '' %}
+                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
                                     </td>
+                                    {% elif i.profile_pic == None %}
+
+                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                        class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                    </td>
+
+                                    {% else %}
+                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.profile_pic}}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                    </td>
+                                    {% endif %}
+
                                     <td>
                                         {{i.customer_id}}
                                     </td>
@@ -485,11 +480,11 @@
     function name_groupby_action(checkboxElem) {
 if (checkboxElem.checked) {
 
-redirect_group_by_url = 'customer_name_group_by_action'
+var redirect_group_by_url = 'customer_name_group_by_action'
 $.ajax({
     url:redirect_group_by_url,
     data:{
-        'status':'type'
+        'name':'name'
     },
     type:'GET',
     success:function(data){
@@ -498,11 +493,11 @@ $.ajax({
        
          $(".user_table1").empty().append(data)
 
-         var card_view_redirect_url = 'customer_name_group_by_action'
+         var card_view_redirect_url = 'customer_name_group_by_action_card_view'
                 $.ajax({
             url: card_view_redirect_url,
             data:{
-                'status':'type'
+                'name':'name'
             },
             success: function (data) {
                 

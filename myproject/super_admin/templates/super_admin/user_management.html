@@ -142,8 +142,8 @@
                             </button>
 
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#"><div class="form-check">
-                                    <input type="checkbox" name="checkfield" id="g01-01" onchange="type_groupby_action(this)"> &nbsp;Type
+                                <a class="dropdown-item" href="#" onmouseover="hoverdata()"><div class="form-check">
+                                    <input type="checkbox" name="checkfield" id="g01-01"> &nbsp;Type
                                   </div></a>
                                  
 
@@ -432,51 +432,46 @@
                 }
             })
         }
-        function type_groupby_action(checkboxElem) {
-  if (checkboxElem.checked) {
-    
-    redirect_group_by_url = 'user_type_group_by_action'
-    $.ajax({
-        url:redirect_group_by_url,
-        data:{
-            'status':'type'
-        },
-        type:'GET',
-        success:function(data){
-            $(".user_table1").show()
-            $(".user_table").hide()
-           
-             $(".user_table1").empty().append(data)
 
-             
-             var card_view_redirect_url = 'card_view_group_by_status'
-                    $.ajax({
-                url: card_view_redirect_url,
-                data:{
-                    'status':'type'
-                },
-                success: function (data) {
-                    
-                   
-                    $(".append_card_view").empty().append(data);
-                }
-            })
-
-
-
-             
-        }
-
-    })
-  } else {
-    $(".user_table1").hide()
-            $(".user_table").show()
-  }
-}
 
     </script>
 
 
-
+<script>
+    function hoverdata(){
+        let checkbox = document.getElementById("g01-01");
+        if ( checkbox.checked ) {
+            document.getElementById("g01-01").checked = false;
+            $(".user_table1").hide()
+            $(".user_table").show()
+        }
+        else{
+            document.getElementById("g01-01").checked = true;
+            redirect_group_by_url = 'user_type_group_by_action'
+            $.ajax({
+                url:redirect_group_by_url,
+                data:{
+                    'status':'type'
+                },
+                type:'GET',
+                success:function(data){
+                    $(".user_table1").show()
+                    $(".user_table").hide()
+                    $(".user_table1").empty().append(data)
+                    var card_view_redirect_url = 'card_view_group_by_status'
+                    $.ajax({
+                        url: card_view_redirect_url,
+                        data:{
+                            'status':'type'
+                        },
+                        success: function (data) {
+                            $(".append_card_view").empty().append(data);
+                        }
+                    })
+                }
+            })
+        }
+    }
+</script>
 
 {% endblock %}

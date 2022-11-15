@@ -153,9 +153,9 @@
                                     Group By
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="#" onmouseover="hoverdata()">
                                         <div class="form-check">
-                                            <input type="checkbox" name="checkfield" id="radio67" onclick="group_by_status(this)"> &nbsp; Status
+                                            <input type="checkbox" name="checkfield" id="radio67"> &nbsp; Status
                                         </div>
                                     </a>
                                 </div>
@@ -834,9 +834,16 @@ function Export() {
 }
 </script>
 <script>
-   function  group_by_status(status){
-    if (status.checked) {
-    redirect_url = "property_groupby_status"
+function hoverdata(){
+        let checkbox = document.getElementById("radio67");
+        if ( checkbox.checked ) {
+            document.getElementById("radio67").checked = false;
+            $(".append_pro1").hide()
+            $(".append_pro2").show()
+        }
+        else{
+            document.getElementById("radio67").checked = true;
+            redirect_url = "property_groupby_status"
         $.ajax({
                 url: redirect_url,
             success: function (data) {
@@ -849,14 +856,14 @@ function Export() {
                 success: function (data) {
                 $(".card_view1").empty().append(data);
                 }
-                }) 
+                })
             }
         })
     }
-    else {
-    $(".append_pro1").hide()
-    $(".append_pro2").show()
+
     }
-}
+
+
+
 </script>
 {% endblock %}
