@@ -2033,3 +2033,16 @@ def customer_name_group_by_action_card_view(request):
     }
 
     return render(request,'super_admin/customer_name_group_by_action_card_view.html',context)
+
+
+
+
+def Bank_status_group_by_action_card_view(request):
+    status = request.GET.get("status")
+    data_total_active = Bank_details.objects.filter(status='Active')
+    data_total_inactive = Bank_details.objects.filter(status='Inactive')
+    context = {
+        'data_total_active':data_total_active,
+        'data_total_inactive':data_total_inactive
+    }
+    return render(request,'super_admin/Bank_status_group_by_action_card_view.html',context)

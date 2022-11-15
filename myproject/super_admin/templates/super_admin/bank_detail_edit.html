@@ -13,7 +13,7 @@
 
 </div>
 
-
+   
 
     <div class="container-fluid mt-4 edit" style="display:none;">
         <form action="update_bankdetails_action" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
@@ -30,8 +30,8 @@
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Bank Master</a>
                             </li>
                             <li class="breadcrumb-item active"><a href="javascript: void(0);">Update Bank</a></li>
-
-                        </ol>
+ 
+                        </ol> 
                      
                         <div class="margn">
                             <a><button type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
@@ -43,7 +43,7 @@
                                                        
                             {% if data.status == 'Active' %}
                  
-                                <a href="update_bankdetails_action_status?type=Inctive&&id={{data.id}}"><button style="padding: 5px 10px !important;" type="button"
+                                <a href="update_bankdetails_action_status?type=Inactive&&id={{data.id}}"><button style="padding: 5px 10px !important;" type="button"
                                     class="btn btn-pri pay discard-payroll ">Inactive</button></a>
                          
 
@@ -86,8 +86,7 @@
 
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input name="bank_name"  type="text"
-                                                        class="form-control mt-2" value="{{data.bank_name}}">
+                                                    <input name="bank_name" type="text" class="form-control mt-2" value="{{data.bank_name}}" required>
                                                 </div>
                                             </div>
 
@@ -99,7 +98,7 @@
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
                                                     <input name="swift_code"  type="text"
-                                                        value="{{data.swift_code}}" class="form-control" id="basiInput">
+                                                        value="{{data.swift_code}}" class="form-control" id="basiInput" required>
 
                                                 </div>
                                             </div>
@@ -114,8 +113,7 @@
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
                                                     <div class="">
-                                                        <textarea class="form-control" name="address"
-                                                            > {{data.address}}</textarea>
+                                                        <textarea class="form-control" name="address" required> {{data.address}}</textarea>
 
                                                     </div>
 
@@ -134,7 +132,7 @@
                                                 <div class="form-group  required_item w-100">
                                                     <input name="bank_identifier_code"
                                                         value="{{data.bank_identifier_code}}" type="text"
-                                                        class="form-control mt-2" id="basiInput">
+                                                        class="form-control mt-2" id="basiInput" required>
                                                 </div>
                                             </div>
 
@@ -147,7 +145,7 @@
                                             <div class="col-md-9 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
                                                     <input name="branch" type="text" value="{{data.branch}}"
-                                                        class="form-control" id="basiInput">
+                                                        class="form-control" id="basiInput" required>
                                                 </div>
                                             </div>
 
@@ -162,7 +160,7 @@
                                                 <div class="form-group  required_item w-100">
                                                     <div class="">
                                                         <input type="text" name="country" value="{{data.country}}"
-                                                            class="form-control" id="" >
+                                                            class="form-control" id="" required>
                                                     </div>
                                                 </div>
                                             </div>

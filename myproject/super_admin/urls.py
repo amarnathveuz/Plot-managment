@@ -106,6 +106,7 @@ urlpatterns = [
     path('filtering_customer',views.filtering_customer,name='filtering_customer'),
     path('customer_name_group_by_action',views.customer_name_group_by_action,name='customer_name_group_by_action'),
     path('customer_name_group_by_action_card_view',views.customer_name_group_by_action_card_view,name='customer_name_group_by_action_card_view'),
+    path('Bank_status_group_by_action_card_view',views.Bank_status_group_by_action_card_view,name='Bank_status_group_by_action_card_view'),
 
 
     

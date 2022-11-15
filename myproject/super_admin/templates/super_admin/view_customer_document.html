@@ -84,7 +84,7 @@
 
                             {% else %}
                                 <div class='project-column'>
-                                    <a href="" style="text-decoration: none;color: black">
+                                    <a target="_blank" href="../media/{{data.customer_doc_id}}" style="text-decoration: none;color: black">
                                     <div class="customer-bx">
                                        
                                         {% if data.customer_doc_id_extesion == '.pdf' %}
@@ -111,7 +111,7 @@
                                             <p>
                                                 {{data.customer_doc_id_name}}
                                             </p>
-                                            <p>{{data.customer_doc_id_update_dt}} <a target="_blank" href="../media/{{data.customer_doc_id}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                            <p>{{data.customer_doc_id_update_dt}} </p>
                                            
                                             
                                         </div>
@@ -130,7 +130,7 @@
     
                                 {% else %}
                                     <div class='project-column'>
-                                        <a href="" style="text-decoration: none;color: black">
+                                        <a target="_blank" href="../media/{{data.contract_certi}}" style="text-decoration: none;color: black">
                                         <div class="customer-bx">
                                            
                                             {% if data.contract_certi_extesion == '.pdf' %}
@@ -157,7 +157,7 @@
                                                 <p>
                                                     {{data.contract_certi_name}}
                                                 </p>
-                                                <p>{{data.contract_certi_update_dt}} <a target="_blank" href="../media/{{data.contract_certi}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                                <p>{{data.contract_certi_update_dt}}</p>
                                                
                                                 
                                             </div>
@@ -177,7 +177,7 @@
         
                                     {% else %}
                                         <div class='project-column'>
-                                            <a href="" style="text-decoration: none;color: black">
+                                            <a target="_blank" href="../media/{{data.tax_certificate}}" style="text-decoration: none;color: black">
                                             <div class="customer-bx">
                                                
                                                 {% if data.tax_certificate_extesion == '.pdf' %}
@@ -204,7 +204,7 @@
                                                     <p>
                                                         {{data.tax_certificate_name}}
                                                     </p>
-                                                    <p>{{data.tax_certificate_update_dt}} <a target="_blank" href="../media/{{data.tax_certificate}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                                    <p>{{data.tax_certificate_update_dt}}</p>
                                                    
                                                     
                                                 </div>
@@ -223,7 +223,7 @@
         
                                     {% else %}
                                         <div class='project-column'>
-                                            <a href="" style="text-decoration: none;color: black">
+                                            <a target="_blank" href="../media/{{data.other_document}}" style="text-decoration: none;color: black">
                                             <div class="customer-bx">
                                                
                                                 {% if data.other_document_extesion == '.pdf' %}
@@ -250,7 +250,7 @@
                                                     <p>
                                                         {{data.other_document_name}}
                                                     </p>
-                                                    <p>{{data.other_document_update_dt}} <a target="_blank" href="../media/{{data.other_document}}"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                                                    <p>{{data.other_document_update_dt}}</p>
                                                    
                                                     
                                                 </div>

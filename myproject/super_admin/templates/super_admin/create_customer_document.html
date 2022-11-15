@@ -3,7 +3,60 @@
 {% load static %}
 {% block content %}
 
-
+<style>
+    .nav-contact .nav-item{
+        border-left: 1px solid #dee2e6;
+        border-right: 0px !important;
+    }
+    .form-control{
+        font-size: 13px !important;
+    }
+    .nav-contact .nav-link {
+    margin: 4px 10px;
+    background-color: transparent !important;
+    color: #000 !important;
+    border: 0;
+    box-shadow: none;
+    padding: 3px 0;
+    width: 115px;
+}
+.payslip .form-control {
+    padding: 0.2rem 0.5rem;
+    margin-bottom: 7px;
+}
+.payslip{
+    margin: 12px 10px;
+}
+.form-control:disabled, .form-control[readonly]{
+    background-color: #f6fafd;
+}
+.log-level{
+    margin: 25px 10px 0 0;
+}
+.file-upload{display:block;text-align:center;font-family: Helvetica, Arial, sans-serif;font-size: 12px;}
+.file-upload .file-select{display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;    height: 32px;
+    line-height: 30px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select .file-select-button{background:#dce4ec;padding:0 10px;display:inline-block;height:30px;line-height:30px;}
+.file-upload .file-select .file-select-name{line-height:30px;display:inline-block;padding:0 10px;}
+.file-upload .file-select:hover{border-color:#34495e;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select:hover .file-select-button{background:#34495e;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select{border-color:#34495e;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select .file-select-button{background:#34495e;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select input[type=file]{z-index:100;cursor:pointer;position:absolute;height:100%;width:100%;top:0;left:0;opacity:0;filter:alpha(opacity=0);}
+.file-upload .file-select.file-select-disabled{opacity:0.65;}
+.file-upload .file-select.file-select-disabled:hover{cursor:default;display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;margin-top:5px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select.file-select-disabled:hover .file-select-button{background:#dce4ec;color:#666666;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
+.file-upload .file-select.file-select-disabled:hover .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
+@media only screen and (max-width:1366px) {
+   .sub-bx h5 {
+    font-size: 13px;
+}
+.sub-bx h6 {
+    font-size: 12px;
+    font-weight: 400;
+}
+}
+</style>
 
 <div class="row">
 
@@ -40,6 +93,57 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12 px-0">
+                <div class="payslip mb-5">
+
+                    <div class="row pay-main my-3">
+              
+                       
+  
+                        <div class="col-md-4 cust-details small-form p-0">
+                            <div class="row">
+                                <div class="col-md-3 br-right d-flex align-items-start">
+                                    <h6 class="my-0">Document Type</h6>
+                                </div>
+                                <div class="col-md-7">
+                                    <select class="form-control" id="select_document_type" name="type" required>
+                                        <option  selected="">Select Document Type</option>
+                                        <option onclick="customer_id(this)" value="customer_id">Customer ID (document)</option>
+                                        <option onclick="contract(this)" value="contract">Contract (document)</option>
+                                        <option onclick="tax(this)" value="tax_certificate">Tax certificate</option>
+                                        <option onclick="other(this)" value="other">Other (document)</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 br-right d-flex align-items-start">
+                                    <h6 class="my-0">Select File</h6>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="file-upload">
+                                        <div class="file-select">
+                                          <div class="file-select-button" id="fileName">Choose File</div>
+                                          <div class="file-select-name" id="noFile">No file chosen...</div> 
+                                          <input  onchange="Filevalidation_contract()" type="file" name="document_file" id="chooseFile">
+                                        </div>
+                                        <div style="color: red; display:none ;" id="message"></div>
+                                      </div>
+                                </div>
+
+                            </div>
+                      
+                        </div>
+                      
+                    </div>
+                
+           
+                </div>
+
+            </div>
+
+        </div>
         <div class="row pay-main">
 
 
@@ -49,20 +153,14 @@
                         <div>
                             <div class="payslip mb-5">
                                 <div class="row pay-main mb-4">
-                                    <div class="col-md-6 cust-details p-0">
+                                    <!-- <div class="col-md-6 cust-details p-0">
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Document Type</h6>
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <select class="form-control" id="select_document_type" name="type" required>
-                                                        <option  value="" selected disabled hidden>Select Document Type</option>
-                                                        <option onclick="customer_id(this)" value="customer_id">Customer ID (document)</option>
-                                                        <option onclick="contract(this)" value="contract">Contract (document)</option>
-                                                        <option onclick="tax(this)" value="tax_certificate">Tax certificate</option>
-                                                        <option onclick="other(this)" value="other">Other (document)</option>
-                                                    </select>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
@@ -70,17 +168,12 @@
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Select File</h6>
                                             </div>
-                                            <div class="col-md-8 d-flex align-items-center">
-                                                <div class="form-group  required_item w-100">
-                                                    <input id="select_file" name="document_file" onchange="Filevalidation_contract()" required type="file"
-                                                        class="form-control mt-2">
-                                                        <div style="color: red; display:none ;" id="message"></div>
-                                                </div>
-                                            </div>
+                                            
+                                          
                                            
                                         </div>
 
-                                    </div>
+                                    </div> -->
                                 
                                 </div>
 
@@ -153,6 +246,7 @@
 
 
     function customer_id(status){
+      
         document.getElementById('select_file').value=''
         document.getElementById("message").style.display = "none";
         s = status.value;
@@ -175,7 +269,7 @@
 
     function Filevalidation_contract() {
     
-        const fi = document.getElementById('select_file');
+        const fi = document.getElementById('chooseFile');
         if (fi.files.length > 0) {
       
             for (const i = 0; i <= fi.files.length - 1; i++) {
@@ -185,10 +279,12 @@
 var value = e.value;
 var text = e.options[e.selectedIndex].text;
 
+
+
                 
 
                 if(value == "customer_id"){
-                    alert(file)
+                 
                    
                     if (file > 1024) {
                         document.getElementById("message").style.display = "block";
