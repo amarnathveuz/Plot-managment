@@ -1508,15 +1508,48 @@ def customer_more_details(request):
     booking_history = user_request_plot.objects.filter(customer_id_id=data.id).order_by("-id")
     bank_instance = Bank_details.objects.all()
     booking_history_count = booking_history.count()
+
+    document_count = 0
+    if data.customer_doc_id == None:
+        pass
+    elif data.customer_doc_id == '':
+        pass
+    else:
+        document_count = document_count+1
+    
+    if data.contract_certi == None:
+        pass
+    elif data.contract_certi == '':
+        pass
+    else:
+        document_count = document_count+1
+    
+    if data.tax_certificate == None:
+        pass
+    elif data.tax_certificate == '':
+        pass
+    else:
+        document_count = document_count+1
+    
+    if data.other_document == None:
+        pass
+    elif data.other_document == '':
+        pass
+    else:
+        document_count = document_count+1
+
     context = {
         'data':data,
         'current_booking':current_booking,
         'history':booking_history,
         'bank_instance':bank_instance,
-        'booking_history_count':booking_history_count
+        'booking_history_count':booking_history_count,
+        'document_count':document_count
     }
     return render(request,'super_admin/customer_more_details.html',context)
     
+
+
 def property_card_view_filter_status(request):
     data_value = request.GET.getlist("data_value[]")
     data = intractive_map.objects.filter(current_status__in=data_value)
@@ -1873,7 +1906,13 @@ def create_customer_document(request):
     if request.method == "POST":
         id = request.POST.get("id")
         type = request.POST.get("type")
-        document_file = request.FILES['document_file']
+        try:
+            document_file = request.FILES['document_file']
+        except:
+            messages.error(request,str("select file"))
+
+            return redirect(request.META['HTTP_REFERER'])
+
         from datetime import date
         import os
         today = date.today()

@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4 px-0">
     <div class="row">
         <div class="col-12 buttns">
             <h5>Bank Master</h5>
@@ -574,10 +574,7 @@
 
 {% if messages %}
 <script>
-    {
-        %
-        for message in messages %
-    }
+    {% for message in messages %}
 
     message1 = "{{message}}"
 
@@ -598,10 +595,12 @@
             '{{message.tags}}'
         )
 
-    } {
-        % endfor %
     }
+     {% endfor %}
 </script>
+
+
+
 
 {% endif %}
 
