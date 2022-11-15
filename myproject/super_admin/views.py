@@ -929,18 +929,16 @@ def cancel_booking_action(request):
         except:
             assigned_user_name = ''
         current_status = data.booking_status
-        print("type:::::",type(current_status))
-        print("current_status::::",str(current_status))
         if current_status == 2:
             current_status = 'Sold'
         elif current_status == 1:
             current_status = 'Price Quotation'
 
         if assigned_user_name == '':
-            text_content = "Booking report approval done (Administrator)"
+            text_content = "Booking report cancelled(Administrator)"
         else:
 
-            text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
+            text_content = "Booking report cancelled(originally assigned to "+assigned_user_name+")"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
@@ -948,12 +946,11 @@ def cancel_booking_action(request):
         current_status = data.booking_status
         assigned_user_name = data.manager_id.name
         assigned_user_id = data.manager_id.id
-        print("current_status::::",str(current_status))
         if current_status == 2:
             current_status = 'Sold'
         elif current_status == 1:
             current_status = 'Price Quotation'
-        text_content = "Booking report Cancelled done ("+assigned_user_name+")"
+        text_content = "Booking report Cancelled("+assigned_user_name+")"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id)
         save_log.save()
