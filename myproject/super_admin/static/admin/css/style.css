@@ -14661,6 +14661,7 @@ ul {
     float: left;
     background-size: contain;
     border: 1px solid #dee2e6;
+    background-repeat: no-repeat;
 }
 
 .cust-name label {
