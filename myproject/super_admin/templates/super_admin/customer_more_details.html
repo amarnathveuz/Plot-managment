@@ -181,21 +181,21 @@
                                                  <h6 class="my-0">Address</h6>
                                              </div>
                                              <div class="col-md-7">
-                                                 <input type="text" name="street1"  value="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}" class="form-control" placeholder=""
-                                                     value="Street1">
-                                                 <input type="text" class="form-control" value="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}" placeholder="">
+                                                 <input type="text" name="street1" placeholder="Street1"  value="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}" class="form-control"
+                                                     >
+                                                 <input type="text"  name="street2" placeholder="Street2" class="form-control" value="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}">
                                                  <div class="row">
                                                      <div class="col-md-4 pl-0">
-                                                         <input type="text" name="city" value="{% if data.city == None %}{% else %}{{data.city}}{% endif %}" class="form-control" placeholder=""
+                                                         <input type="text" name="city" placeholder="City" value="{% if data.city == None %}{% else %}{{data.city}}{% endif %}" class="form-control"
                                                              >
                                                      </div>
                                                      <div class="col-md-4">
-                                                        <input type="text" name="satte" value="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}" class="form-control" placeholder=""
+                                                        <input type="text" name="satte" value="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}" class="form-control" placeholder="State"
                                                          >
 
                                                      </div>
                                                      <div class="col-md-4 pr-0">
-                                                         <input type="text" name="zip" class="form-control" placeholder=""
+                                                         <input type="text" name="zip" class="form-control" placeholder="ZIP"
                                                          value="{% if data.zip == None %}{% else %}{{data.zip}}{% endif %}" >
                                                      </div>
                                                  </div>
@@ -386,16 +386,16 @@
                                                 <h6 class="my-0">Address</h6>
                                             </div>
                                             <div class="col-md-7">
-                                                <input type="text" name="street1" disabled=""  value="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}" class="form-control" placeholder=""
-                                                    value="Street1">
-                                                <input type="text" disabled="" class="form-control" value="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}" placeholder="">
+                                                <input type="text" name="street1" disabled=""  value="{% if data.street1 == None %}{% else %}{{data.street1}}{% endif %}" class="form-control" placeholder="Street1"
+                                                    >
+                                                <input type="text" disabled="" class="form-control" value="{% if data.street2 == None %}{% else %}{{data.street2}}{% endif %}" placeholder="Street2">
                                                 <div class="row">
                                                     <div class="col-md-4 pl-0">
-                                                        <input type="text" disabled="" name="city" value="{% if data.city == None %}{% else %}{{data.city}}{% endif %}" class="form-control" placeholder=""
+                                                        <input type="text" disabled="" name="city" value="{% if data.city == None %}{% else %}{{data.city}}{% endif %}" class="form-control" placeholder="City"
                                                             >
                                                     </div>
                                                     <div class="col-md-4">
-                                                       <input type="text" disabled="" name="satte" value="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}" class="form-control" placeholder=""
+                                                       <input type="text" disabled="" name="satte" value="{% if data.satte == None %}{% else %}{{data.satte}}{% endif %}" class="form-control" placeholder="State"
                                                         >
 
                                                     </div>
