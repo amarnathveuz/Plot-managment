@@ -3649,6 +3649,8 @@
                   </div>
                 </div>
               </div>
+              <div class="card-footer text-right loader" style="display:none;">  <button class="btn btn-dark">    <i class="fa fa-refresh fa-spin"></i>Loading
+              </button></div>
               <div class="card-footer text-right">
 
                 <a href="#!" class="btn btn-light cls">Close</a>
@@ -4053,6 +4055,8 @@
     // submit booking 
     $(document).on('click', '.submit-booking',function()
     {
+      $(".submit_hide").hide()
+  $(".loader").show()
       var name = $('#plot-name');
       console.log(name);
       var plotId = $('.plot-id').val();

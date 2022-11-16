@@ -832,7 +832,7 @@ def booking_action(request):
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
                         status_content = 'Available'+"-->"+"Price Quotation"
-                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id)
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id=plot_id_mapping_id)
                         save_log.save()
                         arabic_status = None
                         try:
@@ -866,7 +866,7 @@ def booking_action(request):
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
                         status_content = 'Available'+"-->"+"Price Quotation"
-                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id)
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id=plot_id_mapping_id)
                         save_log.save()
                         arabic_status = None
                         try:
