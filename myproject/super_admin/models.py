@@ -195,6 +195,7 @@ login_user_type = (
 
 class booking_log(common):
     booking_id = models.ForeignKey(user_request_plot,on_delete=models.CASCADE,related_name="booking_log_id", null=True)
+    intractive_map_id = models.ForeignKey(intractive_map,on_delete=models.CASCADE,related_name="booking_log_intractive_map_id_id", null=True)
     action_appy_user = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="booking_log_user_login_id", null=True)
     auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="booking_log_auth_login_id", null=True)
     user_type = models.CharField(max_length=255,choices=login_user_type,null=True)

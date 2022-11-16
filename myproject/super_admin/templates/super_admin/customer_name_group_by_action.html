@@ -79,9 +79,13 @@
 
                                     <tbody class="">
                                         {% for j in i.user_request_plot_customer_id.all %}
-                                        <tr onclick="window.location='customer_more_details?id={{j.id}}'">
-                                            <td class="id"><a href="customer_more_details?id={{j.id}}"
-                                                    class="fw-medium link-primary">{{j.name}}</a>
+                                        <tr {% if j.available_status == 1 %} onclick="window.location='property_update?id={{j.property_mapping_id.id}}'" {% else %} onclick="window.location='property_more_details_page?id={{j.id}}'" {% endif %}>
+                                            <td class="id"><a {% if j.available_status == 1 %} onclick="window.location='property_update?id={{j.property_mapping_id.id}}'" {% else %} onclick="window.location='property_more_details_page?id={{j.id}}'" {% endif %}
+                                                    class="fw-medium link-primary">{{j.name}}
+                                                
+                                                
+                                              
+                                                </a>
                                             </td>
 
                                             <td class="customer_name">{{j.customer_id.customer_id}}

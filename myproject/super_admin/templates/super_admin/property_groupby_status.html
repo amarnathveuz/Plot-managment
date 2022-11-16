@@ -323,20 +323,4 @@
   </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-    function Search(){
-        var x = document.getElementById("search_value").value;
-        redirect_url = "property_search_result"
-        $.ajax({
-            url : redirect_url,
-            data :{
-                'data_value':x,
-                'check_list[]':check_list
-            },
-            type:'GET',
-            success: function (data) {
-               $(".append_search_result").empty().append(data)
-            }
-        })
-    }
-</script>
+

@@ -164,7 +164,7 @@
 
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#"><div class="form-check">
-                                <input type="checkbox" name="checkfield" id="g01-01" onchange="name_groupby_action(this)"> &nbsp;Booking Based
+                                <input type="checkbox" name="checkfield" id="g01-01"  onmouseover="hoverdata()"> &nbsp;Booking Based
                               </div></a>
                              
                         </div>
@@ -475,48 +475,55 @@
         })
     }
 
+</script>
 
 
-    function name_groupby_action(checkboxElem) {
-if (checkboxElem.checked) {
+<script>
 
-var redirect_group_by_url = 'customer_name_group_by_action'
-$.ajax({
-    url:redirect_group_by_url,
-    data:{
-        'name':'name'
-    },
-    type:'GET',
-    success:function(data){
-        $(".user_table1").show()
-        $(".user_table").hide()
-       
-         $(".user_table1").empty().append(data)
-
-         var card_view_redirect_url = 'customer_name_group_by_action_card_view'
-                $.ajax({
-            url: card_view_redirect_url,
-            data:{
-                'name':'name'
+function hoverdata() {
+    let checkbox = document.getElementById("g01-01");
+    if (checkbox.checked) {
+        document.getElementById("g01-01").checked = false;
+        $(".user_table1").hide()
+        $(".user_table").show()
+    }
+    else
+    {
+        document.getElementById("g01-01").checked = true;
+    
+        redirect_group_by_url = 'customer_name_group_by_action'
+        $.ajax({
+            url: redirect_group_by_url,
+            data: {
+                'status': 'type'
             },
+            type: 'GET',
             success: function (data) {
-                
-               
-                $(".append_card_view").empty().append(data);
+                $(".user_table1").show()
+                $(".user_table").hide()
+
+                $(".user_table1").empty().append(data)
+
+                var card_view_redirect_url = 'customer_name_group_by_action_card_view'
+                $.ajax({
+                    url: card_view_redirect_url,
+                    data: {
+                        'status': 'type'
+                    },
+                    success: function (data) {
+
+
+                        $(".append_card_view").empty().append(data);
+                    }
+                })
+
+
             }
+
         })
 
-         
     }
-
-})
-} else {
-$(".user_table1").hide()
-        $(".user_table").show()
 }
-}
-
-
 </script>
 
 

@@ -109,6 +109,18 @@ urlpatterns = [
     path('Bank_status_group_by_action_card_view',views.Bank_status_group_by_action_card_view,name='Bank_status_group_by_action_card_view'),
 
 
+    path('approve_booking_action_new',views.approve_booking_action_new,name='approve_booking_action_new'),
+    path('cancel_booking_action',views.cancel_booking_action,name='cancel_booking_action'),
+    path('cancel_booking_action_new_method',views.cancel_booking_action_new_method,name='cancel_booking_action_new_method'),
+
+
+    path('update_u_type',views.update_u_type,name='update_u_type'),
+    
+
+
+
+
+
     
 
 
