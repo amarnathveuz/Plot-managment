@@ -832,7 +832,7 @@ def booking_action(request):
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
                         status_content = 'Available'+"-->"+"Price Quotation"
-                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id=plot_id_mapping_id)
                         save_log.save()
                         arabic_status = None
                         try:
@@ -866,7 +866,7 @@ def booking_action(request):
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
                         status_content = 'Available'+"-->"+"Price Quotation"
-                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id=plot_id_mapping_id)
                         save_log.save()
                         arabic_status = None
                         try:
@@ -881,8 +881,6 @@ def booking_action(request):
             
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
-
-
 
 
 @login_required(login_url='/')
@@ -1039,7 +1037,6 @@ def cancel_booking_action_new_method(request):
     return redirect(request.META['HTTP_REFERER'])
 
 
-
 @login_required(login_url='/')
 def rest_to_available_booking_action(request):
     
@@ -1109,7 +1106,6 @@ def rest_to_available_booking_action(request):
 
     messages.success(request,"You successfully Reset")
     return redirect(request.META['HTTP_REFERER'])
-
 
 
 
@@ -2321,7 +2317,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
         status_content = 'Price Quotation --> Reset to Available'
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
-    data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0,read_status=1,booking_status=3)
+    data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0)
     arabic_status = None
     try:
         data34 = status_code.objects.get(status_code=0)
@@ -2332,7 +2328,6 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
     
 
     return True
-
 
 
 def cancel_booking_action(request):
@@ -2409,6 +2404,6 @@ def cancel_booking_action(request):
 
 
 def update_u_type(request):
-    for i in range(317,341):
+    for i in range(211,257):
         print(i)
-        update_intractive_map = intractive_map.objects.filter(UnitNo=i).update(UType="Semi Attached - A (Jory)")
+        update_intractive_map = intractive_map.objects.filter(UnitNo=i).update(UType="Villa - A (Lavender)")
