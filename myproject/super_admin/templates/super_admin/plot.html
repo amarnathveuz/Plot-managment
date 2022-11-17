@@ -3860,6 +3860,8 @@
           }
         $('.unit_type').html(":  " + u_type);
         var u_unitarea = "";
+        console.log("attachhhhh")
+        console.log(data.attachement_multiple_filea)
         if(data.UnitArea !=null)
           {
             u_unitarea = data.UnitArea;
@@ -3995,7 +3997,7 @@
           $('.badge').html('Sold')
           $('.badge').addClass('badge-red');
           $('.book-div').hide();
-          $('.popup-show').hide();
+          $('.popup-show').show();
           $('.info_new').show();
           var u_name = "";
           if(data.Name !=null)

@@ -419,6 +419,48 @@ def property_update(request):
         attachment = None
 
         if user_type == True:
+            data = intractive_map.objects.get(id=id)
+            change_text = ''
+            if data.Name == Name:
+                pass
+            else:
+                change_text = '(Customer Name changed '+data.name+" --> "+Name+" )"
+            if data.UnitNo == UnitNo:
+                pass
+            else:
+                change_text = '(Unit No changed '+data.UnitNo+" --> "+UnitNo+" )"
+            if data.BlockNo == BlockNo:
+                pass
+            else:
+                change_text = '(Block No changed '+data.BlockNo+" --> "+BlockNo+" )"
+            if data.Phoneno == Phoneno:
+                pass
+            else:
+                change_text = '(Phone No changed '+data.Phoneno+" --> "+Phoneno+" )"
+            if data.customer_id == customer_id:
+                pass
+            else:
+                change_text = '(Customer Id changed '+data.customer_id+" --> "+customer_id+" )"
+            if data.UnitArea == UnitArea:
+                pass
+            else:
+                change_text = '(UnitArea changed '+data.UnitArea+" --> "+UnitArea+" )"
+            if data.UType == UType:
+                pass
+            else:
+                change_text = '(UType changed '+data.UType+" --> "+UType+" )"
+            if data.Price == Price:
+                pass
+            else:
+                change_text = '(Price changed '+data.Price+" --> "+Price+" )"
+            if data.Bank == Bank:
+                pass
+            else:
+                change_text = '(Bank changed '+data.Bank+" --> "+Bank+" )"
+            
+
+
+            
 
         
         
@@ -452,6 +494,16 @@ def property_update(request):
                 currency = currency,
                 customer_id = customer_id,
                 bank_relation_id_id = bank_mapping_id
+            )
+            booking_log1 = booking_log.objects.create(
+                intractive_map_id_id = id,
+                auth_user = request.user,
+                user_type = "administrator",
+                d_text = change_text,
+                status_content = "updated",
+                log_type="field_update",
+
+
             )
             try:
                 data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
@@ -1285,7 +1337,11 @@ def property_groupby_action(request):
 def property_search_result(request):
     data_value = request.GET.get("data_value")
     check_list = request.GET.getlist("check_list[]")
-    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+    print("dataaaaa::::::::::",str(data_value))
+    #data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+    data = intractive_map.objects.filter(UnitNo__icontains=data_value)
+    print("----------ssssssssssssssssssss")
+    print(data.values_list())
     return render(request, 'super_admin/property_search_result.html', {'data': data,'check_list':check_list})
 
 
