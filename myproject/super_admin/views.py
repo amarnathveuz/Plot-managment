@@ -327,6 +327,15 @@ def simple_upload(request):
                     data_code1 = 0
 
 
+                block_no = ''
+                if data[5] == None:
+                     block_no = ''
+                elif  data[5]  == '':
+                    block_no = ''
+
+                else:
+                    block_no == data[5]
+
 
                 data_new = intractive_map.objects.create(
                     Name = data[1],

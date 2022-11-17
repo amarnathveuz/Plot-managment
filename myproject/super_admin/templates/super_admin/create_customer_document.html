@@ -107,9 +107,9 @@
                                     <h6 class="my-0">Document Type</h6>
                                 </div>
                                 <div class="col-md-7">
-                                    <select class="form-control" id="select_document_type" name="type" required>
-                                        <option  selected="">Select Document Type</option>
-                                        <option onclick="customer_id(this)" value="customer_id">Customer ID (document)</option>
+                                    <select class="form-control"  onchange="changeFunc();" id="select_document_type" name="type" required>
+                                        <option value="" selected disabled hidden>Select Document Type</option>
+                                        <option onclick="customer_id()" value="customer_id">Customer ID (document)</option>
                                         <option onclick="contract(this)" value="contract">Contract (document)</option>
                                         <option onclick="tax(this)" value="tax_certificate">Tax certificate</option>
                                         <option onclick="other(this)" value="other">Other (document)</option>
@@ -126,7 +126,7 @@
                                         <div class="file-select">
                                           <div class="file-select-button" id="fileName">Choose File</div>
                                           <div class="file-select-name" id="noFile">No file chosen...</div> 
-                                          <input  onchange="Filevalidation_contract()" type="file" name="document_file" id="chooseFile">
+                                          <input required  onchange="Filevalidation_contract()" type="file" name="document_file" id="select_file">
                                         </div>
                                         <div style="color: red; display:none ;" id="message"></div>
                                       </div>
@@ -243,51 +243,47 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 
 <script>
+    $('#select_file').bind('change', function () {
+      var filename = $("#select_file").val();
+      if (/^\s*$/.test(filename)) {
+        $(".file-upload").removeClass('active');
+        $("#noFile").text("No file chosen..."); 
+      }
+      else {
+        $(".file-upload").addClass('active');
+        $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+      }
+    });
+    </script>
+<script>
 
+    function changeFunc() {
+        document.getElementById('select_file').value=''
+        div_val =  document.getElementById('noFile').innerHTML;
+        if (div_val != "No file chosen..."){
 
-    function customer_id(status){
-      
-        document.getElementById('select_file').value=''
-        document.getElementById("message").style.display = "none";
-        s = status.value;
+            document.getElementById('noFile').innerHTML = "";
+            document.getElementById("message").style.display = "none";
+        }
+        
     }
-    function contract(status){
-        document.getElementById('select_file').value=''
-        document.getElementById("message").style.display = "none";
-        s = status.value;
-    }
-    function tax(status){
-        document.getElementById('select_file').value=''
-        document.getElementById("message").style.display = "none";
-        s = status.value;
-    }
-    function other(status){
-        document.getElementById('select_file').value=''
-        document.getElementById("message").style.display = "none";
-        s = status.value;
-    }
+   
 
     function Filevalidation_contract() {
     
-        const fi = document.getElementById('chooseFile');
+        const fi = document.getElementById('select_file');
         if (fi.files.length > 0) {
       
             for (const i = 0; i <= fi.files.length - 1; i++) {
                 const fsize = fi.files.item(i).size;
                 const file = Math.round((fsize / 1024));
                 var e = document.getElementById("select_document_type");
-var value = e.value;
-var text = e.options[e.selectedIndex].text;
-
-
-
-                
+                var value = e.value;
+                var text = e.options[e.selectedIndex].text;
 
                 if(value == "customer_id"){
-                 
                    
                     if (file > 1024) {
-                        document.getElementById("chooseFile").value = null;
                         document.getElementById("message").style.display = "block";
                         document.getElementById("message").innerHTML = "File too Big, please select a file less than 1mb";
                         document.getElementById('select_file').value=''
@@ -300,7 +296,6 @@ var text = e.options[e.selectedIndex].text;
                 else if(value == "contract"){
                    
                    if (file > 51200) {
-                    document.getElementById("chooseFile").value = null;
                         document.getElementById("message").style.display = "block";
                         document.getElementById("message").innerHTML = "File too Big, please select a file less than 50mb";
                         document.getElementById('select_file').value=''
@@ -313,7 +308,6 @@ var text = e.options[e.selectedIndex].text;
                 else if(value == "tax_certificate"){
                    
                    if (file > 1024) {
-                    document.getElementById("chooseFile").value = null;
                         document.getElementById("message").style.display = "block";
                         document.getElementById("message").innerHTML = "File too Big, please select a file less than 1mb";
                         document.getElementById('select_file').value=''
@@ -327,7 +321,6 @@ var text = e.options[e.selectedIndex].text;
                 else if(value == "other"){
                    
                    if (file > 10240) {
-                    document.getElementById("chooseFile").value = null;
                         document.getElementById("message").style.display = "block";
                         document.getElementById("message").innerHTML = "File too Big, please select a file less than 10mb";
                         document.getElementById('select_file').value=''
@@ -340,5 +333,8 @@ var text = e.options[e.selectedIndex].text;
         }
     }
 </script>
+
+
+
 
 {% endblock %}
