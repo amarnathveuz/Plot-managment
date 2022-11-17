@@ -92,7 +92,7 @@
                                     </div>
                                         
                                  
-                                    <div class="col-md-6 cust-details p-0">
+                                    <div class="col-md-8 cust-details p-0">
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Name</h6>
@@ -164,19 +164,33 @@
                                         </div>
                                         {% if data.user_type == "manager" %}
                                         <div class="row" id="nav_permission">
-                                         <div class="col-md-3 br-right d-flex align-items-center">
+                                         <div class="col-md-3 br-right d-flex align-items-start">
                                              <h6>Nav permission </h6>
                                          </div>
                                          <div class="col-md-8 d-flex align-items-center">
                                              <div class="form-group  required_item w-100">
-                                                 <div class=""> 
-                                                    
-                                                     <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission">&nbsp; Plot Management&nbsp;&nbsp;&nbsp;
-                                                     <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
-                                                     <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
+                                                 <div class="row" style="font-size: 12px;margin-top: 15px;">
+                                                    <div class="col-sm-4">
+                                                     <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission" style="margin-bottom: 8px;">&nbsp; Plot Management&nbsp;<br>
+
+                                                        <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission" style="margin-bottom: 8px;">&nbsp; User Management&nbsp;&nbsp;<br>
+                                                     <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission" style="margin-bottom: 8px;">&nbsp; Property Edit <br>
+                                                     <input id="access" {% if data.manager_nav_booking_cancel_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_booking_cancel_permission">&nbsp; Booking Cancel Permission
+
+                                                    </div>
+                                                     <div class="col-sm-4">
+                                                         <h6 style="margin: 0 0 10px;">Customer Management:</h6>
+                                                         <input id="access" {% if data.manager_nav_customer_read_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_read_permission">&nbsp; Read <br>
+                                                         <input id="access" {% if data.manager_nav_customer_write_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_write_permission">&nbsp; Write <br>
+                                                         <input id="access" {% if data.manager_nav_customer_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_edit_permission">&nbsp; Edit
+                                                     </div>
+                                                     <div class="col-sm-4">
+                                                          <h6 style="margin: 0 0 10px;">Document Permission:</h6>
+                                                          <input id="access" {% if data.manager_nav_document_read_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_read_permission">&nbsp;Read <br>
+                                                          <input id="access" {% if data.manager_nav_document_write_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_write_permission">&nbsp; Write<br>
+                                                          <input id="access" {% if data.manager_nav_document_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_edit_permission">&nbsp; Edit
+                                                     </div>
                                                  </div>
-                                                 
-     
                                              </div>
                                          </div>
                                      </div>
@@ -204,7 +218,7 @@
                                         </div>
     
                                     </div>
-                                    <div class="col-md-6 cust-details p-0">
+                                    <div class="col-md-4 cust-details p-0">
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Email</h6>
@@ -384,12 +398,6 @@
                                     style="background-image: url(./media/{{data.atatchment}});"></div>
 
                                     <div class="cust-name row">
-                                        {% if data.user_type == "admin" %}
-                                        <span style="color: red;
-                                        font-weight: bold;
-                                        font-size: 12px;">Super Admin</span>
-
-                                        {% else %}
                                         <div class="col-md-1">
                                             <input disabled type="radio" id="individual" value="individual"
                                                 name="catgry"  {% if data.user_type == 'manager' %} checked {% endif %}> <label
@@ -400,8 +408,6 @@
                                                 name="catgry" ><label
                                                 for="company">Salesman</label><br>
                                         </div>
-                                        {% endif %}
-                                        
                                         <div class="col-md-12">
                                             <h3 class="m-0">{{data.name|title}}</h3>
                                         </div>
@@ -411,7 +417,7 @@
                                 </div>
                                     
                              
-                                <div class="col-md-6 cust-details p-0">
+                                <div class="col-md-8 cust-details p-0">
                                     <div class="row">
                                         <div class="col-md-3 br-right d-flex align-items-center">
                                             <h6>Phone</h6>
@@ -489,24 +495,38 @@
                                     <div class="col-md-3 br-right d-flex align-items-center">
                                         <h6>Nav permission </h6>
                                     </div>
-                                    <div class="col-md-8 d-flex align-items-center">
-                                        <div class="form-group  required_item w-100">
-                                            <div class=""> 
-                                               
-                                                <input {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"  disabled value="1" name="manager_nav_ploat_permission">&nbsp; Plot Management&nbsp;&nbsp;&nbsp;
-                                                <input {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;
-                                                <input {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit
-                                            </div>
-                                            
 
-                                        </div>
-                                    </div>
+                                       <div class="col-md-8 d-flex align-items-center">
+                                             <div class="form-group  required_item w-100">
+                                                 <div class="row" style="font-size: 12px;margin-top: 15px;">
+                                                    <div class="col-sm-4">
+                                                     <input {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"  disabled value="1" name="manager_nav_ploat_permission">&nbsp; Plot Management&nbsp;<br>
+                                                     <input {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_user_permission">&nbsp; User Management&nbsp;&nbsp;&nbsp;<br>
+                                                     <input {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_plot_edit_permission">&nbsp; Property Edit<br>
+                                                     <input {% if data.manager_nav_booking_cancel_permission == 1 %} checked {% endif %} type="checkbox" disabled value="1" name="manager_nav_booking_cancel_permission">&nbsp; Booking Cancel Permission
+
+                                                    </div>
+                                                     <div class="col-sm-4">
+                                                         <h6 style="margin: 0 0 10px;">Customer Management:</h6>
+                                                         <input {% if data.manager_nav_customer_read_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_customer_read_permission">&nbsp; Read<br>
+                                                         <input {% if data.manager_nav_customer_write_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_customer_write_permission">&nbsp; Write<br>
+                                                         <input {% if data.manager_nav_customer_edit_permission == 1 %} checked {% endif %}  type="checkbox" disabled value="1" name="manager_nav_customer_edit_permission">&nbsp; Edit
+                                                     </div>
+                                                     <div class="col-sm-4">
+                                                          <h6 style="margin: 0 0 10px;">Document Permission:</h6>
+                                                          <input {% if data.manager_nav_document_read_permission == 1 %} checked {% endif %} type="checkbox" disabled value="1" name="manager_nav_document_read_permission">&nbsp;&nbsp;Read <br>
+                                                          <input {% if data.manager_nav_document_write_permission == 1 %} checked {% endif %} type="checkbox" disabled value="1" name="manager_nav_document_write_permission">&nbsp;&nbsp; Write<br>
+                                                          <input {% if data.manager_nav_document_edit_permission == 1 %} checked {% endif %} type="checkbox" disabled value="1" name="manager_nav_document_edit_permission">&nbsp; Edit
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
                                 </div>
                                    {% endif %}
                                    
                                     <option value="{{user_manger.manager_id.id}}"></option>
                                 </div>
-                                <div class="col-md-6 cust-details p-0">
+                                <div class="col-md-4 cust-details p-0">
                                     <div class="row">
                                         <div class="col-md-3 br-right d-flex align-items-center">
                                             <h6>Email</h6>
@@ -675,7 +695,7 @@
     </div>
 </div>
 
-<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
         <script>

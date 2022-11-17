@@ -388,15 +388,22 @@ def property_update(request):
         UType = request.POST.get("UType")
         Price = request.POST.get("Price")
         Bank = request.POST.get("Bank")
-        print("bank:::::",str(Bank))
         if Bank == "select bank":
             messages.error(request, "Select Bank")
             return redirect(request.META['HTTP_REFERER'])
         
         bank_mapping_id = None
         
-        bank_data = Bank_details.objects.get(bank_name=Bank)
-        bank_mapping_id = bank_data.id
+        try:
+            bank_data = Bank_details.objects.get(bank_name=Bank)
+            bank_mapping_id = bank_data.id
+        except:
+            bank_create = Bank_details.objects.create(
+                bank_name = Bank,
+                status= "Active"
+            )
+            bank_mapping_id = bank_create.id
+
         current_status = request.POST.get("current_status")
         currency = request.POST.get("currency")
         customer_id = request.POST.get("customer_id")
@@ -548,12 +555,33 @@ def update_user_action(request):
         manager_nav_ploat_permission = request.POST.get("manager_nav_ploat_permission")
         manager_nav_user_permission = request.POST.get("manager_nav_user_permission")
         manager_nav_plot_edit_permission = request.POST.get("manager_nav_plot_edit_permission")
+        manager_nav_customer_read_permission = request.POST.get("manager_nav_customer_read_permission")
+        manager_nav_customer_write_permission = request.POST.get("manager_nav_customer_write_permission")
+        manager_nav_customer_edit_permission = request.POST.get("manager_nav_customer_edit_permission")
+        manager_nav_document_read_permission = request.POST.get("manager_nav_document_read_permission")
+        manager_nav_document_write_permission = request.POST.get("manager_nav_document_write_permission")
+        manager_nav_document_edit_permission = request.POST.get("manager_nav_document_edit_permission")
+        manager_nav_booking_cancel_permission = request.POST.get("manager_nav_booking_cancel_permission")
         if manager_nav_ploat_permission == None:
             manager_nav_ploat_permission = 0
         if manager_nav_user_permission == None:
             manager_nav_user_permission = 0
         if manager_nav_plot_edit_permission == None:
             manager_nav_plot_edit_permission = 0
+        if manager_nav_customer_read_permission == None:
+            manager_nav_customer_read_permission = 0
+        if manager_nav_customer_write_permission == None:
+            manager_nav_customer_write_permission = 0
+        if manager_nav_customer_edit_permission == None:
+            manager_nav_customer_edit_permission = 0
+        if manager_nav_document_read_permission == None:
+            manager_nav_document_read_permission = 0
+        if manager_nav_document_write_permission == None:
+            manager_nav_document_write_permission = 0
+        if manager_nav_document_edit_permission == None:
+            manager_nav_document_edit_permission = 0
+        if manager_nav_booking_cancel_permission == None:
+            manager_nav_booking_cancel_permission = 0
         user_instance = user_Details.objects.get(id=updated_id)
         change_text = ''
         if user_instance.name == name:
@@ -604,10 +632,14 @@ def update_user_action(request):
             property_access = property_access,
             manager_nav_ploat_permission = manager_nav_ploat_permission,
             manager_nav_user_permission = manager_nav_user_permission,
-            manager_nav_plot_edit_permission = manager_nav_plot_edit_permission
-
-
-
+            manager_nav_plot_edit_permission = manager_nav_plot_edit_permission,
+            manager_nav_customer_read_permission = manager_nav_customer_read_permission,
+            manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+            manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+            manager_nav_document_read_permission = manager_nav_document_read_permission,
+            manager_nav_document_write_permission=manager_nav_document_write_permission,
+            manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+            manager_nav_booking_cancel_permission = manager_nav_booking_cancel_permission
         )
         print("password_select:::::",str(password_select))
         if password_select == "yes":
@@ -664,8 +696,6 @@ def update_user_action(request):
 
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
-        
-
 
 
 def login_action(request):

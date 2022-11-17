@@ -110,6 +110,13 @@ class user_Details(common):
     manager_nav_ploat_permission = models.IntegerField(default=0)
     manager_nav_user_permission = models.IntegerField(default=0)
     manager_nav_plot_edit_permission = models.IntegerField(default=0)
+    manager_nav_booking_cancel_permission = models.IntegerField(default=0)
+    manager_nav_customer_read_permission = models.IntegerField(default=0)
+    manager_nav_customer_write_permission = models.IntegerField(default=0)
+    manager_nav_customer_edit_permission = models.IntegerField(default=0)
+    manager_nav_document_read_permission = models.IntegerField(default=0)
+    manager_nav_document_write_permission = models.IntegerField(default=0)
+    manager_nav_document_edit_permission = models.IntegerField(default=0)
 
 class user_access_property_mapping(common):
     auth_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_access_property_mapping_auth_id", null=True)

@@ -126,16 +126,21 @@
                                 </a>
 
                                 {% elif data.current_status == '2' %}
+                                {% if request.user|get_user_type_action:"cancel_booking" %}
                                 <a href="#" id="btn-confirm4" 
                                 class="btn btn-pri pay discard-payroll">Booking Cancel
                             </a>
+                            {% endif %}
 
                             {% elif data.current_status == '3' %}
+
+                            {% if request.user.is_superuser == True %}
                             <a href="#" id="btn-confirm2" 
                             class="btn btn-pri pay discard-payroll" style="background: green;
                             color: white;
                             border: none;"> Reset to Available
                         </a>
+                        {% endif %}
 
 
 
@@ -457,7 +462,7 @@
                                                         </div>
                                                         <div class="col-md-8 d-flex align-items-start">
                                                             <div class="form-group  required_item w-100">
-                                                                <input required type="text" autocomplete="off"
+                                                                <input  type="text" autocomplete="off"
                                                                     onkeyup="startdigit(this)" maxlength="9"
                                                                     minlength="9"  id="basiInput31" disabled
                                                                     name="Phoneno" onkeypress="return onlyNumberKey_phone(event)"
@@ -493,7 +498,7 @@
                                                         <div class="col-md-8 d-flex align-items-start">
                                                             <div class="form-group  required_item w-100">
                                                                     <input autocomplete="off" maxlength="10" minlength="10"
-                                                                    onkeypress="return onlyNumberKey_customer(event)" required
+                                                                    onkeypress="return onlyNumberKey_customer(event)" 
                                                                
                                                                 name="customer_id" type="text" id="customer_id"
                                                                 disabled
@@ -1322,6 +1327,7 @@
 
 <script>
     $(".new_booking_action").click(function () {
+        
         document.getElementById("edit_id").style.display = "none";
 
         $(".new_booking_action").hide()

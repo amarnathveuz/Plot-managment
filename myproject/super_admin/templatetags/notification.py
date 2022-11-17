@@ -90,14 +90,56 @@ def get_nav_permission(value,args):
         else:
             return False
 
+
 @register.filter(name='get_user_type_action')
 def get_user_type_action(value,args):
     user_dat = User.objects.get(id=value.id)
     st = user_dat.is_superuser
+    user_data =""
+    try:
+        user_data = user_Details.objects.get(auth_user=user_dat)
+    except:
+        pass
     if st == True:
         return True
+    elif user_data.user_type == "manager":
+        if args == "user_type":
+            status = user_data.manager_nav_customer_read_permission
+            if status == 1:
+                return True
+            else:
+                return False
+        if args == "customer_edit":
+            status = user_data.manager_nav_customer_edit_permission
+            if status == 1:
+                return True
+            else:
+                return False
+        if args == "document_read":
+            status = user_data.manager_nav_document_read_permission
+            if status == 1:
+                return True
+            else:
+                return False
+        if args == "document_write":
+            status = user_data.manager_nav_document_write_permission
+            if status == 1:
+                return True
+            else:
+                return False
+        if args == "cancel_booking":
+            status = user_data.manager_nav_booking_cancel_permission
+            if status == 1:
+                return True
+            else:
+                return False
     else:
         return False
+
+
+
+
+
 
     
 

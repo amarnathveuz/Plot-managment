@@ -6,7 +6,8 @@ from .models import intractive_map
 class Intractive_mapSerializer(serializers.ModelSerializer):
     attachement_multiple_filea = serializers.SerializerMethodField()
 
-    current_status_new = serializers.SerializerMethodField()
+    current_price_new = serializers.SerializerMethodField()
+     
     class Meta:
         model = intractive_map
         # fields = ['id','title', 'author','email']
@@ -14,12 +15,10 @@ class Intractive_mapSerializer(serializers.ModelSerializer):
     def get_attachement_multiple_filea(self,obj):
         return obj.intractive_map_multiple_image_id.values('attached_file','image_type','image_name')
     
-    def get_current_status_new(self,obj):
-        status = ''
+    def get_current_price_new(self,obj):
         
-        if obj.current_status == '0':
-            status = "availlll"
-        elif obj.current_status == '1':
-            status ="not avaaa"
+        
+        status =  '{:20,.2f}'.format(obj.Price)
+        status = str(status).replace(" ", "")
 
         return status
