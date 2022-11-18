@@ -484,6 +484,34 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="row" style="display: none" id="plot_view_upload">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Plot view </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <label> 1 </label>
+                                                                <input accept="image/*" type="file" name="plotview1">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <label> 2 </label>
+                                                                <input accept="image/*" type="file" name="plotview2">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <label> 3 </label>
+                                                                <input accept="image/*" type="file" name="plotview3">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
 
 
                                                 </div>
@@ -1129,6 +1157,8 @@
     var user_type = `{{user_type.is_superuser}}`
 
     function Edit_function() {
+
+        $("#plot_view_upload").show()
         try {
             document.getElementById("book_now_id").style.display = "none";
         } catch (err) {

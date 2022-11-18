@@ -10,6 +10,8 @@ from .serializers import Intractive_mapSerializer
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
+from .decorators import *
+
 def index(request):
     return render(request,'super_admin/index.html')
 
@@ -588,6 +590,90 @@ def property_update(request):
                 update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
             except:
                 pass
+        
+        try:
+            plotview1 = request.FILES['plotview1']
+            try:
+                data1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
+                import os
+                extesion = os.path.splitext(str(plotview1))[1]
+                data4 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
+                data4.attached_file = plotview1
+                data4.image_type = extesion
+                data4.image_name = plotview1.name
+                data4.plot_type = "view1"
+                data4.save()
+            except:
+                import os
+                extesion = os.path.splitext(str(plotview1))[1]
+                insert_view1_img = intractive_map_plot_view_image(
+                    mapping_id_id=id,
+                    attached_file = plotview1,
+                    image_type = extesion,
+                    image_name = plotview1.name,
+                    plot_type = "view1"
+
+                )
+                insert_view1_img.save()
+                pass
+        except:
+            pass
+        try:
+            plotview2 = request.FILES['plotview2']
+            try:
+                data1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view2")
+                import os
+                extesion = os.path.splitext(str(plotview2))[1]
+                data4 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view2")
+                data4.attached_file = plotview2
+                data4.image_type = extesion
+                data4.image_name = plotview2.name
+                data4.plot_type = "view1"
+                data4.save()
+            except:
+                import os
+                extesion = os.path.splitext(str(plotview2))[1]
+                insert_view1_img = intractive_map_plot_view_image(
+                    mapping_id_id=id,
+                    attached_file = plotview2,
+                    image_type = extesion,
+                    image_name = plotview2.name,
+                    plot_type = "view2"
+
+                )
+                insert_view1_img.save()
+                pass
+
+        except:
+            pass
+        try:
+            plotview3 = request.FILES['plotview3']
+            try:
+                data1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view3")
+                import os
+                extesion = os.path.splitext(str(plotview3))[1]
+                data4 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view3")
+                data4.attached_file = plotview3
+                data4.image_type = extesion
+                data4.image_name = plotview3.name
+                data4.plot_type = "view3"
+                data4.save()
+            except:
+                import os
+                extesion = os.path.splitext(str(plotview3))[1]
+                insert_view1_img = intractive_map_plot_view_image(
+                    mapping_id_id=id,
+                    attached_file = plotview3,
+                    image_type = extesion,
+                    image_name = plotview3.name,
+                    plot_type = "view3"
+
+                )
+                insert_view1_img.save()
+                pass
+
+        except:
+            pass
 
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
@@ -1170,7 +1256,7 @@ def cancel_booking_action_new_method(request):
             text_content = "Booking report cancelled(Administrator)"
         else:
 
-            text_content = "Booking report cancelled(originally assigned to "+assigned_user_name+")"
+            text_content = "Booking report cancelled"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=data.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=id)
         save_log.save()
@@ -1727,7 +1813,7 @@ def admin_book_plot_action(request):
 
 
 
-
+@decorator_fn('user_type')
 def customer_management(request):
     data = Customer_details.objects.all().order_by("-id")
     page_number = request.GET.get("page")
@@ -2137,7 +2223,7 @@ def property_more_details_page(request):
     return render(request,'super_admin/property_more_details_page.html',context)
 
 
-
+@decorator_fn('document_read')
 def view_customer_document(request):
     id = request.GET.get("id")
     data =  Customer_details.objects.get(id=id)
@@ -2147,7 +2233,7 @@ def view_customer_document(request):
     }
     return render(request,'super_admin/view_customer_document.html',context)
 
-
+@decorator_fn('document_write')
 def create_customer_document(request):
     if request.method == "POST":
         id = request.POST.get("id")
@@ -2336,8 +2422,6 @@ def Bank_status_group_by_action_card_view(request):
 
 
 def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
-    
-    print("idddd::::",id)
     data = user_request_plot.objects.get(id=id)
     
     user_type = user_type
@@ -2356,7 +2440,7 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
             text_content = "Booking report approval done (Administrator)"
         else:
 
-            text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
+            text_content = "Booking report approval done "
         status_content = current_status+"-->"+"Approved"
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
@@ -2380,6 +2464,8 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
     data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=2,read_status=1)
 
     return True
+
+
 
 def approve_booking_action_new(request):
     id = request.GET.get("id")
@@ -2454,7 +2540,6 @@ def approve_booking_action_new(request):
 
 def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
     id  = id
-    print("id:::::::::::::::::::nnn:::::",str(id))
     data = user_request_plot.objects.get(id=id)
     
     user_type = user_type1
@@ -2473,7 +2558,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
             text_content = "Booking report cancel done (Administrator)"
         else:
 
-            text_content = "Booking report cancel done)"
+            text_content = "Booking report cancel done"
         status_content = 'Price Quotation --> Reset to Available'
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()

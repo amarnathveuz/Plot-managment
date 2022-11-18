@@ -48,6 +48,10 @@ class intractive_map(models.Model):
             url = ''
         return url
 
+
+
+
+
 class intractive_map_multiple_image(models.Model):
     mapping_id = models.ForeignKey(intractive_map,on_delete=models.CASCADE,related_name="intractive_map_multiple_image_id", null=True)
     attached_file = models.FileField(upload_to="property_multiple_image",null=True)
@@ -57,6 +61,17 @@ class intractive_map_multiple_image(models.Model):
     tm = models.TimeField(auto_now_add=True)
     status = models.CharField(max_length=255,null=True)
     
+
+
+class intractive_map_plot_view_image(models.Model):
+    mapping_id = models.ForeignKey(intractive_map,on_delete=models.CASCADE,related_name="intractive_map_plot_view_image_map_id", null=True)
+    attached_file = models.FileField(upload_to="property_multiple_image_plot_view",null=True)
+    image_type = models.CharField(max_length=255,null=True)
+    image_name = models.CharField(max_length=255,null=True)
+    dt = models.DateField(auto_now_add=True)
+    tm = models.TimeField(auto_now_add=True)
+    plot_type = models.CharField(max_length=255,null=True)
+    status = models.CharField(max_length=255,null=True)
 
 
 from django.utils import timezone

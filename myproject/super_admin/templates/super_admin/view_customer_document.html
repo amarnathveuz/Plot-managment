@@ -405,27 +405,27 @@
 
 
 <script>
-    function remove_doc(file_name,id){
-        $.ajax({
-            url: "remove_customer_document",
-            data:{
-                'file_name':file_name,
-                'id':id
-            },
-            success: function (data) {
-                if(data['message'] == "success"){
-                    Swal.fire({
-                    icon: 'success',
-                    title: '',
-                    text: "Delete successfully"
-                  
-                 } )
-        
-               }
-               window.location.href = "view_customer_document?id={{id}}"
-            }
-    })
-    }
+  function remove_doc(file_name,id){
+      $.ajax({
+          url: "remove_customer_document",
+          data:{
+              'file_name':file_name,
+              'id':id
+          },
+          success: function (data) {
+              if(data['message'] == "success"){
+                  Swal.fire({
+                  icon: 'success',
+                  title: '',
+                  text: "Delete successfully"
+               
+               }).then(function() {
+                window.location = "view_customer_document?id={{id}}"
+            });
+             }
+          }  
+      })
+  }
 </script>
 
 
