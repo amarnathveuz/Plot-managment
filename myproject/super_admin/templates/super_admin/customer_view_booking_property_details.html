@@ -296,9 +296,9 @@
                                         <td  class="date">{{i.property_mapping_id.UnitArea}}</td>
                                         <td  class="company">{{i.property_mapping_id.LandArea}}</td>
                                         <td >
-                                            {% if i.UType == None %}
+                                            {% if i.property_mapping_id.UType == None %}
                                             {% else %}
-                                            {{i.UType}}
+                                            {{i.property_mapping_id.UType}}
                                             {% endif %}
                                         </td>
                                         <td>

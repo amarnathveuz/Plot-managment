@@ -65,7 +65,7 @@
 <form action="" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
     {% csrf_token %}
     <input type="hidden" value="{{id}}" name="id">
-    <div class="container-fluid mt-4">
+    <div class="">
         <div class="row">
             <div class="col-12 px-0">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -75,7 +75,9 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="view_customer_document?id={{id}}">Customer Document</a>
                             </li>
-                            <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li>
+                            <!-- <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li> -->
+                            <li class="breadcrumb-item active"><a href="customer_more_details?id={{id}}">Customer Profile</a></li>
+
 
                         </ol>
                         <div class="margn">
@@ -83,7 +85,7 @@
                                     class="btn btn-prim pay">
                                     Save
                                 </button></a>
-                            <a href="bank_master"><button style="padding: 5px 10px !important;" type="button"
+                            <a href="customer_management"><button style="padding: 5px 10px !important;" type="button"
                                     class="btn btn-pri pay discard-payroll"> Discard
                                 </button></a>
                         </div>
@@ -217,13 +219,11 @@
 
 
     if (message1 == "error") {
-
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: "{{ message }}",
         })
-
     } else {
 
         Swal.fire(
@@ -231,7 +231,6 @@
             '{{ message }}',
             '{{message.tags}}'
         )
-
     } 
     {% endfor %}
 </script>

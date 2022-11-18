@@ -77,7 +77,7 @@
                                             <div class="col">
                                                 <input  id="user_type1" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
                                                     for="company">Salesman</label>&nbsp;&nbsp;&nbsp;
-                                                    <input  id="user_type1" onclick="visible_manager('manager')" name="user_type"  type="radio"  value="admin"><label
+                                                    <input  id="user_type1" onclick="visible_manager('admin')" name="user_type"  type="radio"  value="admin"><label
                                                     for="company">Admin</label><br>
                                             </div>
                                             
@@ -95,7 +95,7 @@
                                     </div>
                                         
                                  
-                                    <div class="col-md-6 cust-details p-0">
+                                    <div class="col-md-8 cust-details p-0">
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Phone</h6>
@@ -149,8 +149,37 @@
                                                         <input id="access" type="radio" onclick="function_access_property('full_access')" name="property_access" value="all" checked> &nbsp;All access
                                                         &nbsp;  <input id="access"  type="radio" onclick="function_access_property('property_based')"  name="property_access" value="plot_based"> &nbsp;Plot based access
                                                     </div>
-                                                    
+
     
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 br-right d-flex align-items-start nav_head" style="display:none;">
+                                                <h6 style="display:none;" class="nav_head">Nav permission </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center nav_head" style="display:none;">
+                                                <div class="form-group  required_item w-100 nav_head" style="display:none;">
+                                                    <div class="row nav_head" style="font-size: 12px;margin-top: 15px;" style="display:none;">
+                                                        <div class="col-sm-4 nav_head" style="display:none;">
+                                                            <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission" style="margin-bottom: 8px;">&nbsp; Plot Management&nbsp;<br>
+                                                            <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission" style="margin-bottom: 8px;">&nbsp; User Management&nbsp;&nbsp;<br>
+                                                            <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission" style="margin-bottom: 8px;">&nbsp; Property Edit <br>
+                                                            <input id="access" {% if data.manager_nav_booking_cancel_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_booking_cancel_permission">&nbsp; Booking Cancel Permission
+
+                                                        </div>
+                                                        <div class="col-sm-4 nav_head" style="display:none;">
+                                                             <h6 style="margin: 0 0 10px;">Customer Management:</h6>
+                                                             <input id="access" {% if data.manager_nav_customer_read_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_read_permission">&nbsp; Read <br>
+                                                             <input id="access" {% if data.manager_nav_customer_write_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_write_permission">&nbsp; Write <br>
+                                                             <input id="access" {% if data.manager_nav_customer_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_edit_permission">&nbsp; Edit
+                                                         </div>
+                                                        <div class="col-sm-4 nav_head" style="display:none;">
+                                                              <h6 style="margin: 0 0 10px;">Document Permission:</h6>
+                                                              <input id="access" {% if data.manager_nav_document_read_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_read_permission">&nbsp;Read <br>
+                                                              <input id="access" {% if data.manager_nav_document_write_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_write_permission">&nbsp; Write<br>
+                                                              <input id="access" {% if data.manager_nav_document_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_edit_permission">&nbsp; Edit
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +224,7 @@
                                         </div>
     
                                     </div>
-                                    <div class="col-md-6 cust-details p-0">
+                                    <div class="col-md-4 cust-details p-0">
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Email</h6>
@@ -290,6 +319,15 @@ var user_type = ''
 });
         function visible_manager(data){
            if(data == "manager"){
+           $(".nav_head").show()
+            user_type = 'manager'
+            var x = document.getElementById('manager_select_div').style.display = "none";
+            var x = document.getElementById('manager_select_div1').style.display = "none";
+            var x = document.getElementById('prop1').style.display = "block";
+            var x = document.getElementById('prop2').style.display = "block";
+           }
+           else if(data == "admin"){
+           $(".nav_head").hide()
             user_type = 'manager'
             var x = document.getElementById('manager_select_div').style.display = "none";
             var x = document.getElementById('manager_select_div1').style.display = "none";
@@ -297,7 +335,7 @@ var user_type = ''
             var x = document.getElementById('prop2').style.display = "block";
            }
            else{
-            
+            $(".nav_head").hide()
             user_type = 'salesman'
             
             var x = document.getElementById('manager_select_div').style.display = "block";

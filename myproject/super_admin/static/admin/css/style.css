@@ -691,7 +691,7 @@
     width: 100%;
     z-index: 99;
     left: 0px;
-    height: 52px;
+    height: 57px;
 }
 
 .open-right {
@@ -1973,7 +1973,7 @@ h3.big_title2 {
     margin-top: 0;
     padding-bottom: 30px;
     position: fixed;
-    top: 52px;
+    top: 57px;
     transition: All .6s ease;
     -webkit-transition: All .6s ease;
     -moz-transition: All .6s ease;
@@ -13303,7 +13303,7 @@ body.modal-open {
   .icns {
     padding-left: 10px;
     background-color: black;
-    height: 52px;
+    height: 57px;
     padding-right: 8px;
 }
 

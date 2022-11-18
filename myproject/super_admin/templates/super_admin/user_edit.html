@@ -393,9 +393,20 @@
 
                                         </div>
                                     </div>
+    
+                                    {% if data.atatchment == '' %}
+                                    <div class="cust-logo"
+                                    style="background-image: url({% static 'admin/adminicon.jpg' %})"></div>
 
+                                    {% elif data.atatchment == None %}
+                                    <div class="cust-logo"
+                                    style="background-image: url({% static 'admin/adminicon.jpg' %})"></div>
+
+                                    {% else %}
                                     <div class="cust-logo"
                                     style="background-image: url(./media/{{data.atatchment}});"></div>
+
+                                    {% endif %}
 
                                     <div class="cust-name row">
                                         <div class="col-md-1">
@@ -473,6 +484,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% if data.user_type == "manager" %}
+
+                                    {% else %}
                                     {% if user_manger %}
                                     <div class="row">
                                         <div class="col-md-3 br-right d-flex align-items-center">
@@ -488,6 +502,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% endif %}
+
                                     {% endif %}
 
                                    {% if data.user_type == "manager" %}
@@ -594,7 +610,7 @@
                                     {% for i in log_data %}
                                     <div class="tab-pane active show" role="tabpanel">
                                         <div class="row actvty">
-                                            <h5>{{i.dt}}</h5>
+                                            <h5>{{i.dt}} </h5>
                                         </div>
                                         <div class="row msging schdul-box mt-1">
                                             {% if i.user_type == None %}
@@ -622,7 +638,7 @@
                 
                                                     {% endif %}
                                                     
-                                                    <span> ({{i.dt}})</span></h5>
+                                                    <span> ({{i.dt}} {{i.tm}}) </span></h5>
                                                 <h6>{{i.d_text}}
                                                 </h6>
                                                 <h6><span>{{i.status_content}}</span></h6>
@@ -695,7 +711,7 @@
     </div>
 </div>
 
-
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
         <script>

@@ -115,6 +115,7 @@ urlpatterns = [
 
 
     path('update_u_type',views.update_u_type,name='update_u_type'),
+    path('remove_customer_document',views.remove_customer_document,name='remove_customer_document'),
     
 
 

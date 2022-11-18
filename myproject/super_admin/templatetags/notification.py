@@ -116,16 +116,39 @@ def get_user_type_action(value,args):
             else:
                 return False
         if args == "document_read":
+
             status = user_data.manager_nav_document_read_permission
+
             if status == 1:
+
                 return True
+
             else:
+
                 return False
+
         if args == "document_write":
+
             status = user_data.manager_nav_document_write_permission
+
             if status == 1:
+
                 return True
+
             else:
+
+                return False
+
+        if args == "document_edit":
+
+            status = user_data.manager_nav_document_edit_permission
+
+            if status == 1:
+
+                return True
+
+            else:
+
                 return False
         if args == "cancel_booking":
             status = user_data.manager_nav_booking_cancel_permission
@@ -143,3 +166,17 @@ def get_user_type_action(value,args):
 
     
 
+def remove_customer_document(request):
+    file_name = request.GET.get('file_name')
+    id = request.GET.get("id")
+    cust_doc = Customer_details.objects.get(id = id)
+    if file_name == "customer_doc_id":
+        cust_doc.customer_doc_id = ''
+    elif file_name == "contract_certi":
+        cust_doc.contract_certi = ''
+    elif file_name == "tax_certificate":
+        cust_doc.tax_certificate = ''
+    elif file_name == "other_document":
+        cust_doc.other_document = ''
+    cust_doc.save()
+    return JsonResponse({"message":"success"},safe=False)

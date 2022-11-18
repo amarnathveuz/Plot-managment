@@ -63,105 +63,125 @@
                             </div>
 
                         </li> -->
-                        {% if request.user|get_user_type_action:"user_type" %}
-                        <li>
-                            <a href="customer_management" class="splnav"> <i class="fa fa-user-circle"></i>
-                                <p>Customers Management</p>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% if request.user|get_nav_permission:"plot_management" %}
-                        <li>
-                            <a class="splnav" href="property_management"> <i class="fa fa-calendar"></i>
-                                <p>Plot Management</p>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% if request.user|get_nav_permission:"user_management" %}
-                        <li>
-                            <a href="user_management" class="splnav"> <i class="fa fa-user-circle"></i>
-                                <p>User  Management</p>
-                            </a>
-                        </li>
-                        {% endif %}
-                      
-                        {% if request.user|get_user_type:"sss"  %}
-
-                        <li>
-                            <a href="plot" class="splnav"> <i class="fa fa-building-o"></i>
-                                <p>Interactive plot</p>
-                            </a>
-                        </li>
-
-                        {% endif %}
-                        <!-- <li>
-                            <a class="splnav"> <i class="fa fa-clock-o"></i>
-                                <p>Time Tracker</p>
-                            </a>
-                            <div class="sidebar_sub_division">
-                                <ul class="nav_second_sub">
-
-                                    <li class="crnt"><a data-toggle="collapse" href="#Time-Logs"
-                                            aria-controls="collapseExample"> Time Logs </a> </li>
-                                    <ul class="nav_second_sub collapse submnu" id="Time-Logs">
-                                        <li><a href="time-list-view.php">List View </a> </li>
-                                        <li><a href="calander.php">Calendar View</a> </li>
-                                    </ul>
-                                    <li class="crnt"><a data-toggle="collapse" href="#Projects"
-                                            aria-controls="collapseExample"> Projects / Jobs </a> </li>
-                                    <ul class="nav_second_sub collapse submnu" id="Projects">
-                                        <li><a href="job.php">Jobs </a></li>
-                                        <li><a href="projects.php">Projects</a></li>
-                                        <li><a href="#/">Clients</a></li>
-                                    </ul>
-                                    <li class="crnt"><a data-toggle="collapse" href="#General-Settings"
-                                            aria-controls="collapseExample"> Settings </a> </li>
-                                    <ul class="nav_second_sub collapse submnu" id="General-Settings">
-                                        <li><a href="#/">General Settings</a> </li>
-                                        <li><a href="#/">Approval Settings</a> </li>
-                                    </ul>
-                                </ul>
-                            </div>
-
-
-                        </li> -->
-                        <!-- <li>
-                            <a class="splnav"> <i class="fa fa-trophy"></i>
-                                <p>Performance</p>
-                            </a>
-                            <div class="sidebar_sub_division">
-                                <ul class="nav_second_sub">
-                                    <li><a href="appraisal-view.php">Appraisee View</a>
-                                    </li>
-                                    <li><a href="#">Goals</a>
-                                    </li>
-                                    <li><a href="#">Employee Salary</a>
-                                    </li>
-                                    <li class="crnt"><a data-toggle="collapse" href="#Settings"
-                                            aria-controls="collapseExample"> Settings </a>
-                                    </li>
-                                    <ul class="nav_second_sub collapse submnu" id="Settings">
-                                        <li><a href="skill-set.php">Skill Set</a>
-                                        </li>
-                                        <li><a href="competencty.php">Competency</a>
-                                        </li>
-                                        <li><a href="summery.php">Summery</a>
-                                        </li>
-                                    </ul>
-                                </ul>
-                            </div>
-                        </li> -->
-
-
-
-
-                        <li class="bootm_toggle_settings_button ">
-                            <a class="splnav bdr_btmnone_nav" href="profile"> <i class="fa fa-cog"></i>
-                                <p>Settings</p>
-                            </a>
-
-                        </li>
-
+                        {% if bank_nav == 1 %}
+                        <li>    <a href="bank_master" class="splnav"> <i class="fas fa-briefcase"></i>        <p>Bank Master</p>    </a></li>{% else %}
+                                                <!-- <li>
+                                                    <a class="splnav"> <i class="fa fa-user"></i>
+                                                        <p>Self Service</p>
+                                                    </a>
+                        
+                                                    <div class="sidebar_sub_division">
+                                                        <ul class="nav_second_sub">
+                                                            <li><a href="#/">Profile</a>
+                                                            </li>
+                                                            <li><a href="leav.php">Absence Management</a>
+                                                            </li>
+                        
+                                                        </ul>
+                                                    </div>
+                        
+                                                </li> -->
+                                                {% if request.user|get_user_type_action:"user_type" %}
+                                                <li>
+                                                    <a href="customer_management" class="splnav"> <i class="fa fa-user-circle"></i>
+                                                        <p>Customers Management</p>
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                {% if request.user|get_nav_permission:"plot_management" %}
+                                                <li>
+                                                    <a class="splnav" href="property_management"> <i class="fa fa-calendar"></i>
+                                                        <p>Plot Management</p>
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                {% if request.user|get_nav_permission:"user_management" %}
+                                                <li>
+                                                    <a href="user_management" class="splnav"> <i class="fa fa-user-circle"></i>
+                                                        <p>User  Management</p>
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                
+                                               
+                                                {% if request.user|get_user_type:"sss"  %}
+                        
+                                                <li>
+                                                    <a href="plot" class="splnav"> <i class="fa fa-building-o"></i>
+                                                        <p>Interactive plot</p>
+                                                    </a>
+                                                </li>
+                        
+                                                {% endif %}
+                                                <!-- <li>
+                                                    <a class="splnav"> <i class="fa fa-clock-o"></i>
+                                                        <p>Time Tracker</p>
+                                                    </a>
+                                                    <div class="sidebar_sub_division">
+                                                        <ul class="nav_second_sub">
+                        
+                                                            <li class="crnt"><a data-toggle="collapse" href="#Time-Logs"
+                                                                    aria-controls="collapseExample"> Time Logs </a> </li>
+                                                            <ul class="nav_second_sub collapse submnu" id="Time-Logs">
+                                                                <li><a href="time-list-view.php">List View </a> </li>
+                                                                <li><a href="calander.php">Calendar View</a> </li>
+                                                            </ul>
+                                                            <li class="crnt"><a data-toggle="collapse" href="#Projects"
+                                                                    aria-controls="collapseExample"> Projects / Jobs </a> </li>
+                                                            <ul class="nav_second_sub collapse submnu" id="Projects">
+                                                                <li><a href="job.php">Jobs </a></li>
+                                                                <li><a href="projects.php">Projects</a></li>
+                                                                <li><a href="#/">Clients</a></li>
+                                                            </ul>
+                                                            <li class="crnt"><a data-toggle="collapse" href="#General-Settings"
+                                                                    aria-controls="collapseExample"> Settings </a> </li>
+                                                            <ul class="nav_second_sub collapse submnu" id="General-Settings">
+                                                                <li><a href="#/">General Settings</a> </li>
+                                                                <li><a href="#/">Approval Settings</a> </li>
+                                                            </ul>
+                                                        </ul>
+                                                    </div>
+                        
+                        
+                                                </li> -->
+                                                <!-- <li>
+                                                    <a class="splnav"> <i class="fa fa-trophy"></i>
+                                                        <p>Performance</p>
+                                                    </a>
+                                                    <div class="sidebar_sub_division">
+                                                        <ul class="nav_second_sub">
+                                                            <li><a href="appraisal-view.php">Appraisee View</a>
+                                                            </li>
+                                                            <li><a href="#">Goals</a>
+                                                            </li>
+                                                            <li><a href="#">Employee Salary</a>
+                                                            </li>
+                                                            <li class="crnt"><a data-toggle="collapse" href="#Settings"
+                                                                    aria-controls="collapseExample"> Settings </a>
+                                                            </li>
+                                                            <ul class="nav_second_sub collapse submnu" id="Settings">
+                                                                <li><a href="skill-set.php">Skill Set</a>
+                                                                </li>
+                                                                <li><a href="competencty.php">Competency</a>
+                                                                </li>
+                                                                <li><a href="summery.php">Summery</a>
+                                                                </li>
+                                                            </ul>
+                                                        </ul>
+                                                    </div>
+                                                </li> -->
+                        
+                        
+                        
+                                                {% endif %}
+                        
+                                                <li class="bootm_toggle_settings_button ">
+                                                    <a class="splnav bdr_btmnone_nav" href="profile"> <i class="fa fa-cog"></i>
+                                                        <p>Settings</p>
+                                                    </a>
+                        
+                                                </li>
+                        
 
                     </ul>
                 </div>
@@ -183,7 +203,7 @@
 
                     <div class="d-flex">
                         <div class="binance">
-                            <img src="{% static 'admin/img/silv.png' %}" alt="">
+                            <img src="{% static 'admin/logo1.png' %}" alt="">
                         </div>
 
 

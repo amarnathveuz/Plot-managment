@@ -26,7 +26,7 @@
 
     .preloader {
     
-        background: url(../loading2.gif) rgba(0,0,0,0.75) no-repeat center center;
+      
     
         height: 100vh;
     
@@ -3551,7 +3551,7 @@
                   {% else %}
 
                   {% endif %}
-                  <div class="col-5">
+                  <div class="col-5 attc">
                     <h6>Attached Files</h6>
                   </div>
                   <div class="col-7 attachmnt">
@@ -3602,7 +3602,7 @@
                   {% else %}
 
                   {% endif %}
-                  <div class="col-5">
+                  <div class="col-5 attc">
                     <h6>Attached Files</h6>
                   </div>
                   <div class="col-7 attachmnt">
@@ -3668,48 +3668,6 @@
 
             <div class="info_new" style="display: none;">
               <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <h6>Unit Type</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="unit_type"> </span>
-                  </div>
-                  <div class="col-5">
-                    <h6>Unit Area</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="unit_area"> </span>
-                  </div>
-                  <div class="col-5">
-                    <h6>Land Area</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="land_area"> </span>
-                  </div>
-
-                  {% if user_data.price_visibility == 1 %}
-                  <div class="col-5">
-                    <h6>Price</h6>
-                  </div>
-                  <div class="col-7">
-                    <span class="price"> </span>
-                  </div>
-                  {% else %}
-
-                  {% endif %}
-                  <div class="col-5">
-                    <h6>Attached Files</h6>
-                  </div>
-                  <div class="col-7 attachmnt">
-                    <span>:
-                      <!-- <a href="#" target="_blank" class="fas fa-file-pdf file-value" download></a>
-                      <a href="#" target="_blank" class="fas fa-file-image ml-2"
-                        download></a> -->
-                      </span>
-                  </div>
-                </div>
-
                 <hr>
                 <div class="row">
                   <div class="col-5">
@@ -3881,6 +3839,17 @@
         $('.price').html(":  " + u_price);
         $(".plot_id_mapping_id").val(data.id);
         $('.result-attachment').remove();
+
+        if (data.attachement_multiple_filea == ""){
+         $('.attc').hide();
+         $('.attachmnt').hide();
+         }
+         else{
+          $('.attc').show();
+          $('.attachmnt').show();
+         }
+
+
         // file attachment 
         var attachedFileHtml = "";
         var imageFile = "";
@@ -3967,7 +3936,7 @@
         } else if (data.current_status == "1") {
           $('.badge').html('Price Quotation')
           $('.badge').addClass('badge-orng');
-          $('.popup-show').hide();
+          $('.book-div').hide();
           $('.info_new').show();
           var u_name = "";
           if(data.Name !=null)
@@ -3997,7 +3966,6 @@
           $('.badge').html('Sold')
           $('.badge').addClass('badge-red');
           $('.book-div').hide();
-          $('.popup-show').show();
           $('.info_new').show();
           var u_name = "";
           if(data.Name !=null)
@@ -4026,7 +3994,7 @@
         } else if (data.current_status == "3") {
           $('.badge').html('Cancelled')
           $('.badge').addClass('badge-gray');
-          $('.popup-show').hide();
+          $('.book-div').hide();
           $('.info_new').show();
           var u_name = "";
           if(data.Name !=null)
@@ -4082,29 +4050,7 @@
       })
     })
 
-    $(document).ready(function () {
-      //get all property ploat list
-      axios({
-        method: 'get',
-        url: domailUrl+'/property_list_api',
-        data: {}
-      }).then(function (response) {
-        var data = response.data;
-        $( data ).map(function(index,value) {
-          console.log(index,value.UnitNo_primary);
-    // return this.id;
-         });
-      });
-
-      // var lineValues = $(".st2")
-      //           .map(function() {
-      //               return parseFloat($(this).val());
-      //           }).get();
-      //           console.log(lineValues);
-      // var divAll = $('.redbg').find('.st2').eq(0);
-      //   var divValue = divAll.html()
-      // console.log(divValue);
-    });
+  
 
     
   </script>

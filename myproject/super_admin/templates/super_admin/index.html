@@ -23,21 +23,33 @@
                 history.pushState(null, null, document.URL);
             });
         </script>
+
     </head>
 
     <body class="account-body accountbg">
-
+<style>
+    .logo-admin img{
+        width: 100%;
+    }
+    .park img{
+        width: 35%;
+        margin-bottom: 30px;
+    }
+</style>
         <!-- Log In page -->
         <div class="container">
             <div class="row vh-100 d-flex justify-content-center">
                 <div class="col-12 align-self-center">
                     <div class="row">
                         <div class="col-lg-5 mx-auto">
-                            <div class="card">
-                                <div class="card-body p-0 auth-header-box">
+                            <div class="text-center park">
+                                <img src="{% static 'admin/park-c.png' %}" alt="">
+                            </div>
+                            <div class="card" style="border-radius: 3px;">
+                                <div class="card-body p-0 auth-header-box" style="border-top-right-radius: 3px;border-top-left-radius: 3px;">
                                     <div class="text-center p-3">
                                         <a href="#" class="logo-admin">
-                                            <img src="{% static 'admin/icon.png' %}" alt="logo" class="auth-logo">
+                                            <img src="{% static 'admin/sumo.png' %}" alt="logo" class="auth-logo">
                                         </a>
                                      
                                     </div>

@@ -1,5 +1,6 @@
 {% extends "super_admin/base.html" %}
 {% load static %}
+{% load notification %}
 {% block content %}
  <div class="content">
      <div class="container-fluid px-0 customer-contact">
@@ -308,13 +309,16 @@
                             <div class="d-flex justify-content-end nav nav-tabs nav-pay nav-contact mb-2">
                                 <div>
                                     <ul class="nav" role="tablist">
+                                        {% if request.user|get_user_type_action:"document_read" %}
                                         <li class="nav-item d-flex align-items-center">
                                             <a href="view_customer_document?id={{data.id}}" class="nav-link active d-flex">
                                                 <i class="fas fa-folder-open"></i>
+                                                
                                                 <div class="line"><span class="txt-clr">{{document_count}}</span><br>
-                                                    <span>Documents1 </span></div>
+                                                    <span>Documents </span></div>
                                             </a>
                                         </li>
+                                        {% endif %}
                                         <li class="nav-item d-flex align-items-center">
                                             <a href="customer_view_booking_property_details?id={{data.id}}" class="nav-link active d-flex">
                                                 <i class="fas fa-home"></i>
@@ -494,7 +498,7 @@
                 <div>
                     <div class="row">
                         <div class="col px-0">
-                            <h5>New Booking Received  <span> ({{i.dt}})</span></h5>
+                            <h5>New Booking Received  <span> ({{i.dt}} {{i.tm}})</span></h5>
                         </div>
                         <div class="col px-0 d-flex align-items-center justify-content-end">
                             <span class="badge badge-success text-uppercase">{{i.user_id.user_type}}</span>
@@ -549,9 +553,11 @@
                 <div>
 
                     {% if j.user_type == "administrator" %}
-                    <h5>{{j.user_type|title}}  <span> {{j.dt}}</span></h5>
+                    <h5>{{j.user_type|title}}  <span> {{j.dt}} {{i.tm}}</span></h5>
                     {% else %}
-                    <h5> {{j.auth_user.email|title}}  <span>{{j.dt}}</span></h5>
+                    <h5><a href="user_edit?id={{j.action_appy_user.id}}">
+                        {{j.auth_user.email|title}} 
+                    </a>  <span>{{j.dt}} {{i.tm}}</span></h5>
                     {% endif %}
                         <h6>{{j.d_text}}</span>
                         </h6>

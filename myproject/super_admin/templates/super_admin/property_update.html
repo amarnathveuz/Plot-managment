@@ -842,7 +842,7 @@
 
 <div class="paytab w-100">
     <ul class="nav nav-tabs nav-pay" role="tablist">
-        <h5>Booking History</h5>
+        <h5>Log</h5>
     </ul>
     <div class="tab-content text-muted pt-2">
 
@@ -883,7 +883,13 @@
                 {% endif %}
                 {% endif %}
                 <div>
-                    <h5>{% if j.user_type == "administrator" %} {{j.user_type|title}}  {% else %} {{j.auth_user.email}} {% endif %}   <span> {{j.dt}} {{j.tm}}</span></h5>
+                    <h5>{% if j.user_type == "administrator" %} {{j.user_type|title}}  {% else %} 
+                        
+                        
+                        <a href="user_edit?id={{j.action_appy_user.id}}">
+                            {{j.auth_user.username}}
+                        </a>
+                        {% endif %}   <span> {{j.dt}} {{j.tm}}</span></h5>
                     <h6>{{j.d_text}}
                     </h6>
                     <h6><span>{{j.status_content}}</span></h6>

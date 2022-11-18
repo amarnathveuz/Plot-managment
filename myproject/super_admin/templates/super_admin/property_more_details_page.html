@@ -555,9 +555,9 @@
                                                             {% endif %}
                                                             <div class="col-9 pl-0">
                                                                 {% if j.user_type == "administrator" %}
-                                                                <h5>{{j.user_type|title}} <span> {{j.dt}}</span></h5>
+                                                                <h5>{{j.user_type|title}} <span> {{j.dt}} {{j.tm}}</span></h5>
                                                                 {% else %}
-                                                                <h5> {{j.auth_user.email}} <span>{{j.dt}}</span></h5>
+                                                                <h5><a href="user_edit?id={{j.action_appy_user.id}}">{{j.auth_user.email}}</a>  <span>{{j.dt}} {{j.tm}}</span></h5>
                                                                 {% endif %}
                                                                 <h6>{{j.d_text}}</span>
                                                                 </h6>

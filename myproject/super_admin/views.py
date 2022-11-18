@@ -423,40 +423,58 @@ def property_update(request):
             change_text = ''
             if data.Name == Name:
                 pass
-            else:
-                change_text = '(Customer Name changed '+data.name+" --> "+Name+" )"
-            if data.UnitNo == UnitNo:
+            elif Name == '':
                 pass
             else:
-                change_text = '(Unit No changed '+data.UnitNo+" --> "+UnitNo+" )"
+                change_text += '(Customer Name changed '+str(data.Name)+" --> "+str(Name)+" )"
+            if str(data.UnitNo) == str(UnitNo):
+                pass
+            elif UnitNo == '':
+                pass
+            else:
+                change_text += '(Unit No changed '+str(data.UnitNo)+" --> "+str(UnitNo)+" )"
             if data.BlockNo == BlockNo:
                 pass
+            elif BlockNo == '':
+                pass
             else:
-                change_text = '(Block No changed '+data.BlockNo+" --> "+BlockNo+" )"
+                change_text += '(Block No changed '+str(data.BlockNo)+" --> "+str(BlockNo)+" )"
             if data.Phoneno == Phoneno:
                 pass
+            elif Phoneno == '':
+                pass
             else:
-                change_text = '(Phone No changed '+data.Phoneno+" --> "+Phoneno+" )"
+                change_text += '(Phone No changed '+str(data.Phoneno)+" --> "+str(Phoneno)+" )"
             if data.customer_id == customer_id:
                 pass
-            else:
-                change_text = '(Customer Id changed '+data.customer_id+" --> "+customer_id+" )"
-            if data.UnitArea == UnitArea:
+            elif customer_id == '':
                 pass
             else:
-                change_text = '(UnitArea changed '+data.UnitArea+" --> "+UnitArea+" )"
+                change_text += '(Customer Id changed '+str(data.customer_id)+" --> "+str(customer_id)+" )"
+            if data.UnitArea == float(UnitArea):
+                pass
+            elif UnitArea == '':
+                pass
+            else:
+                change_text += '(UnitArea changed '+str(data.UnitArea)+" --> "+str(UnitArea)+" )"
             if data.UType == UType:
                 pass
-            else:
-                change_text = '(UType changed '+data.UType+" --> "+UType+" )"
-            if data.Price == Price:
+            elif UType == '':
                 pass
             else:
-                change_text = '(Price changed '+data.Price+" --> "+Price+" )"
+                change_text += '(UType changed '+str(data.UType)+" --> "+str(UType)+" )"
+            if int(data.Price) == int(data.Price):
+                pass
+            elif Price == '':
+                pass
+            else:
+                change_text += '(Price changed '+str(data.Price)+" --> "+str(Price)+" )"
             if data.Bank == Bank:
                 pass
+            elif Bank == '':
+                pass
             else:
-                change_text = '(Bank changed '+data.Bank+" --> "+Bank+" )"
+                change_text += '(Bank changed '+str(data.Bank)+" --> "+str(Bank)+" )"
             
 
 
@@ -466,7 +484,9 @@ def property_update(request):
         
             try:
                 data_file = request.FILES.getlist('attachment')
+                change_text += "(Add New Files "
                 for i in data_file:
+                    change_text +=str(i.name)+","
                     import os
                     extesion = os.path.splitext(str(i))[1]
                     data_save = intractive_map_multiple_image(
@@ -477,6 +497,7 @@ def property_update(request):
                         image_name= i.name
                     )
                     data_save.save()
+                change_text += ")"
 
             except:
                 pass
@@ -495,22 +516,71 @@ def property_update(request):
                 customer_id = customer_id,
                 bank_relation_id_id = bank_mapping_id
             )
-            booking_log1 = booking_log.objects.create(
-                intractive_map_id_id = id,
-                auth_user = request.user,
-                user_type = "administrator",
-                d_text = change_text,
-                status_content = "updated",
-                log_type="field_update",
+            if change_text == '':
+                pass
+            else:
+                booking_log1 = booking_log.objects.create(
+                    intractive_map_id_id = id,
+                    auth_user = request.user,
+                    user_type = "administrator",
+                    d_text = change_text,
+                    status_content = "updated",
+                    log_type="field_update",
 
 
-            )
+                )
             try:
                 data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
                 update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
             except:
                 pass
         else:
+            data = intractive_map.objects.get(id=id)
+            change_text = ''
+            if data.Name == Name:
+                pass
+            elif Name == '':
+                pass
+            else:
+                change_text += '(Customer Name changed '+str(data.Name)+" --> "+str(Name)+" )"
+            if data.Phoneno == Phoneno:
+                pass
+            elif Phoneno == '':
+                pass
+            else:
+                change_text += '(Phone No changed '+str(data.Phoneno)+" --> "+str(Phoneno)+" )"
+            if data.customer_id == customer_id:
+                pass
+            elif customer_id == '':
+                pass
+            else:
+                change_text += '(Customer Id changed '+str(data.customer_id)+" --> "+str(customer_id)+" )"
+            if int(data.Price) == int(data.Price):
+                pass
+            elif Price == '':
+                pass
+            else:
+                change_text += '(Price changed '+str(data.Price)+" --> "+str(Price)+" )"
+            if data.Bank == Bank:
+                pass
+            elif Bank == '':
+                pass
+            else:
+                change_text += '(Bank changed '+str(data.Bank)+" --> "+str(Bank)+" )"
+            if change_text == '':
+                pass
+            else:
+                booking_log1 = booking_log.objects.create(
+                    intractive_map_id_id = id,
+                    auth_user = request.user,
+                    user_type = "staff",
+                    d_text = change_text,
+                    status_content = "updated",
+                    log_type="field_update",
+
+
+                )
+            
             data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,  Name=Name,
                 Bank =Bank, currency = currency,customer_id = customer_id,bank_relation_id_id = bank_mapping_id)
             try:
@@ -859,7 +929,7 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
                     except:
                         pass
 
@@ -893,7 +963,7 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
                     except:
                         pass
                 
@@ -1306,7 +1376,9 @@ def user_based_property_delete(request):
 
 def next_page_action_url_property(request):
     page_number = request.GET.get("page")
-    check_list = request.GET.getlist("check_list[]")
+    check_list = request.POST.getlist("check_list[]")
+    print("page_number:::::",str(page_number))
+    print("qqqqq::::ssssssssssssssssss:::::::::::::::",str(check_list))
     data = intractive_map.objects.all()
     data_paginator = Paginator(data, 10)
     try:
@@ -1680,7 +1752,7 @@ def customer_more_details(request):
     except:
         pass
     booking_history = user_request_plot.objects.filter(customer_id_id=data.id).order_by("-id")
-    bank_instance = Bank_details.objects.all()
+    bank_instance = Bank_details.objects.filter(status="Active")
     booking_history_count = booking_history.count()
 
     document_count = 0
@@ -2507,3 +2579,19 @@ def update_u_type(request):
     for i in range(317,341):
         print(i)
         update_intractive_map = intractive_map.objects.filter(UnitNo=i).update(UType="Semi Attached - A (Jory)")
+
+
+def remove_customer_document(request):
+    file_name = request.GET.get('file_name')
+    id = request.GET.get("id")
+    cust_doc = Customer_details.objects.get(id = id)
+    if file_name == "customer_doc_id":
+        cust_doc.customer_doc_id = ''
+    elif file_name == "contract_certi":
+        cust_doc.contract_certi = ''
+    elif file_name == "tax_certificate":
+        cust_doc.tax_certificate = ''
+    elif file_name == "other_document":
+        cust_doc.other_document = ''
+    cust_doc.save()
+    return JsonResponse({"message":"success"},safe=False)

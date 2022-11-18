@@ -193,9 +193,9 @@
                     </thead>
                     <tbody class="list form-check-all append_search_result">
                         {% for i in page_obj  %}
-                        <tr onclick="window.location='user_edit?id={{i.id}}'">
+                        <tr >
                             {% if i.atatchment == "" %}
-                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                            <td class="id" onclick="window.location='user_edit?id={{i.id}}'"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
                                     class="fw-medium link-primary">&nbsp;{{i.name}}</a>
                             </td>
                             {% else %}
@@ -218,6 +218,8 @@
                                     {% elif i.user_type == "admin"  %}
                                     <span style="color: rgb(35, 43, 156)!important"
                                         class="badge badge-soft-success text-uppercase">Admin</span>
+
+                                
                                 {% endif %}
                                 </td>
                             <td class="status">{{i.dt}}
