@@ -617,6 +617,7 @@ def property_update(request):
                 insert_view1_img.save()
                 pass
         except:
+            
             pass
         try:
             plotview2 = request.FILES['plotview2']
@@ -628,7 +629,7 @@ def property_update(request):
                 data4.attached_file = plotview2
                 data4.image_type = extesion
                 data4.image_name = plotview2.name
-                data4.plot_type = "view1"
+                data4.plot_type = "view2"
                 data4.save()
             except:
                 import os
@@ -703,6 +704,12 @@ def property_update(request):
         cv = str(currency_price).replace(" ", "")
         
 
+        plot_view1 = None
+        try:
+            plot_view1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
+        except:
+            pass
+
         context = {
             'data':data,
             'multiple_image_data':multiple_image_data,
@@ -710,7 +717,8 @@ def property_update(request):
            
             'user_type':user_type,
             'bank_details':bank_details,
-            'currency_price':cv
+            'currency_price':cv,
+            'plot_view1':plot_view1
         }
         return render(request,'super_admin/property_update.html',context)
 

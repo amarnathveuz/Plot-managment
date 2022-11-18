@@ -493,7 +493,16 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group  required_item w-100">
                                                                         <label> 1 </label>
-                                                                <input accept="image/*" type="file" name="plotview1">
+
+
+                                                                      
+                                                                <input class="plot_view_select1" {% if plot_view1 == None  %}  {% elif plot_view1 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview1">
+                                                                <input value="0" type="hidden" id="plot_view1_remove">
+                                                                
+                                                                <img class="plot_view_image1" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view1.attached_file}}">
+                                                                <li id="plot_view_image11" onclick="plot_view1_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                               
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
@@ -1704,6 +1713,16 @@ modalConfirm(function(confirm){
       
         $("#myModal1").modal('show');
     })
+
+
+
+    function plot_view1_onclick(){
+        $(".plot_view_select1").show()
+        $("#plot_view1_remove").val(1)
+        $(".plot_view_image1").hide()
+        $("#plot_view_image11").hide()
+        alert("helllooo")
+    }
 </script>
 
 {% endblock %}
