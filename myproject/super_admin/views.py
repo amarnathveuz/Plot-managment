@@ -486,7 +486,10 @@ def property_update(request):
         
             try:
                 data_file = request.FILES.getlist('attachment')
-                change_text += "(Add New Files "
+                if len(data_file) == 0:
+                    pass
+                else:
+                    change_text += "(Add New Files "
                 for i in data_file:
                     change_text +=str(i.name)+","
                     import os
@@ -499,7 +502,10 @@ def property_update(request):
                         image_name= i.name
                     )
                     data_save.save()
-                change_text += ")"
+                if len(data_file) == 0:
+                    pass
+                else:
+                    change_text += ")"
 
             except:
                 pass
@@ -617,7 +623,10 @@ def property_update(request):
                 insert_view1_img.save()
                 pass
         except:
-            
+            plot_view1_remove = request.POST.get("plot_view1_remove")
+            if plot_view1_remove == '1':
+                plot_view1_id = request.POST.get("plot_view1_id")
+                data_remove_img = intractive_map_plot_view_image.objects.filter(id=plot_view1_id).delete()
             pass
         try:
             plotview2 = request.FILES['plotview2']
@@ -646,6 +655,11 @@ def property_update(request):
                 pass
 
         except:
+            plot_view2_remove = request.POST.get("plot_view2_remove")
+            if plot_view2_remove == '1':
+                plot_view2_id = request.POST.get("plot_view2_id")
+                data_remove_img = intractive_map_plot_view_image.objects.filter(id=plot_view2_id).delete()
+            pass
             pass
         try:
             plotview3 = request.FILES['plotview3']
@@ -674,6 +688,10 @@ def property_update(request):
                 pass
 
         except:
+            plot_view3_remove = request.POST.get("plot_view3_remove")
+            if plot_view3_remove == '1':
+                plot_view3_id = request.POST.get("plot_view3_id")
+                data_remove_img = intractive_map_plot_view_image.objects.filter(id=plot_view3_id).delete()
             pass
 
         messages.success(request,"updated")
@@ -700,15 +718,23 @@ def property_update(request):
         #     pass
 
         bank_details = Bank_details.objects.filter(status="Active")
-        print("valll:::::",str(currency_price))
         cv = str(currency_price).replace(" ", "")
-        
-
         plot_view1 = None
         try:
             plot_view1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
         except:
             pass
+        plot_view2 = None
+        try:
+            plot_view2 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view2")
+        except:
+            pass
+        plot_view3 = None
+        try:
+            plot_view3 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view3")
+        except:
+            pass
+
 
         context = {
             'data':data,
@@ -718,7 +744,9 @@ def property_update(request):
             'user_type':user_type,
             'bank_details':bank_details,
             'currency_price':cv,
-            'plot_view1':plot_view1
+            'plot_view1':plot_view1,
+            'plot_view2':plot_view2,
+            'plot_view3':plot_view3
         }
         return render(request,'super_admin/property_update.html',context)
 

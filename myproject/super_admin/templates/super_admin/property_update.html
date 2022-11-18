@@ -497,24 +497,41 @@
 
                                                                       
                                                                 <input class="plot_view_select1" {% if plot_view1 == None  %}  {% elif plot_view1 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview1">
-                                                                <input value="0" type="hidden" id="plot_view1_remove">
+                                                                <input value="0" type="hidden" name="plot_view1_remove" id="plot_view1_remove">
+                                                                <input type="hidden" name="plot_view1_id" value="{{plot_view1.id}}">
                                                                 
-                                                                <img class="plot_view_image1" style="    width: 18%;
+                                                                <img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="    width: 18%;
                                                                 padding: 5px 9px;" src="../media/{{plot_view1.attached_file}}">
-                                                                <li id="plot_view_image11" onclick="plot_view1_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                                <li {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image11" onclick="plot_view1_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
                                                                
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group  required_item w-100">
                                                                         <label> 2 </label>
-                                                                <input accept="image/*" type="file" name="plotview2">
+
+                                                                        <input class="plot_view_select2" {% if plot_view2 == None  %}  {% elif plot_view2 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview2">
+                                                                <input value="0" type="hidden" name="plot_view2_remove" id="plot_view2_remove">
+                                                                <input type="hidden" name="plot_view2_id" value="{{plot_view2.id}}">
+                                                                
+                                                                <img {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image2" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view2.attached_file}}">
+                                                                <li {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image22" onclick="plot_view2_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                               
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group  required_item w-100">
                                                                         <label> 3 </label>
-                                                                <input accept="image/*" type="file" name="plotview3">
+                                                                        <input class="plot_view_select3" {% if plot_view3 == None  %}  {% elif plot_view3 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview3">
+                                                                <input value="0" type="hidden" name="plot_view3_remove" id="plot_view3_remove">
+                                                                <input type="hidden" name="plot_view3_id" value="{{plot_view3.id}}">
+                                                                
+                                                                <img {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image3" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view3.attached_file}}">
+                                                                <li {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image33" onclick="plot_view3_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                               
+                                                              
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1721,7 +1738,20 @@ modalConfirm(function(confirm){
         $("#plot_view1_remove").val(1)
         $(".plot_view_image1").hide()
         $("#plot_view_image11").hide()
-        alert("helllooo")
+       
+    }
+    function plot_view2_onclick(){
+        $(".plot_view_select2").show()
+        $("#plot_view2_remove").val(1)
+        $(".plot_view_image2").hide()
+        $("#plot_view_image22").hide()
+    }
+    function plot_view3_onclick(){
+        $(".plot_view_select3").show()
+        $("#plot_view3_remove").val(1)
+        $(".plot_view_image3").hide()
+        $("#plot_view_image33").hide()
+
     }
 </script>
 
