@@ -2716,3 +2716,10 @@ def remove_customer_document(request):
         cust_doc.other_document = ''
     cust_doc.save()
     return JsonResponse({"message":"success"},safe=False)
+
+
+def plot_view_modal(request):
+    id = request.GET.get("id")
+    print("iddddddd:::::::::",str(id))
+    data = intractive_map_plot_view_image.objects.filter(mapping_id_id = id)
+    return render(request,"super_admin/plot_view_modal.html",{"data":data})

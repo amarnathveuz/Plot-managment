@@ -32,10 +32,7 @@
     color: black;
 }
 
-.plotview{
-    color: #2FA4E7 !important;
-    cursor: pointer;
-  }
+
 
 .popover input{
     display: block;
@@ -196,15 +193,11 @@
   }
 
   @media only screen and (max-width: 1366px) {
-    .w-50 {
-        width: 65% !important;
-    }
+
   }
 
   @media only screen and (max-width: 1200px) {
-  .w-50 {
-        width: 65% !important;
-    }
+    
   }
 
   @media only screen and (max-width: 1024px) {
@@ -321,41 +314,3 @@
 .propic .circle:hover .p-image{
     display: block;
 }
-
-
-
-.modal{
-
-    z-index: 10500;
-
-}
-
-.modal-header{
-
-    padding: 0.5rem 1rem;
-
-}
-
-
-
-.modal-title{
-
-    font-size: 1.1rem;
-
-    color: #000000;
-
-}
-
-
-
-    .modal-dialog-centered{
-        align-items: flex-start !important;
-    }
-    .w-50 {
-        width: 50% ;
-    }
-    .modal-backdrop{
-        width: 100% !important;
-        height: 100% !important;
-    }
-  }

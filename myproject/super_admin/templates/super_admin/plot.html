@@ -48,6 +48,9 @@
     }
     
     </style>
+
+  <div id="exampleModal_div"></div>
+
   <div class="preloader text-center" id="preloader">
 
     <div class="loadng">
@@ -3520,9 +3523,6 @@
               <h4 class="mb-0 plotNumber"></h4>
               <span class="badge" id="badge_name">Available</span>
             </div>
-
-            <a href="#"   class="plot_view1" >Plot view</a>
-
             <div class="popup-show">
               <div class="card-body">
                 <div class="row">
@@ -3550,6 +3550,9 @@
                   </div>
                   <div class="col-7">
                     <span class="price"> </span>
+                  </div>
+                  <div class="col-12 mb-2 plot_view_list1">
+                      <a onclick="yourFunction()" class="plotview">Plot View</a>
                   </div>
                   {% else %}
 
@@ -3601,6 +3604,9 @@
                   </div>
                   <div class="col-7">
                     <span class="price"> </span>
+                  </div>
+                  <div class="col-12 mb-2 plot_view_list2">
+                      <a onclick="yourFunction()" class="plotview">Plot View</a>
                   </div>
                   {% else %}
 
@@ -3734,6 +3740,8 @@
 
 
   <script>
+
+    var plot_id = 0
     var domailUrl = 'http://10.10.10.119:8000';
     $(document).on('click', ".book-btn", function () {
       $('.popup-show').hide();
@@ -3851,9 +3859,22 @@
           $('.attc').show();
           $('.attachmnt').show();
          }
-      
-         document.getElementsByClassName('plot_view1')[0].setAttribute("onclick", "yourFunction("+data.id+")");
 
+         if (data.plot_view == ""){
+            $('.plot_view_list1').hide()
+            $('.plot_view_list2').hide()
+         }
+         else{
+          $('.plot_view_list1').show()
+            $('.plot_view_list2').show()
+         }
+
+
+      
+        
+       
+        plot_id = data.id
+     
         
 
         // file attachment 
@@ -4131,32 +4152,23 @@
   }
 </script>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="text" id="iddd">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 <script>
 
-function yourFunction(id){
-  $('#exampleModal').modal('show');
-  $("#iddd").val(id)
 
-}
+  function yourFunction(){
+    var url ="plot_view_modal";
+        $.ajax({
+        url: url,
+        data: {
+          'id': plot_id
+        },
+        success: function (data) {
+            $("#exampleModal_div").html(data);
+            $("#exampleModal").modal("show")
+        }
+      });
+  }
+
 </script>
 
 </body>

@@ -490,50 +490,59 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="row">
+
+
+
                                                                 <div class="col-md-12">
                                                                     <div class="form-group  required_item w-100">
                                                                         <label> 1 </label>
-
-
                                                                       
-                                                                <input class="plot_view_select1" {% if plot_view1 == None  %}  {% elif plot_view1 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview1">
+                                                                <input class="plot_view_select1 upload_restrict" {% if plot_view1 == None  %}  {% elif plot_view1 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview1" id="plotview1" onchange="return upload_restrict()">
                                                                 <input value="0" type="hidden" name="plot_view1_remove" id="plot_view1_remove">
                                                                 <input type="hidden" name="plot_view1_id" value="{{plot_view1.id}}">
                                                                 
-                                                                <img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="    width: 18%;
-                                                                padding: 5px 9px;" src="../media/{{plot_view1.attached_file}}">
+                                                                <a target="_blank" href="../media/{{plot_view1.attached_file}}"><img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view1.attached_file}}"></a>
                                                                 <li {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image11" onclick="plot_view1_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
                                                                
                                                                     </div>
                                                                 </div>
+
+
+
                                                                 <div class="col-md-12">
                                                                     <div class="form-group  required_item w-100">
                                                                         <label> 2 </label>
 
-                                                                        <input class="plot_view_select2" {% if plot_view2 == None  %}  {% elif plot_view2 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview2">
+                                                                        <input class="plot_view_select2" {% if plot_view2 == None  %}  {% elif plot_view2 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview2" id="plotview2" onchange="return upload_restrict2()">
                                                                 <input value="0" type="hidden" name="plot_view2_remove" id="plot_view2_remove">
                                                                 <input type="hidden" name="plot_view2_id" value="{{plot_view2.id}}">
                                                                 
-                                                                <img {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image2" style="    width: 18%;
-                                                                padding: 5px 9px;" src="../media/{{plot_view2.attached_file}}">
+                                                                <a target="_blank" href="../media/{{plot_view2.attached_file}}"><img {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image2" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view2.attached_file}}"></a>
                                                                 <li {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image22" onclick="plot_view2_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
                                                                
                                                                     </div>
                                                                 </div>
+
+
+
                                                                 <div class="col-md-12">
                                                                     <div class="form-group  required_item w-100">
                                                                         <label> 3 </label>
-                                                                        <input class="plot_view_select3" {% if plot_view3 == None  %}  {% elif plot_view3 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview3">
+                                                                        <input class="plot_view_select3" {% if plot_view3 == None  %}  {% elif plot_view3 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview3" id="plotview3" onchange="return upload_restrict3()">
                                                                 <input value="0" type="hidden" name="plot_view3_remove" id="plot_view3_remove">
                                                                 <input type="hidden" name="plot_view3_id" value="{{plot_view3.id}}">
                                                                 
-                                                                <img {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image3" style="    width: 18%;
-                                                                padding: 5px 9px;" src="../media/{{plot_view3.attached_file}}">
+                                                                <a target="_blank" href="../media/{{plot_view3.attached_file}}"><img {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image3" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view3.attached_file}}"></a>
                                                                 <li {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image33" onclick="plot_view3_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
-                                                               
-                                                              
+  
                                                                     </div>
                                                                 </div>
+
+
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1753,6 +1762,79 @@ modalConfirm(function(confirm){
         $("#plot_view_image33").hide()
 
     }
+</script>
+
+<script>
+    function restrict(fileUpload){
+        var fileUpload = document.getElementById("plotview1");
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
+        if (regex.test(fileUpload.value.toLowerCase())) {
+
+            //Check whether HTML5 is supported.
+            if (typeof (fileUpload.files) != "undefined") {
+                //Initiate the FileReader object.
+                var reader = new FileReader();
+                //Read the contents of Image File.
+                reader.readAsDataURL(fileUpload.files[0]);
+                reader.onload = function (e) {
+                    //Initiate the JavaScript Image object.
+                    var image = new Image();
+
+                    //Set the Base64 string return from FileReader as source.
+                    image.src = e.target.result;
+                            
+                    //Validate the File Height and Width.
+                    image.onload = function () {
+                        var height = this.height;
+                        var width = this.width;
+                        if (height === 349 || width === 268) {
+                        //show width and height to user
+                            return false;
+                        }
+                        alert("Height and Width must be 268x346 px");
+                        fileUpload.value = "";
+                        return true;
+                    };
+
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+                return false;
+            }
+        } else {
+            alert("Please select a valid Image file.");
+            return false;
+        }
+
+    }
+
+</script>
+
+
+
+<script>
+
+    function upload_restrict(){
+
+        var fileUpload = document.getElementById("plotview1");
+        restrict(fileUpload);
+
+    }
+
+    function upload_restrict2(){
+
+        var fileUpload = document.getElementById("plotview2");
+        restrict(fileUpload);
+
+    }
+
+    function upload_restrict3(){
+
+        var fileUpload = document.getElementById("plotview3");
+        restrict(fileUpload);
+
+    }
+    
 </script>
 
 {% endblock %}
