@@ -57,7 +57,7 @@ def create_property(request):
 def user_management(request):
     page_number = request.GET.get("page")
     user_data = user_Details.objects.all()
-    data_paginator = Paginator(user_data, 10)
+    data_paginator = Paginator(user_data, 50)
     try:
         page_obj = data_paginator.get_page(page_number)
     except PageNotAnInteger:
@@ -1120,12 +1120,22 @@ def plot(request):
     data = intractive_map.objects.all()
     data_bank = Bank_details.objects.filter(status="Active")
     user_data = user_Details.objects.get(auth_user=request.user)
-    context = {
+    if user_data.user_type == "salesman":
+        context = {
         'data':data,
         'user_data':user_data,
         "data_bank":data_bank
-    }
-    return render(request,'super_admin/plot.html',context)
+        }
+        return render(request,'super_admin/plot_sales_man.html',context)
+
+    else:
+
+        context = {
+        'data':data,
+        'user_data':user_data,
+        "data_bank":data_bank
+        }
+        return render(request,'super_admin/plot.html',context)
 
 
 @login_required(login_url='/')
@@ -1160,7 +1170,7 @@ def booking_action(request):
                     try:
                         avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
 
-                    
+                   
                         data_save = user_request_plot.objects.create(
                             customer_id_id = data_exists.id,
                             auth_user=request.user,
@@ -1189,6 +1199,10 @@ def booking_action(request):
                         data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
                     except:
                         pass
+
+               
+
+
 
                 except Customer_details.DoesNotExist:
                     inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
@@ -1223,7 +1237,86 @@ def booking_action(request):
                         data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
                     except:
                         pass
-                
+
+
+            elif user_type == "admin":
+                try:
+                    data_exists = Customer_details.objects.get(customer_id=customer_id)
+                    customer_id_mapping_id = data_exists.id
+                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank=bank_name)
+                    try:
+                        avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
+
+                   
+                        data_save = user_request_plot.objects.create(
+                            customer_id_id = data_exists.id,
+                            auth_user=request.user,
+                            user_id_id = data_user.id,
+                            property_mapping_id_id = plot_id_mapping_id,
+                            name = name,
+                            booking_id = customer_id,
+                            phone = phone,
+                            bank_relation_id_id = bank,
+                            bank = bank_name,
+                            read_status = 0,
+                            booking_status = 1,
+                            Price = data_plot.Price
+
+                        )
+                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        status_content = 'Available'+"-->"+"Price Quotation"
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
+                        save_log.save()
+                        arabic_status = None
+                        try:
+                            data = status_code.objects.get(status_code=1)
+                            arabic_status = data.text
+                        except:
+                            pass
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                    except:
+                        pass
+
+               
+
+
+
+                except Customer_details.DoesNotExist:
+                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
+                    customer_id_mapping_id = inser_customer_details.id
+                    try:
+                        avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
+                        data_save = user_request_plot.objects.create(
+                            customer_id_id = inser_customer_details.id,
+                            auth_user=request.user,
+                            user_id_id = data_user.id,
+                            property_mapping_id_id = plot_id_mapping_id,
+                            name = name,
+                            booking_id = customer_id,
+                            phone = phone,
+                            bank_relation_id_id = bank,
+                            bank=bank_name,
+                            read_status = 0,
+                            booking_status = 1,
+                            Price = data_plot.Price
+
+                        )
+                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        status_content = 'Available'+"-->"+"Price Quotation"
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
+                        save_log.save()
+                        arabic_status = None
+                        try:
+                            data = status_code.objects.get(status_code=1)
+                            arabic_status = data.text
+                        except:
+                            pass
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                    except:
+                        pass
+
+
+               
             else:
                 data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
                 try:
@@ -1295,11 +1388,10 @@ def booking_action(request):
                         data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
                     except:
                         pass
-                
-            
+               
+           
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
-
 
 
 
@@ -1982,7 +2074,7 @@ def admin_book_plot_action(request):
 def customer_management(request):
     data = Customer_details.objects.all().order_by("-id")
     page_number = request.GET.get("page")
-    data_paginator = Paginator(data, 10)
+    data_paginator = Paginator(data, 50)
     try:
         page_obj = data_paginator.get_page(page_number)
     except PageNotAnInteger:
@@ -2507,7 +2599,7 @@ def export_excel_customer_booking(request):
 def next_page_action_url_Customer_details(request):
     page_number = request.GET.get("page")
     data = Customer_details.objects.all().order_by('-id')
-    data_paginator = Paginator(data, 10)
+    data_paginator = Paginator(data, 50)
 
     try:
         page_obj = data_paginator.get_page(page_number)
@@ -2868,21 +2960,24 @@ from PIL import Image
 import os
 import PIL
 import glob
+
+
 def plot_view_details(request):
     if request.method == "POST":
+        import cv2
+        plot_view1 = False
+        plot_view2 = False
+        plot_view3 = False
         plot_view_id = request.POST.get("plot_view_id")
-        print("plot_view_id::::",str(plot_view_id))
         checked1 = request.POST.get('check1',False)
-        print("checked1:::::;",checked1)
         checked2 = request.POST.get('check2',False)
-        print("checked2:::::;",checked1)
         checked3 = request.POST.get('check3',False)
-        print("checked3:::::;",checked3)
-        
-        
+
+        save_status = 0
+       
+       
         try:
             plot_view1 = request.FILES['plot_view1']
-            print("plot_view1::::;",plot_view1)
            
             try:
                 data = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view1")
@@ -2890,7 +2985,6 @@ def plot_view_details(request):
                 extesion = os.path.splitext(str(plot_view1))[1]
                 data1 = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view1")
                 if checked1 == "above_plot1":
-                    import cv2
                     image = Image.open(plot_view1)
                     print("image.size",image.size)
                     resized_image = image.resize((268,349))
@@ -2905,12 +2999,12 @@ def plot_view_details(request):
                 data1.image_type = extesion
                 data1.image_name = plot_view1.name
                 data1.save()
-                
+                save_status = 1
+               
             except:
                 import os
                 extesion = os.path.splitext(str(plot_view1))[1]
                 if checked1 == "above_plot1":
-                    import cv2
                     image = Image.open(plot_view1)
                     print("image.size",image.size)
                     resized_image = image.resize((268,349))
@@ -2922,7 +3016,6 @@ def plot_view_details(request):
                 elif checked1 == "same_plot1":
                     image_new1 = plot_view1
 
-                
                 data_save = plot_view_master_image.objects.create(
                 mapping_id_id=plot_view_id,
                 attached_file = image_new1,
@@ -2931,14 +3024,15 @@ def plot_view_details(request):
                 plot_type = "view1"
 
                 )
-                    
+                save_status = 1
+                   
                 pass
         except:
             plot_view1_remove = request.POST.get("plot_view1_remove")
             plot_view1_id = request.POST.get("plot_view1_id")
             if plot_view1_remove == '1':
                 data_remove = plot_view_master_image.objects.filter(id=plot_view1_id).delete()
-
+                save_status = 1
             pass
 
         try:
@@ -2950,7 +3044,7 @@ def plot_view_details(request):
                 data1 = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view2")
 
                 if checked2 == "above_plot2":
-                    import cv2
+                   
                     image = Image.open(plot_view2)
                     print("image.size",image.size)
                     resized_image = image.resize((268,349))
@@ -2965,12 +3059,13 @@ def plot_view_details(request):
                 data1.image_type = extesion
                 data1.image_name = plot_view2.name
                 data1.save()
-                
+                save_status = 1
+               
             except:
                 import os
                 extesion = os.path.splitext(str(plot_view2))[1]
                 if checked2 == "above_plot2":
-                    import cv2
+         
                     image = Image.open(plot_view2)
                     print("image.size",image.size)
                     resized_image = image.resize((268,349))
@@ -2989,14 +3084,16 @@ def plot_view_details(request):
                     plot_type = "view2"
 
                 )
+                save_status = 1
                 pass
         except:
             plot_view2_remove = request.POST.get("plot_view2_remove")
             plot_view2_id = request.POST.get("plot_view2_id")
             if plot_view2_remove == '1':
                 data_remove = plot_view_master_image.objects.filter(id=plot_view2_id).delete()
+                save_status = 1
             pass
-        
+       
         try:
             plot_view3 = request.FILES['plot_view3']
             try:
@@ -3006,7 +3103,7 @@ def plot_view_details(request):
                 data1 = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view3")
 
                 if checked3 == "above_plot3":
-                    import cv2
+                   
                     image = Image.open(plot_view3)
                     print("image.size",image.size)
                     resized_image = image.resize((268,349))
@@ -3020,12 +3117,13 @@ def plot_view_details(request):
                 data1.image_type = extesion
                 data1.image_name = plot_view3.name
                 data1.save()
-                
+                save_status = 1
+               
             except:
                 import os
                 extesion = os.path.splitext(str(plot_view3))[1]
                 if checked3 == "above_plot3":
-                    import cv2
+                 
                     image = Image.open(plot_view3)
                     print("image.size",image.size)
                     resized_image = image.resize((268,349))
@@ -3042,15 +3140,22 @@ def plot_view_details(request):
                     image_name = plot_view3.name,
                     plot_type = "view3"
                 )
+                save_status = 1
                 pass
         except:
             plot_view3_remove = request.POST.get("plot_view3_remove")
             plot_view3_id = request.POST.get("plot_view3_id")
             if plot_view3_remove == '1':
                 data_remove = plot_view_master_image.objects.filter(id=plot_view3_id).delete()
+                save_status = 1
             pass
-        messages.success(request,"Added")
-        return redirect(request.META['HTTP_REFERER'])
+        if save_status == 1 :
+            messages.success(request,"Added")
+            return redirect(request.META['HTTP_REFERER'])
+           
+        else:
+            messages.error(request,str("Please Choose file"))
+           
     id = request.GET.get("id")
     data = plot_view_master.objects.get(id=id)
 
@@ -3059,21 +3164,22 @@ def plot_view_details(request):
         plot_view1 = plot_view_master_image.objects.get(mapping_id_id=id,plot_type="view1")
     except:
         pass
-    
+   
     plot_view2 = ""
     try:
         plot_view2 = plot_view_master_image.objects.get(mapping_id_id=id,plot_type="view2")
     except:
         pass
-    
+   
     plot_view3 = ""
     try:
         plot_view3 = plot_view_master_image.objects.get(mapping_id_id=id,plot_type="view3")
     except:
         pass
-    
+   
     total_intractive = intractive_map.objects.filter(UType=data.unit_type).count()
 
+   
     context = {
         'data':data,
          'bank_nav':1,
@@ -3084,8 +3190,6 @@ def plot_view_details(request):
 
     }
     return render(request,'super_admin/plot_view_details.html',context)
-
-
 
 
 def plot_view_based_plot(request):

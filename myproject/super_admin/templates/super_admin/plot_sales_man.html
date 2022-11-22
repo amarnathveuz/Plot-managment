@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-
-{% extends "super_admin/base.html" %}
-
-
-
-{% load static %}
-{% block content %}
 <html lang="en">
+    {% load static %}
 
 <head>
   <meta charset="UTF-8">
@@ -81,25 +74,25 @@
     {% endif %}
 
     {% if user_data.user_type == "manager" %}
-       <!-- <a style="padding: 6px 8px;
+       <a style="padding: 6px 8px;
     background: #cd2020;
     color: white;
     float: right;
-    font-size: 13px;" href="home">Dashboard</a> -->
+    font-size: 13px;" href="home">Dashboard</a>
 
 {% elif user_data.user_type == "admin" %}
-       <!-- <a style="padding: 6px 8px;
+       <a style="padding: 6px 8px;
     background: #cd2020;
     color: white;
     float: right;
-    font-size: 13px;" href="home">Dashboard</a> -->
+    font-size: 13px;" href="home">Dashboard</a>
         {% else %}
 
-       <!-- <a style="padding: 6px 8px;
+       <a style="padding: 6px 8px;
     background: #cd2020;
     color: white;
     float: right;
-    font-size: 13px;" href="logout">Logout</a> -->
+    font-size: 13px;" href="logout">Logout</a>
         {% endif %}
 
     <div class="row">
@@ -4187,4 +4180,3 @@
 </body>
 
 </html>
-{%endblock%}
