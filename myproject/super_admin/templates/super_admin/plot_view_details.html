@@ -1,0 +1,386 @@
+{% extends "super_admin/base10.html" %}
+
+{% load static %}
+{% block content %}
+
+<style>
+
+.file-upload{display:block;font-family: Helvetica, Arial, sans-serif;font-size: 12px;width: 100%;}
+.file-upload .file-select{display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;    height: 32px;
+    line-height: 30px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select .file-select-button{background:#dce4ec;padding:0 10px;display:inline-block;position: absolute;
+top: 0;}
+.file-upload .file-select .file-select-name{display:inline-block;padding:0 10px;max-width: 60%;  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  position: absolute;
+top: 0;
+left: 85px;}
+.file-upload .file-select:hover{border-color:#34495e;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select:hover .file-select-button{background:#34495e;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select{border-color:#34495e;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select .file-select-button{background:#34495e;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select input[type=file]{z-index:100;cursor:pointer;position:absolute;height:100%;width:100%;top:0;left:0;opacity:0;filter:alpha(opacity=0);}
+.file-upload .file-select.file-select-disabled{opacity:0.65;}
+.file-upload .file-select.file-select-disabled:hover{cursor:default;display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;margin-top:5px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select.file-select-disabled:hover .file-select-button{background:#dce4ec;color:#666666;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
+.file-upload .file-select.file-select-disabled:hover .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
+</style>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css">
+<div class="row">
+
+
+</div>
+<form action="" method="POST"  enctype="multipart/form-data" name="frmUser">
+    {% csrf_token %}
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+
+                    <div class="page-title-left">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">plot view ({{data.unit_type}})</a>
+                            </li>
+                           
+                        </ol>
+                        <div class="margn">
+                            <a><button type="submit" style="padding: 5px 10px !important;"
+                                    class="btn btn-prim pay">
+                                    Save
+                                </button></a>
+                            <a href="plot_view_master"><button style="padding: 5px 10px !important;" type="button"
+                                    class="btn btn-pri pay discard-payroll"> Discard
+                                </button></a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end nav nav-tabs nav-pay nav-contact mb-2">
+            <div>
+                <ul class="nav" role="tablist">
+                  
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="plot_view_based_plot?u_type={{data.unit_type}}" class="nav-link active d-flex">
+                            <i class="fas fa-home"></i>
+                            <div class="line"><span class="txt-clr">{{total_intractive}}</span><br>
+                                <span>Plot</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row pay-main">
+        <input type="hidden" value="{{data.id}}" name="plot_view_id">
+        <input type="hidden" id="check_value1" name="check1" value="">
+        <input type="hidden" id="check_value2" name="check2" value="">
+        <input type="hidden" id="check_value3" name="check3" value="">
+
+            <div class="col-lg-12 px-0">
+                <div class="card noti-card" id="orderList">
+
+
+                    <div class="card-body bb-0 pt-0 p-0">
+                        <div>
+
+                            <div class="payslip mb-5">
+
+                                <div class="row pay-main my-2">
+
+                                   
+                                    <div class="col-md-6 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-6 br-right d-flex align-items-center">
+                                                <h6>Plot view1 <I style="font-weight: normal;">(Choose image resolution 268x349)</I></h6>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <div class="file-upload">
+                                                    <div class="file-select plot_view_select1 upload_restrict" {% if plot_view1 == None  %}  {% elif plot_view1 == "" %}  {% else %} style="display: none" {% endif %}>
+                                                        <input value="0" type="hidden" name="plot_view1_remove" id="plot_view1_remove">
+                                                        <input type="hidden" name="plot_view1_id" value="{{plot_view1.id}}">
+                                                        
+                                                        <div class="file-select-button" id="fileName">Choose File</div>
+                                                            <div class="file-select-name" id="noFile">No file chosen...</div> 
+                                                      
+                                                                    <input class="select_file" type="file" name="plot_view1" id="select_file" onchange="browse_files(this,'plot1')" >
+                                                    </div>
+                                                    <a target="_blank" href="../media/{{plot_view1.attached_file}}"><img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="width: 18%;
+                                                        padding: 5px 9px 5px 0;" src="../media/{{plot_view1.attached_file}}"></a>
+                                                        <li {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image11" onclick="plot_view1_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+
+
+                                                            <div style="color: red; display:none ;" id="plot1_alert"></div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 br-right d-flex align-items-center">
+                                                <h6>Plot view2 <I style="font-weight: normal;">(Choose image resolution 268x349)</I></h6>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <div class="file-upload">
+                                                    <div class="file-select plot_view_select2" {% if plot_view2 == None  %}  {% elif plot_view2 == "" %}  {% else %} style="display: none" {% endif %}>
+                                                        <input value="0" type="hidden" name="plot_view2_remove" id="plot_view2_remove">
+                                                        <input type="hidden" name="plot_view2_id" value="{{plot_view2.id}}">
+
+                                                      <div class="file-select-button" id="fileName">Choose File</div>
+                                                      <div class="file-select-name" id="noFile2" >No file chosen...</div> 
+                                                      <input  type="file" class="select_file"  name="plot_view2" id="choose_file" onchange="browse_files(this,'plot2')">
+                                                    </div>
+                                                    <a target="_blank" href="../media/{{plot_view2.attached_file}}"><img {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image2" style="    width: 18%;
+                                                        padding: 5px 9px 5px 0;" src="../media/{{plot_view2.attached_file}}"></a>
+                                                        <li {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image22" onclick="plot_view2_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                    <div style="color: red; display:none ;" id="plot2_alert"></div>
+                                                  </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 br-right d-flex align-items-center">
+                                                <h6>Plot view3 <I style="font-weight: normal;">(Choose image resolution 268x349)</I> </h6>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <div class="file-upload">
+                                                    <div class="file-select plot_view_select3" {% if plot_view3 == None  %}  {% elif plot_view3 == "" %}  {% else %} style="display: none" {% endif %}>
+                                                        <input value="0" type="hidden" name="plot_view3_remove" id="plot_view3_remove">
+                                                        <input type="hidden" name="plot_view3_id" value="{{plot_view3.id}}">
+                                                      <div class="file-select-button" id="fileName">Choose File</div>
+                                                      <div class="file-select-name" id="noFile1">No file chosen...</div> 
+                                                      <input  type="file" class="select_file" name="plot_view3" id="select_file1" onchange="browse_files(this,'plot3')">
+                                                    </div>
+                                                    <a target="_blank" href="../media/{{plot_view3.attached_file}}"><img {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image3" style="    width: 18%;
+                                                        padding: 5px 9px 5px 0;" src="../media/{{plot_view3.attached_file}}"></a>
+                                                        <li {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image33" onclick="plot_view3_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                    <div style="color: red; display:none ;" id="plot3_alert"></div>
+                                                  </div>
+                                            </div>
+
+                                        </div>
+                                   
+                                     
+                                   
+                                    </div>
+                               
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+
+<script src="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js">
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+<script>
+    {% for message in messages %}
+
+    message1 = "{{message}}"
+
+
+    if (message1 == "error") {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ message }}",
+        })
+
+    } else {
+
+        Swal.fire(
+            '',
+            '{{ message }}',
+            '{{message.tags}}'
+        )
+
+    } 
+    {% endfor %}
+</script>
+
+{% endif %}
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+<script>
+    
+    function plot_view1_onclick(){
+        $(".plot_view_select1").show()
+        $("#plot_view1_remove").val(1)
+        $(".plot_view_image1").hide()
+        $("#plot_view_image11").hide()
+       
+    }
+    function plot_view2_onclick(){
+        $(".plot_view_select2").show()
+        $("#plot_view2_remove").val(1)
+        $(".plot_view_image2").hide()
+        $("#plot_view_image22").hide()
+    }
+    function plot_view3_onclick(){
+        $(".plot_view_select3").show()
+        $("#plot_view3_remove").val(1)
+        $(".plot_view_image3").hide()
+        $("#plot_view_image33").hide()
+
+    }
+</script>
+
+<script>
+   
+
+
+function browse_files(current,status){
+    var _URL = window.URL || window.webkitURL;
+       var file = current.files[0]
+       console.log(file)
+
+       img = new Image();
+       var imgwidth = 0;
+       var imgheight = 0;
+       var maxwidth = 268;
+       var maxheight = 349;
+       img.src = _URL.createObjectURL(file);
+
+     
+       img.onload = function() {
+        
+              imgwidth = this.width;
+              imgheight = this.height;
+
+              $("#width").text(imgwidth);
+              $("#height").text(imgheight);
+              if(imgwidth > maxwidth && imgheight > maxheight){
+                document.getElementById("plot3_alert").style.display = "none";
+                document.getElementById("plot2_alert").style.display = "none";
+                document.getElementById("plot1_alert").style.display = "none";
+                // alert("function for reduce")
+                if(status == "plot1"){
+                $("#check_value1").val('above_plot1')
+                }
+                else if(status == "plot2"){
+                $("#check_value2").val('above_plot2')
+                }
+                else if(status == "plot3"){
+                $("#check_value3").val('above_plot3')
+                }
+              }
+              else if(imgwidth < maxwidth && imgheight < maxheight){
+                if(status == "plot1"){
+                document.getElementById("plot1_alert").style.display = "block";
+                document.getElementById("plot1_alert").innerHTML = "please choose image resolution 268x349";
+                document.getElementById('select_file').value=''
+                document.getElementById('noFile').innerHTML = "";
+                }
+                else if(status == "plot2"){
+                document.getElementById("plot2_alert").style.display = "block";
+                document.getElementById("plot2_alert").innerHTML = "please choose image resolution 268x349";
+                document.getElementById('choose_file').value=''
+                document.getElementById('noFile2').innerHTML = "";
+                }
+                else if(status == "plot3"){
+                document.getElementById("plot3_alert").style.display = "block";
+                document.getElementById("plot3_alert").innerHTML = "please choose image resolution 268x349";
+                document.getElementById('select_file1').value=''
+                document.getElementById('noFile1').innerHTML = "";
+                }
+              }
+              else{
+                document.getElementById("plot3_alert").style.display = "none";
+                document.getElementById("plot2_alert").style.display = "none";
+                document.getElementById("plot1_alert").style.display = "none";
+                
+                if(status == "plot1"){
+                $("#check_value1").val('same_plot1')
+                }
+                else if(status == "plot2"){
+                $("#check_value2").val('same_plot2')
+                }
+                else if(status == "plot3"){
+                $("#check_value3").val('same_plot3')
+                }
+              }
+       }  
+    }
+
+</script>
+<script>
+    $('#select_file').bind('change', function () {
+      var filename = $("#select_file").val();
+      if (/^\s*$/.test(filename)) {
+        $(".file-upload").removeClass('active');
+        $("#noFile").text("No file chosen..."); 
+      }
+      else {
+        $(".file-upload").addClass('active');
+        $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+      }
+    });
+    </script>
+    <script>
+        $('#select_file1').bind('change', function () {
+          var filename = $("#select_file1").val();
+          if (/^\s*$/.test(filename)) {
+            $(".file-upload").removeClass('active');
+            $("#noFile1").text("No file chosen..."); 
+          }
+          else {
+            $(".file-upload").addClass('active');
+            $("#noFile1").text(filename.replace("C:\\fakepath\\", "")); 
+          }
+        });
+        </script>
+
+<script>
+    $('#choose_file').bind('change', function () {
+      var filename = $("#choose_file").val();
+      if (/^\s*$/.test(filename)) {
+        $(".file-upload").removeClass('active');
+        $("#noFile2").text("No file chosen..."); 
+      }
+      else {
+        $(".file-upload").addClass('active');
+        $("#noFile2").text(filename.replace("C:\\fakepath\\", "")); 
+      }
+    });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% load static %}
+{% load checkbox_result %}
+{% for i in data %}
+
+<tr>
+    <th scope="row">
+        
+        <input
+            class="form-check-input checkField messageCheckbox"
+            type="checkbox" value="{{i.id}}"
+            data-checkall-group="group1"
+            onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
+    </th>
+    <td> {{forloop.counter}}</td>
+    <td class="fw-medium link-primary" class="id" onclick="window.location='property_update?id={{i.id}}'">
+        {% if i.Name == None %}
+        {% elif i.Name == '' %}
+        {%else%}
+        {% if i.customer_id_mapping.profile_pic == '' or i.customer_id_mapping.profile_pic == None %}
+
+        <img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/>
+       
+        {% else %}
+        <img style="width:30px;    border-radius: 50%;" src="./media/{{i.customer_id_mapping.profile_pic}}" class="m-1"/>
+        
+            {% endif %}
+            {%endif%}
+        <a style="cursor: pointer;"  class="fw-medium link-primary">
+
+            {% if i.Name == None %}
+            {% else %}
+        <span style="color: #405189;
+        font-weight: bold;" > {{i.Name}}</span>  
+            {% endif %}
+        </a>
+    </td>
+<td>{% if i.customer_id == None %}
+    {% else %}
+    {{i.customer_id}}
+    {% endif %}</td>
+    <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
+        {% if i.Phoneno == None or i.Phoneno == '' %}
+                    {% else %}
+
+                    <i class="fa fa-phone m-1" style=" font-size: 9px;" ></i>
+                 
+                    
+                    {{i.Phoneno}}
+                    {% endif %}
+    </td>
+<td class="product_name" onclick="window.location='property_update?id={{i.id}}'">{{i.UnitNo}}</td>
+<td class="date" onclick="window.location='property_update?id={{i.id}}'">{{i.BlockNo}}</td>
+<td class="date" onclick="window.location='property_update?id={{i.id}}'">{{i.UnitArea}}</td>
+<td class="company" onclick="window.location='property_update?id={{i.id}}'">{{i.LandArea}}</td>
+<td>
+{% if i.UType == None %}
+{% else %}
+{{i.UType}}
+{% endif %}
+</td>
+<td>
+    {{ request.user|get_currency_format:i.Price }}
+    </td>
+    <td>{{i.Bank}}</td>
+    <td>
+        {% if i.current_status == "0" %}
+                    <span
+                        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                        background-color: #008000;">{{i.Status}}</span>
+
+                    {% elif i.current_status == "1" %}
+                    <span
+                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                        background-color: orange;">{{i.Status}}</span>
+
+                    {% elif i.current_status == "2" %}
+                    <span
+                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                            background-color: #e40000;">{{i.Status}}</span>
+                            {% elif i.current_status == "3" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                    background-color: gray;">{{i.Status}}</span>
+                        {% else %}
+                        {% endif %}
+    </td>
+<td class="status">
+    {% if i.current_status == "0" %}
+   
+    <span
+        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+        background-color: #008000;">Available</span>
+
+{% elif i.current_status == "1" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+background-color: orange;">Price Quotation</span>
+
+
+
+{% elif i.current_status == "2" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+background-color: #e40000;">Sold</span>
+{% elif i.current_status == "3" %}
+<span
+class="badge badge-soft-success text-uppercase" style="    color: #fff;
+background-color: gray;">Cancelled</span>
+        {% else %}
+
+        {% endif %}
+</td>
+
+</tr>
+
+{% endfor %}

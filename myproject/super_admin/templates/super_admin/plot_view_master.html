@@ -1,0 +1,420 @@
+{% extends "super_admin/base10.html" %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid mt-4 px-0">
+    <div class="row">
+        <div class="col-12 buttns">
+            <h5>Plot View</h5>
+        </div>
+    </div>
+
+    <div class="tab-content contnt" id="demo_result_employee">
+
+        <div class="tab-pane active" id="home1" role="tabpanel">
+
+            <div class="d-flex align-items-center justify-content-between px-2">
+                <div class="col-md-4 px-0">
+                  
+
+                  
+                  
+                 
+                </div>
+
+
+
+                <div class="d-flex align-items-center">
+
+             
+                  
+
+             
+
+
+
+
+
+                    
+
+
+
+                </div>
+            </div>
+            <input type="hidden" id="pagination_count" name="">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="ho" role="tabpanel">
+                    <div class="table-responsive mb-1  mt-2">
+
+
+                        <table class="table table-nowrap align-middle user_table" id="orderTable">
+                            <thead class="table-light">
+                                <tr class="text-uppercase">
+
+                                    <th class="sort" data-sort="Bank-name">
+                                        Plot Name</th>
+                                    
+
+
+                                  
+                                
+
+
+
+                                   
+                                </tr>
+                            </thead>
+
+
+                            <tbody class="list form-check-all append_search_result">
+                                {% for i in data %}
+                                <tr onclick="window.location='bank_detail_edit?id={{i.id}}'">
+                                    <td class="id"><a href="plot_view_details?id={{i.id}}"
+                                            class="fw-medium link-primary">{{i.unit_type}}</a>
+                                    </td>
+                                  
+
+                                   
+                                    
+
+                                   
+
+
+                                   
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="user_table1 container-fluid"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="tab-pane" id="pro" role="tabpanel">
+                    <div class='app plotmngmnt'>
+                        <main class='project1'>
+                            <div class='project-tasks1 mb-1 append_card_view'>
+                                {% for i in data %}
+                                <div class='project-column'>
+                                    <a href="bank_detail_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                        <div class='customer-bx'>
+
+                                            <div class="customer-content">
+                                                <h5>{{i.bank_name}}
+                                                    {% if i.status == "Active" %}
+                                                    <span class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                background-color: #008000;">Active</span>
+
+                                                    {% elif i.status == "Inactive" %}
+
+                                                    <span class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                                    background-color: #e40000;">Inactive</span>
+
+                                                    {% endif %}
+                                                </h5>
+                                                <span class="d-flex">
+                                                    <h6>Swift Code : </h6>{{i.swift_code}}
+                                                </span>
+                                                <div class="row">
+                                                    <div class="col-md-12 px-0">
+                                                        <span class="d-flex">
+                                                            <h6>BIC : </h6>{{i.bank_identifier_code}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Branch: </h6>{{i.branch}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Address : </h6>{{i.address}}
+                                                        </span>
+                                                        <span class="d-flex">
+                                                            <h6>Country : </h6>{{i.country}}
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    function myFunction() {
+        $(".user_table").show()
+        $(".user_table1").hide()
+        var x = document.getElementById("search_value").value;
+        redirect_url = "bank_search_result"
+        $.ajax({
+            url: redirect_url,
+            data: {
+                'data_value': x
+            },
+            type: 'GET',
+            success: function (data) {
+                $(".append_search_result").empty().append(data)
+
+                card_view_redirect_url = 'bank_search_card_view'
+
+                $.ajax({
+                    url: card_view_redirect_url,
+                    data: {
+                        'data_value': x
+                    },
+                    type: 'GET',
+                    success: function (data) {
+
+                        // alert(data)
+                        $(".append_card_view").empty().append(data)
+                    }
+                })
+
+            }
+        })
+
+    }
+</script>
+
+
+
+<script>
+    $(".next_page_action").click(function () {
+        var url = $(this).attr('data-url')
+        $.ajax({
+            url: url,
+            data: {
+
+            },
+            success: function (data) {
+                $("#demo_result_employee").empty().append(data);
+            }
+        })
+    })
+</script>
+
+
+
+<script>
+    pagination_count = 1
+    $(".pagination_add").click(function () {
+        pagination_count = pagination_count + 1
+        $("#pagination_count").val(pagination_count)
+
+
+    })
+
+    $(".pagination_minus").click(function () {
+        pagination_count = pagination_count - 1
+        $("#pagination_count").val(pagination_count)
+
+
+    })
+</script>
+
+
+
+<script>
+    $(".group").click(function () {
+
+        var listCheck = [];
+        $("input[name='optradio']:checked").each(function () {
+            $(".user_table").show()
+            $(".user_table1").hide()
+            listCheck.push($(this).val());
+        });
+        var url = $(this).attr('data-url')
+
+        $.ajax({
+            url: url,
+            data: {
+                'grouping[]': listCheck
+            },
+            success: function (data) {
+                $(".append_search_result").empty().append(data);
+
+                var card_view_redirect_url = 'Bank_card_view_filter_status'
+
+                $.ajax({
+                    url: card_view_redirect_url,
+                    data: {
+                        'grouping[]': listCheck
+                    },
+                    success: function (data) {
+
+
+
+                        $(".append_card_view").empty().append(data);
+                    }
+                })
+
+            }
+        })
+    })
+</script>
+
+
+
+<div class="append_group_by">
+
+</div>
+
+<script>
+    function submit_filter(type) {
+        $(".user_table").show()
+        $(".user_table1").hide()
+        if (type == "bank_name") {
+            var x = document.getElementById("filter_value1").value;
+        } else if (type == "bank_identifier_code") {
+            var x = document.getElementById("filter_value2").value;
+        } else if (type == "swift_code") {
+            var x = document.getElementById("filter_value3").value;
+        } else if (type == "branch") {
+            var x = document.getElementById("filter_value4").value;
+        } else if (type == "country") {
+            var x = document.getElementById("filter_value5").value;
+        } else if (type == "date") {
+            var x = document.getElementById("filter_value6").value;
+        } else {
+            var x = document.getElementById("filter_value7").value;
+        }
+        redirect_url = "filtering_bank"
+        $.ajax({
+            url: redirect_url,
+            data: {
+                'data_value': x
+            },
+            type: 'GET',
+            success: function (data) {
+                $(".append_search_result").empty().append(data)
+
+
+                card_view_redirect_url = 'bank_search_card_view'
+                $.ajax({
+                    url: card_view_redirect_url,
+                    data: {
+                        'data_value': x
+                    },
+                    type: 'GET',
+                    success: function (data) {
+
+                        // alert(data)
+                        $(".append_card_view").empty().append(data)
+                    }
+                })
+            }
+        })
+    }
+
+</script>
+
+
+
+<script>
+    function hoverdata() {
+        let checkbox = document.getElementById("g01-01");
+        if (checkbox.checked) {
+            document.getElementById("g01-01").checked = false;
+            $(".user_table1").hide()
+            $(".user_table").show()
+        }
+        else
+        {
+            document.getElementById("g01-01").checked = true;
+        
+            redirect_group_by_url = 'Bank_status_group_by_action'
+            $.ajax({
+                url: redirect_group_by_url,
+                data: {
+                    'status': 'type'
+                },
+                type: 'GET',
+                success: function (data) {
+                    $(".user_table1").show()
+                    $(".user_table").hide()
+
+                    $(".user_table1").empty().append(data)
+
+                    var card_view_redirect_url = 'Bank_status_group_by_action_card_view'
+                    $.ajax({
+                        url: card_view_redirect_url,
+                        data: {
+                            'status': 'type'
+                        },
+                        success: function (data) {
+
+
+                            $(".append_card_view").empty().append(data);
+                        }
+                    })
+
+
+                }
+
+            })
+
+        }
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+<script>
+    {% for message in messages %}
+
+    message1 = "{{message}}"
+
+
+    if (message1 == "error") {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ message }}",
+        })
+
+    } else {
+
+        Swal.fire(
+            '',
+            '{{ message }}',
+            '{{message.tags}}'
+        )
+
+    }
+     {% endfor %}
+</script>
+
+
+
+
+{% endif %}
+
+
+
+
+{% endblock %}

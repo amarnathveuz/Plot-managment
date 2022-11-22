@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from .decorators import *
 
+
 def index(request):
     return render(request,'super_admin/index.html')
 
@@ -26,7 +27,7 @@ def property_management(request):
     data = intractive_map.objects.all()
     checked_list = list(data.values_list('id',flat=True))
     data_str = str(checked_list)
-    data_paginator = Paginator(data,10)
+    data_paginator = Paginator(data,50)
     try:
         page_obj = data_paginator.get_page(page_number) 
     except PageNotAnInteger:
@@ -115,12 +116,33 @@ def create_user(request):
                 manager_nav_ploat_permission = request.POST.get("manager_nav_ploat_permission")
                 manager_nav_user_permission = request.POST.get("manager_nav_user_permission")
                 manager_nav_plot_edit_permission = request.POST.get("manager_nav_plot_edit_permission")
+                manager_nav_customer_read_permission = request.POST.get("manager_nav_customer_read_permission")
+                manager_nav_customer_write_permission = request.POST.get("manager_nav_customer_write_permission")
+                manager_nav_customer_edit_permission = request.POST.get("manager_nav_customer_edit_permission")
+                manager_nav_document_read_permission = request.POST.get("manager_nav_document_read_permission")
+                manager_nav_document_write_permission = request.POST.get("manager_nav_document_write_permission")
+                manager_nav_document_edit_permission = request.POST.get("manager_nav_document_edit_permission")
+                manager_nav_booking_cancel_permission = request.POST.get("manager_nav_booking_cancel_permission")
                 if manager_nav_ploat_permission == None:
                     manager_nav_ploat_permission = 0
                 if manager_nav_user_permission == None:
                     manager_nav_user_permission = 0
                 if manager_nav_plot_edit_permission == None:
                     manager_nav_plot_edit_permission = 0
+                if manager_nav_customer_read_permission == None:
+                    manager_nav_customer_read_permission = 0
+                if manager_nav_customer_write_permission == None:
+                    manager_nav_customer_write_permission = 0
+                if manager_nav_customer_edit_permission == None:
+                    manager_nav_customer_edit_permission = 0
+                if manager_nav_document_read_permission == None:
+                    manager_nav_document_read_permission = 0
+                if manager_nav_document_write_permission == None:
+                    manager_nav_document_write_permission = 0
+                if manager_nav_document_edit_permission == None:
+                    manager_nav_document_edit_permission = 0
+                if manager_nav_booking_cancel_permission == None:
+                    manager_nav_booking_cancel_permission = 0
                 
                 save_user_data = user_Details.objects.create(
                     auth_user = user,
@@ -142,9 +164,16 @@ def create_user(request):
                     plot_list_view = plot_list_view,
                     price_visibility = price_visibility,
                     property_access = property_access,
-                    manager_nav_ploat_permission = manager_nav_ploat_permission,
-                    manager_nav_user_permission = manager_nav_user_permission,
-                    manager_nav_plot_edit_permission = manager_nav_plot_edit_permission
+                    manager_nav_ploat_permission=manager_nav_ploat_permission,
+                    manager_nav_user_permission=manager_nav_user_permission,
+                    manager_nav_plot_edit_permission=manager_nav_plot_edit_permission,
+                    manager_nav_customer_read_permission=manager_nav_customer_read_permission,
+                    manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+                    manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+                    manager_nav_document_read_permission=manager_nav_document_read_permission,
+                    manager_nav_document_write_permission=manager_nav_document_write_permission,
+                    manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+                    manager_nav_booking_cancel_permission=manager_nav_booking_cancel_permission
 
 
 
@@ -282,8 +311,6 @@ def create_user(request):
         }
         return render(request,'super_admin/create_user.html',context)
 
-
-
 def upload_excel(request):
     return render(request,'super_admin/upload_excel.html')
 from tablib import Dataset
@@ -312,11 +339,11 @@ def simple_upload(request):
                 status_new = 0
                 
                 
-                # if data[11] == "تم الربط":
+                # if data[11] == "?? ?????":
                 #     status_new = 2
-                # elif data[11] == 'عرض سعر':
+                # elif data[11] == '??? ???':
                 #     status_new = 1
-                # elif data[11] == 'متاح':
+                # elif data[11] == '????':
                 #     status_new = 0
 
 
@@ -356,11 +383,58 @@ def simple_upload(request):
                    
 
                 )
+                if data_new.current_status == 2:
+                    bank_mapping_id = None
+                    try:
+                        bank_condition = Bank_details.objects.get(bank_name=data[10])
+                        bank_mapping_id = bank_condition.id
+                    except:
+                        insert_bank = Bank_details.objects.create(bank_name=data[10])
+                        bank_mapping_id = insert_bank.id
+                    inser_customer_details = Customer_details.objects.create(name=data[1],bank_relation_id_id=bank_mapping_id,created_by=request.user,bank = data[10])
+                    data_save = user_request_plot.objects.create(
+                            customer_id_id = inser_customer_details.id,
+                            auth_user=request.user,
+                            property_mapping_id_id = data_new.id,
+                            name = data[1],
+                            bank_relation_id_id = bank_mapping_id,
+                            bank=data[10],
+                            read_status = 1,
+                            booking_status = 2,
+                            Price = data_new.Price
+
+                        )
+                    
+                elif data_new.current_status == 1:
+                    bank_mapping_id = None
+                    try:
+                        bank_condition = Bank_details.objects.get(bank_name=data[10])
+                        bank_mapping_id = bank_condition.id
+                    except:
+                        insert_bank = Bank_details.objects.create(bank_name=data[10],status="Active")
+                        bank_mapping_id = insert_bank.id
+                    inser_customer_details = Customer_details.objects.create(name=data[1],bank_relation_id_id=bank_mapping_id,created_by=request.user,bank = data[10])
+                    data_save = user_request_plot.objects.create(
+                            customer_id_id = inser_customer_details.id,
+                            auth_user=request.user,
+                            property_mapping_id_id = data_new.id,
+                            name = data[1],
+                            bank_relation_id_id = bank_mapping_id,
+                            bank=data[10],
+                            read_status = 1,
+                            booking_status = 2,
+                            Price = data_new.Price
+
+                        )
+                    
+
                 print("arabic status::::::::",str(data_new.Status))
-                print("arabicnew::::",'تم الربط')
+                print("arabicnew::::",'?? ?????')
                 
 
                 # print(data)
+
+
 
 
 @api_view(['GET','POST'])
@@ -705,6 +779,16 @@ def property_update(request):
         id = request.GET.get("id")
         data = intractive_map.objects.get(id=id)
 
+        data_plot_view_image = ''
+        if data.UType == None:
+            pass
+        elif data.UType ==  '':
+            pass
+        else:
+            data_plot_view_image = plot_view_master_image.objects.filter(mapping_id__unit_type=data.UType)
+            
+
+
         currency_price = '{:20,.2f}'.format(data.Price)
         multiple_image_data = intractive_map_multiple_image.objects.filter(mapping_id_id=id)
         # history = user_request_plot.objects.filter(property_mapping_id=id).order_by("-id")
@@ -746,9 +830,12 @@ def property_update(request):
             'currency_price':cv,
             'plot_view1':plot_view1,
             'plot_view2':plot_view2,
-            'plot_view3':plot_view3
+            'plot_view3':plot_view3,
+            'data_plot_view_image':data_plot_view_image
         }
         return render(request,'super_admin/property_update.html',context)
+
+
 
 
 
@@ -951,6 +1038,7 @@ def update_user_action(request):
         return redirect(request.META['HTTP_REFERER'])
 
 
+
 def login_action(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -975,9 +1063,56 @@ def login_action(request):
             return redirect(request.META['HTTP_REFERER'])
 
 
+from django.core.paginator import Paginator
+def property_management(request):
+    page_obj = ""
+    page_number = request.GET.get("page")
+    data = intractive_map.objects.all()
+    checked_list = list(data.values_list('id',flat=True))
+    data_str = str(checked_list)
+    data_paginator = Paginator(data,50)
+    try:
+        page_obj = data_paginator.get_page(page_number) 
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+
+    context = {
+        "data":data,
+        'page_obj': page_obj,
+        'checked_list':checked_list
+    }
+    return render(request,'super_admin/property_management.html',context)
+
+
+
+
 @login_required(login_url='/')
 def home(request):
+    user_dat = User.objects.get(id=request.user.id)
+    st = user_dat.is_superuser
+    data = ""
+    if st == True:
+        return redirect("property_management")
+        # page_obj = ""
+        # page_number = request.GET.get("page")
+        # data = intractive_map.objects.all()
+        # checked_list = list(data.values_list('id',flat=True))
+        # data_str = str(checked_list)
+        # data_paginator = Paginator(data,50)
+        # try:
+        #     page_obj = data_paginator.get_page(page_number) 
+        # except PageNotAnInteger:
+        #     page_obj = data_paginator.page(1)
+
+        # context = {
+        #     "data":data,
+        #     'page_obj': page_obj,
+        #     'checked_list':checked_list
+        # }
+        # return render(request,'super_admin/home.html',context)
+    print("usertype::::",str(st))
     return render(request,'super_admin/home.html')
+
 
 
 @login_required(login_url='/')
@@ -1502,7 +1637,7 @@ def next_page_action_url_property(request):
     print("page_number:::::",str(page_number))
     print("qqqqq::::ssssssssssssssssss:::::::::::::::",str(check_list))
     data = intractive_map.objects.all()
-    data_paginator = Paginator(data, 10)
+    data_paginator = Paginator(data, 50)
     try:
         page_obj = data_paginator.get_page(page_number)
     except PageNotAnInteger:
@@ -1513,8 +1648,6 @@ def next_page_action_url_property(request):
         'check_list': check_list
     }
     return render(request, 'super_admin/append_datas_property.html', context) 
-
-
 
 def property_filter_function(request):
     data_value = request.GET.get("data_value")
@@ -1531,11 +1664,7 @@ def property_groupby_action(request):
 def property_search_result(request):
     data_value = request.GET.get("data_value")
     check_list = request.GET.getlist("check_list[]")
-    print("dataaaaa::::::::::",str(data_value))
-    #data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
-    data = intractive_map.objects.filter(UnitNo__icontains=data_value)
-    print("----------ssssssssssssssssssss")
-    print(data.values_list())
+    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
     return render(request, 'super_admin/property_search_result.html', {'data': data,'check_list':check_list})
 
 
@@ -2502,7 +2631,6 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
     return True
 
 
-
 def approve_booking_action_new(request):
     id = request.GET.get("id")
     data = intractive_map.objects.get(id=id)
@@ -2697,9 +2825,9 @@ def cancel_booking_action(request):
 
 
 def update_u_type(request):
-    for i in range(317,341):
+    for i in range(301,315):
         print(i)
-        update_intractive_map = intractive_map.objects.filter(UnitNo=i).update(UType="Semi Attached - A (Jory)")
+        update_intractive_map = intractive_map.objects.filter(UnitNo=i).update(UType="Town House (Orchid)") 
 
 
 def remove_customer_document(request):
@@ -2718,8 +2846,265 @@ def remove_customer_document(request):
     return JsonResponse({"message":"success"},safe=False)
 
 
+
+
 def plot_view_modal(request):
     id = request.GET.get("id")
     print("iddddddd:::::::::",str(id))
-    data = intractive_map_plot_view_image.objects.filter(mapping_id_id = id)
+    data1 = intractive_map.objects.get(id=id)
+    data = plot_view_master_image.objects.filter(mapping_id__unit_type=data1.UType)
     return render(request,"super_admin/plot_view_modal.html",{"data":data})
+
+
+def plot_view_master_method(request):
+    data = plot_view_master.objects.all()
+    context = {
+        'data':data,
+        'bank_nav':1
+    }
+    return render(request,'super_admin/plot_view_master.html',context)
+
+from PIL import Image
+import os
+import PIL
+import glob
+def plot_view_details(request):
+    if request.method == "POST":
+        plot_view_id = request.POST.get("plot_view_id")
+        print("plot_view_id::::",str(plot_view_id))
+        checked1 = request.POST.get('check1',False)
+        print("checked1:::::;",checked1)
+        checked2 = request.POST.get('check2',False)
+        print("checked2:::::;",checked1)
+        checked3 = request.POST.get('check3',False)
+        print("checked3:::::;",checked3)
+        
+        
+        try:
+            plot_view1 = request.FILES['plot_view1']
+            print("plot_view1::::;",plot_view1)
+           
+            try:
+                data = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view1")
+                import os
+                extesion = os.path.splitext(str(plot_view1))[1]
+                data1 = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view1")
+                if checked1 == "above_plot1":
+                    import cv2
+                    image = Image.open(plot_view1)
+                    print("image.size",image.size)
+                    resized_image = image.resize((268,349))
+                    print("resizeeeeeed:",resized_image.size)
+                    from django.conf import settings
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, 'JPEG', quality=90)
+                    image_new1 = 'plot_view_master_image/resized'+plot_view1.name
+                elif checked1 == "same_plot1":
+                    image_new1 = plot_view1
+
+                data1.attached_file = image_new1
+                data1.image_type = extesion
+                data1.image_name = plot_view1.name
+                data1.save()
+                
+            except:
+                import os
+                extesion = os.path.splitext(str(plot_view1))[1]
+                if checked1 == "above_plot1":
+                    import cv2
+                    image = Image.open(plot_view1)
+                    print("image.size",image.size)
+                    resized_image = image.resize((268,349))
+                    print("resizeeeeeed:",resized_image.size)
+                    from django.conf import settings
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, 'JPEG', quality=90)
+                    image_new1 = 'plot_view_master_image/resized'+plot_view1.name
+
+                elif checked1 == "same_plot1":
+                    image_new1 = plot_view1
+
+                
+                data_save = plot_view_master_image.objects.create(
+                mapping_id_id=plot_view_id,
+                attached_file = image_new1,
+                image_type = extesion,
+                image_name = plot_view1.name,
+                plot_type = "view1"
+
+                )
+                    
+                pass
+        except:
+            plot_view1_remove = request.POST.get("plot_view1_remove")
+            plot_view1_id = request.POST.get("plot_view1_id")
+            if plot_view1_remove == '1':
+                data_remove = plot_view_master_image.objects.filter(id=plot_view1_id).delete()
+
+            pass
+
+        try:
+            plot_view2 = request.FILES['plot_view2']
+            try:
+                data = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view2")
+                import os
+                extesion = os.path.splitext(str(plot_view2))[1]
+                data1 = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view2")
+
+                if checked2 == "above_plot2":
+                    import cv2
+                    image = Image.open(plot_view2)
+                    print("image.size",image.size)
+                    resized_image = image.resize((268,349))
+                    print("resizeeeeeed:",resized_image.size)
+                    from django.conf import settings
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name, 'JPEG', quality=90)
+                    image_new2 = 'plot_view_master_image/resized'+plot_view2.name
+                elif checked2 == "same_plot2":
+                    image_new2 = plot_view2
+
+                data1.attached_file = image_new2
+                data1.image_type = extesion
+                data1.image_name = plot_view2.name
+                data1.save()
+                
+            except:
+                import os
+                extesion = os.path.splitext(str(plot_view2))[1]
+                if checked2 == "above_plot2":
+                    import cv2
+                    image = Image.open(plot_view2)
+                    print("image.size",image.size)
+                    resized_image = image.resize((268,349))
+                    print("resizeeeeeed:",resized_image.size)
+                    from django.conf import settings
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name, 'JPEG', quality=90)
+                    image_new2 = 'plot_view_master_image/resized'+plot_view2.name
+
+                elif checked2 == "same_plot2":
+                    image_new2 = plot_view2
+                data_save = plot_view_master_image.objects.create(
+                    mapping_id_id=plot_view_id,
+                    attached_file = image_new2,
+                    image_type = extesion,
+                    image_name = plot_view2.name,
+                    plot_type = "view2"
+
+                )
+                pass
+        except:
+            plot_view2_remove = request.POST.get("plot_view2_remove")
+            plot_view2_id = request.POST.get("plot_view2_id")
+            if plot_view2_remove == '1':
+                data_remove = plot_view_master_image.objects.filter(id=plot_view2_id).delete()
+            pass
+        
+        try:
+            plot_view3 = request.FILES['plot_view3']
+            try:
+                data = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view3")
+                import os
+                extesion = os.path.splitext(str(plot_view3))[1]
+                data1 = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view3")
+
+                if checked3 == "above_plot3":
+                    import cv2
+                    image = Image.open(plot_view3)
+                    print("image.size",image.size)
+                    resized_image = image.resize((268,349))
+                    print("resizeeeeeed:",resized_image.size)
+                    from django.conf import settings
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, 'JPEG', quality=90)
+                    image_new3 = 'plot_view_master_image/resized'+plot_view3.name
+                elif checked3 == "same_plot3":
+                    image_new3 = plot_view3
+                data1.attached_file = image_new3
+                data1.image_type = extesion
+                data1.image_name = plot_view3.name
+                data1.save()
+                
+            except:
+                import os
+                extesion = os.path.splitext(str(plot_view3))[1]
+                if checked3 == "above_plot3":
+                    import cv2
+                    image = Image.open(plot_view3)
+                    print("image.size",image.size)
+                    resized_image = image.resize((268,349))
+                    print("resizeeeeeed:",resized_image.size)
+                    from django.conf import settings
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, 'JPEG', quality=90)
+                    image_new3 = 'plot_view_master_image/resized'+plot_view3.name
+                elif checked3 == "same_plot3":
+                    image_new3 = plot_view3
+                data_save = plot_view_master_image.objects.create(
+                    mapping_id_id=plot_view_id,
+                    attached_file = image_new3,
+                    image_type = extesion,
+                    image_name = plot_view3.name,
+                    plot_type = "view3"
+                )
+                pass
+        except:
+            plot_view3_remove = request.POST.get("plot_view3_remove")
+            plot_view3_id = request.POST.get("plot_view3_id")
+            if plot_view3_remove == '1':
+                data_remove = plot_view_master_image.objects.filter(id=plot_view3_id).delete()
+            pass
+        messages.success(request,"Added")
+        return redirect(request.META['HTTP_REFERER'])
+    id = request.GET.get("id")
+    data = plot_view_master.objects.get(id=id)
+
+    plot_view1 = ""
+    try:
+        plot_view1 = plot_view_master_image.objects.get(mapping_id_id=id,plot_type="view1")
+    except:
+        pass
+    
+    plot_view2 = ""
+    try:
+        plot_view2 = plot_view_master_image.objects.get(mapping_id_id=id,plot_type="view2")
+    except:
+        pass
+    
+    plot_view3 = ""
+    try:
+        plot_view3 = plot_view_master_image.objects.get(mapping_id_id=id,plot_type="view3")
+    except:
+        pass
+    
+    total_intractive = intractive_map.objects.filter(UType=data.unit_type).count()
+
+    context = {
+        'data':data,
+         'bank_nav':1,
+         'plot_view1':plot_view1,
+         'plot_view2':plot_view2,
+         'plot_view3':plot_view3,
+         'total_intractive':total_intractive
+
+    }
+    return render(request,'super_admin/plot_view_details.html',context)
+
+
+
+
+def plot_view_based_plot(request):
+    u_type = request.GET.get("u_type")
+    print("u_type:::::::",str(u_type))
+    page_obj = ""
+    page_number = request.GET.get("page")
+    data = intractive_map.objects.filter(UType=u_type)
+    checked_list = list(data.values_list('id',flat=True))
+    data_str = str(checked_list)
+    data_paginator = Paginator(data,50)
+    try:
+        page_obj = data_paginator.get_page(page_number) 
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+
+    context = {
+        "data":data,
+        'page_obj': page_obj,
+        'checked_list':checked_list
+    }
+    return render(request,'super_admin/property_management.html',context)

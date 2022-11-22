@@ -10,6 +10,8 @@ from .serializers import Intractive_mapSerializer
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
+from .decorators import *
+
 def index(request):
     return render(request,'super_admin/index.html')
 
@@ -327,6 +329,15 @@ def simple_upload(request):
                     data_code1 = 0
 
 
+                block_no = ''
+                if data[5] == None:
+                     block_no = ''
+                elif  data[5]  == '':
+                    block_no = ''
+
+                else:
+                    block_no == data[5]
+
 
                 data_new = intractive_map.objects.create(
                     Name = data[1],
@@ -388,27 +399,99 @@ def property_update(request):
         UType = request.POST.get("UType")
         Price = request.POST.get("Price")
         Bank = request.POST.get("Bank")
-        print("bank:::::",str(Bank))
         if Bank == "select bank":
             messages.error(request, "Select Bank")
             return redirect(request.META['HTTP_REFERER'])
         
         bank_mapping_id = None
         
-        bank_data = Bank_details.objects.get(bank_name=Bank)
-        bank_mapping_id = bank_data.id
+        try:
+            bank_data = Bank_details.objects.get(bank_name=Bank)
+            bank_mapping_id = bank_data.id
+        except:
+            bank_create = Bank_details.objects.create(
+                bank_name = Bank,
+                status= "Active"
+            )
+            bank_mapping_id = bank_create.id
+
         current_status = request.POST.get("current_status")
         currency = request.POST.get("currency")
         customer_id = request.POST.get("customer_id")
         attachment = None
 
         if user_type == True:
+            data = intractive_map.objects.get(id=id)
+            change_text = ''
+            if data.Name == Name:
+                pass
+            elif Name == '':
+                pass
+            else:
+                change_text += '(Customer Name changed '+str(data.Name)+" --> "+str(Name)+" )"
+            if str(data.UnitNo) == str(UnitNo):
+                pass
+            elif UnitNo == '':
+                pass
+            else:
+                change_text += '(Unit No changed '+str(data.UnitNo)+" --> "+str(UnitNo)+" )"
+            if data.BlockNo == BlockNo:
+                pass
+            elif BlockNo == '':
+                pass
+            else:
+                change_text += '(Block No changed '+str(data.BlockNo)+" --> "+str(BlockNo)+" )"
+            if data.Phoneno == Phoneno:
+                pass
+            elif Phoneno == '':
+                pass
+            else:
+                change_text += '(Phone No changed '+str(data.Phoneno)+" --> "+str(Phoneno)+" )"
+            if data.customer_id == customer_id:
+                pass
+            elif customer_id == '':
+                pass
+            else:
+                change_text += '(Customer Id changed '+str(data.customer_id)+" --> "+str(customer_id)+" )"
+            if data.UnitArea == float(UnitArea):
+                pass
+            elif UnitArea == '':
+                pass
+            else:
+                change_text += '(UnitArea changed '+str(data.UnitArea)+" --> "+str(UnitArea)+" )"
+            if data.UType == UType:
+                pass
+            elif UType == '':
+                pass
+            else:
+                change_text += '(UType changed '+str(data.UType)+" --> "+str(UType)+" )"
+            if int(data.Price) == int(data.Price):
+                pass
+            elif Price == '':
+                pass
+            else:
+                change_text += '(Price changed '+str(data.Price)+" --> "+str(Price)+" )"
+            if data.Bank == Bank:
+                pass
+            elif Bank == '':
+                pass
+            else:
+                change_text += '(Bank changed '+str(data.Bank)+" --> "+str(Bank)+" )"
+            
+
+
+            
 
         
         
             try:
                 data_file = request.FILES.getlist('attachment')
+                if len(data_file) == 0:
+                    pass
+                else:
+                    change_text += "(Add New Files "
                 for i in data_file:
+                    change_text +=str(i.name)+","
                     import os
                     extesion = os.path.splitext(str(i))[1]
                     data_save = intractive_map_multiple_image(
@@ -419,6 +502,10 @@ def property_update(request):
                         image_name= i.name
                     )
                     data_save.save()
+                if len(data_file) == 0:
+                    pass
+                else:
+                    change_text += ")"
 
             except:
                 pass
@@ -437,12 +524,71 @@ def property_update(request):
                 customer_id = customer_id,
                 bank_relation_id_id = bank_mapping_id
             )
+            if change_text == '':
+                pass
+            else:
+                booking_log1 = booking_log.objects.create(
+                    intractive_map_id_id = id,
+                    auth_user = request.user,
+                    user_type = "administrator",
+                    d_text = change_text,
+                    status_content = "updated",
+                    log_type="field_update",
+
+
+                )
             try:
                 data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
                 update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
             except:
                 pass
         else:
+            data = intractive_map.objects.get(id=id)
+            change_text = ''
+            if data.Name == Name:
+                pass
+            elif Name == '':
+                pass
+            else:
+                change_text += '(Customer Name changed '+str(data.Name)+" --> "+str(Name)+" )"
+            if data.Phoneno == Phoneno:
+                pass
+            elif Phoneno == '':
+                pass
+            else:
+                change_text += '(Phone No changed '+str(data.Phoneno)+" --> "+str(Phoneno)+" )"
+            if data.customer_id == customer_id:
+                pass
+            elif customer_id == '':
+                pass
+            else:
+                change_text += '(Customer Id changed '+str(data.customer_id)+" --> "+str(customer_id)+" )"
+            if int(data.Price) == int(data.Price):
+                pass
+            elif Price == '':
+                pass
+            else:
+                change_text += '(Price changed '+str(data.Price)+" --> "+str(Price)+" )"
+            if data.Bank == Bank:
+                pass
+            elif Bank == '':
+                pass
+            else:
+                change_text += '(Bank changed '+str(data.Bank)+" --> "+str(Bank)+" )"
+            if change_text == '':
+                pass
+            else:
+                booking_log1 = booking_log.objects.create(
+                    intractive_map_id_id = id,
+                    auth_user = request.user,
+                    user_type = "staff",
+                    d_text = change_text,
+                    status_content = "updated",
+                    log_type="field_update",
+
+
+                )
+            
             data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,  Name=Name,
                 Bank =Bank, currency = currency,customer_id = customer_id,bank_relation_id_id = bank_mapping_id)
             try:
@@ -450,6 +596,103 @@ def property_update(request):
                 update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
             except:
                 pass
+        
+        try:
+            plotview1 = request.FILES['plotview1']
+            try:
+                data1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
+                import os
+                extesion = os.path.splitext(str(plotview1))[1]
+                data4 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
+                data4.attached_file = plotview1
+                data4.image_type = extesion
+                data4.image_name = plotview1.name
+                data4.plot_type = "view1"
+                data4.save()
+            except:
+                import os
+                extesion = os.path.splitext(str(plotview1))[1]
+                insert_view1_img = intractive_map_plot_view_image(
+                    mapping_id_id=id,
+                    attached_file = plotview1,
+                    image_type = extesion,
+                    image_name = plotview1.name,
+                    plot_type = "view1"
+
+                )
+                insert_view1_img.save()
+                pass
+        except:
+            plot_view1_remove = request.POST.get("plot_view1_remove")
+            if plot_view1_remove == '1':
+                plot_view1_id = request.POST.get("plot_view1_id")
+                data_remove_img = intractive_map_plot_view_image.objects.filter(id=plot_view1_id).delete()
+            pass
+        try:
+            plotview2 = request.FILES['plotview2']
+            try:
+                data1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view2")
+                import os
+                extesion = os.path.splitext(str(plotview2))[1]
+                data4 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view2")
+                data4.attached_file = plotview2
+                data4.image_type = extesion
+                data4.image_name = plotview2.name
+                data4.plot_type = "view2"
+                data4.save()
+            except:
+                import os
+                extesion = os.path.splitext(str(plotview2))[1]
+                insert_view1_img = intractive_map_plot_view_image(
+                    mapping_id_id=id,
+                    attached_file = plotview2,
+                    image_type = extesion,
+                    image_name = plotview2.name,
+                    plot_type = "view2"
+
+                )
+                insert_view1_img.save()
+                pass
+
+        except:
+            plot_view2_remove = request.POST.get("plot_view2_remove")
+            if plot_view2_remove == '1':
+                plot_view2_id = request.POST.get("plot_view2_id")
+                data_remove_img = intractive_map_plot_view_image.objects.filter(id=plot_view2_id).delete()
+            pass
+            pass
+        try:
+            plotview3 = request.FILES['plotview3']
+            try:
+                data1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view3")
+                import os
+                extesion = os.path.splitext(str(plotview3))[1]
+                data4 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view3")
+                data4.attached_file = plotview3
+                data4.image_type = extesion
+                data4.image_name = plotview3.name
+                data4.plot_type = "view3"
+                data4.save()
+            except:
+                import os
+                extesion = os.path.splitext(str(plotview3))[1]
+                insert_view1_img = intractive_map_plot_view_image(
+                    mapping_id_id=id,
+                    attached_file = plotview3,
+                    image_type = extesion,
+                    image_name = plotview3.name,
+                    plot_type = "view3"
+
+                )
+                insert_view1_img.save()
+                pass
+
+        except:
+            plot_view3_remove = request.POST.get("plot_view3_remove")
+            if plot_view3_remove == '1':
+                plot_view3_id = request.POST.get("plot_view3_id")
+                data_remove_img = intractive_map_plot_view_image.objects.filter(id=plot_view3_id).delete()
+            pass
 
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
@@ -475,9 +718,23 @@ def property_update(request):
         #     pass
 
         bank_details = Bank_details.objects.filter(status="Active")
-        print("valll:::::",str(currency_price))
         cv = str(currency_price).replace(" ", "")
-        
+        plot_view1 = None
+        try:
+            plot_view1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
+        except:
+            pass
+        plot_view2 = None
+        try:
+            plot_view2 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view2")
+        except:
+            pass
+        plot_view3 = None
+        try:
+            plot_view3 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view3")
+        except:
+            pass
+
 
         context = {
             'data':data,
@@ -486,7 +743,10 @@ def property_update(request):
            
             'user_type':user_type,
             'bank_details':bank_details,
-            'currency_price':cv
+            'currency_price':cv,
+            'plot_view1':plot_view1,
+            'plot_view2':plot_view2,
+            'plot_view3':plot_view3
         }
         return render(request,'super_admin/property_update.html',context)
 
@@ -548,12 +808,33 @@ def update_user_action(request):
         manager_nav_ploat_permission = request.POST.get("manager_nav_ploat_permission")
         manager_nav_user_permission = request.POST.get("manager_nav_user_permission")
         manager_nav_plot_edit_permission = request.POST.get("manager_nav_plot_edit_permission")
+        manager_nav_customer_read_permission = request.POST.get("manager_nav_customer_read_permission")
+        manager_nav_customer_write_permission = request.POST.get("manager_nav_customer_write_permission")
+        manager_nav_customer_edit_permission = request.POST.get("manager_nav_customer_edit_permission")
+        manager_nav_document_read_permission = request.POST.get("manager_nav_document_read_permission")
+        manager_nav_document_write_permission = request.POST.get("manager_nav_document_write_permission")
+        manager_nav_document_edit_permission = request.POST.get("manager_nav_document_edit_permission")
+        manager_nav_booking_cancel_permission = request.POST.get("manager_nav_booking_cancel_permission")
         if manager_nav_ploat_permission == None:
             manager_nav_ploat_permission = 0
         if manager_nav_user_permission == None:
             manager_nav_user_permission = 0
         if manager_nav_plot_edit_permission == None:
             manager_nav_plot_edit_permission = 0
+        if manager_nav_customer_read_permission == None:
+            manager_nav_customer_read_permission = 0
+        if manager_nav_customer_write_permission == None:
+            manager_nav_customer_write_permission = 0
+        if manager_nav_customer_edit_permission == None:
+            manager_nav_customer_edit_permission = 0
+        if manager_nav_document_read_permission == None:
+            manager_nav_document_read_permission = 0
+        if manager_nav_document_write_permission == None:
+            manager_nav_document_write_permission = 0
+        if manager_nav_document_edit_permission == None:
+            manager_nav_document_edit_permission = 0
+        if manager_nav_booking_cancel_permission == None:
+            manager_nav_booking_cancel_permission = 0
         user_instance = user_Details.objects.get(id=updated_id)
         change_text = ''
         if user_instance.name == name:
@@ -604,10 +885,14 @@ def update_user_action(request):
             property_access = property_access,
             manager_nav_ploat_permission = manager_nav_ploat_permission,
             manager_nav_user_permission = manager_nav_user_permission,
-            manager_nav_plot_edit_permission = manager_nav_plot_edit_permission
-
-
-
+            manager_nav_plot_edit_permission = manager_nav_plot_edit_permission,
+            manager_nav_customer_read_permission = manager_nav_customer_read_permission,
+            manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+            manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+            manager_nav_document_read_permission = manager_nav_document_read_permission,
+            manager_nav_document_write_permission=manager_nav_document_write_permission,
+            manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+            manager_nav_booking_cancel_permission = manager_nav_booking_cancel_permission
         )
         print("password_select:::::",str(password_select))
         if password_select == "yes":
@@ -664,8 +949,6 @@ def update_user_action(request):
 
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
-        
-
 
 
 def login_action(request):
@@ -768,7 +1051,7 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
                     except:
                         pass
 
@@ -802,7 +1085,7 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                            data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
                     except:
                         pass
                 
@@ -832,7 +1115,7 @@ def booking_action(request):
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
                         status_content = 'Available'+"-->"+"Price Quotation"
-                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id=plot_id_mapping_id)
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
                         arabic_status = None
                         try:
@@ -866,7 +1149,7 @@ def booking_action(request):
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
                         status_content = 'Available'+"-->"+"Price Quotation"
-                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id=plot_id_mapping_id)
+                        save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
                         arabic_status = None
                         try:
@@ -881,6 +1164,8 @@ def booking_action(request):
             
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
+
+
 
 
 @login_required(login_url='/')
@@ -1007,7 +1292,7 @@ def cancel_booking_action_new_method(request):
             text_content = "Booking report cancelled(Administrator)"
         else:
 
-            text_content = "Booking report cancelled(originally assigned to "+assigned_user_name+")"
+            text_content = "Booking report cancelled"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=data.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=id)
         save_log.save()
@@ -1035,6 +1320,7 @@ def cancel_booking_action_new_method(request):
 
     messages.success(request,"You successfully cancelled")
     return redirect(request.META['HTTP_REFERER'])
+
 
 
 @login_required(login_url='/')
@@ -1106,6 +1392,7 @@ def rest_to_available_booking_action(request):
 
     messages.success(request,"You successfully Reset")
     return redirect(request.META['HTTP_REFERER'])
+
 
 
 
@@ -1211,7 +1498,9 @@ def user_based_property_delete(request):
 
 def next_page_action_url_property(request):
     page_number = request.GET.get("page")
-    check_list = request.GET.getlist("check_list[]")
+    check_list = request.POST.getlist("check_list[]")
+    print("page_number:::::",str(page_number))
+    print("qqqqq::::ssssssssssssssssss:::::::::::::::",str(check_list))
     data = intractive_map.objects.all()
     data_paginator = Paginator(data, 10)
     try:
@@ -1242,7 +1531,11 @@ def property_groupby_action(request):
 def property_search_result(request):
     data_value = request.GET.get("data_value")
     check_list = request.GET.getlist("check_list[]")
-    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+    print("dataaaaa::::::::::",str(data_value))
+    #data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+    data = intractive_map.objects.filter(UnitNo__icontains=data_value)
+    print("----------ssssssssssssssssssss")
+    print(data.values_list())
     return render(request, 'super_admin/property_search_result.html', {'data': data,'check_list':check_list})
 
 
@@ -1556,7 +1849,7 @@ def admin_book_plot_action(request):
 
 
 
-
+@decorator_fn('user_type')
 def customer_management(request):
     data = Customer_details.objects.all().order_by("-id")
     page_number = request.GET.get("page")
@@ -1581,7 +1874,7 @@ def customer_more_details(request):
     except:
         pass
     booking_history = user_request_plot.objects.filter(customer_id_id=data.id).order_by("-id")
-    bank_instance = Bank_details.objects.all()
+    bank_instance = Bank_details.objects.filter(status="Active")
     booking_history_count = booking_history.count()
 
     document_count = 0
@@ -1966,7 +2259,7 @@ def property_more_details_page(request):
     return render(request,'super_admin/property_more_details_page.html',context)
 
 
-
+@decorator_fn('document_read')
 def view_customer_document(request):
     id = request.GET.get("id")
     data =  Customer_details.objects.get(id=id)
@@ -1976,7 +2269,7 @@ def view_customer_document(request):
     }
     return render(request,'super_admin/view_customer_document.html',context)
 
-
+@decorator_fn('document_write')
 def create_customer_document(request):
     if request.method == "POST":
         id = request.POST.get("id")
@@ -2165,8 +2458,6 @@ def Bank_status_group_by_action_card_view(request):
 
 
 def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
-    
-    print("idddd::::",id)
     data = user_request_plot.objects.get(id=id)
     
     user_type = user_type
@@ -2185,7 +2476,7 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
             text_content = "Booking report approval done (Administrator)"
         else:
 
-            text_content = "Booking report approval done (originally assigned to "+assigned_user_name+")"
+            text_content = "Booking report approval done "
         status_content = current_status+"-->"+"Approved"
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
@@ -2209,6 +2500,8 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
     data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=2,read_status=1)
 
     return True
+
+
 
 def approve_booking_action_new(request):
     id = request.GET.get("id")
@@ -2283,7 +2576,6 @@ def approve_booking_action_new(request):
 
 def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
     id  = id
-    print("id:::::::::::::::::::nnn:::::",str(id))
     data = user_request_plot.objects.get(id=id)
     
     user_type = user_type1
@@ -2302,7 +2594,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
             text_content = "Booking report cancel done (Administrator)"
         else:
 
-            text_content = "Booking report cancel done)"
+            text_content = "Booking report cancel done"
         status_content = 'Price Quotation --> Reset to Available'
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
@@ -2317,7 +2609,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
         status_content = 'Price Quotation --> Reset to Available'
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
-    data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0)
+    data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0,read_status=1,booking_status=3)
     arabic_status = None
     try:
         data34 = status_code.objects.get(status_code=0)
@@ -2328,6 +2620,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
     
 
     return True
+
 
 
 def cancel_booking_action(request):
@@ -2404,6 +2697,29 @@ def cancel_booking_action(request):
 
 
 def update_u_type(request):
-    for i in range(211,257):
+    for i in range(317,341):
         print(i)
-        update_intractive_map = intractive_map.objects.filter(UnitNo=i).update(UType="Villa - A (Lavender)")
+        update_intractive_map = intractive_map.objects.filter(UnitNo=i).update(UType="Semi Attached - A (Jory)")
+
+
+def remove_customer_document(request):
+    file_name = request.GET.get('file_name')
+    id = request.GET.get("id")
+    cust_doc = Customer_details.objects.get(id = id)
+    if file_name == "customer_doc_id":
+        cust_doc.customer_doc_id = ''
+    elif file_name == "contract_certi":
+        cust_doc.contract_certi = ''
+    elif file_name == "tax_certificate":
+        cust_doc.tax_certificate = ''
+    elif file_name == "other_document":
+        cust_doc.other_document = ''
+    cust_doc.save()
+    return JsonResponse({"message":"success"},safe=False)
+
+
+def plot_view_modal(request):
+    id = request.GET.get("id")
+    print("iddddddd:::::::::",str(id))
+    data = intractive_map_plot_view_image.objects.filter(mapping_id_id = id)
+    return render(request,"super_admin/plot_view_modal.html",{"data":data})

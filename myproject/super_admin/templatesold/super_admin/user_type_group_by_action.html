@@ -1,0 +1,152 @@
+{% load static %}
+
+	<div class="col-md-12">
+    	<div class="panel panel-default">
+				<div class="panel-heading">
+					
+				</div>
+        <div class="panel-body">
+					<table class="table table-condensed table-striped">
+    <thead>
+        <!-- <tr>a
+					<th></th>
+          <th>Fist Name</th>
+          <th>Last Name</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Status</th>
+        </tr> -->
+    </thead>
+
+    <tbody>
+        <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+           <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;&nbsp;Manger ({{data_total_manager|length}})</button></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          	<td></td>
+        </tr>
+			
+        <tr>
+            <td colspan="12" class="hiddenRow">
+							<div class="accordian-body collapse" id="demo1"> 
+              <table class="table table-striped">
+                      <thead>
+                        <tr class="info">
+													<th>Name</th>
+													<th>Phone</th>
+													<th>Email</th>		
+													<th>Mobile</th>	
+													<th>Created At</th>	
+													<th>Type</th>	
+												</tr>
+											</thead>	
+								  		
+											<tbody>
+												{% for i in data_total_manager %}
+                        <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10" onclick="window.location='user_edit?id={{i.id}}'">
+                                                    {% if i.atatchment == "" %}
+                                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                    </td>
+                                                    {% else %}
+                                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                    </td>
+                                                    {% endif %}
+													<td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
+                                        </td>
+                                        <td class="product_name">{{i.email}}</td>
+
+                                        <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
+													<td> {{i.dt}}</td>
+													<td> 
+													{{i.user_type}}
+													</td>
+												</tr>
+                                                {% endfor %}
+												
+		
+												
+			
+								
+               
+                      </tbody>
+               	</table>
+              
+              </div> 
+          </td>
+        </tr>
+        <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
+            <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;&nbsp;Salesman ({{data_total_salesman|length}})</button></td>
+             <td></td>
+             <td></td>
+             <td></td>
+             <td></td>
+               <td></td>
+         </tr>
+             
+         <tr>
+             <td colspan="12" class="hiddenRow">
+                             <div class="accordian-body collapse" id="demo2"> 
+                                <table class="table table-striped">
+                                    <thead>
+                                      <tr class="info">
+                                                                  <th>Name</th>
+                                                                  <th>Phone</th>
+                                                                  <th>Email</th>		
+                                                                  <th>Mobile</th>	
+                                                                  <th>Created At</th>	
+                                                                  <th>Type</th>	
+                                                              </tr>
+                                                          </thead>	
+                                                        
+                                                          <tbody>
+                                                              {% for i in data_total_salesman %}
+                                      <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
+                                                                  {% if i.atatchment == "" %}
+                                                                  <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                                  </td>
+                                                                  {% else %}
+                                                                  <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+                                                                        class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                                                  </td>
+                                                                  {% endif %}
+                                                                  <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
+                                                                    </td>
+                                                                    <td class="product_name">{{i.email}}</td>
+
+                                                                    <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
+                                                                  <td> {{i.dt}}</td>
+                                                                  <td> 
+                                                                  {{i.user_type}}
+                                                                  </td>
+                                                              </tr>
+                                                              {% endfor %}
+                                                              
+                      
+                                                              
+                          
+                                              
+                             
+                                    </tbody>
+                                 </table>
+               
+               </div> 
+           </td>
+         </tr>
+      
+	
+
+    
+    </tbody>
+</table>
+            </div>
+        
+          </div> 
+        
+      </div>
+
+       

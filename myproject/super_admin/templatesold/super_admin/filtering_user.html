@@ -1,0 +1,46 @@
+{% load static %}
+{% for i in data  %}
+<tr>
+<!--    <th scope="row">-->
+<!--        <input-->
+<!--            class="form-check-input checkField"-->
+<!--            type="checkbox"-->
+<!--            data-checkall-group="group1"-->
+<!--            id="checkbox1-1">-->
+<!--    </th>-->
+    {% if i.atatchment == "" %}
+    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="user_edit?id={{i.id}}"
+            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+    </td>
+    {% else %}
+    <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.atatchment}}" class="m-1"/><a href="user_edit?id={{i.id}}"
+            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+    </td>
+    {% endif %}
+    <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>&nbsp;{{i.phone}}
+    </td>
+    <td class="product_name">{{i.email}}</td>
+
+    <td class="date"><i class="fa fa-mobile m-1" style="font-size: 9px;"></i>&nbsp;{{i.mobile}}</td>
+    <td class="company">
+        {% if i.user_type == "manager" %}
+        <span
+            class="badge badge-soft-success text-uppercase">Manager</span>
+        {% elif i.user_type == "salesman"  %}
+        <span style="color: red!important"
+            class="badge badge-soft-success text-uppercase">Salesman</span>
+
+        {% endif %}
+        </td>
+    <td class="status">{{i.dt}}
+    </td>
+<!--    <td>-->
+<!--        <a href="user_edit?id={{i.id}}"><i style="color: black;" class="fas fa-edit"></i></a>-->
+<!--    </td>-->
+
+</tr>
+
+{% endfor %}
+
+
+<h6>{{data1}}</h6>

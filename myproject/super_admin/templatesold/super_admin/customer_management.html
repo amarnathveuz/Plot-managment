@@ -1,0 +1,545 @@
+{% extends "super_admin/base10.html" %}
+
+{% load static %}
+{% block content %}
+<div class="container-fluid px-0">
+    <div class="row">
+        <div class="col-12 buttns">
+            <h5>Customer Management</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-4 px-0">
+    <div class="tab-content">
+
+        <div class="tab-content contnt" id="demo_result_employee">
+
+        <div class="tab-pane active" id="home1" role="tabpanel">
+
+            <div class="d-flex align-items-center justify-content-between px-2">
+                <div class="col-md-4 px-0">
+                    <!-- <a href="create_property"><button type="button"
+                            class="btn btn-prim add-btn create-button"><i
+                                class="fas fa-plus"></i>
+                            Create
+                        </button></a>
+     -->
+                    <!-- <button onclick="Export()" type="button"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns"
+                        data-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title=""
+                        data-bs-original-title="Import">
+                        <i class="fas fa-upload"></i>
+                    </button> -->
+
+
+
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Export">
+                        <i class="fas fa-download"></i>
+                    </button>
+
+
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Favourite">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Print">
+                        <i class="fas fa-print"></i>
+                    </button>
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon" data-toggle="tooltip"
+                        data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title="Archive">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="d-flex align-items-center">
+
+                    <span class="text-muted d-flex align-items-center">
+                        {% if page_obj.has_previous %}
+                        <a class="next_page_action"
+                            data-url="next_page_action_url_Customer_details?page={{page_obj.previous_page_number}}"
+                            style="color: black;" href="#"><i
+                                class="fas fa-caret-left mr-2 pagintn text-muted pagination_minus"
+                                style="font-size: 20px;margin-top: 3px;"></i></a>
+                        {% endif %}
+
+                        <i class="text-muted" style="font-size: 13.5px;">Showing
+                            {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</i>
+
+                        {% if page_obj.has_next %}
+                        <a class="next_page_action"
+                            data-url="next_page_action_url_Customer_details?page={{page_obj.next_page_number}}"
+                            style="color: black;" href="#"><i
+                                class="fas fa-caret-right ml-2 pagintn text-muted pagination_add"
+                                style="font-size: 20px;margin-top: 3px;"></i></a>
+                        {% endif %}
+                    </span>
+
+
+                    <input type="text" class="form-cont ml-2" placeholder="Search..." autocomplete="off" id="search_value"
+                    value="" onkeyup="myFunction()">
+    
+                    <div class="dropdown btn-group fitr">
+                        <button type="button" class="btn btn-prim dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-filter"></i>
+                            Filters
+                        </button>
+    
+                        <div class="dropdown-menu">
+    
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Name</a>
+                                <div class="drpdwn-menu">
+                                   <input id="filter_value1" type="text" class="form-control" placeholder="Name">
+                                   <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('name')">
+                                    Apply
+                                    </button>
+                                </div> 
+                            </li>
+    
+    
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Customer Id</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value2" type="text" class="form-control" placeholder="customer id">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('customer_id')">
+                                     Apply
+                                     </button>
+                                 </div>
+                            </li>
+
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Phone</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value3" type="number" class="form-control" placeholder="phone">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('phone')">
+                                     Apply
+                                     </button>
+                                 </div>
+                            </li>
+    
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Bank</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value4" type="text" class="form-control" placeholder="bank">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('bank')">
+                                     Apply
+                                     </button>
+                                 </div></li>
+    
+    
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Created By</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value5" type="email" class="form-control" placeholder="Created by (mail id)">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('created_by')">
+                                     Apply
+                                     </button>
+                                 </div></li>
+
+                                 <li><a class="dropdown-item dropdown-submenu" href="#">Created At</a>
+                                    <div class="drpdwn-menu">
+                                        <input id="filter_value6" type="date" class="form-control" placeholder="Created at">
+                                        <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('created_at')">
+                                         Apply
+                                         </button>
+                                     </div></li>
+    
+                             
+                        </div>
+                        
+                    </div>
+    
+
+
+
+                    <div class="dropdown btn-group grpby">
+                        <button type="button" class="btn btn-prim mx-1 dropdown-toggle" data-toggle="dropdown"> <i
+                                class="fas fa-bars"></i>
+                            Group By
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#"><div class="form-check">
+                                <input type="checkbox" name="checkfield" id="g01-01"  onmouseover="hoverdata()"> &nbsp;Booking Based
+                              </div></a>
+                             
+                        </div>
+                    </div>
+
+
+
+
+                    
+                    <ul class="nav nav-tabs nav-ta" role="tablist">
+                        <li class="nav-item mx-1">
+                            <a class="nav-link kan-tab active" data-toggle="tab" href="#ho" role="tab"
+                                aria-selected="false">
+                                <i class="fas fa-list"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link kan-tab" data-toggle="tab" href="#pro" role="tab" aria-selected="false">
+                                <i class="fas fa-th-large"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+            <input type="hidden" id="pagination_count" name="">
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="ho" role="tabpanel">
+                    <div class="table-responsive mb-1  mt-2">
+                        <table class="table table-nowrap align-middle user_table"  id="orderTable">
+                            <thead class="table-light">
+                                <tr class="text-uppercase">
+
+                                    <th class="sort" data-sort="customer_name">
+                                        Name</th>
+
+                                    <th class="sort" data-sort="date">Customer ID</th>
+                                    <th class="sort" data-sort="date">Phone</th>
+                                    <!-- <th class="sort" data-sort="amount">Amount</th>
+                                                <th class="sort" data-sort="payment">Payment Method</th> -->
+
+                                    <th class="sort" data-sort="company">
+                                        Bank
+                                    </th>
+                                    <th class="sort" data-sort="company">
+                                        Created By
+                                    </th>
+                                    <th class="sort" data-sort="company">
+                                        Created At
+                                    </th>
+
+
+
+                                    <!-- <th class="sort" data-sort="action">Action</th> -->
+                                </tr>
+                            </thead>
+
+
+                            <tbody class="list form-check-all append_search_result">
+                                {% for i in page_obj %}
+                                <tr>
+
+                                    {% if i.profile_pic == '' %}
+                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                    </td>
+                                    {% elif i.profile_pic == None %}
+
+                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                        class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                    </td>
+
+                                    {% else %}
+                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.profile_pic}}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                                    </td>
+                                    {% endif %}
+
+                                    <td>
+                                        {{i.customer_id}}
+                                    </td>
+
+                                    <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>
+                                        {% if i.phone == None %}
+                                        {% else %}
+                                        {{i.phone}}
+                                        {% endif %}
+                                    </td>
+                                    <td class="product_name">{{i.bank}}</td>
+                                    <td class="date">
+
+                                        {% if i.created_by == None %}
+
+                                        {% else %}
+
+                                        {{i.created_by}}
+
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{i.dt}}
+                                    </td>
+
+
+                                </tr>
+
+                                {% endfor %}
+
+
+                            </tbody>
+                        </table>
+
+                        <div class="user_table1 container-fluid"></div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="tab-pane" id="pro" role="tabpanel">
+                    <div class='app'>
+                        <main class='project' style="display: flex; flex: 1 1 auto; overflow-x: scroll;">
+
+                            <div class='project-tasks1 mb-1 append_card_view'>
+                                {% for i in data %}
+
+                                <div class='project-column'>
+                                    <a href="customer_more_details?id={{i.id}}" style="text-decoration: none;color: black">
+                                    <div class="customer-bx">
+                                        {% if data.profile_pic == '' %}
+                                        <div class="cust-img"
+                                        style="background-image: url({% static 'adminicon.jpg' %});"></div>
+
+                                        {% elif data.profile_pic == None %}
+
+                                        <div class="cust-img"
+                                        style="background-image: url({% static 'adminicon.jpg' %});"></div>
+    
+                                        {% else %}
+    
+                                        <div class="cust-img"
+                                        style="background-image: url('../media/{{data.profile_pic}}');"></div>
+                                        {% endif %}
+
+                                         
+                                        <div class="customer-content">
+
+                                            <h5>{{i.name}}</h5>
+                                            <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
+                                            <span class="d-flex"><h6>Customer Id : </h6> {{i.customer_id}}</span>
+                                            <span class="d-flex"><h6>Bank : </h6> {{i.bank}}</span>
+                                            <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
+                                            <span class="d-flex"><h6>Created By : </h6> {{i.created_by}}</span>
+
+                                        </div>
+
+                                    </div>
+                                </a>
+                                </div>
+                            {% endfor %}
+
+
+    
+
+                            </div>
+                        </main>
+
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <br>
+
+        </div>
+
+    </div>
+</div>
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+    function myFunction(){
+        $(".user_table").show()
+        $(".user_table1").hide()
+        var x = document.getElementById("search_value").value;
+        redirect_url = "Customer_detail_search_result"
+        $.ajax({
+            url : redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+            $(".append_search_result").empty().append(data)
+
+            card_view_redirect_url = 'Customer_search_card_view'
+
+        $.ajax({
+            url : card_view_redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+
+                // alert(data)
+            $(".append_card_view").empty().append(data)
+            }
+        })
+
+            }
+        })
+    
+    }
+</script>
+
+
+<script>
+
+    pagination_count = 1
+    $(".pagination_add").click(function () {
+        pagination_count = pagination_count + 1
+        $("#pagination_count").val(pagination_count)
+
+
+    })
+
+    $(".pagination_minus").click(function () {
+        pagination_count = pagination_count - 1
+        $("#pagination_count").val(pagination_count)
+
+
+    })
+</script>
+
+
+<script>
+    $(".next_page_action").click(function () {
+        var url = $(this).attr('data-url')
+        $.ajax({
+            url: url,
+            data: {
+
+            },
+            success: function (data) {
+                $("#demo_result_employee").empty().append(data);
+            }
+        })
+    })
+</script>
+
+
+
+
+
+<script>
+    function submit_filter(type){
+        $(".user_table").show()
+        $(".user_table1").hide()
+    if (type == "name") {
+        var x = document.getElementById("filter_value1").value;
+    }
+    else if (type == "customer_id") {
+        var x = document.getElementById("filter_value2").value;
+    }
+    else if (type == "phone") {
+        var x = document.getElementById("filter_value3").value;
+    }
+    else if (type == "bank") {
+        var x = document.getElementById("filter_value4").value; 
+    }
+    else if (type == "created_by") {
+        var x = document.getElementById("filter_value5").value; 
+    }
+    else {
+        var x = document.getElementById("filter_value6").value;
+    }
+        redirect_url = "filtering_customer"
+        $.ajax({
+            url : redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+            $(".append_search_result").empty().append(data)
+
+
+            card_view_redirect_url = 'Customer_search_card_view'
+        $.ajax({
+            url : card_view_redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+
+            $(".append_card_view").empty().append(data)
+            }
+        })
+            }
+        })
+    }
+
+</script>
+
+
+<script>
+
+function hoverdata() {
+    let checkbox = document.getElementById("g01-01");
+    if (checkbox.checked) {
+        document.getElementById("g01-01").checked = false;
+        $(".user_table1").hide()
+        $(".user_table").show()
+    }
+    else
+    {
+        document.getElementById("g01-01").checked = true;
+    
+        redirect_group_by_url = 'customer_name_group_by_action'
+        $.ajax({
+            url: redirect_group_by_url,
+            data: {
+                'status': 'type'
+            },
+            type: 'GET',
+            success: function (data) {
+                $(".user_table1").show()
+                $(".user_table").hide()
+
+                $(".user_table1").empty().append(data)
+
+                var card_view_redirect_url = 'customer_name_group_by_action_card_view'
+                $.ajax({
+                    url: card_view_redirect_url,
+                    data: {
+                        'status': 'type'
+                    },
+                    success: function (data) {
+
+
+                        $(".append_card_view").empty().append(data);
+                    }
+                })
+
+
+            }
+
+        })
+
+    }
+}
+</script>
+
+
+
+<script>
+    function Export() {
+
+        url = check_list
+
+        alert("check_list" + check_list)
+
+        window.location.href = "/export_excel/?selected_data=" + url
+
+    }
+</script>
+
+
+{% endblock %}

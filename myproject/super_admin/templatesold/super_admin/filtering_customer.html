@@ -1,0 +1,43 @@
+{% for i in data %}
+<tr>
+
+    <td class="id"><a href="customer_more_details?id={{i.id}}" class="fw-medium link-primary">
+            {% if i.name == None %}
+            {% else %}
+            {{i.name}}
+            {% endif %}
+        </a>
+    </td>
+    
+
+    <td>
+        {{i.customer_id}}
+    </td>
+
+    <td class="customer_name">
+        {% if i.phone == None %}
+        {% else %}
+        {{i.phone}}
+        {% endif %}
+    </td>
+    <td class="product_name">{{i.bank}}</td>
+    <td class="date">
+
+        {% if i.created_by == None %}
+
+        {% else %}
+
+        {{i.created_by}}
+
+        {% endif %}
+    </td>
+    <td>
+        {{i.dt}}
+    </td>
+</tr>
+
+{% empty %}
+
+<tr><td colspan="8"><center>Currently no Data Available</center></td></tr>
+
+{% endfor %}

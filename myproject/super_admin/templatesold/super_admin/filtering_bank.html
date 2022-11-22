@@ -1,0 +1,37 @@
+{% for i in data  %}
+
+<tr onclick="window.location='bank_detail_edit?id={{i.id}}'">
+    <td class="id"><a href="bank_detail_edit?id={{i.id}}"
+            class="fw-medium link-primary">{{i.bank_name}}</a>
+    </td>
+    <td class="customer_name">{{i.bank_identifier_code}}
+    </td>
+
+    <td class="status">{{i.swift_code}}
+    </td>
+    <td class="product_name">{{i.address}}</td>
+
+    <td class="status">{{i.branch}}
+    </td> 
+
+    <td class="date">{{i.country}}</td>
+    
+    <td class="company">
+        {% if i.status == "Active" %}
+        <span class="badge badge-soft-success text-uppercase">Active</span>
+        {% elif i.status == "Inactive"  %}
+        <span style="color: red!important"
+            class="badge badge-soft-success text-uppercase">Inactive</span>
+
+        {% endif %}
+        </td>
+
+    <td class="status">{{i.dt}}
+    </td>
+</tr>
+
+{% empty %}
+
+<tr><td colspan="8"><center>Currently no Data Available</center></td></tr>
+
+{% endfor %}

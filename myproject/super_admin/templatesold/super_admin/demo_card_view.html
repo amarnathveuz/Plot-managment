@@ -1,0 +1,503 @@
+{% extends "super_admin/base10.html" %}
+
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="tab-content contnt" id="demo_result_employee">
+        <div class="tab-pane active" id="home1" role="tabpanel">
+
+            <div
+                class="d-flex align-items-center justify-content-between px-2">
+                <div class="col-md-4 px-0">
+                    <a href="create_user"><button type="button"
+                            class="btn btn-prim add-btn create-button"><i
+                                class="fas fa-plus"></i>
+                            Create
+                        </button></a>
+
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                        data-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title=""
+                        data-bs-original-title="Import">
+                        <i class="fas fa-upload"></i>
+                    </button>
+                    <button type="button"  style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                        data-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title=""
+                        data-bs-original-title="Export">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button type="button"  style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                        data-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title=""
+                        data-bs-original-title="Favourite">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button"  style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                        data-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title=""
+                        data-bs-original-title="Print">
+                        <i class="fas fa-print"></i>
+                    </button>
+                    <button type="button" style="display:none;"
+                        class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
+                        data-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title=""
+                        data-bs-original-title="Archive">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-caret-left mr-1 pagintn text-muted pagination_minus"></i>
+                    <span class="text-muted">
+                        {% if page_obj.has_previous %}
+                            <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.previous_page_number}}"  style="color: black;" href="#">Previous </a>
+                        {% endif %}
+                        <span>{{page_obj.number}}</span>
+                        {% if page_obj.has_next %}
+                            <a class="next_page_action" data-url="next_page_action_url_user?page={{page_obj.next_page_number}}"  style="color: black;" href="#">Next </a>
+                        {% endif %}
+                    </span>
+                    <i class="fas fa-caret-right ml-1 pagintn text-muted pagination_add"></i>
+                    <input type="text" class="form-cont ml-2"
+                        placeholder="Search..." autocomplete="off"
+                        id="search_value" value="" onkeyup="myFunction()">
+
+                    <div class="dropdown btn-group fitr">
+                        <button type="button" class="btn btn-prim dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-filter"></i>
+                            Filters
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Name</a>
+                                <div class="drpdwn-menu">
+                                   <input id="filter_value1" type="text" class="form-control" placeholder="Name">
+                                   <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('name')">
+                                    Apply
+                                    </button>
+                                </div>
+                            </li>
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Email</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value2" type="email" class="form-control" placeholder="Email">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('email')">
+                                     Apply
+                                     </button>
+                                 </div>
+                            </li>
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Mobile</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value3" type="number" class="form-control" placeholder="Mobile">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('mobile')">
+                                     Apply
+                                     </button>
+                                 </div>
+                            </li>
+                            <li><a class="dropdown-item dropdown-submenu" href="#">Created Date</a>
+                                <div class="drpdwn-menu">
+                                    <input id="filter_value4" type="date" class="form-control" placeholder="Date">
+                                    <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                     Apply
+                                     </button>
+                                 </div></li>
+
+                                 <li><a class="dropdown-item dropdown-submenu" href="#">Status</a>
+                                    <div class="drpdwn-menu">
+                                        <label class="form-check-label" for="radio1">
+                                            <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio1" name="optradio" value="salesman">Salesman
+                                          </label>
+                                          <label class="form-check-label" for="radio2">
+                                            <input type="checkbox" class="form-check-input mr-2 group" data-url="grouping_user" id="radio2" name="optradio" value="manager">Manager
+                                          </label>
+                                        <!-- <button type="button" class="btn btn-prim pay edit-cont-btn" onclick="submit_filter('date')">
+                                         Apply
+                                         </button> -->
+                                     </div></li>
+
+                        </div>
+                    </div>
+
+                    <div class="dropdown btn-group grpby">
+                        <button type="button" class="btn btn-prim mx-1 dropdown-toggle" data-toggle="dropdown"> <i
+                                class="fas fa-bars"></i>
+                            Group By
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#"><div class="form-check">
+                                <input type="checkbox" name="checkfield" id="g01-01" onchange="type_groupby_action(this)"> &nbsp;Type
+                              </div></a>
+                             
+
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs nav-ta" role="tablist">
+                        <li class="nav-item mx-1">
+                            <a class="nav-link kan-tab active"
+                                data-toggle="tab" href="#ho" role="tab"
+                                aria-selected="false">
+                                <i class="fas fa-list"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link kan-tab" data-toggle="tab"
+                                href="#pro" role="tab"
+                                aria-selected="false">
+                                <i class="fas fa-th-large"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+             <input type="hidden" id="pagination_count" name="">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="ho" role="tabpanel">
+                    <div class="table-responsive mb-1  mt-2">
+                        <table class="table table-nowrap align-middle user_table"
+                            id="orderTable">
+                            <thead class="table-light">
+                                <tr class="text-uppercase">
+
+                                    <th class="sort"
+                                        data-sort="customer_name">
+                                        Name</th>
+                                    <th class="sort"
+                                        data-sort="product_name">
+                                       Phone
+                                    </th>
+                                    <th class="sort" data-sort="date">Email</th>
+
+
+                                    <th class="sort" data-sort="company">
+                                       Mobile
+                                    </th>
+                                    <th class="sort" data-sort="company">
+                                        Type
+                                     </th>
+                                    <th class="sort" data-sort="company">
+                                       Created At
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all append_search_result">
+                                {% for i in page_obj  %}
+                                <tr onclick="window.location='user_edit?id={{i.id}}'">
+                                    <td class="id"><a href="user_edit?id={{i.id}}"
+                                            class="fw-medium link-primary">{{i.name}}</a>
+                                    </td>
+                                    <td class="customer_name">{{i.phone}}
+                                    </td>
+                                    <td class="product_name">{{i.email}}</td>
+
+                                    <td class="date">{{i.mobile}}</td>
+                                    <td class="company">
+                                        {% if i.user_type == "manager" %}
+                                        <span
+                                            class="badge badge-soft-success text-uppercase">Manager</span>
+                                        {% elif i.user_type == "salesman"  %}
+                                        <span style="color: red!important"
+                                            class="badge badge-soft-success text-uppercase">Salesman</span>
+
+                                        {% endif %}
+                                        </td>
+                                    <td class="status">{{i.dt}}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="user_table1 container-fluid"></div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane" id="pro" role="tabpanel">
+                    <div class='app'>
+                        <main class='project1'>
+                            <div class='project-tasks1 mb-1 append_card_view' >
+                                
+                                    <div class="col-md-12">
+                                        <h3 style="    font-size: 15px;">manager</h3>
+                                        <br>
+                                        <div class='project-column'>
+                                            <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                            <div class="customer-bx">
+                                                <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+        
+                                                            </div>
+                                                <div class="customer-content">
+                                                    <h5>{{i.name}}</h5>
+                                                    <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
+                                                    <span class="d-flex"><h6>Email : </h6> {{i.email}}</span>
+                                                    <span class="d-flex"><h6>Mobile : </h6> {{i.mobile}}</span>
+                                                    <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
+                                                    {% if i.user_type == "salesman" %}
+                                                        <span class="badge badge-success text-uppercase">{{i.user_type}}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-info text-uppercase">{{i.user_type}}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </div>
+                                        <div class='project-column'>
+                                            <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                            <div class="customer-bx">
+                                                <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+        
+                                                            </div>
+                                                <div class="customer-content">
+                                                    <h5>{{i.name}}</h5>
+                                                    <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
+                                                    <span class="d-flex"><h6>Email : </h6> {{i.email}}</span>
+                                                    <span class="d-flex"><h6>Mobile : </h6> {{i.mobile}}</span>
+                                                    <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
+                                                    {% if i.user_type == "salesman" %}
+                                                        <span class="badge badge-success text-uppercase">{{i.user_type}}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-info text-uppercase">{{i.user_type}}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h3 style="    font-size: 15px;">salesman</h3>
+                                    </div>
+                           
+
+
+
+                                <br>
+
+                            {% for i in user_data %}
+                                <div class='project-column'>
+                                    <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
+                                    <div class="customer-bx">
+                                        <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+
+                                                    </div>
+                                        <div class="customer-content">
+                                            <h5>{{i.name}}</h5>
+                                            <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
+                                            <span class="d-flex"><h6>Email : </h6> {{i.email}}</span>
+                                            <span class="d-flex"><h6>Mobile : </h6> {{i.mobile}}</span>
+                                            <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
+                                            {% if i.user_type == "salesman" %}
+                                                <span class="badge badge-success text-uppercase">{{i.user_type}}</span>
+                                            {% else %}
+                                                <span class="badge badge-info text-uppercase">{{i.user_type}}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    function myFunction(){
+        $(".user_table").show()
+        $(".user_table1").hide()
+        var x = document.getElementById("search_value").value;
+        redirect_url = "user_search_result"
+        $.ajax({
+            url : redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+            $(".append_search_result").empty().append(data)
+
+            card_view_redirect_url = 'user_search_card_view'
+        $.ajax({
+            url : card_view_redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+
+                // alert(data)
+            $(".append_card_view").empty().append(data)
+            }
+        })
+
+            }
+        })
+    
+    }
+</script>
+
+<script>
+    $(".next_page_action").click(function(){
+        var url =$(this).attr('data-url')
+        $.ajax({
+            url: url,
+            data:{
+
+            },
+            success: function (data) {
+                $("#demo_result_employee").empty().append(data);
+            }
+        })
+    })
+</script>
+
+<script>
+
+    pagination_count = 1
+    $(".pagination_add").click(function () {
+        pagination_count = pagination_count + 1
+        $("#pagination_count").val(pagination_count)
+
+
+    })
+
+    $(".pagination_minus").click(function () {
+        pagination_count = pagination_count - 1
+        $("#pagination_count").val(pagination_count)
+
+
+    })
+</script>
+
+
+
+<script>
+    $(".group").click(function(){
+
+        var listCheck = [];
+        $("input[name='optradio']:checked").each(function() {
+            $(".user_table").show()
+        $(".user_table1").hide()
+            listCheck .push($(this).val());
+        });
+        var url =$(this).attr('data-url')
+        $.ajax({
+            url: url,
+            data:{
+                'grouping[]': listCheck
+            },
+            success: function (data) {
+                $(".append_search_result").empty().append(data);
+
+                var card_view_redirect_url = 'card_view_filter_status'
+                $.ajax({
+            url: card_view_redirect_url,
+            data:{
+                'grouping[]': listCheck
+            },
+            success: function (data) {
+               
+                $(".append_card_view").empty().append(data);
+            }
+        })
+
+            }
+        })
+    })
+</script>
+
+<div class="append_group_by">
+
+</div>
+
+
+<script>
+    function submit_filter(type){
+        $(".user_table").show()
+        $(".user_table1").hide()
+    if (type == "name") {
+        var x = document.getElementById("filter_value1").value;
+    }
+    else if (type == "email") {
+        var x = document.getElementById("filter_value2").value;
+    }
+    else if (type == "mobile") {
+        var x = document.getElementById("filter_value3").value;
+    }
+    else {
+        var x = document.getElementById("filter_value4").value;
+    }
+        redirect_url = "filtering_user"
+        $.ajax({
+            url : redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+            $(".append_search_result").empty().append(data)
+
+
+            card_view_redirect_url = 'user_search_card_view'
+        $.ajax({
+            url : card_view_redirect_url,
+            data :{
+                'data_value':x
+            },
+            type:'GET',
+            success: function (data) {
+
+                // alert(data)
+            $(".append_card_view").empty().append(data)
+            }
+        })
+            }
+        })
+    }
+    function type_groupby_action(checkboxElem) {
+if (checkboxElem.checked) {
+
+redirect_group_by_url = 'user_type_group_by_action'
+$.ajax({
+    url:redirect_group_by_url,
+    data:{
+        'status':'type'
+    },
+    type:'GET',
+    success:function(data){
+        $(".user_table1").show()
+        $(".user_table").hide()
+         $(".user_table1").empty().append(data)
+
+
+         
+         
+    }
+
+})
+} else {
+$(".user_table1").hide()
+        $(".user_table").show()
+}
+}
+
+</script>
+
+
+
+
+{% endblock %}

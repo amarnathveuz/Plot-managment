@@ -77,7 +77,7 @@
                                             <div class="col">
                                                 <input  id="user_type1" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
                                                     for="company">Salesman</label>&nbsp;&nbsp;&nbsp;
-                                                    <input  id="user_type1" onclick="visible_manager('admin')" name="user_type"  type="radio"  value="admin"><label
+                                                    <input  id="user_type1" onclick="visible_admin('admin')" name="user_type"  type="radio"  value="admin"><label
                                                     for="company">Admin</label><br>
                                             </div>
                                             
@@ -139,7 +139,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" id="Property_Accessadmin">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Property Access </h6>
                                             </div>
@@ -251,7 +251,7 @@
     
                                         </div>
     
-                                        <div class="row">
+                                        <div class="row" id="Plot_Listviewadmin">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Plot Listview </h6>
                                             </div>
@@ -264,7 +264,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" id="PriceVisibilityadmin">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Price Visibility </h6>
                                             </div>
@@ -318,6 +318,10 @@ var user_type = ''
 });
 });
         function visible_manager(data){
+            
+            $("#Property_Accessadmin").show()
+            $("#Plot_Listviewadmin").show()
+            $("#PriceVisibilityadmin").show()
            if(data == "manager"){
            $(".nav_head").show()
             user_type = 'manager'
@@ -344,6 +348,17 @@ var user_type = ''
             var x = document.getElementById('prop2').style.display = "none";
            }
            
+        }
+
+        function visible_admin(data){
+
+            user_type = 'admin'
+           
+            $("#Property_Accessadmin").hide()
+            $("#Plot_Listviewadmin").hide()
+            $("#PriceVisibilityadmin").hide()
+
+
         }
     </script>
 
@@ -416,7 +431,7 @@ function image_remove_action(){
 </script>
 
 <script>
-function validation_action(){
+function validation_action(event){
     
 
     

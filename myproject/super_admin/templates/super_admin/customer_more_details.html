@@ -207,7 +207,7 @@
                                              </div>
                                              <div class="col-md-7 d-flex align-items-center">
                                                  <input type="text" name="phone" class="form-control" placeholder=""
-                                                 value="{{data.phone}}">
+                                                 {% if data.phone == None %} {% else %} value="{{data.phone}}" {% endif %}>
                                              </div>
 
                                          </div>
@@ -226,7 +226,7 @@
                                                  <h6 class="my-0">Customer Id</h6>
                                              </div>
                                              <div class="col-md-7 d-flex align-items-center">
-                                                 <input type="text"  name="customer_id" class="form-control" placeholder="" value="{{data.customer_id}}"
+                                                 <input type="text"  name="customer_id" class="form-control" placeholder="" {% if data.customer_id == None %} {% else %} value="{{data.customer_id}}" {% endif %} 
                                                      >
                                              </div>
                                          </div>
@@ -415,7 +415,7 @@
                                             </div>
                                             <div class="col-md-7 d-flex align-items-center">
                                                 <input type="text" disabled="" name="phone" class="form-control" placeholder=""
-                                                value="{{data.phone}}">
+                                               {% if data.phone == None %} {% else %} value="{{data.phone}}" {% endif %}>
                                             </div>
 
                                         </div>
@@ -434,8 +434,8 @@
                                                 <h6 class="my-0">Customer Id</h6>
                                             </div>
                                             <div class="col-md-7 d-flex align-items-center">
-                                                <input type="text" disabled=""  name="customer_id" class="form-control" placeholder="" value="{{data.customer_id}}"
-                                                    >
+                                                <input type="text" disabled=""  name="customer_id" class="form-control" placeholder="" {% if data.customer_id == None %} {% else %} value="{{data.customer_id}}"
+                                                {% endif %}    >
                                             </div>
                                         </div>
                                         <div class="row">

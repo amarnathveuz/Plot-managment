@@ -41,12 +41,7 @@
 
                 <div id="sidebar-menu" class="sidaber_menu">
                     <ul class="" id="side-menu">
-                        <li>
-
-                            <a class="splnav" href="{% url 'home' %}"> <i class="fa fa-home"></i>
-                                <p>Home</p>
-                            </a>
-                        </li>
+                       
                         <!-- <li>
                             <a class="splnav"> <i class="fa fa-user"></i>
                                 <p>Self Service</p>
@@ -63,14 +58,6 @@
                             </div>
 
                         </li> -->
-
-                        {% if request.user|get_user_type_action:"user_type" %}
-                        <li>
-                            <a href="customer_management" class="splnav"> <i class="fa fa-user-circle"></i>
-                                <p>Customers Management</p>
-                            </a>
-                        </li>
-                        {% endif %}
                         {% if request.user|get_nav_permission:"plot_management" %}
                         <li>
                             <a class="splnav" href="property_management"> <i class="fa fa-calendar"></i>
@@ -78,15 +65,23 @@
                             </a>
                         </li>
                         {% endif %}
+                        {% if request.user|get_user_type_action:"user_type" %}
+                        <li>
+                            <a href="customer_management" class="splnav"> <i class="fa fa-user-circle"></i>
+                                <p>Customers </p>
+                            </a>
+                        </li>
+                        {% endif %}
+                       
                         {% if request.user|get_nav_permission:"user_management" %}
                         <li>
                             <a href="user_management" class="splnav"> <i class="fa fa-user-circle"></i>
-                                <p>User  Management</p>
+                                <p>Users</p>
                             </a>
                         </li>
                         {% endif %}
                       
-                        {% if request.user|get_user_type:"sss"  %}
+                        
 
                         <li>
                             <a href="plot" class="splnav"> <i class="fa fa-building-o"></i>
@@ -94,7 +89,7 @@
                             </a>
                         </li>
 
-                        {% endif %}
+                      
                         <!-- <li>
                             <a class="splnav"> <i class="fa fa-clock-o"></i>
                                 <p>Time Tracker</p>
@@ -195,7 +190,7 @@
                     <ul class="navbar-nav1 bg-2 col">
 
                         <li class="nav-item d-none d-sm-inline-block">
-                            <a href="" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
+                            <a href="home" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
                         </li>
                         <li class="nav-item d-none d-sm-inline-block">
                             <a href="" class="nav-link"><i class="fa fa-address-book"></i> Contacts <i
@@ -340,9 +335,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <script>
+                            <!-- <script>
                                 document.write(new Date().getFullYear())
-                            </script> © Silverscreen.
+                            </script> © Silverscreen. -->
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">

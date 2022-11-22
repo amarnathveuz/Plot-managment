@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+    {% load static %}
+    {% load notification %}
+
+<head>
+    <meta charset="utf-8" />
+    <title>Silver screen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="" name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <!-- <link rel="shortcut icon" href="images/fav.png"> -->
+
+
+
+    <link rel="stylesheet" href="{% static 'admin/css/morris.css' %}">
+    <!-- App css -->
+    <link href="{% static 'admin/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'admin/css/icons.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'admin/css/style.css' %}" rel="stylesheet" type="text/css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <script src="https://kit.fontawesome.com/16b0815225.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="">
+   
+    <!-- Begin page -->
+  
+        <!-- ========== Left Sidebar Start ========== -->
+       
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+   
+       
+
+
+
+            <!-- Start Page content -->
+            <div class="content container-fluid">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+
+  
+
+ 
+        <!-- container -->
+
+    <!-- content -->
+
+    <script src="{% static 'admin/js/jquery.min.js' %}"></script>
+    <script src="{% static 'admin/js/custome.js' %}"></script>
+    <script src="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script>
+        $("a.splnav").click(function () {
+            $("a.splnav").css("background-color", "#222");
+            $(this).css("background-color", "black");
+            // $(this).css("border-left", "3px solid #6e56a3");
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function (e) {
+            function t(t) {
+                e(t).bind("click", function (t) {
+                    t.preventDefault();
+                    e(this).parent().fadeOut()
+                })
+            }
+            e(".drpdown-toggle").click(function () {
+                var t = e(this).parents(".button-drpdown").children(".drpdown-menu").is(":hidden");
+                e(".button-drpdown .drpdown-menu").hide();
+                e(".button-drpdown .drpdown-toggle").removeClass("active");
+                if (t) {
+                    e(this).parents(".button-drpdown").children(".drpdown-menu").toggle().parents(
+                        ".button-drpdown").children(".drpdown-toggle").addClass("active")
+                }
+            });
+            e(document).bind("click", function (t) {
+                var n = e(t.target);
+                if (!n.parents().hasClass("button-drpdown")) e(".button-drpdown .drpdown-menu").hide();
+            });
+            e(document).bind("click", function (t) {
+                var n = e(t.target);
+                if (!n.parents().hasClass("button-drpdown")) e(".button-drpdown .drpdown-toggle")
+                    .removeClass("active");
+            })
+        });
+    </script>
+    <script>
+        let searchIcon = document.querySelector(".search-bar__search-icon"),
+            closeIcon = document.querySelector(".search-bar__close-icon .far"),
+            searchBar = document.querySelector(".search-bar"),
+            searchInput = document.querySelector(".search-bar__search-input input")
+
+
+        searchIcon.onclick = () => {
+            searchBar.classList.toggle("search-bar--active")
+        }
+
+
+        closeIcon.onclick = () => {
+            searchInput.value = ""
+            searchInput.focus()
+        }
+
+
+
+        searchInput.onfocus = function () {
+            let place = this.getAttribute("placeholder")
+            this.setAttribute("data", `${place}`)
+            this.removeAttribute("placeholder")
+        }
+
+        searchInput.onblur = function () {
+            this.setAttribute("placeholder", `${this.getAttribute("data")}`)
+        }
+    </script>
+
+</body>
+
+</html>

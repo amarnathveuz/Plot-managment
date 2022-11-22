@@ -1,0 +1,204 @@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+        </div>
+        <div class="panel-body">
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <!-- <tr>a
+					<th></th>
+          <th>Fist Name</th>
+          <th>Last Name</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Status</th>
+        </tr> -->
+
+                </thead>
+
+                <tbody>
+                    <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                        <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down"
+                                    aria-hidden="true"></i>&nbsp;&nbsp;Active ({{data_total_active|length}})</button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="12" class="hiddenRow">
+                            <div class="accordian-body collapse" id="demo1">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="info">
+                                            <th class="sort" data-sort="Bank-name">
+                                                Bank Name</th>
+                                            <th class="sort" data-sort="bank-code">
+                                                Bank Identifier Code
+                                            </th>
+
+                                            <th class="sort" data-sort="company">
+                                                Swift Code
+                                            </th>
+
+                                            <th class="sort" data-sort="Address">Address</th>
+
+                                            <th class="sort" data-sort="Branch">
+                                                Branch
+                                            </th>
+
+                                            <th class="sort" data-sort="country">
+                                                country
+                                            </th>
+
+                                            <th class="sort" data-sort="company">
+                                                Status
+                                            </th>
+
+
+                                            <th class="sort" data-sort="company">
+                                                Created At
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for i in data_total_active %}
+                                        <tr onclick="window.location='bank_detail_edit?id={{i.id}}'">
+                                            <td class="id"><a href="bank_detail_edit?id={{i.id}}"
+                                                    class="fw-medium link-primary">{{i.bank_name}}</a>
+                                            </td>
+                                            <td class="customer_name">{{i.bank_identifier_code}}
+                                            </td>
+
+                                            <td class="status">{{i.swift_code}}
+                                            </td>
+                                            <td class="product_name">{{i.address}}</td>
+
+                                            <td class="status">{{i.branch}}
+                                            </td>
+
+                                            <td class="date">{{i.country}}</td>
+                                            <td>
+                                                <span class="badge badge-soft-success text-uppercase">Active</span>
+                                            </td>
+                                            <td class="date">{{i.dt}}</td>
+
+                                        </tr>
+                                        {% endfor %}
+
+
+
+
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+                    <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
+                        <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down"
+                                    aria-hidden="true"></i>&nbsp;&nbsp;Inactive
+                                ({{data_total_inactive|length}})</button></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="12" class="hiddenRow">
+                            <div class="accordian-body collapse" id="demo2">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="info">
+                                            <th class="sort" data-sort="Bank-name">
+                                                Bank Name</th>
+                                            <th class="sort" data-sort="bank-code">
+                                                Bank Identifier Code
+                                            </th>
+
+                                            <th class="sort" data-sort="company">
+                                                Swift Code
+                                            </th>
+
+                                            <th class="sort" data-sort="Address">Address</th>
+
+                                            <th class="sort" data-sort="Branch">
+                                                Branch
+                                            </th>
+
+                                            <th class="sort" data-sort="country">
+                                                country
+                                            </th>
+
+                                            <th class="sort" data-sort="company">
+                                                Status
+                                            </th>
+
+
+                                            <th class="sort" data-sort="company">
+                                                Created At
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for i in data_total_inactive %}
+                                        <tr onclick="window.location='bank_detail_edit?id={{i.id}}'">
+                                            <td class="id"><a href="bank_detail_edit?id={{i.id}}"
+                                                    class="fw-medium link-primary">{{i.bank_name}}</a>
+                                            </td>
+                                            <td class="customer_name">{{i.bank_identifier_code}}
+                                            </td>
+
+                                            <td class="status">{{i.swift_code}}
+                                            </td>
+                                            <td class="product_name">{{i.address}}</td>
+
+                                            <td class="status">{{i.branch}}
+                                            </td>
+
+                                            <td class="date">{{i.country}}</td>
+                                            <td>
+                                                <span style="color: red!important"
+                                                class="badge badge-soft-success text-uppercase">Inactive</span>
+                                            </td>
+
+
+
+                                            <td class="date">{{i.dt}}</td>
+
+                                        </tr>
+                                        {% endfor %}
+
+
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>

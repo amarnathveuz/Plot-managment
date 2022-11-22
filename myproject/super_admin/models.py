@@ -243,3 +243,18 @@ class user_log(common):
 class status_code(common):
     text = models.CharField(max_length=255,null=True)
     status_code = models.IntegerField(null=True)
+
+
+
+class plot_view_master(common):
+    unit_type = models.CharField(max_length=255,null=True)
+
+class plot_view_master_image(common):
+    mapping_id = models.ForeignKey(plot_view_master,on_delete=models.CASCADE,related_name="plot_view_master_mapping_id", null=True)
+    attached_file = models.FileField(upload_to="plot_view_master_image",null=True)
+    image_type = models.CharField(max_length=255,null=True)
+    image_name = models.CharField(max_length=255,null=True)
+    dt = models.DateField(auto_now_add=True)
+    tm = models.TimeField(auto_now_add=True)
+    plot_type = models.CharField(max_length=255,null=True)
+    status = models.CharField(max_length=255,null=True)

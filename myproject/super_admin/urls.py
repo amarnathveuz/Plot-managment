@@ -112,12 +112,12 @@ urlpatterns = [
     path('approve_booking_action_new',views.approve_booking_action_new,name='approve_booking_action_new'),
     path('cancel_booking_action',views.cancel_booking_action,name='cancel_booking_action'),
     path('cancel_booking_action_new_method',views.cancel_booking_action_new_method,name='cancel_booking_action_new_method'),
-
-
     path('update_u_type',views.update_u_type,name='update_u_type'),
     path('remove_customer_document',views.remove_customer_document,name='remove_customer_document'),
     path('plot_view_modal',views.plot_view_modal,name='plot_view_modal'),
-    
+    path('plot_view_master',views.plot_view_master_method,name='plot_view_master'),
+    path('plot_view_details',views.plot_view_details,name='plot_view_details'),
+    path('plot_view_based_plot',views.plot_view_based_plot,name='plot_view_based_plot'),
 
 
 

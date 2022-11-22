@@ -250,13 +250,18 @@
                                     {% endif %}
 
                                     <td>
+
+                                        {% if i.customer_id == None %}
+                                        {% else %}
                                         {{i.customer_id}}
+                                        {% endif %}
+                                       
                                     </td>
 
-                                    <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>
+                                    <td class="customer_name">
                                         {% if i.phone == None %}
                                         {% else %}
-                                        {{i.phone}}
+                                        <i class="fa fa-phone m-1" style="font-size: 9px;"></i> {{i.phone}}
                                         {% endif %}
                                     </td>
                                     <td class="product_name">{{i.bank}}</td>
@@ -319,9 +324,37 @@
                                         <div class="customer-content">
 
                                             <h5>{{i.name}}</h5>
-                                            <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
-                                            <span class="d-flex"><h6>Customer Id : </h6> {{i.customer_id}}</span>
-                                            <span class="d-flex"><h6>Bank : </h6> {{i.bank}}</span>
+                                            <span class="d-flex"><h6>Phone : </h6> 
+                                                {% if i.phone == None %}
+
+                                                {% elif i.phone == '' %}
+
+                                                {% else %}
+                                                {{i.phone}}
+                                                {% endif %}
+                                            
+                                            </span>
+                                            <span class="d-flex"><h6>Customer Id : </h6>
+                                                
+                                                {% if i.customer_id == None %}
+
+                                                {% elif i.customer_id == '' %}
+
+                                                {% else %}
+                                                {{i.customer_id}}
+                                                {% endif %}
+                                               </span>
+                                            <span class="d-flex"><h6>Bank : </h6> 
+                                                {% if i.bank == None %}
+
+                                                {% elif i.bank == '' %}
+
+                                                {% else %}
+                                                {{i.bank}}
+                                                {% endif %}
+                                               
+                                            
+                                            </span>
                                             <span class="d-flex"><h6>Created at : </h6> {{i.dt}}</span>
                                             <span class="d-flex"><h6>Created By : </h6> {{i.created_by}}</span>
 

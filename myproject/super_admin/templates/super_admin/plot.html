@@ -80,6 +80,13 @@
     color: white;
     float: right;
     font-size: 13px;" href="home">Dashboard</a>
+
+{% elif user_data.user_type == "admin" %}
+       <a style="padding: 6px 8px;
+    background: #cd2020;
+    color: white;
+    float: right;
+    font-size: 13px;" href="home">Dashboard</a>
         {% else %}
 
        <a style="padding: 6px 8px;
@@ -3742,7 +3749,7 @@
   <script>
 
     var plot_id = 0
-    var domailUrl = 'http://10.10.10.119:8000';
+    var domailUrl = 'https://pv.sumoualasalah.com';
     $(document).on('click', ".book-btn", function () {
       $('.popup-show').hide();
       $('.info').show();

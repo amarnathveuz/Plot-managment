@@ -180,12 +180,14 @@
                                     {% endif %}
 
                                     {% if request.user|get_user_type_action:"user_type" %}
+                                    {% if data.current_status == "0" %}
                                     <a id="book_now_id" style="background: black;
                                                 border: none;
                                                 color: white;" href="#"
                                         class="btn btn-pri pay create-button create-cont-btn new_booking_action">
                                         Book Now
                                     </a>
+                                    {%endif%}
 
                                     <a style="    background: black;
                                            border: none;
@@ -481,6 +483,24 @@
                                                                 <input name="LandArea" value="{{data.LandArea}}"
                                                                     id="basiInput5" disabled type="text"
                                                                     class="input form-control mystyle">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Plot view </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group  required_item w-100">
+                                                               {% for i in data_plot_view_image %}
+
+   
+   <a href="./media/{{i.attached_file}}" target="_blank">
+    <img width="20%" src="./media/{{i.attached_file}}">
+   </a>                                                            <!-- <p>Plot {{i.plot_type}}</p> -->
+
+
+                                                               {% endfor %}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1193,7 +1213,7 @@
 
     function Edit_function() {
 
-        $("#plot_view_upload").show()
+        // $("#plot_view_upload").show()
         try {
             document.getElementById("book_now_id").style.display = "none";
         } catch (err) {
@@ -1208,7 +1228,7 @@
         $("#basiInput8").addClass("select_box_bank1")
         document.getElementById("select_box").disabled = false;
 
-        document.getElementById("current_status_id").style.display = "none";
+        // document.getElementById("current_status_id").style.display = "none";
 
         document.getElementById("unit_block").style.display = "block";
         document.getElementById("old_block_unit").style.display = "none";

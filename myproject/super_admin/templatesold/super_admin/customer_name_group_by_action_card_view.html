@@ -1,0 +1,101 @@
+
+<div class="container-fluid py-2 horizontal-scroll" >
+    <div class="d-flex flex-row flex-nowrap">
+
+
+{% for i in data %}
+
+    <div class="col-md-12 card card-body ">
+        <h6>{{i.name}} ({{i.user_request_plot_customer_id.all.count}})</h6>
+
+
+    {% for j in i.user_request_plot_customer_id.all %}
+
+        <div class='project-column horizontal-scroll__item'>
+            <a href="customer_more_details?id={{i.id}}" style="text-decoration: none;color: black">
+            <div class='customer-bx'>
+                <div class="customer-content">
+                    <h5>
+                        {% if j.name == None %}{% else %}{{i.name}}{% endif %}
+
+                        {% if j.property_mapping_id.current_status == "0" %}
+                <span
+                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                    background-color: #008000;">Available</span>
+
+                {% elif j.property_mapping_id.current_status == "1" %}
+                <span
+                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                    background-color: orange;">Price Quotation</span>
+
+                {% elif j.property_mapping_id.current_status == "2" %}
+                <span
+                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                        background-color: #e40000;">Sold</span>
+                        {% elif j.property_mapping_id.current_status == "3" %}
+                        <span
+                        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: gray;">Cancelled</span>
+                    {% else %}
+                    {% endif %}
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6 px-0">
+                        <span class="d-flex">
+                        <h6>Status(AR):</h6>{{ j.property_mapping_id.Status }}
+                        </span>
+                        </div>
+                        <div class="col-md-6 px-0">
+                        <span class="d-flex">
+                            <h6>Id: </h6>{% if j.customer_id.customer_id == None %}{%else%}{{ j.customer_id.customer_id }}{%endif%}
+                        </span>
+                        </div>
+                        </div>
+                    </span>
+
+                    <div class="row">
+                        <div class="col-md-6 px-0">
+                            <span class="d-flex">
+                                <h6>Unit no : </h6>{{j.property_mapping_id.UnitNo}}
+                            </span>
+                            <span class="d-flex">
+                                <h6>Block no : </h6>{{j.property_mapping_id.BlockNo}}
+                            </span>
+                            <span class="d-flex">
+                                <h6>Unit area : </h6>{{j.property_mapping_id.UnitArea}}
+                            </span>
+                        </div>
+                        <div class="col-md-6 px-0">
+                            <span class="d-flex">
+                                <h6>Bank : </h6>{{j.property_mapping_id.Bank}}
+                            </span>
+                            <span class="d-flex">
+                                <h6>Land area : </h6>{{j.property_mapping_id.LandArea}}
+                            </span>
+                            <span class="d-flex">
+                                <h6>Unit type : </h6>{% if j.property_mapping_id.UType == None %}{%else%}{{j.property_mapping_id.UType}}{%endif%}
+                            </span>
+
+                        </div>
+                    </div>                                                           
+                </div>
+            </div>
+        </a>
+        </div>
+
+    {% endfor %}
+
+    </div>
+
+{% endfor %}
+
+    </div>
+</div>
+
+
+
+
+
+
+
+

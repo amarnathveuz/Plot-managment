@@ -1,0 +1,326 @@
+
+<div class="tab-content">
+<div class="col-md-12">
+    <div class="panel panel-default">
+            <div class="panel-heading">
+            </div>
+    <div class="panel-body">
+                <table class="table table-condensed table-striped">
+<thead>
+</thead>
+<tbody>
+    <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+       <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;&nbsp;Available ({{data_available.count}})</button></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="12" class="hiddenRow">
+                        <div class="accordian-body collapse" id="demo1"> 
+          <table class="table table-striped">
+                  <thead>
+                        <tr class="info">
+                            <th>S/No</th>
+                            <th>Name</th>
+                            <th>Id</th>
+                            <th>Phone</th>
+                            <th>UnitNo</th>      
+                            <th>Block No</th> 
+                            <th>Unit area</th> 
+                            <th>Land area</th>  
+                            <th>
+                                U Type
+                            </th>
+                            <th>Price</th>
+                            <th>Bank</th>
+                            <th>Status(AR)</th>
+                            <th>Status(EN)</th>
+                        </tr>
+                </thead>    
+                                   
+                <tbody>
+                    {% for i in data_available %}
+                    <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="property_update?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
+                        <td>{{i.UnitNo}}</td>
+                        <td>{{i.BlockNo}}</td>
+                        <td>{{i.UnitArea}}</td>
+                        <td>{{i.LandArea}}</td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
+                        <td>
+                            {% if i.current_status == "0" %}      
+                            <span
+                                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: #008000;">Available</span>
+
+                            {% elif i.current_status == "1" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: orange;">Price Quotation</span>
+
+                            {% elif i.current_status == "2" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                    background-color: #e40000;">Sold</span>
+                                    {% elif i.current_status == "3" %}
+                                    <span
+                                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                            background-color: gray;">Cancelled</span>
+                            {% else %}
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}   
+                </tbody>
+            </table>
+          </div> 
+      </td>
+    </tr>
+    <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
+        <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;&nbsp;Price Quotation ({{data_price_quotation.count}})</button></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+           <td></td>
+     </tr> 
+     <tr>
+         <td colspan="12" class="hiddenRow">
+            <div class="accordian-body collapse" id="demo2"> 
+            <table class="table table-striped">
+                <thead>
+                    <tr class="info">
+                        <th>S/No</th>
+                        <th>Name</th>
+                        <th>Id</th>
+                        <th>Phone</th>
+                        <th>UnitNo</th>      
+                        <th>Block No</th> 
+                        <th>Unit area</th> 
+                        <th>Land area</th>  
+                        <th>
+                            U Type
+                        </th>
+                        <th>Price</th>
+                        <th>Bank</th>
+                        <th>Status(AR)</th>
+                        <th>Status(EN)</th>
+                    </tr>
+                </thead>  
+                                    
+                <tbody>
+                    {% for i in data_price_quotation %}
+                    <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="property_update?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
+                        <td>{{i.UnitNo}}</td>
+                        <td>{{i.BlockNo}}</td>
+                        <td>{{i.UnitArea}}</td>
+                        <td>{{i.LandArea}}</td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
+                        <td>
+                            {% if i.current_status == "0" %}      
+                            <span
+                                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: #008000;">Available</span>
+
+                            {% elif i.current_status == "1" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: orange;">Price Quotation</span>
+
+                            {% elif i.current_status == "2" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                    background-color: #e40000;">Sold</span>
+                                    {% elif i.current_status == "3" %}
+                                    <span
+                                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                            background-color: gray;">Cancelled</span>
+                            {% else %}
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+        </div> 
+       </td>
+     </tr>
+     <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
+        <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;&nbsp;Sold({{data_sold.count}})</button></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+           <td></td>
+     </tr> 
+     <tr>
+         <td colspan="12" class="hiddenRow">
+            <div class="accordian-body collapse" id="demo3"> 
+            <table class="table table-striped">
+                <thead>
+                    <tr class="info">
+                        <th>S/No</th>
+                        <th>Name</th>
+                        <th>Id</th>
+                        <th>Phone</th>
+                        <th>UnitNo</th>      
+                        <th>Block No</th> 
+                        <th>Unit area</th> 
+                        <th>Land area</th>  
+                        <th>
+                            U Type
+                        </th>
+                        <th>Price</th>
+                        <th>Bank</th>
+                        <th>Status(AR)</th>
+                        <th>Status(EN)</th>
+                    </tr>
+                </thead>  
+                                    
+                <tbody>
+                    {% for i in data_sold %}
+                    <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="property_update?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
+                        <td>{{i.UnitNo}}</td>
+                        <td>{{i.BlockNo}}</td>
+                        <td>{{i.UnitArea}}</td>
+                        <td>{{i.LandArea}}</td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
+                        <td>
+                            {% if i.current_status == "0" %}      
+                            <span
+                                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: #008000;">Available</span>
+
+                            {% elif i.current_status == "1" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: orange;">Price Quotation</span>
+
+                            {% elif i.current_status == "2" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                    background-color: #e40000;">Sold</span>
+                                    {% elif i.current_status == "3" %}
+                                    <span
+                                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                            background-color: gray;">Cancelled</span>
+                            {% else %}
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+        </div> 
+       </td>
+     </tr>
+     <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
+        <td><button class="btn btn-default btn-xs"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;&nbsp;Cancelled ({{data_cancelled.count}})</button></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+           <td></td>
+     </tr> 
+     <tr>
+         <td colspan="12" class="hiddenRow">
+            <div class="accordian-body collapse" id="demo4"> 
+            <table class="table table-striped">
+                <thead>
+                    <tr class="info">
+                        <th>S/No</th>
+                        <th>Name</th>
+                        <th>Id</th>
+                        <th>Phone</th>
+                        <th>UnitNo</th>      
+                        <th>Block No</th> 
+                        <th>Unit area</th> 
+                        <th>Land area</th>  
+                        <th>
+                            U Type
+                        </th>
+                        <th>Price</th>
+                        <th>Bank</th>
+                        <th>Status(AR)</th>
+                        <th>Status(EN)</th>
+                    </tr>
+                </thead>                 
+                <tbody>
+                    {% for i in data_cancelled %}
+                    <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
+                        <td> {{forloop.counter}}</td>
+                        <td><a href="property_update?id={{i.id}}">{% if i.Name == None %}{%else%}{{i.Name}}{%endif%}</a></td>
+                        <td>{% if i.customer_id == None %}{%else%}{{i.customer_id}}{%endif%}</td>
+                        <td>{% if i.Phoneno == None %}{%else%}{{i.Phoneno}}{%endif%}</td>
+                        <td>{{i.UnitNo}}</td>
+                        <td>{{i.BlockNo}}</td>
+                        <td>{{i.UnitArea}}</td>
+                        <td>{{i.LandArea}}</td>
+                        <td>{% if i.UType == None %}{%else%}{{i.UType}}{%endif%}</td>
+                        <td>{{i.Price|floatformat:"0"}}</td>
+                        <td>{{i.Bank}}</td>
+                        <td>{{i.Status}}</td>
+                        <td>
+                            {% if i.current_status == "0" %}      
+                            <span
+                                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: #008000;">Available</span>
+
+                            {% elif i.current_status == "1" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                background-color: orange;">Price Quotation</span>
+
+                            {% elif i.current_status == "2" %}
+                            <span
+                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                    background-color: #e40000;">Sold</span>
+                                    {% elif i.current_status == "3" %}
+                                    <span
+                                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                                            background-color: gray;">Cancelled</span>
+                            {% else %}
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+        </div> 
+       </td>
+     </tr>
+</tbody>
+</table>
+        </div>
+      </div> 
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+

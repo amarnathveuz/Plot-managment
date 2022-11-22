@@ -249,17 +249,60 @@
                                     <td class="id"><a href="bank_detail_edit?id={{i.id}}"
                                             class="fw-medium link-primary">{{i.bank_name}}</a>
                                     </td>
-                                    <td class="customer_name">{{i.bank_identifier_code}}
+                                    <td class="customer_name">
+                                        {% if i.bank_identifier_code == None %}
+                                        {% elif i.bank_identifier_code == '' %}
+
+                                        {% else %}
+                                        {{i.bank_identifier_code}}
+                                        {% endif %}
                                     </td>
 
-                                    <td class="status">{{i.swift_code}}
+                                    <td class="status">
+                                        {% if i.swift_code == None %}
+                                        {% elif i.swift_code == '' %}
+                                        {% else %}
+                                        {{i.swift_code}}
+                                        {% endif %}
+                                        
+                                        
+                                       
                                     </td>
-                                    <td class="product_name">{{i.address}}</td>
+                                    <td class="product_name">
+                                        
+                                        {% if i.address == None %}
+                                        {% elif i.address == '' %}
 
-                                    <td class="status">{{i.branch}}
+                                        {% else %}
+                                        {{i.address}}
+                                        {% endif %}
+                                        
+                                    
                                     </td>
 
-                                    <td class="date">{{i.country}}</td>
+                                    <td class="status">
+                                        {% if i.branch == None %}
+                                        {% elif i.branch == '' %}
+                                        {% else %}
+                                        {{i.branch}}
+                                        {% endif %}
+                                        
+                                        
+                                     
+                                    </td>
+
+                                    <td class="date">
+                                        {% if i.country == None %}
+
+                                        {% elif i.country == '' %}
+
+                                        {% else %}
+                                        {{i.country}}
+                                        {% endif %}
+                                        
+                                    
+                                    
+                                    </td>
 
                                     <td class="company">
                                         {% if i.status == "Active" %}

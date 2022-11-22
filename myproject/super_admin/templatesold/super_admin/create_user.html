@@ -1,0 +1,603 @@
+
+{% extends "super_admin/base9.html" %}
+
+{% load static %}
+    {% block content %}  
+    <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css">
+    <div class="row">
+       
+
+    </div>
+<form action="" method="POST" class="submit_action" enctype="multipart/form-data" name="frmUser">
+    {% csrf_token %}
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <!-- <h4 class="mb-sm-0">Payroll</h4> -->
+
+                    <div class="page-title-left">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="user_management">User Management</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a href="javascript: void(0);">New</a></li>
+
+                        </ol>
+                        <div class="margn">
+                            <button onclick="validation_action()" type="submit" style="padding: 5px 10px !important;" class="btn btn-prim pay">
+                                    Save
+                                </button>
+                            <a href="user_management"><button style="padding: 5px 10px !important;" type="button" class="btn btn-pri pay discard-payroll"> Discard
+                                </button></a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row pay-main">
+        
+            
+            <div class="col-lg-12 px-0">
+                <div class="card noti-card" id="orderList">
+    
+    
+                    <div class="card-body bb-0 pt-0 p-0">
+                        <div>
+    
+                            <div class="payslip mb-5">
+    
+                                <div class="row pay-main mb-4">
+    
+                                    <div class="customer-head mb-4 col-md-12">
+                                        <div class="propic">
+                                            <div class="small-12 medium-2 large-2 columns">
+                                                <div class="circle">
+                                                    <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg">
+                                                    <div class="p-image">
+                                                        <i class="fa fa-camera upload-button" aria-hidden="true"></i>
+                                                        <input  name="attachment" class="file-upload" type="file" accept="image/*">
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                       
+                                        <div class="cust-name row">
+                                            <div class="col-md-1">
+                                                <input  id="user_type1" type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> <label
+                                                    for="Individual">Manager</label><br>
+                                            </div>
+                                            <div class="col">
+                                                <input  id="user_type1" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
+                                                    for="company">Salesman</label>&nbsp;&nbsp;&nbsp;
+                                                    <input  id="user_type1" onclick="visible_manager('admin')" name="user_type"  type="radio"  value="admin"><label
+                                                    for="company">Admin</label><br>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                              <div class="row">
+    
+                                                <div class="col-md-4">
+                                                    <input name="name" id="form_name" required type="text" placeholder="Name" class="form-control">
+                                                </div>
+                                              </div>
+                                            </div>
+    
+                                        </div>
+    
+                                    </div>
+                                        
+                                 
+                                    <div class="col-md-8 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Phone</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input id="form_phone"  name="phone" required type="number" class="input form-control mt-2" >
+    
+                                                </div>
+    
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Mobile</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="mobile" required maxlength="9" minlength="9" type="text" pattern="\d*" class="form-control" id="form_mobile" onkeyup="javascript:checkContents(this)">
+                                                    <div style="display:none;color:red;" class="form-control-feedback user_table1">*Phone should be 9 digits and start with 5</div>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Password Generate Option </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input onclick="password_select_function('automatically')" name="password_select" type="radio" value="Automatic" checked id="access">  &nbsp;Automatic
+                            &nbsp;&nbsp;<input onclick="password_select_function('manual')" name="password_select" value="Manual"  type="radio" id="access" >&nbsp; Manual
+                            <input style="display: none" id="manual_password_field" type="password" name="password"  placeholder="Enter password" class="form-control mt-2">
+                            <input style="display: none" id="re_manual_password_field" type="password" name="re_password"  placeholder="Confirm  password" class="form-control mt-2" onkeyup="validation()">
+                                                 
+                            <span id='message'></span>
+                        </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Property Access </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input id="access" type="radio" onclick="function_access_property('full_access')" name="property_access" value="all" checked> &nbsp;All access
+                                                        &nbsp;  <input id="access"  type="radio" onclick="function_access_property('property_based')"  name="property_access" value="plot_based"> &nbsp;Plot based access
+                                                    </div>
+
+    
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 br-right d-flex align-items-start nav_head" style="display:none;">
+                                                <h6 style="display:none;" class="nav_head">Nav permission </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center nav_head" style="display:none;">
+                                                <div class="form-group  required_item w-100 nav_head" style="display:none;">
+                                                    <div class="row nav_head" style="font-size: 12px;margin-top: 15px;" style="display:none;">
+                                                        <div class="col-sm-4 nav_head" style="display:none;">
+                                                            <input id="access" {% if data.manager_nav_ploat_permission == 1 %} checked {% endif %} type="checkbox"   value="1" name="manager_nav_ploat_permission" style="margin-bottom: 8px;">&nbsp; Plot Management&nbsp;<br>
+                                                            <input id="access" {% if data.manager_nav_user_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_user_permission" style="margin-bottom: 8px;">&nbsp; User Management&nbsp;&nbsp;<br>
+                                                            <input id="access" {% if data.manager_nav_plot_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_plot_edit_permission" style="margin-bottom: 8px;">&nbsp; Property Edit <br>
+                                                            <input id="access" {% if data.manager_nav_booking_cancel_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_booking_cancel_permission">&nbsp; Booking Cancel Permission
+
+                                                        </div>
+                                                        <div class="col-sm-4 nav_head" style="display:none;">
+                                                             <h6 style="margin: 0 0 10px;">Customer Management:</h6>
+                                                             <input id="access" {% if data.manager_nav_customer_read_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_read_permission">&nbsp; Read <br>
+                                                             <input id="access" {% if data.manager_nav_customer_write_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_write_permission">&nbsp; Write <br>
+                                                             <input id="access" {% if data.manager_nav_customer_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_customer_edit_permission">&nbsp; Edit
+                                                         </div>
+                                                        <div class="col-sm-4 nav_head" style="display:none;">
+                                                              <h6 style="margin: 0 0 10px;">Document Permission:</h6>
+                                                              <input id="access" {% if data.manager_nav_document_read_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_read_permission">&nbsp;Read <br>
+                                                              <input id="access" {% if data.manager_nav_document_write_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_write_permission">&nbsp; Write<br>
+                                                              <input id="access" {% if data.manager_nav_document_edit_permission == 1 %} checked {% endif %}  type="checkbox"  value="1" name="manager_nav_document_edit_permission">&nbsp; Edit
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6 style="display: none" id="property_id1">Select Property </h6>
+                                            </div>
+                                            <div style="display: none" id="property_id2" class="col-md-4 multipick">
+                          
+                                                <select name="selected_property_list[]" class="selectpicker" multiple aria-label="Default select example"
+                                                    data-live-search="true">
+                                                    {% for i in data_property %}
+                                                    <option value="{{i.id}}">{{i.Name}} ({{i.UnitNo}})</option>
+                                                  {% endfor %}
+                                                </select>
+                    
+                                        </div>
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6 id="manager_select_div" style="display: none">Select Manger</h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center " >
+                                                <div class="form-group  required_item w-100" id="manager_select_div1" style="display: none">
+                                                    <div class="">
+                                                        <select name="manager" id="selected_manger_name"  class="form-control select2">
+                                                            <option value="select">select manager</option>
+                                    {% for i in manager_data %}
+                                    
+                                    <option value="{{i.id}}">{{i.name}} ({{i.email}})</option>
+                                    
+                                    
+                                    {% endfor %}
+                                    
+                                                           </select>
+                                                    </div>
+                                                    
+    
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                    <div class="col-md-4 cust-details p-0">
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Email</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="email" required type="email" class="form-control" id="form_email">
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Emp ID</h6>
+                                            </div>
+                                            <div class="col-md-9 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <input name="empid" maxlength="10" minlength="10" type="text" class="form-control" id="form_emp" onkeyup="search_details(this)">
+                                                    <div style="display:none;color:red;" class="form-control-feedback user_table">*ID should be 10 digits...</div>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Plot Listview </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input type="radio" name="plot_list_view" checked value="no" id="access">&nbsp;No &nbsp;<input id="access" name="plot_list_view" type="radio" value="yes">&nbsp;Yes 
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 br-right d-flex align-items-center">
+                                                <h6>Price Visibility </h6>
+                                            </div>
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="form-group  required_item w-100">
+                                                    <div class="">
+                                                        <input type="radio" name="price_visibility" checked value=1 id="access">&nbsp;Yes &nbsp;<input name="price_visibility" id="access" type="radio" value=0>&nbsp;No 
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
+                              
+    
+                            </div>
+    
+    
+    
+                        </div>
+    
+    
+    
+    
+                    </div>
+                </div>
+    
+        
+    
+            </div>
+        </div>
+    </div>
+</form>
+<script src="{% static 'admin/js/jquery.min.js' %}"></script>
+
+<script src="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js">
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+    <script>
+
+var user_type = ''
+
+        $(document).ready(function() {
+    $('.select2').select2({
+    closeOnSelect: false
+});
+});
+        function visible_manager(data){
+           if(data == "manager"){
+           $(".nav_head").show()
+            user_type = 'manager'
+            var x = document.getElementById('manager_select_div').style.display = "none";
+            var x = document.getElementById('manager_select_div1').style.display = "none";
+            var x = document.getElementById('prop1').style.display = "block";
+            var x = document.getElementById('prop2').style.display = "block";
+           }
+           else if(data == "admin"){
+           $(".nav_head").hide()
+            user_type = 'manager'
+            var x = document.getElementById('manager_select_div').style.display = "none";
+            var x = document.getElementById('manager_select_div1').style.display = "none";
+            var x = document.getElementById('prop1').style.display = "block";
+            var x = document.getElementById('prop2').style.display = "block";
+           }
+           else{
+            $(".nav_head").hide()
+            user_type = 'salesman'
+            
+            var x = document.getElementById('manager_select_div').style.display = "block";
+            var x = document.getElementById('manager_select_div1').style.display = "block";
+            var x = document.getElementById('prop1').style.display = "none";
+            var x = document.getElementById('prop2').style.display = "none";
+           }
+           
+        }
+    </script>
+
+    <script>
+
+        var password_type = 0
+
+        function password_select_function(data){
+            if(data == "manual"){
+                var y = document.getElementById('manual_password_field').style.display = "block"
+                var y = document.getElementById('re_manual_password_field').style.display = "block"
+                password_type = 1
+
+            }
+            else{
+                var y = document.getElementById('manual_password_field').style.display = "none"
+                var y = document.getElementById('re_manual_password_field').style.display = "none"
+                password_type = 0
+            }
+        }
+    </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+   <script>
+    {% for message in messages %}
+        message1 = "{{message}}"
+       
+
+      
+       
+        if(message1 == "error"){
+
+            Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: "{{ message }}",
+ 
+})
+
+
+
+        }
+        else{
+
+            Swal.fire(
+				  '',
+				  '{{ message }}',
+				  '{{message.tags}}'
+				)
+      
+        }
+    {% endfor %}
+   </script>
+{% endif %}
+
+<script>
+
+$('#files').change(function(){
+    document.getElementById("selected_image0").style.display = "none"
+    document.getElementById("selected_image1").style.display = "block"
+
+})
+
+function image_remove_action(){
+    document.getElementById("selected_image0").style.display = "block"
+    document.getElementById("selected_image1").style.display = "none"
+}
+</script>
+
+<script>
+function validation_action(){
+    
+
+    
+    event.preventDefault()
+
+    var form_name = $("#form_name").val()
+    var form_phone = $("#form_phone").val()
+    var form_email = $("#form_email").val()
+    var form_emp = $("#form_emp").val()
+    var form_mobile = $("#form_mobile").val()
+    var manual_password_field = $("#manual_password_field").val()
+    var re_manual_password_field = $("#re_manual_password_field").val()
+    
+ 
+
+    if(user_type == "manager"){
+
+        if (form_name == ''  ){
+            document.getElementById("form_name").style.borderColor = "red";
+
+        }
+        else if (form_phone == ''){
+            document.getElementById("form_phone").style.borderColor = "red";
+
+        }
+        else if (form_email == ''){
+            document.getElementById("form_email").style.borderColor = "red";
+
+        }
+        else if (form_emp == ''){
+            document.getElementById("form_emp").style.borderColor = "red";
+
+        }
+        else if (form_mobile == ''){
+            document.getElementById("form_mobile").style.borderColor = "red";
+
+        }
+        else if(password_type == 1){
+            if (manual_password_field == re_manual_password_field){
+                document.forms["frmUser"].submit();
+
+            }
+            else{
+                $('#message').html('Not Matching').css('color', 'red');
+            }
+            
+        }
+        else{
+            document.forms["frmUser"].submit();
+        }
+
+        
+    }
+    else if(user_type == "salesman"){
+      
+       
+        var e = document.getElementById("selected_manger_name");
+var value = e.options[e.selectedIndex].value;
+
+if(value == "select"){
+    alert("select manger")
+}
+
+if (form_name == ''  ){
+            document.getElementById("form_name").style.borderColor = "red";
+
+        }
+        else if (form_phone == ''){
+            document.getElementById("form_phone").style.borderColor = "red";
+
+        }
+        else if (form_email == ''){
+            document.getElementById("form_email").style.borderColor = "red";
+
+        }
+        else if (form_emp == ''){
+            document.getElementById("form_emp").style.borderColor = "red";
+
+        }
+        else if (form_mobile == ''){
+            document.getElementById("form_mobile").style.borderColor = "red";
+
+        }
+        else if(password_type == 1){
+            if (manual_password_field == re_manual_password_field){
+                document.forms["frmUser"].submit();
+
+            }
+            else{
+                $('#message').html('Not Matching').css('color', 'red');
+            }
+            
+        }
+        
+
+else{
+    document.forms["frmUser"].submit();
+}
+    }
+}
+    
+</script>
+<script>
+
+    function function_access_property(data){
+      
+        if(data ==  'property_based'){
+            $('#property_id1').show();
+        $('#property_id2').show();
+        }
+        else{
+            $('#property_id1').hide();
+        $('#property_id2').hide();
+        }
+       
+    }
+</script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $(".file-upload").on('change', function () {
+            readURL(this);
+        });
+
+        $(".upload-button").on('click', function () {
+            $(".file-upload").click();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+   var checkContents = function(input) {
+      var text = input.value;
+      if(!/[5]/.test(text))
+         input.value = "";
+         if (input.value.length != 9) {
+    $(".user_table1").show()
+  }
+  else if(input.value.length == 9) {
+    $(".user_table1").hide()
+  }
+   }
+</script>
+
+<script>
+  function search_details(status){
+  if (status.value.length != 10) {
+    $(".user_table").show()
+        }
+        else if (status.value.length == 10){
+        $(".user_table").hide()
+}
+  }
+</script>
+
+<script>
+ function validation() {
+    if ($('#manual_password_field').val() == $('#re_manual_password_field').val()) {
+    $('#message').html('Matching').css('color', 'green');
+  } else{
+    $('#message').html('Not Matching').css('color', 'red');
+
+  }
+ 
+
+ }
+</script>
+    {% endblock %}
