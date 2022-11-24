@@ -495,7 +495,7 @@
                                                                {% for i in data_plot_view_image %}
 
    
-   <a href="./media/{{i.attached_file}}" target="_blank">
+   <a href="#" class="btn_image_action" data-url="./media/{{i.attached_file}}">
     <img width="20%" src="./media/{{i.attached_file}}">
    </a>                                                            <!-- <p>Plot {{i.plot_type}}</p> -->
 
@@ -521,7 +521,7 @@
                                                                 <input value="0" type="hidden" name="plot_view1_remove" id="plot_view1_remove">
                                                                 <input type="hidden" name="plot_view1_id" value="{{plot_view1.id}}">
                                                                 
-                                                                <a target="_blank" href="../media/{{plot_view1.attached_file}}"><img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="    width: 18%;
+                                                                <a target="_blank" href="../media/{{plot_view1.attached_file}}" ><img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="    width: 18%;
                                                                 padding: 5px 9px;" src="../media/{{plot_view1.attached_file}}"></a>
                                                                 <li {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image11" onclick="plot_view1_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
                                                                
@@ -1857,9 +1857,7 @@ modalConfirm(function(confirm){
     
 </script>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-    Launch demo modal
-  </button>
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -1871,7 +1869,7 @@ modalConfirm(function(confirm){
           </button>
         </div>
         <div class="modal-body">
-          <img style="    width: 100%;" src="https://pv.sumoualasalah.com/media/plot_view_master_image/acacia_2.jpg">
+          <img id="myImg" style="    width: 55%;" src="https://pv.sumoualasalah.com/media/plot_view_master_image/acacia_2.jpg">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1884,7 +1882,11 @@ modalConfirm(function(confirm){
   <script>
     
     
-    $("#myModal1").modal('show');
+   $(".btn_image_action").click(function(){
+    var url = $(this).attr("data-url")
+    document.getElementById("myImg").src = url;
+    $("#exampleModalLong").modal('show');
+   })
   </script>
 
 {% endblock %}

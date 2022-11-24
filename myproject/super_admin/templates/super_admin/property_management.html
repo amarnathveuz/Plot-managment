@@ -465,17 +465,25 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
+    filter_status = []
     function Search(){
         $(".append_pro2").show()
         $(".append_pro1").hide()
         var x = document.getElementById("search_value").value;
+       
         redirect_url = "property_search_result"
+        filter_status.push(2)
+        if(x == ""){
+            filter_status = [];
+        }
+
         $.ajax({
             url : redirect_url,
             data :{
                 'data_value':x,
                 'check_list[]':check_list
             },
+           
             type:'GET',
             success: function (data) {
                $(".append_search_result").empty().append(data)
@@ -494,12 +502,12 @@
                 }
             })
                 }
-            })
+            })  
     }
 </script>
 
 <script>
-    filter_status = []
+    
     function filter_apply(status){
         check_list = []
         
