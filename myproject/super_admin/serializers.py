@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import intractive_map
+from .models import intractive_map,plot_view_master_image
 
 
 class Intractive_mapSerializer(serializers.ModelSerializer):
@@ -26,5 +26,11 @@ class Intractive_mapSerializer(serializers.ModelSerializer):
         return status
     
     def get_plot_view(self,obj):
-        return obj.intractive_map_plot_view_image_map_id.values('attached_file','image_type','image_name','plot_type')
+        data = plot_view_master_image.objects.filter(mapping_id__unit_type=obj.UType)
+        if data:
+            return True
+        else:
+            return False
+
+        
 

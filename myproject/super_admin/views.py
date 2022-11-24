@@ -57,7 +57,7 @@ def create_property(request):
 def user_management(request):
     page_number = request.GET.get("page")
     user_data = user_Details.objects.all()
-    data_paginator = Paginator(user_data, 50)
+    data_paginator = Paginator(user_data, 10)
     try:
         page_obj = data_paginator.get_page(page_number)
     except PageNotAnInteger:
@@ -107,7 +107,10 @@ def create_user(request):
             password = request.POST.get("password",False)
         if user_type == "manager":
             if User.objects.filter(username=email).exists():
-                messages.warning(request,str("An account with the given username alredy exists"))
+                messages.warning(request,str("An account with the given username already exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            elif user_Details.objects.filter(emp_id=empid).exists():
+                messages.warning(request,str("An account with the given employee_id already exists"))
                 return redirect(request.META['HTTP_REFERER'])
             else:
                 user = User.objects.create_user(email, email, password)
@@ -208,7 +211,10 @@ def create_user(request):
                 return redirect(request.META['HTTP_REFERER'])
         elif user_type == "salesman":
             if User.objects.filter(username=email).exists():
-                messages.warning(request,str("An account with the given username alredy exists"))
+                messages.warning(request,str("An account with the given username already exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            elif user_Details.objects.filter(emp_id=empid).exists():
+                messages.warning(request,str("An account with the given employee_id already exists"))
                 return redirect(request.META['HTTP_REFERER'])
             else:
                 user = User.objects.create_user(email, email, password)
@@ -263,7 +269,10 @@ def create_user(request):
                 return redirect(request.META['HTTP_REFERER'])
         elif user_type == "admin":
             if User.objects.filter(username=email).exists():
-                messages.warning(request,str("An account with the given username alredy exists"))
+                messages.warning(request,str("An account with the given username already exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            elif user_Details.objects.filter(emp_id=empid).exists():
+                messages.warning(request,str("An account with the given employee_id already exists"))
                 return redirect(request.META['HTTP_REFERER'])
             else:
                 user = User.objects.create_user(email, email, password,is_staff=True,is_active=True,is_superuser=True)
@@ -310,6 +319,9 @@ def create_user(request):
             'data_property':data_property
         }
         return render(request,'super_admin/create_user.html',context)
+
+
+
 
 def upload_excel(request):
     return render(request,'super_admin/upload_excel.html')
@@ -866,15 +878,11 @@ def user_edit(request):
 def update_user_action(request):
     if request.method == "POST":
         updated_id = request.POST.get("updated_id",False)
-        print("uu:::::",str(updated_id))
         remove_status = request.POST.get("remove_status")
-        
-        if int(remove_status) == 1:
-            
+        if int(remove_status) == 1:           
             remove_img = user_Details.objects.get(id=updated_id)
             remove_img.atatchment = ''
             remove_img.save()
-
         name = request.POST.get("name",False)
         user_type = request.POST.get("user_type",False)
         phone = request.POST.get("phone",False)
@@ -932,7 +940,6 @@ def update_user_action(request):
             pass
         else:
             change_text= change_text+'(Phone changed '+user_instance.phone+"--> "+phone+" )"
-
         if user_instance.mobile == mobile:
             pass
         else:
@@ -945,8 +952,6 @@ def update_user_action(request):
             pass
         else:
             change_text= change_text+'(Employee Id changed '+user_instance.emp_id+"--> "+empid+" )"
-
-
         try:
             attachment = request.FILES['attachment']
             data_update_attch = user_Details.objects.get(id=updated_id)
@@ -954,34 +959,164 @@ def update_user_action(request):
             data_update_attch.save()
         except:
             pass
-        update_user_details = user_Details.objects.filter(id=updated_id).update(
-            name=name,
-            phone = phone,
-            email = email,
-            mobile = mobile,
-            emp_id = empid,
-            address1 = address1,
-            address2 = address2,
-            city = city,
-            state = state,
-            country = country,
-            zip = zip,
-            user_type = user_type,
-            plot_list_view = plot_list_view,
-            price_visibility = price_visibility,
-            property_access = property_access,
-            manager_nav_ploat_permission = manager_nav_ploat_permission,
-            manager_nav_user_permission = manager_nav_user_permission,
-            manager_nav_plot_edit_permission = manager_nav_plot_edit_permission,
-            manager_nav_customer_read_permission = manager_nav_customer_read_permission,
-            manager_nav_customer_write_permission=manager_nav_customer_write_permission,
-            manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
-            manager_nav_document_read_permission = manager_nav_document_read_permission,
-            manager_nav_document_write_permission=manager_nav_document_write_permission,
-            manager_nav_document_edit_permission=manager_nav_document_edit_permission,
-            manager_nav_booking_cancel_permission = manager_nav_booking_cancel_permission
-        )
-        print("password_select:::::",str(password_select))
+        if user_instance.email == email:
+            if user_instance.emp_id == empid:
+                update_user_details = user_Details.objects.filter(id=updated_id).update(
+                    name=name,
+                    phone=phone,
+                    email=email,
+                    mobile=mobile,
+                    emp_id=empid,
+                    address1=address1,
+                    address2=address2,
+                    city=city,
+                    state=state,
+                    country=country,
+                    zip=zip,
+                    user_type=user_type,
+                    plot_list_view=plot_list_view,
+                    price_visibility=price_visibility,
+                    property_access=property_access,
+                    manager_nav_ploat_permission=manager_nav_ploat_permission,
+                    manager_nav_user_permission=manager_nav_user_permission,
+                    manager_nav_plot_edit_permission=manager_nav_plot_edit_permission,
+                    manager_nav_customer_read_permission=manager_nav_customer_read_permission,
+                    manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+                    manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+                    manager_nav_document_read_permission=manager_nav_document_read_permission,
+                    manager_nav_document_write_permission=manager_nav_document_write_permission,
+                    manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+                    manager_nav_booking_cancel_permission=manager_nav_booking_cancel_permission
+                )
+            elif user_Details.objects.filter(emp_id=empid).exists():
+                messages.warning(request, str("An account with the given employee id already exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            else:
+                update_user_details = user_Details.objects.filter(id=updated_id).update(
+                    name=name,
+                    phone=phone,
+                    email=email,
+                    mobile=mobile,
+                    emp_id=empid,
+                    address1=address1,
+                    address2=address2,
+                    city=city,
+                    state=state,
+                    country=country,
+                    zip=zip,
+                    user_type=user_type,
+                    plot_list_view=plot_list_view,
+                    price_visibility=price_visibility,
+                    property_access=property_access,
+                    manager_nav_ploat_permission=manager_nav_ploat_permission,
+                    manager_nav_user_permission=manager_nav_user_permission,
+                    manager_nav_plot_edit_permission=manager_nav_plot_edit_permission,
+                    manager_nav_customer_read_permission=manager_nav_customer_read_permission,
+                    manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+                    manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+                    manager_nav_document_read_permission=manager_nav_document_read_permission,
+                    manager_nav_document_write_permission=manager_nav_document_write_permission,
+                    manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+                    manager_nav_booking_cancel_permission=manager_nav_booking_cancel_permission
+                )
+        elif user_instance.emp_id == empid:
+            if user_instance.email == email:
+                update_user_details = user_Details.objects.filter(id=updated_id).update(
+                    name=name,
+                    phone=phone,
+                    email=email,
+                    mobile=mobile,
+                    emp_id=empid,
+                    address1=address1,
+                    address2=address2,
+                    city=city,
+                    state=state,
+                    country=country,
+                    zip=zip,
+                    user_type=user_type,
+                    plot_list_view=plot_list_view,
+                    price_visibility=price_visibility,
+                    property_access=property_access,
+                    manager_nav_ploat_permission=manager_nav_ploat_permission,
+                    manager_nav_user_permission=manager_nav_user_permission,
+                    manager_nav_plot_edit_permission=manager_nav_plot_edit_permission,
+                    manager_nav_customer_read_permission=manager_nav_customer_read_permission,
+                    manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+                    manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+                    manager_nav_document_read_permission=manager_nav_document_read_permission,
+                    manager_nav_document_write_permission=manager_nav_document_write_permission,
+                    manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+                    manager_nav_booking_cancel_permission=manager_nav_booking_cancel_permission
+                )
+            elif user_Details.objects.filter(email=email).exists():
+                messages.warning(request, str("An account with the given email already exists"))
+                return redirect(request.META['HTTP_REFERER'])
+            else:
+                user_data = user_Details.objects.get(id=updated_id)
+                u = User.objects.get(id=user_data.auth_user.id)
+                u.username = email
+                u.email = email
+                u.save()
+                update_user_details = user_Details.objects.filter(id=updated_id).update(
+                    name=name,
+                    phone=phone,
+                    email=email,
+                    mobile=mobile,
+                    emp_id=empid,
+                    address1=address1,
+                    address2=address2,
+                    city=city,
+                    state=state,
+                    country=country,
+                    zip=zip,
+                    user_type=user_type,
+                    plot_list_view=plot_list_view,
+                    price_visibility=price_visibility,
+                    property_access=property_access,
+                    manager_nav_ploat_permission=manager_nav_ploat_permission,
+                    manager_nav_user_permission=manager_nav_user_permission,
+                    manager_nav_plot_edit_permission=manager_nav_plot_edit_permission,
+                    manager_nav_customer_read_permission=manager_nav_customer_read_permission,
+                    manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+                    manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+                    manager_nav_document_read_permission=manager_nav_document_read_permission,
+                    manager_nav_document_write_permission=manager_nav_document_write_permission,
+                    manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+                    manager_nav_booking_cancel_permission=manager_nav_booking_cancel_permission
+                )
+        else:
+            user_data = user_Details.objects.get(id=updated_id)
+            u = User.objects.get(id=user_data.auth_user.id)
+            u.username = email
+            u.email = email
+            u.save()
+            update_user_details = user_Details.objects.filter(id=updated_id).update(
+                name=name,
+                phone = phone,
+                email = email,
+                mobile = mobile,
+                emp_id = empid,
+                address1 = address1,
+                address2 = address2,
+                city = city,
+                state = state,
+                country = country,
+                zip = zip,
+                user_type = user_type,
+                plot_list_view = plot_list_view,
+                price_visibility = price_visibility,
+                property_access = property_access,
+                manager_nav_ploat_permission = manager_nav_ploat_permission,
+                manager_nav_user_permission = manager_nav_user_permission,
+                manager_nav_plot_edit_permission = manager_nav_plot_edit_permission,
+                manager_nav_customer_read_permission = manager_nav_customer_read_permission,
+                manager_nav_customer_write_permission=manager_nav_customer_write_permission,
+                manager_nav_customer_edit_permission=manager_nav_customer_edit_permission,
+                manager_nav_document_read_permission = manager_nav_document_read_permission,
+                manager_nav_document_write_permission=manager_nav_document_write_permission,
+                manager_nav_document_edit_permission=manager_nav_document_edit_permission,
+                manager_nav_booking_cancel_permission = manager_nav_booking_cancel_permission
+            )
         if password_select == "yes":
             password = request.POST.get("password",False)
             if password == None:
@@ -993,10 +1128,7 @@ def update_user_action(request):
             elif password == '':
                 messages.warning(request,"password required")
                 return redirect(request.META['HTTP_REFERER'])
-
-            
-            user_data = user_Details.objects.get(id=updated_id)
-            
+            user_data = user_Details.objects.get(id=updated_id)         
             u = User.objects.get(id=user_data.auth_user.id)
             u.set_password(password)
             u.save()
@@ -1022,10 +1154,7 @@ def update_user_action(request):
             user_type = 'staff'
         if change_text == '':
             pass
-        else:
-
-
-            
+        else:          
             update_log = user_log.objects.create(
                 user_mapping_id_id = updated_id,
                 action_auth_user = request.user,
@@ -1033,9 +1162,9 @@ def update_user_action(request):
                 status_content = "updated",
                 user_type = user_type
             )
-
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
+
 
 
 

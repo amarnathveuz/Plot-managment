@@ -1,13 +1,16 @@
 {% load static %}
 {% load checkbox_result %}
 <div
-    class="d-flex align-items-center justify-content-between px-2">
-    <div class="col-md-4 px-0">
-        <a href="create_property" style="display: none"><button type="button"
+    class="d-flex align-items-center justify-content-between px-2" >
+    <div class="col-md-4 px-0"  >
+        <a href="create_property"><button type="button" style="display:none;"
                 class="btn btn-prim add-btn create-button"><i
                     class="fas fa-plus"></i>
                 Create
             </button></a>
+
+            
+            
 
             <button type="button" onclick="Export()" style="display:none;"
             class="btn btn-ghost-sec btn-icon btn-sm fs-16 allicns selectIcon"
@@ -16,6 +19,7 @@
             data-bs-original-title="Export">
             <i class="fas fa-download"></i>
             </button>
+
     </div>
 
 
@@ -226,8 +230,9 @@
                                                 class="form-check-input checkField messageCheckbox"
                                                 type="checkbox" value="{{i.id}}"
                                                 data-checkall-group="group1"
-                                                onclick="check_action({{i.id}})" id="check_btn{{i.id}}">
+                                                onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
                                         </th>
+                                       
                                         <th>
                                             {{forloop.counter}}
                                         </th>
@@ -440,19 +445,29 @@ function check_action(count){
 </script>
 
 <script>
-$(".next_page_action").click(function(){
-    var url =$(this).attr('data-url')
-    $.ajax({
-        url: url,
-        data:{
-            'check_list[]':check_list
-        },
-    success: function (data) {
-        $("#append_datas_property").empty().append(data);
-    }
-})
-})
+    $(".next_page_action").click(function(){
+        var url =$(this).attr('data-url')
+        $.ajax({
+            url: url,
+            type:"POST",
+            data:{
+                'check_list[]':check_list,
+                csrfmiddlewaretoken: '{{ csrf_token }}' 
+            },
+        success: function (data) {
+            $("#append_datas_property").empty().append(data);
+        }
+    })
+    })
 </script>
+<script>
+    $(document).ready(function(){
+        if( $('.messageCheckbox').is(':checked') ) {
+        $('.selectIcon').show();
+    }
+    })
+</script>
+
 <script>
 $('.check-all').on('click', function () {
     if( $('.check-all').is(':checked') ) {
@@ -462,6 +477,10 @@ $('.check-all').on('click', function () {
         $('.selectIcon').hide();
     }
 })
+</script>
+<script>
+    var ce = document.getElementById('checked_export').value;
+    alert(ce)
 </script>
 
 <script>

@@ -215,36 +215,36 @@
                         <tr>
 
                             {% if i.profile_pic == '' %}
-                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
-                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
-                                    </td>
-                                    {% elif i.profile_pic == None %}
+                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                    class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                            </td>
+                            {% elif i.profile_pic == None %}
 
-                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
-                                        class="fw-medium link-primary">&nbsp;{{i.name}}</a>
-                                    </td>
+                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="{% static 'adminicon.jpg' %}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                            </td>
 
-                                    {% else %}
-                                    <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.profile_pic}}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
-                                            class="fw-medium link-primary">&nbsp;{{i.name}}</a>
-                                    </td>
-                                    {% endif %}
-
-
-
-
+                            {% else %}
+                            <td class="id"><img style="width:30px;    border-radius: 50%;" src="./media/{{i.profile_pic}}" class="m-1"/><a href="customer_more_details?id={{i.id}}"
+                                    class="fw-medium link-primary">&nbsp;{{i.name}}</a>
+                            </td>
+                            {% endif %}
 
                             <td>
+
+                                {% if i.customer_id == None %}
+                                {% else %}
                                 {{i.customer_id}}
+                                {% endif %}
+                               
                             </td>
 
-                            <td class="customer_name"><i class="fa fa-phone m-1" style="font-size: 9px;"></i>
+                            <td class="customer_name">
                                 {% if i.phone == None %}
                                 {% else %}
-                                {{i.phone}}
+                                <i class="fa fa-phone m-1" style="font-size: 9px;"></i> {{i.phone}}
                                 {% endif %}
                             </td>
-                            
                             <td class="product_name">{{i.bank}}</td>
                             <td class="date">
 

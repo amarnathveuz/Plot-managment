@@ -2,7 +2,7 @@
 {% load checkbox_result %}
 {% for i in data %}
 
-<tr onclick="window.location='property_update?id={{i.id}}'">
+<tr>
     <th scope="row">
         <input
             class="form-check-input checkField messageCheckbox"
@@ -35,34 +35,34 @@
         </a>
     </td>
 
-<td>
+<td onclick="window.location='property_update?id={{i.id}}'">
     {% if i.customer_id == None %}
     {% else %}
     {{i.customer_id}}
     {% endif %}
 </td>
-<td class="customer_name">
-{% if i.Phoneno == None %}
+<td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
+{% if i.Phoneno == None or i.Phoneno == '' %}
 {% else %}
 <i class="fa fa-phone m-1" style=" font-size: 9px;" ></i>
 {{i.Phoneno}}
 {% endif %}
 </td>
-<td class="product_name">{{i.UnitNo}}</td>
-<td class="date">{{i.BlockNo}}</td>
-<td class="date">{{i.UnitArea}}</td>
-<td class="company">{{i.LandArea}}</td>
-<td>
+<td class="product_name" onclick="window.location='property_update?id={{i.id}}'">{{i.UnitNo}}</td>
+<td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.BlockNo}}</td>
+<td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.UnitArea}}</td>
+<td onclick="window.location='property_update?id={{i.id}}'" class="company">{{i.LandArea}}</td>
+<td onclick="window.location='property_update?id={{i.id}}'">
 {% if i.UType == None %}
 {% else %}
 {{i.UType}}
 {% endif %}
 </td>
-<td>
+<td onclick="window.location='property_update?id={{i.id}}'">
     {{ request.user|get_currency_format:i.Price }}
 </td>
-<td>{{i.Bank}}</td>
-<td>
+<td onclick="window.location='property_update?id={{i.id}}'">{{i.Bank}}</td>
+<td onclick="window.location='property_update?id={{i.id}}'">
     {% if i.current_status == "0" %}
                 <span
                     class="badge badge-soft-success text-uppercase" style="    color: #fff;
@@ -84,7 +84,7 @@
                     {% else %}
                     {% endif %}
 </td>
-<td class="status">
+<td onclick="window.location='property_update?id={{i.id}}'" class="status">
 {% if i.current_status == "0" %}
 
 <span
