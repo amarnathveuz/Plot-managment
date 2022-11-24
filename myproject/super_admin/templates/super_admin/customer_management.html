@@ -300,7 +300,7 @@
                         <main class='project' style="display: flex; flex: 1 1 auto; overflow-x: scroll;">
 
                             <div class='project-tasks1 mb-1 append_card_view'>
-                                {% for i in data %}
+                                {% for i in page_obj %}
 
                                 <div class='project-column'>
                                     <a href="customer_more_details?id={{i.id}}" style="text-decoration: none;color: black">

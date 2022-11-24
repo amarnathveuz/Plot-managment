@@ -102,7 +102,7 @@ left: 85px;}
                                     <div class="col-md-6 cust-details p-0">
                                         <div class="row">
                                             <div class="col-md-6 br-right d-flex align-items-center">
-                                                <h6>Plot view1 <I style="font-weight: normal;">(Choose image resolution 268x349)</I></h6>
+                                                <h6>Plot view1 <I style="font-weight: normal;">(Choose image resolution 233x397)</I></h6>
                                             </div>
                                             <div class="col-md-6 d-flex align-items-center">
                                                 <div class="file-upload">
@@ -113,7 +113,7 @@ left: 85px;}
                                                         <div class="file-select-button" id="fileName">Choose File</div>
                                                             <div class="file-select-name" id="noFile">No file chosen...</div> 
                                                       
-                                                                    <input class="select_file" type="file" name="plot_view1" id="select_file" onchange="browse_files(this,'plot1')" >
+                                                                    <input class="select_file" type="file" name="plot_view1" id="select_file" onchange="browse_files(this,'plot1',233,397)" >
                                                     </div>
                                                     <a target="_blank" href="../media/{{plot_view1.attached_file}}"><img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="width: 18%;
                                                         padding: 5px 9px 5px 0;" src="../media/{{plot_view1.attached_file}}"></a>
@@ -129,7 +129,7 @@ left: 85px;}
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 br-right d-flex align-items-center">
-                                                <h6>Plot view2 <I style="font-weight: normal;">(Choose image resolution 268x349)</I></h6>
+                                                <h6>Plot view2 <I style="font-weight: normal;">(Choose image resolution 507x397)</I></h6>
                                             </div>
                                             <div class="col-md-6 d-flex align-items-center">
                                                 <div class="file-upload">
@@ -139,7 +139,7 @@ left: 85px;}
 
                                                       <div class="file-select-button" id="fileName">Choose File</div>
                                                       <div class="file-select-name" id="noFile2" >No file chosen...</div> 
-                                                      <input  type="file" class="select_file"  name="plot_view2" id="choose_file" onchange="browse_files(this,'plot2')">
+                                                      <input  type="file" class="select_file"  name="plot_view2" id="choose_file" onchange="browse_files(this,'plot2',507,397)">
                                                     </div>
                                                     <a target="_blank" href="../media/{{plot_view2.attached_file}}"><img {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image2" style="    width: 18%;
                                                         padding: 5px 9px 5px 0;" src="../media/{{plot_view2.attached_file}}"></a>
@@ -160,7 +160,7 @@ left: 85px;}
                                                         <input type="hidden" name="plot_view3_id" value="{{plot_view3.id}}">
                                                       <div class="file-select-button" id="fileName">Choose File</div>
                                                       <div class="file-select-name" id="noFile1">No file chosen...</div> 
-                                                      <input  type="file" class="select_file" name="plot_view3" id="select_file1" onchange="browse_files(this,'plot3')">
+                                                      <input  type="file" class="select_file" name="plot_view3" id="select_file1" onchange="browse_files(this,'plot3',268,349)">
                                                     </div>
                                                     <a target="_blank" href="../media/{{plot_view3.attached_file}}"><img {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image3" style="    width: 18%;
                                                         padding: 5px 9px 5px 0;" src="../media/{{plot_view3.attached_file}}"></a>
@@ -268,7 +268,7 @@ left: 85px;}
    
 
 
-function browse_files(current,status){
+function browse_files(current,status,maxwidth,maxheight){
     var _URL = window.URL || window.webkitURL;
        var file = current.files[0]
        console.log(file)
@@ -276,8 +276,8 @@ function browse_files(current,status){
        img = new Image();
        var imgwidth = 0;
        var imgheight = 0;
-       var maxwidth = 268;
-       var maxheight = 349;
+       var maxwidth = maxwidth;
+       var maxheight = maxheight;
        img.src = _URL.createObjectURL(file);
 
      

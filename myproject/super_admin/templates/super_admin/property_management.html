@@ -11,11 +11,11 @@
             <div class="col-12 buttns">
                 <h5>Plot Management</h5>
             </div>
-            <div class="col-md-12 contnt" id="append_datas_property">
+            <div class="col-md-12 contnt append_groupby_result append_filterfunctn_result" id="append_datas_property">
                 <div class="d-flex align-items-center justify-content-between px-2" >
             
                     <div class="col-md-4 px-0">
-                        <a href="create_property" style="display: none"><button type="button"
+                        <a href="create_property"><button type="button" style="display:none ;"
                                 class="btn btn-prim add-btn create-button"><i
                                     class="fas fa-plus"></i>
                                 Create
@@ -236,7 +236,7 @@
                                     </tr>
                                 </thead>
                        
-                                        <tbody class="list form-check-all append_search_result append_filterfunctn_result append_groupby_result">
+                                        <tbody class="list form-check-all append_search_result">
                                             {% for i in page_obj.object_list %}
                                             <tr >
                                                     <th scope="row">
@@ -279,7 +279,7 @@
                                            {{i.customer_id}}
                                            {% endif %}
                                         </td>
-                                        <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
+                                        <td class="customer_name" >
                                             {% if i.Phoneno == None or i.Phoneno == '' %}
                                             {% else %}
     
@@ -291,11 +291,11 @@
 
                                           
                                         </td>
-                                        <td onclick="window.location='property_update?id={{i.id}}'" class="product_name">{{i.UnitNo}}</td>
-                                        <td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.BlockNo}}</td>
-                                        <td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.UnitArea}}</td>
-                                        <td onclick="window.location='property_update?id={{i.id}}'" class="company">{{i.LandArea}}</td>
-                                        <td onclick="window.location='property_update?id={{i.id}}'">
+                                        <td  class="product_name">{{i.UnitNo}}</td>
+                                        <td  class="date">{{i.BlockNo}}</td>
+                                        <td  class="date">{{i.UnitArea}}</td>
+                                        <td  class="company">{{i.LandArea}}</td>
+                                        <td >
                                             {% if i.UType == None %}
                                             {% else %}
                                             {{i.UType}}
@@ -375,7 +375,7 @@
                         <div class='app plotmngmnt'>
                             <main class='project1'>
                                 <div class='project-tasks1 mb-1 card_view1'>
-                                {% for i in data %}
+                                {% for i in page_obj.object_list %}
                                     <div class='project-column'>
                                         <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
                                         <div class='customer-bx'>
@@ -479,6 +479,7 @@
             type:'GET',
             success: function (data) {
                $(".append_search_result").empty().append(data)
+
             redirect_url = 'property_search_card_view'
             $.ajax({
                 url : redirect_url,
@@ -717,6 +718,7 @@
             type:'GET',
             success: function (data) {
                $(".append_groupby_result").empty().append(data)
+
                var card_view_redirect_url = 'property_card_view_filter_status'
                     $.ajax({
                 url: card_view_redirect_url,
@@ -784,6 +786,9 @@
             },
         success: function (data) {
             $("#append_datas_property").empty().append(data);
+
+
+            
         }
     })
     })
@@ -852,6 +857,7 @@ function hoverdata(){
                 $(".append_pro1").show()
                 $(".append_pro2").hide()
                 $(".append_pro1").empty().append(data);
+
                 redirect_url = "append_card_view"
             $.ajax({
                 url: redirect_url,

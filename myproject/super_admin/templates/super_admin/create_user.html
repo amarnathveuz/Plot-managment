@@ -430,110 +430,302 @@ function image_remove_action(){
 }
 </script>
 
-<script>
-function validation_action(event){
-    
-
-    
+<script>function validation_action(){
     event.preventDefault()
-
     var form_name = $("#form_name").val()
     var form_phone = $("#form_phone").val()
     var form_email = $("#form_email").val()
     var form_emp = $("#form_emp").val()
     var form_mobile = $("#form_mobile").val()
+    var select = $("#selected_manger_name").val()
     var manual_password_field = $("#manual_password_field").val()
     var re_manual_password_field = $("#re_manual_password_field").val()
-    
- 
 
-    if(user_type == "manager"){
-
-        if (form_name == ''  ){
-            document.getElementById("form_name").style.borderColor = "red";
-
-        }
-        else if (form_phone == ''){
-            document.getElementById("form_phone").style.borderColor = "red";
-
-        }
-        else if (form_email == ''){
-            document.getElementById("form_email").style.borderColor = "red";
-
-        }
-        else if (form_emp == ''){
-            document.getElementById("form_emp").style.borderColor = "red";
-
-        }
-        else if (form_mobile == ''){
-            document.getElementById("form_mobile").style.borderColor = "red";
-
-        }
-        else if(password_type == 1){
-            if (manual_password_field == re_manual_password_field){
-                document.forms["frmUser"].submit();
-
+    redirect_url = "user_validation"
+    $.ajax({
+        url : redirect_url,
+        data:{
+            'form_emp': form_emp,
+            'form_email':form_email,
+            'select':select,
+        },
+        success: function (data) {
+            if(data['message'] == false){
+                alert(data['status'])
             }
             else{
-                $('#message').html('Not Matching').css('color', 'red');
+                if(user_type == "manager"){
+                    if (form_name == ''  ){
+                        document.getElementById("form_name").style.borderColor = "red";
+                    }
+                    else if (form_phone == ''){
+                        document.getElementById("form_phone").style.borderColor = "red";
+                    }
+                    else if (form_email == ''){
+                        document.getElementById("form_email").style.borderColor = "red";
+                    }
+                    else if (form_emp == ''){
+                        document.getElementById("form_emp").style.borderColor = "red";
+                    }
+                    else if (form_mobile == ''){
+                        document.getElementById("form_mobile").style.borderColor = "red";
+                    }
+                    else if(password_type == 1){
+                        if (manual_password_field == re_manual_password_field){
+                            document.forms["frmUser"].submit();
+                        }
+                        else{
+                            $('#message').html('Not Matching').css('color', 'red');
+                        }
+                    }
+                    else{
+                        document.forms["frmUser"].submit();
+                    }
+                }
+                else if(user_type == "salesman"){
+                    if (form_name == ''  ){
+                        document.getElementById("form_name").style.borderColor = "red";
+                    }
+                    else if (form_phone == ''){
+                        document.getElementById("form_phone").style.borderColor = "red";
+                    }
+                    else if (form_email == ''){
+                        document.getElementById("form_email").style.borderColor = "red";
+                    }
+                    else if (form_emp == ''){
+                        document.getElementById("form_emp").style.borderColor = "red";
+                    }
+                    else if (form_mobile == ''){
+                        document.getElementById("form_mobile").style.borderColor = "red";
+                    }
+                    else if(password_type == 1){
+                        if (manual_password_field == re_manual_password_field){
+                            document.forms["frmUser"].submit();
+                        }
+                        else{
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'error...',
+                              text: 'Password Doesnot Match!',
+                            })
+                        }
+                    }
+                    else{
+                        document.forms["frmUser"].submit();
+                    }
+                }
             }
-            
         }
-        else{
-            document.forms["frmUser"].submit();
-        }
-
-        
-    }
-    else if(user_type == "salesman"){
-      
-       
-        var e = document.getElementById("selected_manger_name");
-var value = e.options[e.selectedIndex].value;
-
-if(value == "select"){
-    alert("select manger")
-}
-
-if (form_name == ''  ){
-            document.getElementById("form_name").style.borderColor = "red";
-
-        }
-        else if (form_phone == ''){
-            document.getElementById("form_phone").style.borderColor = "red";
-
-        }
-        else if (form_email == ''){
-            document.getElementById("form_email").style.borderColor = "red";
-
-        }
-        else if (form_emp == ''){
-            document.getElementById("form_emp").style.borderColor = "red";
-
-        }
-        else if (form_mobile == ''){
-            document.getElementById("form_mobile").style.borderColor = "red";
-
-        }
-        else if(password_type == 1){
-            if (manual_password_field == re_manual_password_field){
-                document.forms["frmUser"].submit();
-
-            }
-            else{
-                $('#message').html('Not Matching').css('color', 'red');
-            }
-            
-        }
-        
-
-else{
-    document.forms["frmUser"].submit();
-}
-    }
+    })
 }
     
 </script>
+
+<script>
+
+    function validation_action(event){
+    
+        
+    
+    
+    
+        
+    
+        event.preventDefault()
+    
+    
+    
+        var form_name = $("#form_name").val()
+    
+        var form_phone = $("#form_phone").val()
+    
+        var form_email = $("#form_email").val()
+    
+        var form_emp = $("#form_emp").val()
+    
+        var form_mobile = $("#form_mobile").val()
+    
+        var manual_password_field = $("#manual_password_field").val()
+    
+        var re_manual_password_field = $("#re_manual_password_field").val()
+    
+        
+    
+    
+    
+        if(user_type == "manager"){
+    
+    
+    
+            if (form_name == ''  ){
+    
+                document.getElementById("form_name").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_phone == ''){
+    
+                document.getElementById("form_phone").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_email == ''){
+    
+                document.getElementById("form_email").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_emp == ''){
+    
+                document.getElementById("form_emp").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_mobile == ''){
+    
+                document.getElementById("form_mobile").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if(password_type == 1){
+    
+                if (manual_password_field == re_manual_password_field){
+    
+                    document.forms["frmUser"].submit();
+    
+    
+    
+                }
+    
+                else{
+    
+                    $('#message').html('Not Matching').css('color', 'red');
+    
+                }
+    
+                
+    
+            }
+    
+            else{
+    
+                document.forms["frmUser"].submit();
+    
+            }
+    
+    
+    
+            
+    
+        }
+    
+        else if(user_type == "salesman"){
+    
+          
+    
+           
+    
+            var e = document.getElementById("selected_manger_name");
+    
+    var value = e.options[e.selectedIndex].value;
+    
+    
+    
+    if(value == "select"){
+    
+        alert("select manger")
+    
+    }
+    
+    
+    
+    if (form_name == ''  ){
+    
+                document.getElementById("form_name").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_phone == ''){
+    
+                document.getElementById("form_phone").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_email == ''){
+    
+                document.getElementById("form_email").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_emp == ''){
+    
+                document.getElementById("form_emp").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if (form_mobile == ''){
+    
+                document.getElementById("form_mobile").style.borderColor = "red";
+    
+    
+    
+            }
+    
+            else if(password_type == 1){
+    
+                if (manual_password_field == re_manual_password_field){
+    
+                    document.forms["frmUser"].submit();
+    
+    
+    
+                }
+    
+                else{
+    
+                    $('#message').html('Not Matching').css('color', 'red');
+    
+                }
+    
+                
+    
+            }
+    
+            
+    
+    
+    
+    else{
+    
+        document.forms["frmUser"].submit();
+    
+    }
+    
+        }
+    
+    }
+    
+        
+    
+    </script>
 <script>
 
     function function_access_property(data){

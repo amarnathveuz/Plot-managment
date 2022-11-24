@@ -14,6 +14,8 @@ from .decorators import *
 
 
 def index(request):
+    data  = intractive_map.objects.all()
+    data = intractive_map.objects.filter(Name="abc")
     return render(request,'super_admin/index.html')
 
 
@@ -92,11 +94,13 @@ def create_user(request):
         price_visibility = request.POST.get("price_visibility",False)
         password = ""
         property_access = request.POST.get("property_access",False)
-        
-        
-        
-        
-        
+       
+
+
+       
+       
+       
+       
         # selected_property_list = request.POST.getlist("selected_property_list[]",False)
         if password_select == "Automatic":
             import string    
@@ -104,7 +108,15 @@ def create_user(request):
             S = 10
             password = ''.join(random.choices(string.ascii_uppercase + string.digits, k = S))
         elif password_select == "Manual":
+
             password = request.POST.get("password",False)
+            re_password = request.POST.get("re_password",False)
+            if password == re_password:
+                pass
+            else:
+                messages.warning(request,str("password not match"))
+                return redirect(request.META['HTTP_REFERER'])
+
         if user_type == "manager":
             if User.objects.filter(username=email).exists():
                 messages.warning(request,str("An account with the given username already exists"))
@@ -146,7 +158,7 @@ def create_user(request):
                     manager_nav_document_edit_permission = 0
                 if manager_nav_booking_cancel_permission == None:
                     manager_nav_booking_cancel_permission = 0
-                
+               
                 save_user_data = user_Details.objects.create(
                     auth_user = user,
                     name = name,
@@ -210,6 +222,8 @@ def create_user(request):
                 messages.success(request,str("password:"+str(password)))
                 return redirect(request.META['HTTP_REFERER'])
         elif user_type == "salesman":
+
+            
             if User.objects.filter(username=email).exists():
                 messages.warning(request,str("An account with the given username already exists"))
                 return redirect(request.META['HTTP_REFERER'])
@@ -217,6 +231,12 @@ def create_user(request):
                 messages.warning(request,str("An account with the given employee_id already exists"))
                 return redirect(request.META['HTTP_REFERER'])
             else:
+                manager = request.POST.get("manager")
+                
+                if manager == "select":
+                    messages.warning(request,str("please select manager"))
+                    return redirect(request.META['HTTP_REFERER'])
+
                 user = User.objects.create_user(email, email, password)
                 user.save()
                 data1 = Token.objects.create(user=user)
@@ -302,13 +322,13 @@ def create_user(request):
                 )
                 messages.success(request,str('Created'))
                 return redirect(request.META['HTTP_REFERER'])
-            
+           
 
             pass
 
 
 
-    
+   
 
         pass
     else:
@@ -321,6 +341,19 @@ def create_user(request):
         return render(request,'super_admin/create_user.html',context)
 
 
+
+def user_validation(request):
+    empid = request.GET.get("form_emp")
+    email = request.GET.get("form_email")
+    select_value = request.GET.get("select")
+    if User.objects.filter(username=email).exists():
+        return JsonResponse({"message": False, 'status': "Email ID already exists.Please try with another one."},
+                            safe=False)
+    elif user_Details.objects.filter(emp_id=empid).exists():
+        return JsonResponse({"message": False, 'status': "ID already exists.Please try with another one."},
+                            safe=False)
+    else:
+        return JsonResponse({"message": True}, safe=False)
 
 
 def upload_excel(request):
@@ -1167,7 +1200,6 @@ def update_user_action(request):
 
 
 
-
 def login_action(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -1265,7 +1297,6 @@ def plot(request):
         "data_bank":data_bank
         }
         return render(request,'super_admin/plot.html',context)
-
 
 @login_required(login_url='/')
 def booking_action(request):
@@ -1521,6 +1552,7 @@ def booking_action(request):
            
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
+
 
 
 
@@ -1871,15 +1903,43 @@ def next_page_action_url_property(request):
     return render(request, 'super_admin/append_datas_property.html', context) 
 
 def property_filter_function(request):
+
+    page_number = request.GET.get("page")
+    check_list = request.POST.getlist("check_list[]")
     data_value = request.GET.get("data_value")
     data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
-    return render(request, 'super_admin/property_filter_function.html', {'data': data})
-
+   
+    data_paginator = Paginator(data, 50)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+   
+    context = {
+        'page_obj': page_obj,
+        'check_list': check_list,
+        'data':data
+    }
+   
+    return render(request, 'super_admin/property_groupby_action.html', context)
 def property_groupby_action(request):
+    page_number = request.GET.get("page")
+    check_list = request.POST.getlist("check_list[]")
     data_value = request.GET.getlist("data_value[]")
-    print("data_value::::::",str(data_value))
     data = intractive_map.objects.filter(current_status__in=data_value)
-    return render(request, 'super_admin/property_groupby_action.html', {'data': data})
+    data_paginator = Paginator(data, 50)
+    try:
+        page_obj = data_paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = data_paginator.page(1)
+   
+    context = {
+        'page_obj': page_obj,
+        'check_list': check_list,
+        'data':data
+    }
+    return render(request, 'super_admin/property_groupby_action.html',context)
+
 
 
 def property_search_result(request):
@@ -3089,8 +3149,7 @@ from PIL import Image
 import os
 import PIL
 import glob
-
-
+import cv2
 def plot_view_details(request):
     if request.method == "POST":
         import cv2
@@ -3116,10 +3175,10 @@ def plot_view_details(request):
                 if checked1 == "above_plot1":
                     image = Image.open(plot_view1)
                     print("image.size",image.size)
-                    resized_image = image.resize((268,349))
+                    resized_image = image.resize((233,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
-                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, 'JPEG', quality=90)
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, extesion[1:], quality=90)
                     image_new1 = 'plot_view_master_image/resized'+plot_view1.name
                 elif checked1 == "same_plot1":
                     image_new1 = plot_view1
@@ -3132,14 +3191,17 @@ def plot_view_details(request):
                
             except:
                 import os
+                print("--------------------------")
+                print("checked1:::::::::::::::::::",str(checked1))
                 extesion = os.path.splitext(str(plot_view1))[1]
+                print("extesion:::::",str(extesion))
                 if checked1 == "above_plot1":
                     image = Image.open(plot_view1)
                     print("image.size",image.size)
-                    resized_image = image.resize((268,349))
+                    resized_image = image.resize((233,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
-                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, 'JPEG', quality=90)
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, extesion[1:], quality=90)
                     image_new1 = 'plot_view_master_image/resized'+plot_view1.name
 
                 elif checked1 == "same_plot1":
@@ -3176,10 +3238,10 @@ def plot_view_details(request):
                    
                     image = Image.open(plot_view2)
                     print("image.size",image.size)
-                    resized_image = image.resize((268,349))
+                    resized_image = image.resize((507,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
-                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name, 'JPEG', quality=90)
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name, extesion[1:], quality=90)
                     image_new2 = 'plot_view_master_image/resized'+plot_view2.name
                 elif checked2 == "same_plot2":
                     image_new2 = plot_view2
@@ -3197,10 +3259,10 @@ def plot_view_details(request):
          
                     image = Image.open(plot_view2)
                     print("image.size",image.size)
-                    resized_image = image.resize((268,349))
+                    resized_image = image.resize((507,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
-                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name, 'JPEG', quality=90)
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name,extesion[1:], quality=90)
                     image_new2 = 'plot_view_master_image/resized'+plot_view2.name
 
                 elif checked2 == "same_plot2":
@@ -3238,7 +3300,7 @@ def plot_view_details(request):
                     resized_image = image.resize((268,349))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
-                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, 'JPEG', quality=90)
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, extesion[1:], quality=90)
                     image_new3 = 'plot_view_master_image/resized'+plot_view3.name
                 elif checked3 == "same_plot3":
                     image_new3 = plot_view3
@@ -3258,7 +3320,7 @@ def plot_view_details(request):
                     resized_image = image.resize((268,349))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
-                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, 'JPEG', quality=90)
+                    resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, extesion[1:], quality=90)
                     image_new3 = 'plot_view_master_image/resized'+plot_view3.name
                 elif checked3 == "same_plot3":
                     image_new3 = plot_view3
@@ -3319,6 +3381,8 @@ def plot_view_details(request):
 
     }
     return render(request,'super_admin/plot_view_details.html',context)
+
+
 
 
 def plot_view_based_plot(request):

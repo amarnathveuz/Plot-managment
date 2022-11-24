@@ -16,8 +16,21 @@
     fill:#C6FFC6 !important;
 }
 
-.wht .orng{
+.wht .plot_color0{
+    fill:#C6FFC6 !important;
+}
+.wht .plot_color1{
     fill:#FFDC9C !important;
+}
+.wht .plot_color2{
+    fill:#FFB5B5 !important;
+}
+
+.wht .plot_color3{
+    fill:#FFB5B5 !important;
+}
+.wht .orng{
+    fill:#D4D4D4 !important;
 }
 
 .wht .gray{

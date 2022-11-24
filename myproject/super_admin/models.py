@@ -258,3 +258,8 @@ class plot_view_master_image(common):
     tm = models.TimeField(auto_now_add=True)
     plot_type = models.CharField(max_length=255,null=True)
     status = models.CharField(max_length=255,null=True)
+
+
+
+class new_user(common):
+    fname = models.CharField(max_length=255,null=True)

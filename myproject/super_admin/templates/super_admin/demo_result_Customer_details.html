@@ -145,9 +145,9 @@
                 </button>
 
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#"><div class="form-check">
-                        <input type="checkbox" name="checkfield" id="g01-01" onchange="name_groupby_action(this)"> &nbsp;Booking Based
-                      </div></a>
+                    <a class="dropdown-item" href="#">    <div class="form-check">                <input type="checkbox" name="checkfield" id="g01-01"
+                        onmouseover="hoverdata()"> &nbsp;Type
+                    </div></a>
                      
                 </div>
             </div>
@@ -282,7 +282,7 @@
                 <main class='project'>
 
                     <div class='project-tasks1 mb-1 append_card_view'>
-                        {% for i in data %}
+                        {% for i in page_obj %}
 
                         <div class='project-column'>
                             <a href="customer_more_details?id={{i.id}}" style="text-decoration: none;color: black">
@@ -349,5 +349,51 @@
             }
         })
     })
+</script>
+
+<script>    function hoverdata() {
+    let checkbox = document.getElementById("g01-01");
+    if (checkbox.checked) {
+        document.getElementById("g01-01").checked = false;
+        $(".user_table1").hide()
+        $(".user_table").show()
+    }
+    else
+    {
+        document.getElementById("g01-01").checked = true;
+
+        redirect_group_by_url = 'Bank_status_group_by_action'
+        $.ajax({
+            url: redirect_group_by_url,
+            data: {
+                'status': 'type'
+            },
+            type: 'GET',
+            success: function (data) {
+                $(".user_table1").show()
+                $(".user_table").hide()
+
+                $(".user_table1").empty().append(data)
+
+                var card_view_redirect_url = 'Bank_status_group_by_action_card_view'
+                $.ajax({
+                    url: card_view_redirect_url,
+                    data: {
+                        'status': 'type'
+                    },
+                    success: function (data) {
+
+
+                        $(".append_card_view").empty().append(data);
+                    }
+                })
+
+
+            }
+
+        })
+
+    }
+}
 </script>
 

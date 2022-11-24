@@ -135,11 +135,8 @@
                     Group By
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">
-                        <div class="form-check">
-                            <input type="checkbox" name="checkfield" id="radio67" onclick="group_by_status(this)">&nbsp; Status
-                        </div>
-                    </a>
+                    <a class="dropdown-item" href="#" onmouseover="hoverdata()">                    <div class="form-check">                        <input type="checkbox" name="checkfield" id="radio67"> &nbsp; Status
+                    </div>                </a>
                 </div>
             </div>
         <ul class="nav nav-tabs nav-ta" role="tablist">
@@ -357,7 +354,7 @@
             <div class='app plotmngmnt'>
                 <main class='project1'>
                     <div class='project-tasks1 mb-1 card_view1'>
-                    {% for i in data %}
+                        {% for i in page_obj.object_list %}
                         <div class='project-column'>
                             <a href="property_update?id={{i.id}}" style="text-decoration: none;color: black">
                             <div class='customer-bx'>
@@ -478,10 +475,7 @@ $('.check-all').on('click', function () {
     }
 })
 </script>
-<script>
-    var ce = document.getElementById('checked_export').value;
-    alert(ce)
-</script>
+
 
 <script>
 $('.messageCheckbox').on('click', function () {
@@ -628,3 +622,36 @@ function Export() {
  }
  </script>
 
+
+<script>function hoverdata(){
+    let checkbox = document.getElementById("radio67");
+    if ( checkbox.checked ) {
+        document.getElementById("radio67").checked = false;
+        $(".append_pro1").hide()
+        $(".append_pro2").show()
+    }
+    else{
+        document.getElementById("radio67").checked = true;
+        redirect_url = "property_groupby_status"
+    $.ajax({
+            url: redirect_url,
+        success: function (data) {
+            $(".append_pro1").show()
+            $(".append_pro2").hide()
+            $(".append_pro1").empty().append(data);
+            redirect_url = "append_card_view"
+        $.ajax({
+            url: redirect_url,
+            success: function (data) {
+            $(".card_view1").empty().append(data);
+            }
+            })
+        }
+    })
+}
+
+}
+
+
+
+</script>

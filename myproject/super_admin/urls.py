@@ -118,6 +118,7 @@ urlpatterns = [
     path('plot_view_master',views.plot_view_master_method,name='plot_view_master'),
     path('plot_view_details',views.plot_view_details,name='plot_view_details'),
     path('plot_view_based_plot',views.plot_view_based_plot,name='plot_view_based_plot'),
+    path('user_validation',views.user_validation,name='user_validation'),
 
 
 
