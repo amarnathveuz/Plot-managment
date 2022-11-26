@@ -3160,9 +3160,10 @@ def plot_view_details(request):
         checked1 = request.POST.get('check1',False)
         checked2 = request.POST.get('check2',False)
         checked3 = request.POST.get('check3',False)
+        print("checked1:::::::::::::",str(checked1))
 
         save_status = 0
-       
+        
        
         try:
             plot_view1 = request.FILES['plot_view1']
@@ -3405,3 +3406,42 @@ def plot_view_based_plot(request):
         'checked_list':checked_list
     }
     return render(request,'super_admin/property_management.html',context)
+
+
+import subprocess, gzip
+from subprocess import Popen
+from myproject.settings import DATABASES, RUTA
+from django.core.files.storage import FileSystemStorage
+
+@login_required(login_url='/')
+def data_base_backup(request):
+    user_data = User.objects.get(id=request.user.id)
+    st = user_data.is_superuser
+    if st == True:
+        return render(request,'super_admin/data_base_backup.html',{'bank_nav':1})
+    else:
+        pass
+
+@login_required(login_url='/')
+def backup(request):
+    user_data = User.objects.get(id=request.user.id)
+    st = user_data.is_superuser
+    if st == True:
+        name = DATABASES['default']['NAME']
+        passwd = DATABASES['default']['PASSWORD']
+        user = DATABASES['default']['USER']
+        ruta = RUTA
+
+        proc = subprocess.Popen("mysqldump -u "+user+" -p"+passwd+" "+name+" > "+ruta+"backup.sql", shell=True)
+        proc.wait()
+        procs = subprocess.Popen("tar -czvf "+ruta+"backup.tar.tgz "+ruta+"backup.sql", shell=True, )
+        procs.wait()
+
+        fs = FileSystemStorage(ruta)
+        with fs.open('backup.tar.tgz') as tar:
+            response = HttpResponse(tar, content_type='application/x-gzip')
+            response['Content-Disposition'] = 'filename="backup.tar.tgz"'
+            return response
+    else:
+        pass
+    pass

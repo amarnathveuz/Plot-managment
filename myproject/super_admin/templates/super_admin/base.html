@@ -45,6 +45,13 @@
                         {% if bank_nav == 1 %}
 <li>    <a href="bank_master" class="splnav"> <i class="fas fa-briefcase"></i>        <p>Bank Master</p>    </a></li>
 <li>    <a href="plot_view_master" class="splnav"> <i class="fas fa-briefcase"></i>        <p>Plot view Master</p>    </a></li>
+{{request.user.is_superuser}}
+{% if request.user.is_superuser == True %}
+
+
+<li>    <a href="data_base_backup" class="splnav"> <i class="fas fa-database"></i>        <p>Database Backup</p>    </a></li>
+
+{% endif %}
 {% else %}
                         <!-- <li>
                             <a class="splnav"> <i class="fa fa-user"></i>
@@ -84,6 +91,7 @@
                             </a>
                         </li>
                         {% endif %}
+
                         
                        
                       
@@ -420,27 +428,27 @@
             searchInput = document.querySelector(".search-bar__search-input input")
 
 
-        searchIcon.onclick = () => {
-            searchBar.classList.toggle("search-bar--active")
-        }
+        // searchIcon.onclick = () => {
+        //     searchBar.classList.toggle("search-bar--active")
+        // }
 
 
-        closeIcon.onclick = () => {
-            searchInput.value = ""
-            searchInput.focus()
-        }
+        // closeIcon.onclick = () => {
+        //     searchInput.value = ""
+        //     searchInput.focus()
+        // }
 
 
 
-        searchInput.onfocus = function () {
-            let place = this.getAttribute("placeholder")
-            this.setAttribute("data", `${place}`)
-            this.removeAttribute("placeholder")
-        }
+        // searchInput.onfocus = function () {
+        //     let place = this.getAttribute("placeholder")
+        //     this.setAttribute("data", `${place}`)
+        //     this.removeAttribute("placeholder")
+        // }
 
-        searchInput.onblur = function () {
-            this.setAttribute("placeholder", `${this.getAttribute("data")}`)
-        }
+        // searchInput.onblur = function () {
+        //     this.setAttribute("placeholder", `${this.getAttribute("data")}`)
+        // }
     </script>
 
 </body>

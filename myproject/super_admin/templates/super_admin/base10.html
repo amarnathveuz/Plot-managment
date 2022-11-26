@@ -59,8 +59,8 @@
 
                         </li> -->
                         {% if bank_nav == 1 %}
-                        <li>    <a href="bank_master" class="splnav"> <i class="fas fa-briefcase"></i>        <p>Bank Master</p>    </a></li>
-                        <li>    <a href="plot_view_master" class="splnav"> <i class="fas fa-briefcase"></i>        <p>Plot view Master</p>    </a></li>
+                        <li>    <a href="bank_master" class="splnav just_load_please"> <i class="fas fa-briefcase"></i>        <p>Bank Master</p>    </a></li>
+                        <li>    <a href="plot_view_master" class="splnav just_load_please"> <i class="fas fa-briefcase"></i>        <p>Plot view Master</p>    </a></li>
                         {% else %}
                                                 <!-- <li>
                                                     <a class="splnav"> <i class="fa fa-user"></i>
@@ -81,14 +81,14 @@
 
                                                 {% if request.user|get_nav_permission:"plot_management" %}
                                                 <li>
-                                                    <a class="splnav" href="property_management"> <i class="fa fa-calendar"></i>
+                                                    <a class="splnav just_load_please" href="property_management"> <i class="fa fa-calendar"></i>
                                                         <p>Plot Management</p>
                                                     </a>
                                                 </li>
                                                 {% endif %}
                                                 {% if request.user|get_user_type_action:"user_type" %}
                                                 <li>
-                                                    <a href="customer_management" class="splnav"> <i class="fa fa-user-circle"></i>
+                                                    <a href="customer_management" class="splnav just_load_please"> <i class="fa fa-user-circle"></i>
                                                         <p>Customers </p>
                                                     </a>
                                                 </li>
@@ -96,7 +96,7 @@
                                                
                                                 {% if request.user|get_nav_permission:"user_management" %}
                                                 <li>
-                                                    <a href="user_management" class="splnav"> <i class="fa fa-user-circle"></i>
+                                                    <a href="user_management" class="splnav just_load_please"> <i class="fa fa-user-circle"></i>
                                                         <p>Users  </p>
                                                     </a>
                                                 </li>
@@ -106,7 +106,7 @@
                                                 
                         
                                                 <li>
-                                                    <a href="plot" class="splnav"> <i class="fa fa-building-o"></i>
+                                                    <a href="plot" class="splnav just_load_please"> <i class="fa fa-building-o"></i>
                                                         <p>Interactive Plot</p>
                                                     </a>
                                                 </li>
@@ -447,7 +447,89 @@
             this.setAttribute("placeholder", `${this.getAttribute("data")}`)
         }
     </script>
+    <style>
+        /** SPINNER CREATION **/
 
+.loader {
+    position: relative;
+    text-align: center;
+    margin: 15px auto 35px auto;
+    z-index: 9999;
+    display: block;
+    width: 80px;
+    height: 80px;
+    border: 10px solid rgba(0, 0, 0, .3);
+    border-radius: 50%;
+    border-top-color: #000;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  @-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  
+
+  
+  .loadmdl .modal-content {
+    border-radius: 0px;
+    box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+  }
+  
+  .loadmdl .modal-backdrop.show {
+    opacity: 0.75;
+  }
+  
+  .loadmdl .loader-txt p{
+      font-size: 13px;
+      color: #666;
+  }
+ .loadmdl .loader-txt p small {
+        font-size: 11.5px;
+        color: #999;
+ }
+
+      </style>
+      <div class="modal fade loadmdl" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel" style="border-radius: 20px!important;">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document" style="border-radius: 20px!important;">
+          <div class="modal-content" style="border-radius: 20px!important;">
+            <div class="modal-body text-center">
+              <div class="loader"></div>
+              <div clas="loader-txt">
+                <p>Please wait...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+
+  <script>
+        $(".just_load_please").on("click", function(e) {
+ 
+    $("#loadMe").modal({
+      backdrop: "static", 
+      keyboard: false, 
+      show: true 
+    });
+
+
+
+    // setTimeout(function() {
+    //   $("#loadMe").modal("hide");
+    // }, 3500);
+  });
+  </script>
 </body>
 
 </html>
