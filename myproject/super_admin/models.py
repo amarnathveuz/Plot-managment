@@ -22,6 +22,7 @@ class intractive_map(models.Model):
     customer_id_mapping = models.ForeignKey('super_admin.Customer_details',on_delete=models.SET_NULL,related_name="intractive_map_customer_id", null=True)
     customer_id = models.CharField(max_length=255,null=True)
     Phoneno = models.CharField(max_length=255, null=True)
+    customer_email = models.CharField(max_length=255,null=True)
     UnitNo = models.IntegerField(null=True)
     UnitNo_primary = models.IntegerField(null=True)
     BlockNo = models.CharField(max_length=255, null=True)
@@ -152,6 +153,7 @@ customer_comapny_type =(
 class Customer_details(common):
     name =  models.CharField(max_length=255,null=True)
     phone = models.CharField(max_length=255,null=True)
+    customer_email = models.CharField(max_length=255,null=True)
     customer_id = models.CharField(max_length=255,null=True)
     bank =  models.CharField(max_length=255,null=True)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Customer_details_created_by", null=True)
@@ -195,6 +197,7 @@ class user_request_plot(common):
     name = models.CharField(max_length=255,null=True)
     booking_id = models.CharField(max_length=255,null=True)
     phone = models.CharField(max_length=255,null=True)
+    customer_email = models.CharField(max_length=255,null=True)
     bank = models.CharField(max_length=255,null=True)
     manager_id = models.ForeignKey(user_Details,on_delete=models.CASCADE,related_name="user_request_plot_manager_id", null=True)
     read_status = models.IntegerField(default=0)
