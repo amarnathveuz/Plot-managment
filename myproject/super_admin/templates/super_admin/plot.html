@@ -3666,9 +3666,18 @@
                     <span class="d-flex">: <input maxlength="9" minlength="9" required id="phone" name="phone" type="text" pattern="\d*" class="form-control ml-1 mb-2 phone" onkeyup="javascript:checkContents(this)"></span>
                     <div style="display:none;color:red;" class="form-control-feedback user_table1">*Phone should be 9 digits and start with 5</div>
                   </div>
+
+                  <div class="col-3">
+                    <h6>Email</h6>
+                  </div>
+                  <div class="col-9">
+                    <span class="d-flex">: <input  type="email" id="email" required class="form-control ml-1 mb-2 email" name="email_id"></span>
+                    <!-- <div style="display:none;color:red;" class="form-control-feedback user_table">*Please enter your email id ...</div> -->
+                  </div>
                   <div class="col-3">
                     <h6>Bank</h6>
                   </div>
+                 
                   <div class="col-9">
                     <span class="d-flex">:
                     <select name="bank" required class="form-control ml-1 mb-4 bank" style="font-size: 11px !important;">
@@ -4075,17 +4084,19 @@
     $(document).on('click', '.submit-booking',function()
     {
       $(".submit_hide").hide()
-  $(".loader").show()
+      $(".loader").show()
       var name = $('#plot-name');
       console.log(name);
       var plotId = $('.plot-id').val();
       var phone = $('.phone').val();
       var bank = $('.bank').val();
+      var email = $('.email').val();
       var form = {
         name:name,
         plotId:plotId,
         phone:phone,
-        bank:bank
+        bank:bank,
+        email:email
       }
       axios({
         method:"post",
@@ -4098,8 +4109,6 @@
     })
 
   
-
-    
   </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

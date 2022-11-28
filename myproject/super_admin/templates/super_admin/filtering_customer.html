@@ -34,6 +34,15 @@
         <i class="fa fa-phone m-1" style="font-size: 9px;"></i> {{i.phone}}
         {% endif %}
     </td>
+    <td>
+        {% if i.email == None %}
+
+        {% elif i.email == '' %}
+
+        {{i.email}}
+
+        {% endif %}
+       </td>
     <td class="product_name">{{i.bank}}</td>
     <td class="date">
 

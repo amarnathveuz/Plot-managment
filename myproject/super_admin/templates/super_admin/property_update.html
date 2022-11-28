@@ -618,7 +618,19 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Email </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group  required_item w-100">
+                                                                <input name="customer_email" type="email" id="b_customer_email" disabled
+                                                                    value="{% if data.customer_email == None %}{% else %}{{data.customer_email}}{% endif %}"
+                                                                    class="input form-control mystyle">
+                                                                    <div style="color: red; display:none ;" id="email_id"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
 
@@ -1275,6 +1287,14 @@
         var element6 = document.getElementById("basiInput6");
         element6.classList.remove("mystyle");
         document.getElementById("basiInput6").disabled = false;
+
+
+
+        var element61 = document.getElementById("b_customer_email");
+        element61.classList.remove("mystyle");
+        document.getElementById("b_customer_email").disabled = false;
+
+
         if (user_type == 'False') {
             $("#basiInput2").prop("readonly", true);
             $("#basiInput3").prop("readonly", true);
@@ -1439,6 +1459,11 @@
         var element4 = document.getElementById("basiInput8");
         element4.classList.remove("mystyle");
         document.getElementById("basiInput8").disabled = false;
+
+
+        var element41 = document.getElementById("b_customer_email");
+        element41.classList.remove("mystyle");
+        document.getElementById("b_customer_email").disabled = false;
     })
 
 
@@ -1448,6 +1473,7 @@
         var customer_phone = $("#basiInput31").val()
         var customer_id = $("#customer_id").val()
         var customer_bank = $("#basiInput8").val()
+        var customer_email = $("#b_customer_email").val()
         var plot_id = `{{data.id}}`
         if (customer_name == '') {
            
@@ -1500,7 +1526,12 @@
             document.getElementById("new_id").style.display = "none";
             document.getElementById("customer_div").style.display = "none";
 
-        } else  {
+        }
+        else if(customer_email == ''){
+            document.getElementById("email_id").style.display = "block";
+            document.getElementById("email_id").innerHTML = "Please fill out email!";
+        }
+        else  {
             document.getElementById("customer_div").style.display = "none";
             redirect_url = "admin_book_plot_action"
             $.ajax({
@@ -1511,6 +1542,7 @@
                     'customer_id': customer_id,
                     'customer_bank': customer_bank,
                     'plot_id': plot_id,
+                    'customer_email':customer_email,
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
                 type: 'POST',

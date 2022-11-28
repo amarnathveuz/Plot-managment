@@ -206,6 +206,7 @@
                                             data-sort="customer_name">
                                             Name</th>
                                         <th>ID</th>
+                                        <th> Email</th>
                                         
                                         
                                         <th class="sort"  data-sort="date">Phone</th>
@@ -283,6 +284,17 @@
                                            {% else %}
                                            {{i.customer_id}}
                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if i.customer_email == None %}
+
+                                            {% elif i.customer_email == '' %}
+            
+                                         {% else %}
+            
+                                         {{i.customer_email}}
+            
+                                            {% endif %}
                                         </td>
                                         <td class="customer_name" >
                                             {% if i.Phoneno == None or i.Phoneno == '' %}

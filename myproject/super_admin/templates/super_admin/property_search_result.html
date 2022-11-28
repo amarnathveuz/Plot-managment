@@ -38,7 +38,18 @@
     {% else %}
     {{i.customer_id}}
     {% endif %}</td>
-    <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
+    <td>
+        {% if i.customer_email == None %}
+
+        {% elif i.customer_email == '' %}
+
+     {% else %}
+
+     {{i.customer_email}}
+
+        {% endif %}
+    </td>
+    <td class="customer_name">
         {% if i.Phoneno == None or i.Phoneno == '' %}
                     {% else %}
 
@@ -48,10 +59,10 @@
                     {{i.Phoneno}}
                     {% endif %}
     </td>
-<td class="product_name" onclick="window.location='property_update?id={{i.id}}'">{{i.UnitNo}}</td>
-<td class="date" onclick="window.location='property_update?id={{i.id}}'">{{i.BlockNo}}</td>
-<td class="date" onclick="window.location='property_update?id={{i.id}}'">{{i.UnitArea}}</td>
-<td class="company" onclick="window.location='property_update?id={{i.id}}'">{{i.LandArea}}</td>
+<td class="product_name">{{i.UnitNo}}</td>
+<td class="date" >{{i.BlockNo}}</td>
+<td class="date" >{{i.UnitArea}}</td>
+<td class="company">{{i.LandArea}}</td>
 <td>
 {% if i.UType == None %}
 {% else %}

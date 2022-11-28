@@ -518,6 +518,7 @@ def property_update(request):
         UType = request.POST.get("UType")
         Price = request.POST.get("Price")
         Bank = request.POST.get("Bank")
+        customer_email = request.POST.get("customer_email")
         if Bank == "select bank":
             messages.error(request, "Select Bank")
             return redirect(request.META['HTTP_REFERER'])
@@ -641,7 +642,8 @@ def property_update(request):
                 current_status = current_status,
                 currency = currency,
                 customer_id = customer_id,
-                bank_relation_id_id = bank_mapping_id
+                bank_relation_id_id = bank_mapping_id,
+                customer_email = customer_email
             )
             if change_text == '':
                 pass
@@ -658,7 +660,7 @@ def property_update(request):
                 )
             try:
                 data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
-                update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
+                update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price,customer_email=customer_email)
             except:
                 pass
         else:
@@ -709,10 +711,10 @@ def property_update(request):
                 )
             
             data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,  Name=Name,
-                Bank =Bank, currency = currency,customer_id = customer_id,bank_relation_id_id = bank_mapping_id)
+                Bank =Bank, currency = currency,customer_id = customer_id,bank_relation_id_id = bank_mapping_id,customer_email=customer_email)
             try:
                 data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
-                update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price)
+                update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price,customer_email=customer_email)
             except:
                 pass
         
@@ -1306,10 +1308,10 @@ def booking_action(request):
         data_plot = intractive_map.objects.get(id=plot_id_mapping_id)
         customer_id = request.POST.get("b_id",False)
         phone = request.POST.get("phone",False)
+        email = request.POST.get("email_id",False)
         bank = request.POST.get("bank",False)
         data_user = user_Details.objects.get(auth_user=request.user)
         user_type = data_user.user_type
-        print("user_type:::::",str(user_type))
         bank_name = ""
         customer_id_mapping_id = None
         if (len(phone) != 9) or (len(customer_id) != 10):
@@ -1326,10 +1328,9 @@ def booking_action(request):
                 try:
                     data_exists = Customer_details.objects.get(customer_id=customer_id)
                     customer_id_mapping_id = data_exists.id
-                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank=bank_name)
+                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank=bank_name,email=email)
                     try:
                         avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
-
                    
                         data_save = user_request_plot.objects.create(
                             customer_id_id = data_exists.id,
@@ -1343,7 +1344,8 @@ def booking_action(request):
                             bank = bank_name,
                             read_status = 0,
                             booking_status = 1,
-                            Price = data_plot.Price
+                            Price = data_plot.Price,
+                            customer_email = email
 
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1356,16 +1358,12 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id,customer_email=email)
                     except:
                         pass
 
-               
-
-
-
                 except Customer_details.DoesNotExist:
-                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
+                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name,email=email)
                     customer_id_mapping_id = inser_customer_details.id
                     try:
                         avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
@@ -1377,12 +1375,13 @@ def booking_action(request):
                             name = name,
                             booking_id = customer_id,
                             phone = phone,
+                            customer_email=email,
                             bank_relation_id_id = bank,
                             bank=bank_name,
                             read_status = 0,
                             booking_status = 1,
-                            Price = data_plot.Price
-
+                            Price = data_plot.Price,
+                           
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
                         status_content = 'Available'+"-->"+"Price Quotation"
@@ -1394,20 +1393,18 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id,customer_email=email)
                     except:
                         pass
-
 
             elif user_type == "admin":
                 try:
                     data_exists = Customer_details.objects.get(customer_id=customer_id)
                     customer_id_mapping_id = data_exists.id
-                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank=bank_name)
+                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank=bank_name,email=email)
                     try:
                         avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
 
-                   
                         data_save = user_request_plot.objects.create(
                             customer_id_id = data_exists.id,
                             auth_user=request.user,
@@ -1420,7 +1417,8 @@ def booking_action(request):
                             bank = bank_name,
                             read_status = 0,
                             booking_status = 1,
-                            Price = data_plot.Price
+                            Price = data_plot.Price,
+                            customer_email = email
 
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1433,16 +1431,13 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id,customer_email=email)
                     except:
                         pass
 
-               
-
-
 
                 except Customer_details.DoesNotExist:
-                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
+                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name,email=email)
                     customer_id_mapping_id = inser_customer_details.id
                     try:
                         avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
@@ -1458,7 +1453,8 @@ def booking_action(request):
                             bank=bank_name,
                             read_status = 0,
                             booking_status = 1,
-                            Price = data_plot.Price
+                            Price = data_plot.Price,
+                            customer_email = email
 
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1471,18 +1467,16 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id,customer_email=email)
                     except:
                         pass
 
-
-               
             else:
                 data_user_manger = user_manger_mapping.objects.get(user_auth_id_id=request.user.id)
                 try:
                     data_exists = Customer_details.objects.get(customer_id=customer_id)
                     customer_id_mapping_id = data_exists.id
-                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank = bank_name)
+                    data_update = Customer_details.objects.filter(id=data_exists.id).update(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,bank = bank_name,email=email)
                     try:
                         avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
                         data_save = user_request_plot.objects.create(
@@ -1498,7 +1492,8 @@ def booking_action(request):
                             manager_id_id = data_user_manger.manager_id.id,
                             read_status = 0,
                             booking_status = 1,
-                            Price = data_plot.Price
+                            Price = data_plot.Price,
+                            customer_email = email
 
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1511,11 +1506,11 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id,customer_email=email)
                     except:
                         pass
                 except Customer_details.DoesNotExist:
-                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name)
+                    inser_customer_details = Customer_details.objects.create(name=name,phone=phone,customer_id=customer_id,bank_relation_id_id=bank,created_by=request.user,bank = bank_name,email=email)
                     customer_id_mapping_id = inser_customer_details.id
                     try:
                         avaibale_status = intractive_map.objects.get(id=plot_id_mapping_id,current_status='0')
@@ -1532,7 +1527,8 @@ def booking_action(request):
                             manager_id_id = data_user_manger.manager_id.id,
                             read_status = 0,
                             booking_status = 1,
-                            Price = data_plot.Price
+                            Price = data_plot.Price,
+                            customer_email = email
 
                         )
                         text_content = "Booking report submitted ("+str(request.user)+")"
@@ -1545,15 +1541,13 @@ def booking_action(request):
                             arabic_status = data.text
                         except:
                             pass
-                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id)
+                        data_update = intractive_map.objects.filter(id=plot_id_mapping_id).update(Status=arabic_status,current_status=1,Phoneno=phone,customer_id=customer_id,Bank = bank_name,Name=name,bank_relation_id_id=bank,customer_id_mapping_id=customer_id_mapping_id,customer_email=email)
                     except:
                         pass
                
            
             messages.success(request,"You successfully created your booking")
             return redirect(request.META['HTTP_REFERER'])
-
-
 
 
 @login_required(login_url='/')
@@ -2184,6 +2178,7 @@ def admin_book_plot_action(request):
         status = data.current_status
         bank_mapping_id = None
         customer_id1 = None
+        customer_email = request.POST.get("customer_email",False)
         try:
             data_bank_mapping = Bank_details.objects.get(bank_name=customer_bank)
             bank_mapping_id = data_bank_mapping.id
@@ -2195,7 +2190,7 @@ def admin_book_plot_action(request):
             try:
                 data_exists = Customer_details.objects.get(customer_id=customer_id)
                 customer_id1 = data_exists.id
-                data_update = Customer_details.objects.filter(id=data_exists.id).update(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank)
+                data_update = Customer_details.objects.filter(id=data_exists.id).update(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank,email=customer_email)
                 data_save = user_request_plot.objects.create(
                     customer_id_id = data_exists.id,
                     auth_user=request.user,
@@ -2208,7 +2203,8 @@ def admin_book_plot_action(request):
                     read_status = 0,
                     booking_status = 1,
                     bank_relation_id_id = bank_mapping_id,
-                    Price = price_amount
+                    Price = price_amount,
+                    customer_email = customer_email
 
                 )
                 text_content = "Booking report submitted ("+str(request.user)+")"
@@ -2218,7 +2214,8 @@ def admin_book_plot_action(request):
 
             except Customer_details.DoesNotExist:
                 inser_customer_details = Customer_details.objects.create(name=customer_name,phone=customer_phone,customer_id=customer_id,bank=customer_bank,created_by=request.user,
-                bank_relation_id_id = bank_mapping_id
+                bank_relation_id_id = bank_mapping_id,
+                email = customer_email
                 )
                 customer_id1 = inser_customer_details.id
 
@@ -2235,7 +2232,8 @@ def admin_book_plot_action(request):
                     read_status = 0,
                     booking_status = 1,
                     bank_relation_id_id = bank_mapping_id,
-                    Price = price_amount
+                    Price = price_amount,
+                    customer_email = customer_email
 
                 )
                 text_content = "Booking report submitted ("+str(request.user)+")"
@@ -2248,7 +2246,7 @@ def admin_book_plot_action(request):
                 arabic_status = data.text
             except:
                 pass
-            data_update = intractive_map.objects.filter(id=plot_id).update(Status=arabic_status,current_status=1,Phoneno=customer_phone,customer_id=customer_id,Bank=customer_bank,Name=customer_name,customer_id_mapping_id=customer_id1,bank_relation_id_id=bank_mapping_id,)
+            data_update = intractive_map.objects.filter(id=plot_id).update(Status=arabic_status,current_status=1,Phoneno=customer_phone,customer_id=customer_id,Bank=customer_bank,Name=customer_name,customer_id_mapping_id=customer_id1,bank_relation_id_id=bank_mapping_id, customer_email = customer_email)
             messages.success(request,"You successfully created your booking")
             
             return JsonResponse({"message":"success"},safe=False)

@@ -190,6 +190,7 @@
 
                             <th class="sort" data-sort="date">Customer ID</th>
                             <th class="sort" data-sort="date">Phone</th>
+                            <th class="sort" data-sort="date">Email</th>
                             <!-- <th class="sort" data-sort="amount">Amount</th>
                                         <th class="sort" data-sort="payment">Payment Method</th> -->
 
@@ -245,6 +246,15 @@
                                 <i class="fa fa-phone m-1" style="font-size: 9px;"></i> {{i.phone}}
                                 {% endif %}
                             </td>
+                            <td>
+                                {% if i.email == None %}
+
+                                {% elif i.email == '' %}
+
+                                {{i.email}}
+
+                                {% endif %}
+                               </td>
                             <td class="product_name">{{i.bank}}</td>
                             <td class="date">
 
