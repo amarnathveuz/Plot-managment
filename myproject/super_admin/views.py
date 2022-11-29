@@ -3012,7 +3012,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
         if current_status == 3:
             current_status = 'Cancel'
         if assigned_user_name == '':
-            text_content = plot_name+"Booking report cancel done (Administrator)"
+            text_content = plot_name+"Booking report cancel done"
         else:
             text_content = "Booking report cancel done"
         status_content = 'Price Quotation --> Reset to Available'
@@ -3035,7 +3035,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
         arabic_status = data34.text
     except:
         pass
-    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status)
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status,customer_email=None)
     
 
     return True
