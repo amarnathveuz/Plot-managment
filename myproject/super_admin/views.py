@@ -23,6 +23,7 @@ def index(request):
 
 
 from django.core.paginator import Paginator
+@login_required(login_url='/')
 def property_management(request):
     page_obj = ""
     page_number = request.GET.get("page")
@@ -1228,6 +1229,8 @@ def login_action(request):
 
 
 from django.core.paginator import Paginator
+
+@login_required(login_url='/')
 def property_management(request):
     page_obj = ""
     page_number = request.GET.get("page")
@@ -1349,7 +1352,8 @@ def booking_action(request):
                             customer_email = email
 
                         )
-                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                        text_content = plot_unit_no+" is submitted for Quotation"
                         status_content = 'Available'+"-->"+"Price Quotation"
                         save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
@@ -1384,7 +1388,8 @@ def booking_action(request):
                             Price = data_plot.Price,
                            
                         )
-                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                        text_content = plot_unit_no+" is submitted for Quotation"
                         status_content = 'Available'+"-->"+"Price Quotation"
                         save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
@@ -1422,7 +1427,8 @@ def booking_action(request):
                             customer_email = email
 
                         )
-                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                        text_content = plot_unit_no+" is submitted for Quotation"
                         status_content = 'Available'+"-->"+"Price Quotation"
                         save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
@@ -1458,7 +1464,8 @@ def booking_action(request):
                             customer_email = email
 
                         )
-                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                        text_content = plot_unit_no+" is submitted for Quotation"
                         status_content = 'Available'+"-->"+"Price Quotation"
                         save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
@@ -1497,7 +1504,8 @@ def booking_action(request):
                             customer_email = email
 
                         )
-                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                        text_content = plot_unit_no+" is submitted for Quotation"
                         status_content = 'Available'+"-->"+"Price Quotation"
                         save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
@@ -1532,7 +1540,8 @@ def booking_action(request):
                             customer_email = email
 
                         )
-                        text_content = "Booking report submitted ("+str(request.user)+")"
+                        plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                        text_content = plot_unit_no+" is submitted for Quotation"
                         status_content = 'Available'+"-->"+"Price Quotation"
                         save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_submit",action_appy_user_id=data_user.id,intractive_map_id_id=plot_id_mapping_id)
                         save_log.save()
@@ -1638,7 +1647,7 @@ def cancel_booking_action_new_method(request):
 
     id  = request.GET.get("id")
     intractive_map_instance = intractive_map.objects.get(id=id)
-    print("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+    plot_name_data = intractive_map_instance.BlockNo+str(intractive_map_instance.UnitNo)
     try:
         data = user_request_plot.objects.get(booking_id=intractive_map_instance.customer_id,property_mapping_id_id=id,available_status=1)
     except:
@@ -1672,10 +1681,10 @@ def cancel_booking_action_new_method(request):
             current_status = 'Price Quotation'
 
         if assigned_user_name == '':
-            text_content = "Booking report cancelled(Administrator)"
+            text_content = plot_name_data+" is cancelled"
         else:
 
-            text_content = "Booking report cancelled"
+            text_content = plot_name_data+" is cancelled"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=data.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=id)
         save_log.save()
@@ -1687,7 +1696,7 @@ def cancel_booking_action_new_method(request):
             current_status = 'Sold'
         elif current_status == 1:
             current_status = 'Price Quotation'
-        text_content = "Booking report Cancelled("+assigned_user_name+")"
+        text_content = plot_name_data+" is cancelled"
         status_content = current_status+"-->"+"Cancelled"
         save_log = booking_log(booking_id_id=data.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=id)
         save_log.save()
@@ -1711,11 +1720,12 @@ def rest_to_available_booking_action(request):
     
     id  = request.GET.get("id")
     map_instance = intractive_map.objects.get(id=id)
+    plot_data_name = map_instance.BlockNo+str(map_instance.UnitNo) 
     try:
         data = user_request_plot.objects.get(property_mapping_id_id=map_instance.id,available_status=1,booking_id=map_instance.customer_id)
     except:
         status_content = "Cancelled--> Reset to Available"
-        text_content = "Booking report Reset to Available done "
+        text_content = plot_data_name+" is Reset to Available"
         save_log = booking_log(auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",intractive_map_id_id=id)
         save_log.save()
         arabic_status = None
@@ -1724,7 +1734,7 @@ def rest_to_available_booking_action(request):
             arabic_status = data34.text
         except:
             pass
-        data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status)
+        data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status,customer_email=None)
     
 
         messages.success(request,"You successfully Reset")
@@ -1740,25 +1750,23 @@ def rest_to_available_booking_action(request):
         except:
             assigned_user_name = ''
         current_status = data.booking_status
-        print("type:::::",type(current_status))
         if current_status == 3:
             current_status = 'Cancelled'
         if assigned_user_name == '':
-            text_content = "Booking report Reset to Available done (Administrator)"
+            text_content = plot_data_name+" is Reset to Available"
         else:
 
-            text_content = "Booking report Reset to Available done "
+            text_content = plot_data_name+" is Reset to Available"
         status_content = current_status+"-->"+" Reset to Available"
         save_log = booking_log(booking_id_id=data.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=id)
         save_log.save()
     elif user_type == False:
         current_status = data.booking_status
-        print("current_status::::",str(current_status))
         assigned_user_name = data.manager_id.name
         assigned_user_id = data.manager_id.id
         if current_status == 3:
             current_status = 'Cancelled'
-        text_content = "Booking report Reset to Available done ("+assigned_user_name+")"
+        text_content = plot_data_name+" is Reset to Available"
         status_content = current_status+"-->"+" Reset to Available"
         save_log = booking_log(booking_id_id=data.id,auth_user=request.user,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=id)
         save_log.save()
@@ -1770,7 +1778,7 @@ def rest_to_available_booking_action(request):
         arabic_status = data34.text
     except:
         pass
-    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status)
+    data_update = intractive_map.objects.filter(id=data.property_mapping_id.id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status,customer_email=None)
     
 
     messages.success(request,"You successfully Reset")
@@ -2208,7 +2216,8 @@ def admin_book_plot_action(request):
                     customer_email = customer_email
 
                 )
-                text_content = "Booking report submitted ("+str(request.user)+")"
+                plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                text_content = plot_unit_no+" is submitted for Quotation"
                 status_content = 'Available'+"-->"+"Price Quotation"
                 save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_submit",intractive_map_id_id=plot_id)
                 save_log.save()
@@ -2237,7 +2246,8 @@ def admin_book_plot_action(request):
                     customer_email = customer_email
 
                 )
-                text_content = "Booking report submitted ("+str(request.user)+")"
+                plot_unit_no = data_save.property_mapping_id.BlockNo + str(data_save.property_mapping_id.UnitNo)
+                text_content = plot_unit_no+" is submitted for Quotation"
                 status_content = 'Available'+"-->"+"Price Quotation"
                 save_log = booking_log(booking_id_id=data_save.id,auth_user=request.user,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_submit",intractive_map_id_id=plot_id)
                 save_log.save()
@@ -2868,6 +2878,8 @@ def Bank_status_group_by_action_card_view(request):
 
 def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
     data = user_request_plot.objects.get(id=id)
+
+    plot_name = data.property_mapping_id.BlockNo+str(data.property_mapping_id.UnitNo)
     
     user_type = user_type
     if user_type == True:
@@ -2882,11 +2894,11 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
         if current_status == 1:
             current_status = 'Price Quotation'
         if assigned_user_name == '':
-            text_content = "Booking report approval done (Administrator)"
+            text_content = plot_name+" is sold"
         else:
 
-            text_content = "Booking report approval done "
-        status_content = current_status+"-->"+"Approved"
+            text_content = plot_name+" is sold"
+        status_content = current_status+"-->"+"Sold"
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
     elif user_type == False:
@@ -2895,8 +2907,8 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
         assigned_user_id = data.manager_id.id
         if current_status == 1:
             current_status = 'Price Quotation'
-        text_content = "Booking report approval done ("+assigned_user_name+")"
-        status_content = current_status+"-->"+"Approved"
+        text_content = plot_name+" is sold"
+        status_content = current_status+"-->"+"Sold"
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
     arabic_status = None
@@ -2909,6 +2921,9 @@ def approve_booking_action_method(id,user_type,auth_user_id,plot_id):
     data_update_user = user_request_plot.objects.filter(id=id).update(booking_status=2,read_status=1)
 
     return True
+
+
+
 
 
 def approve_booking_action_new(request):
@@ -2985,7 +3000,7 @@ def approve_booking_action_new(request):
 def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
     id  = id
     data = user_request_plot.objects.get(id=id)
-    
+    plot_name = data.property_mapping_id.BlockNo+str(data.property_mapping_id.UnitNo)
     user_type = user_type1
     if user_type == True:
         assigned_user_id = None
@@ -2995,20 +3010,17 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
         except:
             assigned_user_name = ''
         current_status = data.booking_status
-        print("type:::::",type(current_status))
         if current_status == 3:
             current_status = 'Cancel'
         if assigned_user_name == '':
-            text_content = "Booking report cancel done (Administrator)"
+            text_content = plot_name+"Booking report cancel done (Administrator)"
         else:
-
             text_content = "Booking report cancel done"
         status_content = 'Price Quotation --> Reset to Available'
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="administrator",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
     elif user_type == False:
         current_status = data.booking_status
-        print("current_status::::",str(current_status))
         assigned_user_name = data.manager_id.name
         assigned_user_id = data.manager_id.id
         if current_status == 3:
@@ -3035,7 +3047,6 @@ def cancel_booking_action(request):
     id = request.GET.get("id")
     
     plot_instance = intractive_map.objects.get(id=id)
-    print("id11::::::::::",str(id))
     try:
         print("heyyyyyyyyyy")
         data_customer_details = Customer_details.objects.get(customer_id=plot_instance.customer_id)

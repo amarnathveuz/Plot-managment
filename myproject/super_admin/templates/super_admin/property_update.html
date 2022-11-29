@@ -987,8 +987,13 @@
                         {% endif %}   <span> {{j.dt}} {{j.tm}}</span></h5>
                     <h6>{{j.d_text}}
                     </h6>
-                    <h6><span>{{j.status_content}}</span></h6>
+                    <h6><span>status : {{j.status_content}}</span></h6>
                     {% if  j.log_type  == "booking_submit" %}
+                    <h6>Customer Name : {{j.booking_id.name}}</h6>
+                    <h6>Customer Phone : {{j.booking_id.phone}}</h6>
+                    <h6>Customer ID : {{j.booking_id.booking_id}}</h6>
+
+                    {% elif j.status_content == "Sold-->Cancelled" %}
                     <h6>Customer Name : {{j.booking_id.name}}</h6>
                     <h6>Customer Phone : {{j.booking_id.phone}}</h6>
                     <h6>Customer ID : {{j.booking_id.booking_id}}</h6>
@@ -1710,10 +1715,31 @@ modalConfirm(function(confirm){
     var customer_id = $("#customer_id").val()
     var phone = $("#basiInput31").val()
     var price_id = $("#price_id").val()
-    if(name == '' || customer_id == '' || phone == '' || price_id == '')
+    var customer_email = $("#b_customer_email").val()
+    
+    if(name == '' || customer_id == '' || phone == '' || price_id == '' || customer_email == '')
     {
+        required_field_name = ''
+        if(name == ''){
+            required_field_name += 'NAME,'
+        }
+        if (customer_id == ''){
+            required_field_name += 'ID,'
+        }
+        if (phone == ''){
+            required_field_name += 'PHONE,'
+        }
+        if(customer_email == ''){
+            required_field_name += 'EMAIL,'
 
-        alert("Edit Customer details")
+        }
+        str = required_field_name.slice(0, -1);
+        $("#alert_content").text("Edit customer "+str+" required")
+
+$(".alert").show('medium');
+  setTimeout(function(){
+    $(".alert").hide('medium');
+  }, 5000);
     }
     else{
         $("#mi-modal3").modal('show');
@@ -1910,7 +1936,25 @@ modalConfirm(function(confirm){
       </div>
     </div>
   </div>
+  <style>
+    .alert{
+  display:none;
+  position: fixed;
+  bottom: 80%;
+  right: 0px;
+    }
+    .alert .fa {
+    margin-right:.5em;
+  }
 
+  </style>
+ 
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p><i class="fa fa-times-circle-o"></i><span id="alert_content"></span>.</p>
+  </div>
   <script>
     
     
@@ -1919,6 +1963,17 @@ modalConfirm(function(confirm){
     document.getElementById("myImg").src = url;
     $("#exampleModalLong").modal('show');
    })
+   $(".sendButton").click(function(){
+  $(".alert").show('medium');
+  setTimeout(function(){
+    $(".alert").hide('medium');
+  }, 5000);
+});
+$(".sendButton .close").click(function(){
+    $(".alert").hide('medium');
+});
+
+
   </script>
 
 {% endblock %}

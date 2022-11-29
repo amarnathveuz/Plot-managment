@@ -981,7 +981,7 @@
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom" data-id=13>
             <g id="bx13_00000008849296861306745540000016551478945951869063_" class="wht">
-              <polygon id="p13" class="st1 " points="421.8,188.8 456.8,188.8 456.8,104.1 421.8,104.1      " />
+              <polygon id="p13" class="st1  plot_color2" points="421.8,188.8 456.8,188.8 456.8,104.1 421.8,104.1      " />
               <text transform="matrix(1 0 0 1 429.4214 156.7812)" class="st2 st5 pt13"></text>
             </g>
           </a>
@@ -993,7 +993,7 @@
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom" data-id=11>
             <g id="bx11_00000018239415969298353990000009073062989182790785_" class="wht " >
-              <polygon id="p11" class="st1" points="379.1,188.8 421.8,188.8 421.8,104.1 393.6,104 379.1,119    " />
+              <polygon id="p11" class="st1 plot_color2" points="379.1,188.8 421.8,188.8 421.8,104.1 393.6,104 379.1,119    " />
               <text transform="matrix(1 0 0 1 389.5034 156.7812)" class="st2 st5 pt11"> </text>
             </g>
           </a>
@@ -2228,8 +2228,8 @@
             </g>
           </a>
           <a href="#!" id="pover-card" class="btn btn-lg btn-info popClass redbg" data-placement="bottom" data-id=474>
-            <g id="p474" class="wht">
-              <path id="box22" class="st0"
+            <g id="" class="wht">
+              <path id="p474" class="st0"
                 d="M1144.8,652.9l13.3,86c0,0-40.3,5.2-60,4.4v-85.4C1098.1,657.9,1123.4,657.1,1144.8,652.9z" />
               <text transform="matrix(1 0 0 1 1108.9385 706.167)" class="st2 st8 pt474"></text>
             </g>
@@ -4133,7 +4133,15 @@ var data = response.data;
 
 $( data ).map(function(index,value) {
 
-  $("#p"+value.UnitNo_primary).addClass("plot_color"+value.current_status)
+  if (value.current_status == '2'){
+    
+  }
+
+  else{
+    $("#p"+value.UnitNo_primary).addClass("plot_color"+value.current_status).removeClass('plot_color2');
+  }
+
+ 
     // document.getElementsByClassName("e111").textContent="sssssss";
     $('.pt'+value.UnitNo_primary).text(value.BlockNo+value.UnitNo);
 

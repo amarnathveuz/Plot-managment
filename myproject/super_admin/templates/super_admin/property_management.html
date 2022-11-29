@@ -201,7 +201,7 @@
                                             </div>
                                            
                                         </th>
-                                        <th>S/No</th>
+                                        <th style="width: 2%;" class="text-center">S/No</th>
                                         <th class="sort" style="width:300px;"
                                             data-sort="customer_name">
                                             Name</th>
@@ -210,17 +210,17 @@
                                         
                                         
                                         <th class="sort"  data-sort="date">Phone</th>
-                                        <th class="sort" data-sort="date">Unit No</th>
+                                        <th class="sort text-center" data-sort="date">Unit No</th>
                                         <!-- <th class="sort" data-sort="amount">Amount</th>
                                                     <th class="sort" data-sort="payment">Payment Method</th> -->
         
-                                        <th class="sort" data-sort="company">
+                                        <th class="sort text-center" data-sort="company">
                                             Block No
                                         </th>
-                                        <th class="sort" data-sort="company">
+                                        <th class="sort text-center" data-sort="company">
                                             Unit Area
                                         </th>
-                                        <th class="sort" data-sort="company">
+                                        <th class="sort text-center" data-sort="company">
                                             Land Area
                                         </th>
                                         <th class="sort" data-sort="company">
@@ -228,7 +228,7 @@
                                         </th>
                                         
                                         <th class="sort" data-sort="company">
-                                           Price currency
+                                           Price
                                         </th>
                                         <th>
                                             Bank
@@ -236,7 +236,7 @@
                                         <th class="sort" data-sort="status">
                                             Status(Ar)</th>
                                         <th class="sort" data-sort="status">
-                                            Status(En)</th>
+                                           </th>
                                             
                                         <!-- <th class="sort" data-sort="action">Action</th> -->
                                     </tr>
@@ -252,7 +252,7 @@
                                                             data-checkall-group="group1"
                                                             onclick="check_action({{i.id}})" id="check_btn{{i.id}}">
                                                     </th>
-                                                    <th>
+                                                    <th class="text-center">
                                                         {{forloop.counter}}
                                                     </th>
                                                    
@@ -308,10 +308,10 @@
 
                                           
                                         </td>
-                                        <td  class="product_name">{{i.UnitNo}}</td>
-                                        <td  class="date">{{i.BlockNo}}</td>
-                                        <td  class="date">{{i.UnitArea}}</td>
-                                        <td  class="company">{{i.LandArea}}</td>
+                                        <td  class="product_name text-center">{{i.UnitNo}}</td>
+                                        <td  class="date text-center">{{i.BlockNo}}</td>
+                                        <td  class="date text-center">{{i.UnitArea}}</td>
+                                        <td  class="company text-center">{{i.LandArea}}</td>
                                         <td >
                                             {% if i.UType == None %}
                                             {% else %}
@@ -329,27 +329,34 @@
                                             {% if i.current_status == "0" %}
                                             <span
                                                 class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                background-color: #008000;">{{i.Status}}</span>
+                                                background-color: #008000;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
         
                                             {% elif i.current_status == "1" %}
                                             <span
                                             class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                background-color: orange;">{{i.Status}}</span>
+                                                background-color: orange;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
         
                                             {% elif i.current_status == "2" %}
                                             <span
                                             class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                    background-color: #e40000;">{{i.Status}}</span>
+                                                    background-color: #e40000;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
                                                     {% elif i.current_status == "3" %}
                                                     <span
                                                     class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                            background-color: gray;">{{i.Status}}</span>
+                                                            background-color: gray;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
                                                 {% else %}
                                                 {% endif %}
 
 
                                         </td>
-                                        <td class="status">
+                                        <td>
+                                            <a href="#" data-toggle="tooltip" title="Booking History">
+                                                <button type="button" class="btn btn-prim hist edit-cont-btn">
+                                                        <i class="fas fa-history"></i>
+                                                    </button>
+                                               </a>
+                                        </td>
+                                        <td class="status" style="display: none">
                                             {% if i.current_status == "0" %}
                                            
                                             <span
@@ -900,6 +907,15 @@ function hoverdata(){
     }
 
 
+
+</script>
+<script>
+
+    $(document).ready(function () {
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+    });
 
 </script>
 {% endblock %}

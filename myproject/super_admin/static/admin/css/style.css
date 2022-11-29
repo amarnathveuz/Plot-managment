@@ -15995,3 +15995,10 @@ table.dataTable thead th{
     font-size: 20px;
     transform: rotate(90deg);
 }
+
+/* new */
+
+
+.hist {
+    padding: 2px 4px 0 !important;
+}

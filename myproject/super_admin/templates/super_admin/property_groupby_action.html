@@ -208,7 +208,7 @@
                             </th>
                             
                             <th class="sort" data-sort="company">
-                               Price currency
+                               Price 
                             </th>
                             <th>
                                 Bank
@@ -266,15 +266,17 @@
                                {{i.customer_id}}
                                {% endif %}
                             </td>
+                           <td>
                             {% if i.customer_email == None %}
 
-                                {% elif i.customer_email == '' %}
+                            {% elif i.customer_email == '' %}
 
-                             {% else %}
+                         {% else %}
 
-                             {{i.customer_email}}
+                         {{i.customer_email}}
 
-                                {% endif %}
+                            {% endif %}
+                           </td>
                             <td class="customer_name" >
                                 {% if i.Phoneno == None or i.Phoneno == '' %}
                                             {% else %}
