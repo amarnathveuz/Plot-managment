@@ -510,7 +510,7 @@ def property_update(request):
     if request.method == "POST":
         id = request.POST.get("id")
         user_type = request.user.is_superuser
-        
+       
         Name = request.POST.get("Name")
         UnitNo = request.POST.get("UnitNo")
         Phoneno = request.POST.get("Phoneno")
@@ -524,9 +524,9 @@ def property_update(request):
         if Bank == "select bank":
             messages.error(request, "Select Bank")
             return redirect(request.META['HTTP_REFERER'])
-        
+       
         bank_mapping_id = None
-        
+       
         try:
             bank_data = Bank_details.objects.get(bank_name=Bank)
             bank_mapping_id = bank_data.id
@@ -542,6 +542,14 @@ def property_update(request):
         customer_id = request.POST.get("customer_id")
         attachment = None
 
+        data = intractive_map.objects.get(id=id)
+        if (data.Name != Name or  data.customer_email != customer_email or str(data.UnitNo) != str(UnitNo) or data.BlockNo != BlockNo or data.Phoneno != Phoneno or data.customer_id != customer_id or data.UnitArea != float(UnitArea) or data.UType != UType or int(data.Price) != int(data.Price) or data.Bank != Bank ):
+            update_status = True
+        else:
+            update_status = False
+        if update_status == False :
+            messages.error(request,"Not updated")
+            return redirect(request.META['HTTP_REFERER'])
         if user_type == True:
             data = intractive_map.objects.get(id=id)
             change_text = ''
@@ -599,13 +607,8 @@ def property_update(request):
                 pass
             else:
                 change_text += '(Bank changed '+str(data.Bank)+" --> "+str(Bank)+" )"
-            
-
-
-            
-
-        
-        
+       
+       
             try:
                 data_file = request.FILES.getlist('attachment')
                 if len(data_file) == 0:
@@ -711,7 +714,7 @@ def property_update(request):
 
 
                 )
-            
+           
             data_update = intractive_map.objects.filter(id=id).update(Phoneno = Phoneno, Price= Price,  Name=Name,
                 Bank =Bank, currency = currency,customer_id = customer_id,bank_relation_id_id = bank_mapping_id,customer_email=customer_email)
             try:
@@ -719,7 +722,7 @@ def property_update(request):
                 update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price,customer_email=customer_email)
             except:
                 pass
-        
+       
         try:
             plotview1 = request.FILES['plotview1']
             try:
@@ -817,12 +820,11 @@ def property_update(request):
                 data_remove_img = intractive_map_plot_view_image.objects.filter(id=plot_view3_id).delete()
             pass
 
-        messages.success(request,"updated")
-        return redirect(request.META['HTTP_REFERER'])
+        if update_status == True :
+            messages.success(request,"updated")
+            return redirect(request.META['HTTP_REFERER'])
         
-
-
-        
+   
 
     else:    
         id = request.GET.get("id")
@@ -835,7 +837,7 @@ def property_update(request):
             pass
         else:
             data_plot_view_image = plot_view_master_image.objects.filter(mapping_id__unit_type=data.UType)
-            
+           
 
 
         currency_price = '{:20,.2f}'.format(data.Price)
@@ -883,9 +885,6 @@ def property_update(request):
             'data_plot_view_image':data_plot_view_image
         }
         return render(request,'super_admin/property_update.html',context)
-
-
-
 
 
 def user_edit(request):

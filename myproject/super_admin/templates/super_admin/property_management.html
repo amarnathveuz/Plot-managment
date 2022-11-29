@@ -329,33 +329,34 @@
                                             {% if i.current_status == "0" %}
                                             <span
                                                 class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                background-color: #008000;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
+                                                background-color: #008000;" data-toggle="tooltip" title="Available">{{i.Status}}</span>
         
                                             {% elif i.current_status == "1" %}
                                             <span
                                             class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                background-color: orange;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
+                                                background-color: orange;" data-toggle="tooltip" title="Price Quotation">{{i.Status}}</span>
         
                                             {% elif i.current_status == "2" %}
                                             <span
                                             class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                    background-color: #e40000;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
+                                                    background-color: #e40000;" data-toggle="tooltip" title="Sold">{{i.Status}}</span>
                                                     {% elif i.current_status == "3" %}
                                                     <span
                                                     class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                            background-color: gray;" data-toggle="tooltip" title="Booking History">{{i.Status}}</span>
+                                                            background-color: gray;" data-toggle="tooltip" title="Cancelled">{{i.Status}}</span>
                                                 {% else %}
                                                 {% endif %}
 
 
                                         </td>
                                         <td>
-                                            <a href="#" data-toggle="tooltip" title="Booking History">
+                                            <a href="property_booking_history?id={{i.id}}" data-toggle="tooltip" title="Booking History">
                                                 <button type="button" class="btn btn-prim hist edit-cont-btn">
                                                         <i class="fas fa-history"></i>
                                                     </button>
                                                </a>
                                         </td>
+                                        {% comment %}
                                         <td class="status" style="display: none">
                                             {% if i.current_status == "0" %}
                                            
@@ -379,6 +380,7 @@
                                                 {% else %}
                                                 {% endif %}
                                         </td>
+                                        {% endcomment %}
                                        
         
                                             </tr>

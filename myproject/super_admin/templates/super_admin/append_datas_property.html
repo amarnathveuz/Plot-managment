@@ -179,26 +179,26 @@
                                 </div>
                                
                             </th>
-                            <th>S/No</th>
-                            <th class="sort"
-                                data-sort="customer_name">
+                            <th style="width: 2%;" class="text-center">S/No</th>
+                            <th class="sort" style="width:300px;"
+                            data-sort="customer_name">
                                 Name</th>
                             <th>ID</th>
                             <th> Email</th>
                             
                             
                             <th class="sort" data-sort="date">Phone</th>
-                            <th class="sort" data-sort="date">Unit No</th>
+                            <th class="sort text-center" data-sort="date">Unit No</th>
                             <!-- <th class="sort" data-sort="amount">Amount</th>
                                         <th class="sort" data-sort="payment">Payment Method</th> -->
 
-                            <th class="sort" data-sort="company">
+                            <th class="sort text-center" data-sort="company">
                                 Block No
                             </th>
-                            <th class="sort" data-sort="company">
+                            <th class="sort text-center" data-sort="company">
                                 Unit Area
                             </th>
-                            <th class="sort" data-sort="company">
+                            <th class="sort text-center" data-sort="company">
                                 Land Area
                             </th>
                             <th class="sort" data-sort="company">
@@ -214,7 +214,7 @@
                             <th class="sort" data-sort="status">
                                 Status(Ar)</th>
                             <th class="sort" data-sort="status">
-                                Status(En)</th>
+                              </th>
                                 
                             <!-- <th class="sort" data-sort="action">Action</th> -->
                         </tr>
@@ -231,7 +231,7 @@
                                                 onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
                                         </th>
                                        
-                                        <th>
+                                        <th class="text-center">
                                             {{forloop.counter}}
                                         </th>
                                        
@@ -275,7 +275,7 @@
 
                                 {% endif %}
                              </td>
-                            <td class="customer_name" onclick="window.location='property_update?id={{i.id}}'">
+                            <td class="customer_name" >
                                 {% if i.Phoneno == None or i.Phoneno == '' %}
                                             {% else %}
     
@@ -285,11 +285,11 @@
                                             {{i.Phoneno}}
                                             {% endif %}
                             </td>
-                            <td onclick="window.location='property_update?id={{i.id}}'" class="product_name">{{i.UnitNo}}</td>
-                            <td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.BlockNo}}</td>
-                            <td onclick="window.location='property_update?id={{i.id}}'" class="date">{{i.UnitArea}}</td>
-                            <td onclick="window.location='property_update?id={{i.id}}'" class="company">{{i.LandArea}}</td>
-                            <td onclick="window.location='property_update?id={{i.id}}'">
+                            <td  class="product_name text-center">{{i.UnitNo}}</td>
+                            <td  class="date text-center">{{i.BlockNo}}</td>
+                            <td  class="date text-center">{{i.UnitArea}}</td>
+                            <td  class="company text-center">{{i.LandArea}}</td>
+                            <td >
                                 {% if i.UType == None %}
                                 {% else %}
                                 {{i.UType}}
@@ -303,48 +303,34 @@
                             </td>
                             <td>
                                 {% if i.current_status == "0" %}
-                                            <span
-                                                class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                background-color: #008000;">{{i.Status}}</span>
-        
-                                            {% elif i.current_status == "1" %}
-                                            <span
-                                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                background-color: orange;">{{i.Status}}</span>
-        
-                                            {% elif i.current_status == "2" %}
-                                            <span
-                                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                    background-color: #e40000;">{{i.Status}}</span>
-                                                    {% elif i.current_status == "3" %}
-                                                    <span
-                                                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                            background-color: gray;">{{i.Status}}</span>
-                                                {% else %}
-                                                {% endif %}
-                            </td>
-                            <td class="status">
-                                {% if i.current_status == "0" %}
-                               
                                 <span
                                     class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                    background-color: #008000;">Available</span>
+                                    background-color: #008000;" data-toggle="tooltip" title="Available">{{i.Status}}</span>
 
                                 {% elif i.current_status == "1" %}
                                 <span
                                 class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                    background-color: orange;">Price Quotation</span>
+                                    background-color: orange;" data-toggle="tooltip" title="Price Quotation">{{i.Status}}</span>
 
                                 {% elif i.current_status == "2" %}
                                 <span
                                 class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                        background-color: #e40000;">Sold</span>
+                                        background-color: #e40000;" data-toggle="tooltip" title="Sold">{{i.Status}}</span>
                                         {% elif i.current_status == "3" %}
                                         <span
                                         class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                                background-color: gray;">Cancelled</span>
+                                                background-color: gray;" data-toggle="tooltip" title="Cancelled">{{i.Status}}</span>
                                     {% else %}
                                     {% endif %}
+
+
+                            </td>
+                            <td>
+                                <a href="property_booking_history?id={{i.id}}" data-toggle="tooltip" title="Booking History">
+                                    <button type="button" class="btn btn-prim hist edit-cont-btn">
+                                            <i class="fas fa-history"></i>
+                                        </button>
+                                   </a>
                             </td>
                            
 

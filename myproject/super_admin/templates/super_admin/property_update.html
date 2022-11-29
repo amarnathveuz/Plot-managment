@@ -24,10 +24,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="icon-box">
-            <i style="    color: white;
-            font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i>
+            <h4 class="modal-title" >Are you sure?</h4>
           </div>
-          <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+        
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="modal-body">
@@ -51,9 +50,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="icon-box">
-            
+            <h4 class="modal-title" >Are you sure?</h4>
           </div>
-          <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+         
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="modal-body">
@@ -127,7 +126,7 @@
                                 {% elif data.current_status == '2' %}
                                 {% if request.user|get_user_type_action:"cancel_booking" %}
                                 <a href="#" id="btn-confirm4" 
-                                class="btn btn-pri pay discard-payroll">Booking Cancel
+                                class="btn btn-prim pay">Booking Cancel
                             </a>
                             {% endif %}
 
@@ -171,10 +170,10 @@
                                                 </button></a> -->
                                     {% if history %}
                                     {% if request.user|get_user_type_action:"user_type" %}
-                                    <a href="property_booking_history?id={{data.id}}"><button type="button"
+                                    <!-- <a href="property_booking_history?id={{data.id}}"><button type="button"
                                             class="btn btn-prim pay create-button create-cont-btn">
                                             Booking History
-                                        </button></a>
+                                        </button></a> -->
 
                                     {% endif  %}
                                     {% endif %}
@@ -218,10 +217,11 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <div class="icon-box">
+                            <h4 class="modal-title" >Are you sure?</h4>
                           <!-- <i style="    color: white;
                           font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
                         </div>
-                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                      
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       </div>
                       <div class="modal-body">
@@ -248,10 +248,11 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <div class="icon-box">
+                            <h4 class="modal-title" >Are you sure?</h4>
                           <!-- <i style="    color: white;
                           font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
                         </div>
-                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                       
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       </div>
                       <div class="modal-body">
@@ -276,10 +277,11 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <div class="icon-box">
+                            <h4 class="modal-title" >Are you sure?</h4>
                           <!-- <i style="    color: white;
                           font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
                         </div>
-                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                       
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       </div>
                       <div class="modal-body">
@@ -306,10 +308,11 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <div class="icon-box">
+                            <h4 class="modal-title" >Are you sure?</h4>
                           <!-- <i style="    color: white;
                           font-size: 18px;" class="fa fa-trash" aria-hidden="true"></i> -->
                         </div>
-                        <h4 class="modal-title" style="margin: 2px 23px;">Are you sure?</h4>
+                        
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       </div>
                       <div class="modal-body">

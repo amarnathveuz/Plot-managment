@@ -11,7 +11,7 @@
             data-checkall-group="group1"
             onclick="check_action({{i.id}})" id="check_btn{{i.id}}" {% if  i.id|check_action:check_list %} checked {% else %} {% endif %}>
     </th>
-    <td> {{forloop.counter}}</td>
+    <td class="text-center"> {{forloop.counter}}</td>
     <td class="fw-medium link-primary" class="id" onclick="window.location='property_update?id={{i.id}}'">
         {% if i.Name == None %}
         {% elif i.Name == '' %}
@@ -59,10 +59,10 @@
                     {{i.Phoneno}}
                     {% endif %}
     </td>
-<td class="product_name">{{i.UnitNo}}</td>
-<td class="date" >{{i.BlockNo}}</td>
-<td class="date" >{{i.UnitArea}}</td>
-<td class="company">{{i.LandArea}}</td>
+<td class="product_name text-center">{{i.UnitNo}}</td>
+<td class="date text-center" >{{i.BlockNo}}</td>
+<td class="date text-center" >{{i.UnitArea}}</td>
+<td class="company text-center">{{i.LandArea}}</td>
 <td>
 {% if i.UType == None %}
 {% else %}
@@ -75,52 +75,35 @@
     <td>{{i.Bank}}</td>
     <td>
         {% if i.current_status == "0" %}
-                    <span
-                        class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                        background-color: #008000;">{{i.Status}}</span>
+        <span
+            class="badge badge-soft-success text-uppercase" style="    color: #fff;
+            background-color: #008000;" data-toggle="tooltip" title="Available">{{i.Status}}</span>
 
-                    {% elif i.current_status == "1" %}
-                    <span
-                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                        background-color: orange;">{{i.Status}}</span>
-
-                    {% elif i.current_status == "2" %}
-                    <span
-                    class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                            background-color: #e40000;">{{i.Status}}</span>
-                            {% elif i.current_status == "3" %}
-                            <span
-                            class="badge badge-soft-success text-uppercase" style="    color: #fff;
-                                    background-color: gray;">{{i.Status}}</span>
-                        {% else %}
-                        {% endif %}
-    </td>
-<td class="status">
-    {% if i.current_status == "0" %}
-   
-    <span
+        {% elif i.current_status == "1" %}
+        <span
         class="badge badge-soft-success text-uppercase" style="    color: #fff;
-        background-color: #008000;">Available</span>
+            background-color: orange;" data-toggle="tooltip" title="Price Quotation">{{i.Status}}</span>
 
-{% elif i.current_status == "1" %}
-<span
-class="badge badge-soft-success text-uppercase" style="    color: #fff;
-background-color: orange;">Price Quotation</span>
+        {% elif i.current_status == "2" %}
+        <span
+        class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                background-color: #e40000;" data-toggle="tooltip" title="Sold">{{i.Status}}</span>
+                {% elif i.current_status == "3" %}
+                <span
+                class="badge badge-soft-success text-uppercase" style="    color: #fff;
+                        background-color: gray;" data-toggle="tooltip" title="Cancelled">{{i.Status}}</span>
+            {% else %}
+            {% endif %}
 
 
-
-{% elif i.current_status == "2" %}
-<span
-class="badge badge-soft-success text-uppercase" style="    color: #fff;
-background-color: #e40000;">Sold</span>
-{% elif i.current_status == "3" %}
-<span
-class="badge badge-soft-success text-uppercase" style="    color: #fff;
-background-color: gray;">Cancelled</span>
-        {% else %}
-
-        {% endif %}
-</td>
+    </td>
+    <td>
+        <a href="property_booking_history?id={{i.id}}" data-toggle="tooltip" title="Booking History">
+            <button type="button" class="btn btn-prim hist edit-cont-btn">
+                    <i class="fas fa-history"></i>
+                </button>
+           </a>
+    </td>
 
 </tr>
 
