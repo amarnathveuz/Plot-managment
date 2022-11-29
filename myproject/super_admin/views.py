@@ -484,9 +484,10 @@ def simple_upload(request):
 
 @api_view(['GET','POST'])
 def property_list_api(request):
+    from .serializers import Interactive_map_listview
 
     data1 = intractive_map.objects.all()
-    serializer = Intractive_mapSerializer(data1,many=True)
+    serializer = Interactive_map_listview(data1,many=True)
     
     return Response(serializer.data)
                 

@@ -2,6 +2,12 @@ from rest_framework import serializers
 
 from .models import intractive_map,plot_view_master_image
 
+class Interactive_map_listview(serializers.ModelSerializer):
+    class Meta:
+        model = intractive_map
+        fields = ['UnitNo_primary','current_status','BlockNo','UnitNo']
+
+
 
 class Intractive_mapSerializer(serializers.ModelSerializer):
     attachement_multiple_filea = serializers.SerializerMethodField()
