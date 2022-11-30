@@ -689,7 +689,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 10000;
     left: 0px;
     height: 57px;
 }
@@ -3491,10 +3491,6 @@ body.enlarged.bg-transparent {
 @media (max-width: 1024px) {
     .button-menu-mobile.disable-btn {
         display: inline-block;
-    }
-
-    .log-card .payslip {
-        margin: 0 10px !important;
     }
 
     .content-page {
@@ -7728,7 +7724,7 @@ textarea.form-control {
     border-radius: 3px;
     max-width: 100%;
     padding: 6px 6px;
-    font-size: 13px;
+    font-size: 14px;
     -webkit-box-shadow: none;
     box-shadow: none;
     -webkit-transition: all 300ms linear;
@@ -10785,6 +10781,8 @@ h3.timeline-title {
 }
 
 .price {
+    /* display: block;
+    font-size: 48px; */
     font-weight: 400;
     padding: 30px 0 10px;
     text-align: center;
@@ -13934,15 +13932,7 @@ body.modal-open {
   }
   
   .payslip .form-control{
-    padding: 0.2rem 0.5rem;
-    margin-bottom: 7px;
-  }
-
-  .mt-7{
-    margin-top: 7px;
-  }
-
-  .mb-7{
+    padding: 0.3rem 0.5rem;
     margin-bottom: 7px;
   }
   
@@ -14064,7 +14054,7 @@ body.modal-open {
     margin-top: 0;
     padding-bottom: 30px;
     position: fixed;
-    top: 57px;
+    top: 52px;
     transition: All .6s ease;
     -webkit-transition: All .6s ease;
     -moz-transition: All .6s ease;
@@ -14671,6 +14661,7 @@ ul {
     float: left;
     background-size: contain;
     border: 1px solid #dee2e6;
+    background-repeat: no-repeat;
 }
 
 .cust-name label {
@@ -15158,7 +15149,7 @@ ul {
   }
   
   .files-wr {
-    padding: 0px;
+    padding: 10px;
   }
   .files-wr label {
     margin-bottom: 10px;
@@ -15224,12 +15215,12 @@ ul {
   }
   .files-wr .btn-del-file {
     margin-left: 5px;
-    width: 18px;
-    height: 17px;
+    width: 20px;
+    height: 20px;
     border-radius: 3px;
     color: #fff;
     text-align: center;
-    padding: 0px;
+    padding: 2px;
     font-size: 11px;
     transition: all 0.2s;
     background-color: #be0000;
@@ -15278,13 +15269,11 @@ ul {
 
 .schdul-box{
     background-color: #f6fafd;
-    padding: 3px 10px;
+    padding: 10px;
 }
 
 .schdul-box h6{
     padding-left: 0;
-    margin: 3px 0;
-    font-size: .81rem;
 }
 
 .schdul-box h6 span{
@@ -15292,11 +15281,8 @@ ul {
     color: #6c757d;
 }
 
-.schdul-box h5 {
+.schdul-box h5{
     color: #545454;
-    margin: 5px 0 3px;
-    font-size: 14px;
-    font-weight: 600;
 }
 
 .schdul-box h5 span{
@@ -15814,8 +15800,7 @@ table.dataTable thead th{
 }
 
 .noti-card .payslip{
-    margin: 0px 10px;
-    /* min-height: 80vh; */
+    margin: 10px 10px;
 }
 
 .noti-tag{
@@ -16011,59 +15996,8 @@ table.dataTable thead th{
     transform: rotate(90deg);
 }
 
-.plotview {
-    color: #2FA4E7 !important;
-    cursor: pointer;
-    font-size: 13px;
-}
+/* new */
 
-.ribbon-top-right {
-    margin-top: -10px;
-    right: -5px;
-}
-.ribbon {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-    position: absolute;
-}
-.ribbon-top-right span {
-    left: -5px;
-    top: 24px;
-    transform: rotate(45deg);
-}
-
-.ribbon span {
-    z-index: 1;
-    position: absolute;
-    display: grid;
-    align-items: center;
-    width: 225px;
-    height: 40px;
-    padding: 0 44px;
-    box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
-    color: #fff;
-    font: 700 16px/1 'Lato', sans-serif;
-    text-shadow: 0 1px 1px rgb(0 0 0 / 20%);
-    text-transform: uppercase;
-    text-align: center;
-    overflow: hidden;
-    user-select: none;
-
-}
-
-.bg-orange{
-    background-color: orange;
-}
-
-.schdul-box h6 span i{
-    position: relative;
-    top: 1px;
-}
-
-.log-card .payslip{
-    min-height: 80vh;
-}
 
 .hist {
     padding: 2px 4px 0 !important;

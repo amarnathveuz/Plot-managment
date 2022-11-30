@@ -121,6 +121,10 @@ urlpatterns = [
     path('user_validation',views.user_validation,name='user_validation'),
     path('backup',views.backup,name='backup'),
     path('data_base_backup',views.data_base_backup,name='data_base_backup'),
+
+
+    path("change_c",views.change_c,name='change_c'),
+    
     
     
 

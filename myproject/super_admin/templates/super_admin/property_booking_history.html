@@ -141,17 +141,37 @@
                                 <div class='project-tasks1 mb-1 container-fluid'>
                                     {% for i in data %}
                                     <div class='project-column mt-2'>
-                                        <a style="text-decoration: none;color: black" href="booking_more_details?id={{i.id}}">
+                                        <a style="text-decoration: none;color: black" href="customer_more_details?id={{i.customer_id.id}}">
                                         <div class="customer-bx">
 
+                                            {% if i.user_id.atatchment == None %}
+                                            <div class="cust-img" style="background-image: url('{% static 'adminicon.jpg' %}');">
+
+                                            </div>
+                                            {% elif i.user_id.atatchment == '' %}
+                                            <div class="cust-img" style="background-image: url('{% static 'adminicon.jpg' %}');">
+
+                                            </div>
+                                            {% else %}
                                             <div class="cust-img" style="background-image: url('../media/{{i.user_id.atatchment}}');">
 
                                             </div>
+                                            {% endif %}
 
                                             <div class="customer-content">
                                                 <h5>New Booking Received <i>({{i.dt}})</i> </h5>
-                                                <span class="d-flex"><h6>Name : </h6> {{i.user_id.name|title}}</span>
-                                                <span class="d-flex"><h6>Email : </h6> {{i.user_id.email|title}}</span>
+                                                <span class="d-flex"><h6>Name : </h6> {{i.customer_id.name|title}}</span>
+                                                <span class="d-flex"><h6>Email : </h6>
+                                                {% if i.customer_id.email == None %}  
+                                                
+                                                {% elif i.customer_id.email == '' %}
+
+                                                {% else %}
+                                                    
+                                                    {{i.customer_id.email|title}}
+
+                                                    {% endif %}
+                                                </span>
                                                 <span class="d-flex"><h6>Property No : </h6> {{i.property_mapping_id.BlockNo}}{{i.property_mapping_id.UnitNo}}</span>
                                                 
                                                 <span class="badge badge-soft-success text-uppercase">{{i.user_id.user_type}}</span>
@@ -214,9 +234,9 @@
                                 <tbody class="list form-check-all">
                                     {% for i in data %}
                                    
-                                    <tr onclick="window.location='booking_more_details?id={{i.id}}'">
+                                    <tr onclick="window.location='customer_more_details?id={{i.customer_id.id}}'">
                                        
-                                        <td class="id"><a href="booking_more_details?id={{i.id}}"
+                                        <td class="id"><a href="customer_more_details?id={{i.customer_id.id}}"
                                                 class="fw-medium link-primary"> {{i.name|title}}</a>
                                         </td>
                                         <td class="customer_name">{{i.phone}}

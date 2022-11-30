@@ -75,6 +75,15 @@
                                     </div>
     {% endif %}
                                         <div class="cust-name row">
+                                            {% if data.user_type == "admin" %}
+                                        <div class="col-md-1">
+                                            <input name="user_type" value="admin"  type="radio" id=""  checked > <label
+                                                for="Individual">ADMIN </label><br>
+                                        </div>
+
+                                        {% else %}
+
+
                                             <div class="col-md-1">
                                                 <input type="radio" onclick="visible_manager('manager')" {% if data.user_type == 'manager' %} checked  {% endif %} name="user_type" value="manager" id="individual" 
                                                     > <label
@@ -84,6 +93,7 @@
                                                 <input  id="company" 
                                                 onclick="visible_manager('salesman')" {% if data.user_type == 'salesman' %} checked  {% endif %} name="user_type" type="radio"  value="salesman"> <label>Salesman</label><br>
                                             </div>
+                                            {% endif %}
                                             <div class="col-md-12">
                                                 <h3 class="m-0">{{data.name|title}}</h3>
                                             </div>
@@ -113,8 +123,8 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input type="number" name="phone" value="{{data.phone}}" class="input form-control mt-2"  >
-    
+                                                    <input maxlength="9" minlength="9" type="text" pattern="\d*" name="phone" value="{{data.phone}}" class="input form-control mt-2"  onkeyup="javascript:checkContents_phone(this)">
+                                                    <div style="display:none;color:red;" class="form-control-feedback user_table2">*Phone should be 9 digits and start with 5</div>
                                                 </div>
     
                                             </div>
@@ -149,6 +159,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% if data.user_type == "admin" %}
+
+                                        {% else %}
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Property Access </h6>
@@ -163,6 +176,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% endif %}
                                         {% if data.user_type == "manager" %}
                                         <div class="row" id="nav_permission">
                                          <div class="col-md-3 br-right d-flex align-items-start">
@@ -245,7 +259,8 @@
                                             </div>
     
                                         </div>
-    
+                                        {% if data.user_type == "admin" %}
+                                        {% else %}
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Plot Listview </h6>
@@ -260,6 +275,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% endif %}
+
+                                        {% if data.user_type == "admin" %}
+
+                                        {% else %}
                                         <div class="row">
                                             <div class="col-md-3 br-right d-flex align-items-center">
                                                 <h6>Price Visibility </h6>
@@ -273,6 +293,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% endif %}
                                         
     
                                     </div>
@@ -355,6 +376,9 @@
                         <li class="breadcrumb-item active"><a href="javascript: void(0);">View User</a></li>
                     </ol>
                     {% if data.user_type == "admin" %}
+                    <a><button type="button" style="padding: 5px 10px !important;" class="btn btn-prim pay view_button">
+                        Edit
+                    </button></a>
 
                     {% else %}
                     <div class="margn">
@@ -646,8 +670,7 @@
 
                                 </div>
                             </div>
-                            {% if data.user_type == "admin" %}
-                            {% else %}
+                           {% if log_data %}
                             <div class="paytab">
                                 <ul class="nav nav-tabs nav-pay" role="tablist">
                                     <h5>Log</h5>
@@ -698,7 +721,9 @@
                                     
                                 </div>
                             </div>
+
                             {% endif %}
+                         
 
                         </div>
 
@@ -945,6 +970,20 @@
   }
    }
 </script>
+
+<script type="text/javascript">
+    var checkContents_phone = function(input) {
+       var text = input.value;
+       if(!/[5]/.test(text))
+          input.value = "";
+          if (input.value.length != 9) {
+     $(".user_table2").show()
+   }
+   else if(input.value.length == 9) {
+     $(".user_table2").hide()
+   }
+    }
+ </script>
 
 <script>
   function search_details(status){

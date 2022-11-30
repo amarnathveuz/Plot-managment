@@ -102,8 +102,8 @@
                                             </div>
                                             <div class="col-md-8 d-flex align-items-center">
                                                 <div class="form-group  required_item w-100">
-                                                    <input id="form_phone"  name="phone" required type="number" class="input form-control mt-2" >
-    
+                                                    <input id="form_phone" name="phone" required maxlength="9" minlength="9" type="text" pattern="\d*" class="input form-control mt-2" onkeyup="javascript:checkContents_phone(this)">
+                                                    <div style="display:none;color:red;" class="form-control-feedback user_table2">*Phone should be 9 digits and start with 5</div>
                                                 </div>
     
                                             </div>
@@ -783,6 +783,20 @@ function image_remove_action(){
   }
    }
 </script>
+
+<script type="text/javascript">
+    var checkContents_phone = function(input) {
+       var text = input.value;
+       if(!/[5]/.test(text))
+          input.value = "";
+          if (input.value.length != 9) {
+     $(".user_table2").show()
+   }
+   else if(input.value.length == 9) {
+     $(".user_table2").hide()
+   }
+    }
+ </script>
 
 <script>
   function search_details(status){

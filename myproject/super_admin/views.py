@@ -60,7 +60,7 @@ def create_property(request):
 def user_management(request):
     page_number = request.GET.get("page")
     user_data = user_Details.objects.all()
-    data_paginator = Paginator(user_data, 10)
+    data_paginator = Paginator(user_data, 100)
     try:
         page_obj = data_paginator.get_page(page_number)
     except PageNotAnInteger:
@@ -321,6 +321,21 @@ def create_user(request):
                     property_access = "all"
 
                 )
+                auth_user = User.objects.get(id=request.user.id)
+                user_type = auth_user.is_superuser
+                if user_type == True:
+                    user_type = 'administrator'
+                else:
+                    user_type = 'staff'
+                d_text = "New user created"
+                store_log = user_log.objects.create(
+                    user_mapping_id_id= save_user_data.id,
+                    action_auth_user = request.user,
+                    status_content= "Created",
+                    d_text = d_text,
+                    user_type = user_type
+
+                )
                 messages.success(request,str('Created'))
                 return redirect(request.META['HTTP_REFERER'])
            
@@ -520,6 +535,8 @@ def property_update(request):
         UType = request.POST.get("UType")
         Price = request.POST.get("Price")
         Bank = request.POST.get("Bank")
+        ds1 =  '{:20,.2f}'.format(int(Price))
+        cv22 = str(ds1).replace(" ", "")
         customer_email = request.POST.get("customer_email")
         if Bank == "select bank":
             messages.error(request, "Select Bank")
@@ -541,9 +558,17 @@ def property_update(request):
         currency = request.POST.get("currency")
         customer_id = request.POST.get("customer_id")
         attachment = None
+        attachment_file_cond = ''
+        try:
+            data_file = request.FILES.getlist('attachment')
+            attachment_file_cond = data_file
+        except:
+            
+            pass
+        print("attachment_file_cond::::::::::",str(attachment_file_cond))
 
         data = intractive_map.objects.get(id=id)
-        if (data.Name != Name or  data.customer_email != customer_email or str(data.UnitNo) != str(UnitNo) or data.BlockNo != BlockNo or data.Phoneno != Phoneno or data.customer_id != customer_id or data.UnitArea != float(UnitArea) or data.UType != UType or int(data.Price) != int(data.Price) or data.Bank != Bank ):
+        if (data.Name != Name or  data.customer_email != customer_email or str(data.UnitNo) != str(UnitNo) or data.BlockNo != BlockNo or data.Phoneno != Phoneno or data.customer_id != customer_id or data.UnitArea != float(UnitArea) or data.UType != UType or int(Price) != int(data.Price) or data.Bank != Bank or attachment_file_cond != [] ):
             update_status = True
         else:
             update_status = False
@@ -634,6 +659,7 @@ def property_update(request):
 
             except:
                 pass
+            
             data_update = intractive_map.objects.filter(id=id).update(
                 Name=Name,
                 UnitNo = UnitNo,
@@ -648,7 +674,8 @@ def property_update(request):
                 currency = currency,
                 customer_id = customer_id,
                 bank_relation_id_id = bank_mapping_id,
-                customer_email = customer_email
+                customer_email = customer_email,
+                Price_currency = cv22
             )
             if change_text == '':
                 pass
@@ -854,21 +881,7 @@ def property_update(request):
 
         bank_details = Bank_details.objects.filter(status="Active")
         cv = str(currency_price).replace(" ", "")
-        plot_view1 = None
-        try:
-            plot_view1 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view1")
-        except:
-            pass
-        plot_view2 = None
-        try:
-            plot_view2 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view2")
-        except:
-            pass
-        plot_view3 = None
-        try:
-            plot_view3 = intractive_map_plot_view_image.objects.get(mapping_id_id=id,plot_type="view3")
-        except:
-            pass
+        
 
 
         context = {
@@ -879,9 +892,7 @@ def property_update(request):
             'user_type':user_type,
             'bank_details':bank_details,
             'currency_price':cv,
-            'plot_view1':plot_view1,
-            'plot_view2':plot_view2,
-            'plot_view3':plot_view3,
+            
             'data_plot_view_image':data_plot_view_image
         }
         return render(request,'super_admin/property_update.html',context)
@@ -1827,7 +1838,7 @@ def export_data_to_excel(request):
     row_num = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-    columns = ['Name','Id', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area','U Type','Price','Bank','Status(AR)','Status(EN)']
+    columns = ['Name','Id','Email', 'Phone ', 'Unit No', 'Block No','Unit Area','Land Area','U Type','Price','Bank','Status(AR)','Status(EN)']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style) 
 
@@ -1835,7 +1846,7 @@ def export_data_to_excel(request):
     exportid=request.GET.getlist('selected_data')
     li = list(exportid[0].split(","))
     cleanedList = [x for x in li if x != 'NaN']
-    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values('Name', 'customer_id', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','Bank','Status','statusnew')
+    rows = intractive_map.objects.filter(id__in=cleanedList).annotate(statusnew=Case(When(current_status='0',then=Value("Available")),When(current_status='1',then=Value("Price Quotation")),When(current_status='2',then=Value("Sold")),When(current_status='3',then=Value("Cancelled")))).values('Name', 'customer_id','customer_email', 'Phoneno', 'UnitNo', 'BlockNo','UnitArea','LandArea','UType','Price','Bank','Status','statusnew')
    
     for row in rows:
         row_num += 1
@@ -1843,7 +1854,7 @@ def export_data_to_excel(request):
         # row["currency"] = (ds1)
         for col_num in row.keys():
             numb1 =   list(row.keys()).index(col_num)
-            if numb1 == 8:
+            if numb1 == 9:
                 ds1 =  '{:20,.2f}'.format(row[col_num])
                 ws.write(row_num, list(row.keys()).index(col_num),ds1, font_style)
             else:
@@ -1947,7 +1958,7 @@ def property_groupby_action(request):
 def property_search_result(request):
     data_value = request.GET.get("data_value")
     check_list = request.GET.getlist("check_list[]")
-    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value)
+    data = intractive_map.objects.filter(Name__contains=data_value) or intractive_map.objects.filter(Phoneno__contains=data_value) or intractive_map.objects.filter(UnitNo__contains=data_value) or intractive_map.objects.filter(BlockNo__contains=data_value) or intractive_map.objects.filter(UnitArea__contains=data_value) or intractive_map.objects.filter(LandArea__contains=data_value) or intractive_map.objects.filter(UType__contains=data_value) or intractive_map.objects.filter(Price__contains=data_value) or intractive_map.objects.filter(Bank__contains=data_value) or intractive_map.objects.filter(Price_currency__contains=data_value)
     return render(request, 'super_admin/property_search_result.html', {'data': data,'check_list':check_list})
 
 
@@ -3454,3 +3465,14 @@ def backup(request):
     else:
         pass
     pass
+
+
+def change_c(request):
+    data = intractive_map.objects.all()
+    for i in data:
+        ds1 =  '{:20,.2f}'.format(i.Price)
+        cv = str(ds1).replace(" ", "")
+        data_upddate = intractive_map.objects.filter(id=i.id).update(
+            Price_currency=cv
+            
+        )

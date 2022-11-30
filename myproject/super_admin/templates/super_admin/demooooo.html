@@ -335,7 +335,7 @@
                 <!-- <div class="alert" role="alert" id="result"></div> -->
 
                 <div class="row">
-                    <div class="col-xl-7 col-lg-12 px-0">
+                    <div class="col-xl-8 col-lg-12 px-0">
                         <div class="card noti-card" id="orderList">
 
 
@@ -351,60 +351,364 @@
                                                 <div class="row">
 
                                                     <div class="col-md-4">
-                                                        <input type="hidden" name="id" value="{{data.id}}">
-                                                        <h3 id="old_block_unit" class="leave-head">{{data.BlockNo}}
-                                                            {{data.UnitNo}}</h3>
-
-                                                            <div class="row" id="unit_block" style="display:none;">
-                                                                <div class="col-md-4">
-                                                                    <h6>Unit No | Block No</h6>
-                                                                </div>
-                                                                <div class="col-md-4 d-flex align-items-center">
-                                                                    <div class="form-group  required_item w-100  mr-2">
-                                                                        <input style="outline: none;" type="text"
-                                                                            id="basiInput2" name="UnitNo"
-                                                                            value="{{data.UnitNo}}"
-                                                                            class="input form-control mystyle">
-                                                                    </div>
-        
-                                                                    <div class="form-group  required_item w-100">
-                                                                        <input name="BlockNo" id="basiInput3"
-                                                                            value="{{data.BlockNo}}" type="text"
-                                                                            class="input form-control mystyle">
-                                                                    </div>
-                                                                </div>
-        
-                                                            </div>
+                                                        <h3 class="leave-head">S 475</h3>
 
                                                     </div>
                                                     <div class="ribbon ribbon-top-right o_widget">
-                                                        {% if data.current_status == "0" %}
-                                                        <span style="background-color: #008000">
-                                                            {{data.Status}}
+                                                        <span class="bg-orange">
+                                                            عرض سعر
                                                         </span>
-
-                                                        {% elif data.current_status == "1" %}
-                                                        <span style="background-color: orange">
-                                                            {{data.Status}}
-                                                        </span>
-
-                                                        {% elif data.current_status == "2" %}
-                                                        <span style="background-color: #e40000">
-                                                            {{data.Status}}
-                                                        </span>
-
-                                                        {% elif data.current_status == "3" %}
-                                                        <span style="background-color: gray">
-                                                            {{data.Status}}
-                                                        </span>
-
-
-                                                        {%endif%}
-                                                       
                                                     </div>
 
                                                 </div>
                                                 <div class="row mt-4">
+                                                    <div class="col-md-5 cust-details p-0">
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="my-0">Customer</h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="">
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="my-0">ID</h6>
+                                                            </div>
+                                                            <div class="col-md-3 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text"
+                                                                        class="input form-control mb-0" disabled=""
+                                                                        placeholder="">
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div
+                                                                class="col-md-2 br-right d-flex align-items-center">
+                                                                <h6 class="my-0">Phone</h6>
+                                                            </div>
+                                                            <div class="col-md-3 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text"
+                                                                        class="input form-control mb-0" disabled=""
+                                                                        placeholder="">
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="mb-0 mt-7">Email</h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="form-group  mt-7 required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="">
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="my-0">Bank </h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-md-5 cust-details p-0">
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="my-0">Unit Area</h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="295.8">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="my-0">Land Area </h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="280">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="my-0">Unit Type </h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="my-0">Price</h6>
+                                                            </div>
+                                                            <div class="col-md-3 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="886344.00">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2 d-flex align-items-start">
+                                                                <div class="form-group  required_item w-100">
+                                                                    <input type="text" class="input form-control"
+                                                                        disabled="" placeholder="SAR">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3 br-right d-flex align-items-start">
+                                                                <h6 class="mt-0 mb-7">Plot view</h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="form-group  mb-7 required_item w-100">
+                                                                    <a class="plotview" data-toggle="modal"
+                                                                        data-target="#exampleModal">View Plot </a>
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-md-3 br-right d-flex align-items-center">
+                                                                <h6 class="my-0">Attachments</h6>
+                                                            </div>
+                                                            <div class="col-md-8 d-flex align-items-start">
+                                                                <div class="files-wr w-100" data-count-files="1">
+                                                                    <div class="one-file">
+                                                                        <a class="file-item"><span
+                                                                                class="file-name max-lines"
+                                                                                style="width: 100%;">succes-my-mindddddddddddddddd.jpg</span>
+                                                                            <span class="btn btn-del-file">
+                                                                                <i class="fa fa-times"
+                                                                                    aria-hidden="true"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <style>
+                                                                        .max-lines {
+                                                                            display: block;
+                                                                            text-overflow: ellipsis;
+                                                                            white-space: nowrap;
+                                                                            word-wrap: break-word;
+                                                                            overflow: hidden;
+                                                                        }
+                                                                    </style>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-12 px-0">
+                        <div class="card noti-card log-card" id="orderList">
+
+
+                            <div class="card-body bb-0 pt-0 p-0">
+                                <div>
+                                    <div class="payslip mb-5 ml-0">
+                                        <div class="paytab">
+
+                                            <div class="tab-content text-muted">
+
+                                                <div class="tab-pane active show" role="tabpanel">
+                                                    <div class="row actvty">
+                                                        <h5>Log</h5>
+                                                    </div>
+                                                    <div class="row msging schdul-box mt-1">
+                                                        <img src="img/users/avatar-9.jpg" alt="">
+                                                        <div class="col-9">
+                                                            <h5>Administrator <span> (Nov. 20, 2022 5:48
+                                                                    p.m.)</span>
+                                                            </h5>
+                                                            <h6>Name: <span>Salesman1</span>
+                                                            </h6>
+                                                            <h6>Email: <span>Salesman1@Gmail.Com</span>
+                                                            </h6>
+                                                            <h6>Property No: <span>C 11</span></h6>
+                                                            <h6>Phone: <span>(870)-931-0505</span></h6>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col msging schdul-box mt-1 d-flex">
+                                                            <img src="img/users/avatar-9.jpg" alt="">
+                                                            <div class="">
+                                                                <h5>Manager1@gmail.com <span> (Nov. 20, 2022 5:48
+                                                                        p.m.)</span>
+                                                                </h5>
+                                                                <h6>Booking report approval done</span>
+                                                                </h6>
+                                                                <h6>Status: <span>Price Quotation <i
+                                                                            class="fas fa-long-arrow-alt-right"></i>
+                                                                        Approved</span></h6>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+            <div class="row">
+                <div class="col-lg-12 px-0">
+                    <div class="card noti-card" id="orderList">
+                        <div class="card-body bb-0 pt-0 p-0">
+                            <div>
+                                <div class="payslip mb-5">
+                                    <div class="row pay-main mb-2 px-0">
+                                        <div class="customer-head mb-5 col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <input type="hidden" name="id" value="{{data.id}}">
+                                                    <h3 id="old_block_unit" class="leave-head">{{data.BlockNo}}
+                                                        {{data.UnitNo}}</h3>
+
+                                                    <div class="row" id="unit_block" style="display:none;">
+                                                        <div class="col-md-4">
+                                                            <h6>Unit No | Block No</h6>
+                                                        </div>
+                                                        <div class="col-md-4 d-flex align-items-center">
+                                                            <div class="form-group  required_item w-100  mr-2">
+                                                                <input style="outline: none;" type="text"
+                                                                    id="basiInput2" name="UnitNo"
+                                                                    value="{{data.UnitNo}}"
+                                                                    class="input form-control mystyle">
+                                                            </div>
+
+                                                            <div class="form-group  required_item w-100">
+                                                                <input name="BlockNo" id="basiInput3"
+                                                                    value="{{data.BlockNo}}" type="text"
+                                                                    class="input form-control mystyle">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="col text-right" id="current_status_id">
+
+                                                    {% if data.current_status == "0" %}
+                                                    <button style="background-color: #008000; " type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">Available
+                                                    </button>
+                                                    {% elif data.current_status == "1" %}
+                                                    <button style="background-color: orange; " type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">Price Quotation
+                                                    </button>
+                                                    {% elif data.current_status == "2" %}
+                                                    <button style="background-color: #e40000;" type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">Sold
+                                                    </button>
+                                                    {% elif data.current_status == "3" %}
+                                                    <button style="background-color: gray;" type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">Cancelled
+                                                    </button>
+                                                    {%endif%}
+
+
+                                                    {% if data.current_status == "0" %}
+                                                    <button style="background-color: #008000; " type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                    </button>
+                                                    {% elif data.current_status == "1" %}
+                                                    <button style="background-color: orange; " type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                    </button>
+                                                    {% elif data.current_status == "2" %}
+                                                    <button style="background-color: #e40000;" type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                    </button>
+                                                    {% elif data.current_status == "3" %}
+                                                    <button style="background-color: gray;" type="button"
+                                                        class="btn btn-pri pay discard-payroll noti-tag">{{data.Status}}
+                                                    </button>
+                                                    {%endif%}
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-md-4 cust-details p-0">
+
                                                     <div class="row" id="unit_no_id" style="display: none;">
                                                         <div class="col-md-3 br-right d-flex align-items-center">
                                                             <h6>Unit No</h6>
@@ -431,28 +735,145 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6 cust-details p-0">
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="my-0">Customer</h6>
-                                                            </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Customer Name</h6>
+                                                        </div>
+                                                        <div class="col-md-8 d-flex align-items-start">
+
+                                                            <div class="form-group  required_item w-100">
                                                                 <input type="text" id="basiInput1" disabled name="Name"
                                                                     value="{% if data.Name == None %}{% else %}{{data.Name}}{% endif %}"
                                                                     class="input form-control mystyle" placeholder="">
                                                                     <div style="color: red; display:none ;" id="name_id"></div>
                                                             </div>
 
-                                                            </div>
-
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="my-0">ID</h6>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Phone</h6>
+                                                        </div>
+                                                        <div class="col-md-8 d-flex align-items-start">
+                                                            <div class="form-group  required_item w-100">
+                                                                <input  type="text" autocomplete="off"
+                                                                    onkeyup="startdigit(this)" maxlength="9"
+                                                                    minlength="9"  id="basiInput31" disabled
+                                                                    name="Phoneno" onkeypress="return onlyNumberKey_phone(event)"
+                                                                    value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}"
+                                                                    class="input form-control mystyle" placeholder="">
+                                                                    <div style="color: red; display:none ;" id="new_id"></div>
                                                             </div>
-                                                            <div class="col-md-3 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Land Area </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group  required_item w-100">
+                                                                <input name="LandArea" value="{{data.LandArea}}"
+                                                                    id="basiInput5" disabled type="text"
+                                                                    class="input form-control mystyle">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Plot view </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group  required_item w-100">
+                                                               {% for i in data_plot_view_image %}
+
+   
+   <a href="#" class="btn_image_action" data-url="./media/{{i.attached_file}}">
+    <img width="20%" src="./media/{{i.attached_file}}">
+   </a>                                                            <!-- <p>Plot {{i.plot_type}}</p> -->
+
+
+                                                               {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="display: none" id="plot_view_upload">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Plot view </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="row">
+
+
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <label> 1 </label>
+                                                                      
+                                                                <input class="plot_view_select1 upload_restrict" {% if plot_view1 == None  %}  {% elif plot_view1 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview1" id="plotview1" onchange="return upload_restrict()">
+                                                                <input value="0" type="hidden" name="plot_view1_remove" id="plot_view1_remove">
+                                                                <input type="hidden" name="plot_view1_id" value="{{plot_view1.id}}">
+                                                                
+                                                                <a target="_blank" href="../media/{{plot_view1.attached_file}}" ><img {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image1" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view1.attached_file}}"></a>
+                                                                <li {% if plot_view1 == None  %} style="display: none" {% elif plot_view1 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image11" onclick="plot_view1_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                               
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <label> 2 </label>
+
+                                                                        <input class="plot_view_select2" {% if plot_view2 == None  %}  {% elif plot_view2 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview2" id="plotview2" onchange="return upload_restrict2()">
+                                                                <input value="0" type="hidden" name="plot_view2_remove" id="plot_view2_remove">
+                                                                <input type="hidden" name="plot_view2_id" value="{{plot_view2.id}}">
+                                                                
+                                                                <a target="_blank" href="../media/{{plot_view2.attached_file}}"><img {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image2" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view2.attached_file}}"></a>
+                                                                <li {% if plot_view2 == None  %} style="display: none" {% elif plot_view2 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image22" onclick="plot_view2_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+                                                               
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group  required_item w-100">
+                                                                        <label> 3 </label>
+                                                                        <input class="plot_view_select3" {% if plot_view3 == None  %}  {% elif plot_view3 == "" %}  {% else %} style="display: none" {% endif %} accept="image/*" type="file" name="plotview3" id="plotview3" onchange="return upload_restrict3()">
+                                                                <input value="0" type="hidden" name="plot_view3_remove" id="plot_view3_remove">
+                                                                <input type="hidden" name="plot_view3_id" value="{{plot_view3.id}}">
+                                                                
+                                                                <a target="_blank" href="../media/{{plot_view3.attached_file}}"><img {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %}  class="plot_view_image3" style="    width: 18%;
+                                                                padding: 5px 9px;" src="../media/{{plot_view3.attached_file}}"></a>
+                                                                <li {% if plot_view3 == None  %} style="display: none" {% elif plot_view3 == "" %} style="display: none"  {% else %}  {% endif %} id="plot_view_image33" onclick="plot_view3_onclick()" style="cursor: pointer"  class="fa fa-remove"></li>
+  
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="col-md-4 cust-details p-0">
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Customer Id</h6>
+                                                        </div>
+                                                        <div class="col-md-8 d-flex align-items-start">
+                                                            <div class="form-group  required_item w-100">
                                                                     <input autocomplete="off" maxlength="10" minlength="10"
                                                                     onkeypress="return onlyNumberKey_customer(event)" 
                                                                
@@ -462,134 +883,63 @@
                                                                 class="input form-control mystyle">
                                                                 <div style="color: red; display:none ;" id="customer_div"></div>
                                                             </div>
-
-                                                            </div>
-                                                            <div
-                                                                class="col-md-2 br-right d-flex align-items-center">
-                                                                <h6 class="my-0">Phone</h6>
-                                                            </div>
-                                                            <div class="col-md-3 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
-                                                                    <input  type="text" autocomplete="off"
-                                                                        onkeyup="startdigit(this)" maxlength="9"
-                                                                        minlength="9"  id="basiInput31" disabled
-                                                                        name="Phoneno" onkeypress="return onlyNumberKey_phone(event)"
-                                                                        value="{%if data.Phoneno == None %}{% else %}{{data.Phoneno}}{% endif %}"
-                                                                        class="input form-control mystyle" placeholder="">
-                                                                        <div style="color: red; display:none ;" id="new_id"></div>
-                                                                </div>
-
-                                                            </div>
-
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="mb-0 mt-7">Email</h6>
-                                                            </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
-                                                                    <input name="customer_email" type="email" id="b_customer_email" disabled
-                                                                        value="{% if data.customer_email == None %}{% else %}{{data.customer_email}}{% endif %}"
-                                                                        class="input form-control mystyle">
-                                                                        <div style="color: red; display:none ;" id="email_id"></div>
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="my-0">Bank </h6>
-                                                            </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <style>
-                                                                    .select_box_bank{
-                                                                        background-color: #f6fafd!important;
-                                                                        margin-bottom: 10px;
-                                                                    }
-                                                                    .select_box_bank1{
-                                                                        background-color: #ffffff!important;
-                                                                    }
-                                                                    select{
-                                                                        border: 1px solid #eaf0f9;
-                                                                    }
-                                                                </style>
-                                                                <div class="form-group  required_item w-100 bankselect ">
-    
-                                                                    
-                                                                    <select class="select2 mystyle select_box_bank" name="Bank"
-                                                                        id="basiInput8" disabled>
-    
-                                                                        {% if data.Bank == '' %}
-                                                                        <option value="select bank">Select Bank</option>
-    
-                                                                        {% else %}
-                                                                        <option value="{{data.Bank}}">{{data.Bank}}</option>
-    
-                                                                        {% endif %}
-                                                                        {% for i in bank_details %}
-                                                                        {% if i.bank_name == data.Bank %}
-                                                                        {% else %}
-                                                                        <option value="{{i.bank_name}}">{{i.bank_name}}
-                                                                        </option>
-                                                                        {% endif %}
-    
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                    <div style="color: red; display:none ;" id="customerbank_div"></div>
-                                                                    <!-- <input name="Bank" id="basiInput8" disabled value="{{data.Bank}}" type="text" class="input mt-2 form-control mystyle">     -->
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
 
                                                     </div>
-                                                    <div class="col-md-6 cust-details p-0">
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="my-0">Unit Area</h6>
-                                                            </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
-                                                                    <input name="UnitArea" id="basiInput4" disabled
-                                                                        value="{{data.UnitArea}}" type="text"
-                                                                        class="input form-control mystyle">
-    
-                                                                </div>
-                                                            </div>
 
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Unit Area</h6>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="my-0">Land Area </h6>
-                                                            </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
-                                                                    <input name="LandArea" value="{{data.LandArea}}"
-                                                                        id="basiInput5" disabled type="text"
-                                                                        class="input form-control mystyle">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="my-0">Unit Type </h6>
-                                                            </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
-                                                                    <input name="UType" type="text" id="basiInput6" disabled
-                                                                        value="{% if data.UType == None %}{% else %}{{data.UType}}{% endif %}"
-                                                                        class="input form-control mystyle">
-                                                                </div>
+                                                        <div class="col-md-8 d-flex align-items-start">
+                                                            <div class="form-group  required_item w-100">
+                                                                <input name="UnitArea" id="basiInput4" disabled
+                                                                    value="{{data.UnitArea}}" type="text"
+                                                                    class="input form-control mystyle">
+
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="my-0">Price</h6>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Unit Type </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group  required_item w-100">
+                                                                <input name="UType" type="text" id="basiInput6" disabled
+                                                                    value="{% if data.UType == None %}{% else %}{{data.UType}}{% endif %}"
+                                                                    class="input form-control mystyle">
                                                             </div>
-                                                            <div class="col-md-3 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100 mr-2"
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Email </h6>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group  required_item w-100">
+                                                                <input name="customer_email" type="email" id="b_customer_email" disabled
+                                                                    value="{% if data.customer_email == None %}{% else %}{{data.customer_email}}{% endif %}"
+                                                                    class="input form-control mystyle">
+                                                                    <div style="color: red; display:none ;" id="email_id"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-4 cust-details p-0">
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Price</h6>
+                                                        </div>
+
+                                                      
+                                                        <div class="col-md-4 d-flex align-items-start">
+                                                            <div class="form-group  required_item w-100 mr-2"
                                                                 style="min-width: 100px;">
                                                                 
                                                                 <input name="Price" style="display:none;"
@@ -611,39 +961,135 @@
                                                                     value="{{data.Price|floatformat:"0"}}" type="text"
                                                                     class="input form-control mystyle"> -->
                                                             </div>
-                                                            </div>
-                                                            <div class="col-md-2 d-flex align-items-start">
-                                                                <div class="form-group  required_item w-100">
-                                                                    <input name="currency" id="basiInput9" disabled
+
+                                                            <div class="form-group  required_item w-100"  style="min-width: 50px;">
+                                                                <input name="currency" id="basiInput9" disabled
                                                                     value="{{data.currency}}" type="text"
                                                                     class="input form-control mystyle">
-
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        {% if data_plot_view_image %}
-                                                        <div class="row">
-                                                            <div class="col-md-3 br-right d-flex align-items-start">
-                                                                <h6 class="mt-0 mb-7">Plot view</h6>
-                                                            </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <div class="form-group  mb-7 required_item w-100">
-                                                                    <a  class="plotview btn_image_action" data-toggle="modal"
-                                                                        data-target="#exampleModal">View Plot </a>
-                                                                   
-                                                                </div>
+                                                                
                                                             </div>
                                                         </div>
-                                                        {% endif %}
+                                                       
+                                                      
+                                                    </div>
 
-                                                        <div class="row">
-                                                            <div
-                                                                class="col-md-3 br-right d-flex align-items-center">
-                                                                <h6 class="my-0">Attachments</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Bank </h6>
+                                                        </div>
+                                                        <div class="col-md-9 d-flex align-items-start">
+                                                            <style>
+                                                                .select_box_bank{
+                                                                    background-color: #f6fafd!important;
+                                                                    margin-bottom: 10px;
+                                                                }
+                                                                .select_box_bank1{
+                                                                    background-color: #ffffff!important;
+                                                                }
+                                                                select{
+                                                                    border: 1px solid #eaf0f9;
+                                                                }
+                                                            </style>
+                                                            <div class="form-group  required_item w-100 bankselect ">
+
+                                                                
+                                                                <select class="select2 mystyle select_box_bank" name="Bank"
+                                                                    id="basiInput8" disabled>
+
+                                                                    {% if data.Bank == '' %}
+                                                                    <option value="select bank">Select Bank</option>
+
+                                                                    {% else %}
+                                                                    <option value="{{data.Bank}}">{{data.Bank}}</option>
+
+                                                                    {% endif %}
+                                                                    {% for i in bank_details %}
+                                                                    {% if i.bank_name == data.Bank %}
+                                                                    {% else %}
+                                                                    <option value="{{i.bank_name}}">{{i.bank_name}}
+                                                                    </option>
+                                                                    {% endif %}
+
+                                                                    {% endfor %}
+                                                                </select>
+                                                                <div style="color: red; display:none ;" id="customerbank_div"></div>
+                                                                <!-- <input name="Bank" id="basiInput8" disabled value="{{data.Bank}}" type="text" class="input mt-2 form-control mystyle">     -->
                                                             </div>
-                                                            <div class="col-md-8 d-flex align-items-start">
-                                                                <div id="attachment_id12" class="row w-100"
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div id="status_show" class="row" style="display: none;">
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Status </h6>
+                                                        </div>
+                                                        <div class="col-md-9 d-flex align-items-start" id="select_div">
+                                                            <style>
+                                                                .select_box_clr {
+                                                                    background-color: #8c95a126 !important;
+                                                                }
+
+                                                                .select_box_clr1 {
+                                                                    background-color: #ffffff !important;
+                                                                }
+                                                            </style>
+                                                            <select id="select_box" disabled name="current_status"
+                                                                class="floatLabel form-select mystyle select_box_clr"
+                                                                aria-placeholder="Employee">
+
+                                                                {% if data.current_status == "0" %}
+                                                                <option value="0">Available</option>
+
+                                                                {% elif data.current_status == "1" %}
+                                                                <option value="1">Price Quotation</option>
+
+                                                                {% elif data.current_status == "2" %}
+                                                                <option value="2">Sold</option>
+                                                                {% elif data.current_status == "3" %}
+                                                                <option value="3">Cancelled</option>
+                                                                {% endif %}
+
+                                                                {% if data.current_status == "0" %}
+
+                                                                {% else %}
+                                                                <option value="0">Available</option>
+                                                                {% endif %}
+
+                                                                {% if data.current_status == "1" %}
+
+                                                                {% else %}
+                                                                <option value="1">Price Quotation</option>
+                                                                {% endif %}
+                                                                {% if data.current_status == "2" %}
+
+                                                                {% else %}
+                                                                <option value="2">Sold</option>
+                                                                {% endif %}
+                                                                {% if data.current_status == "3" %}
+
+                                                                {% else %}
+                                                                <option value="3">Cancelled</option>
+                                                                {% endif %}
+
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                                    {% if user_type.is_superuser %}
+                                                    <div class="row">
+
+                                                        <div class="col-md-3 br-right d-flex align-items-start">
+                                                            <h6 class="my-0">Attachments</h6>
+                                                        </div>
+                                                        <div class="col-md-9 d-flex align-items-start">
+
+
+
+                                                            <div id="attachment_id12" class="row w-100"
                                                                 style="display: block">
                                                                 <script>
                                                                     function redirectIt(obj) {
@@ -725,249 +1171,16 @@
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                            </div>
 
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-
-                                    </div>
-
-
-
-                                </div>
-
-
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-5 col-lg-12 px-0">
-                        <div class="card noti-card log-card" id="orderList">
-
-
-                            <div class="card-body bb-0 pt-0 p-0">
-                                <div>
-                                    <div class="payslip mb-5 ml-0">
-                                        <div class="paytab">
-
-                                            <div class="tab-content text-muted">
-
-                                                <div class="tab-pane active show" role="tabpanel">
-                                                    <div class="row actvty">
-                                                        <h5>Log</h5>
-                                                    </div>
-                                                    {% for j in history %}
-
-                                                    <div class="row msging schdul-box mt-1">
-                                                        {% if j.user_type == "administrator" %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                                        {% else %}
-                                                        {% if j.assigned_user_id.atatchment == '' %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                        
-                                                        {% else %}
-                                                        {% if j.assigned_user_id.atatchment == None %}
-                                                        {% if j.log_type == 'booking_submit' %}
-                                                        {% if j.action_appy_user.atatchment == '' %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                        
-                                                        {% elif j.action_appy_user.atatchment == None %}
-                                                        <img src="{% static 'adminicon.jpg' %}" alt="">
-                                        
-                                                        {% else %}
-                                        
-                                                        <img src="../media/{{j.action_appy_user.atatchment}}"
-                                                            alt="">
-                                                        {% endif %}
-                                        
-                                                        {% else %}
-                                        
-                                                        {% endif %}
-                                        
-                                                        {% else %}
-                                                        <img src="../media/{{j.assigned_user_id.atatchment}}"
-                                                            alt="">
-                                                        {% endif %}
-                                                        {% endif %}
-                                                        {% endif %}
-                                                        <div class="col-9">
-                                                            <h5>{% if j.user_type == "administrator" %} {{j.user_type|title}}  {% else %} 
-                        
-                        
-                                                                <a href="user_edit?id={{j.action_appy_user.id}}">
-                                                                    {{j.auth_user.username}}
-                                                                </a>
-                                                                {% endif %}   <span> {{j.dt}} {{j.tm}}</span></span>
-                                                            </h5>
-                                                            <h6>{{j.d_text}}
-                                                            </h6>
-                                                            <h6>
-                                                                {% if 'field_update' == j.log_type %}
-
-                                                                {% else %}
-                                                                <span>status : {% endif %}
-                                                                    
-                                                                    
-                                                                    {{j.status_content}}</span></h6>
-                                                            {% if  j.log_type  == "booking_submit" %}
-                                                            <h6>Customer Name : {{j.booking_id.name}}</h6>
-                                                            <h6>Customer Phone : {{j.booking_id.phone}}</h6>
-                                                            <h6>Customer ID : {{j.booking_id.booking_id}}</h6>
-                                        
-                                                            {% elif j.status_content == "Sold-->Cancelled" %}
-                                                            <h6>Customer Name : {{j.booking_id.name}}</h6>
-                                                            <h6>Customer Phone : {{j.booking_id.phone}}</h6>
-                                                            <h6>Customer ID : {{j.booking_id.booking_id}}</h6>
-                                                            {% endif %}
-                                                        </div>
-
-
-                                                    </div>
-                                                    {% endfor %}
-                                                   
-
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                </div>
-
-
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            <div class="row">
-                <div class="col-lg-12 px-0">
-                    <div class="card noti-card" id="orderList">
-                        <div class="card-body bb-0 pt-0 p-0">
-                            <div>
-                                <div class="payslip mb-5">
-                                    <div class="row pay-main mb-2 px-0">
-                                        <div class="customer-head mb-5 col-md-12">
-                                            <div class="row">
-                                             
-
-                                            
-
-                                            </div>
-                                            <div class="row mt-4">
-                                                <div class="col-md-4 cust-details p-0">
-
-                                            
-
-                                          
-                                                
-
-
-
-                                                </div>
-
-                                        
-
-
-
-                                                <div class="col-md-4 cust-details p-0">
-                                                    
-                                                 
-
-                                                    <div class="row">
-                                                       
-                                                        <div class="col-md-9 d-flex align-items-start">
-                                                            <style>
-                                                                .select_box_bank{
-                                                                    background-color: #f6fafd!important;
-                                                                    margin-bottom: 10px;
-                                                                }
-                                                                .select_box_bank1{
-                                                                    background-color: #ffffff!important;
-                                                                }
-                                                                select{
-                                                                    border: 1px solid #eaf0f9;
-                                                                }
-                                                            </style>
-                                                      
+                                                            <!-- <a style="color: black;
+                                                                    font-weight: bold;" target="_blank" href="./media/{{i.attached_file}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                    <a style="color: black;
+                                                                    font-weight: bold;" href="delete_image_action?id={{i.id}}"><i class="fa fa-trash" aria-hidden="true"></i></a> -->
                                                         </div>
 
                                                     </div>
 
-
-                                                    <div id="status_show" class="row" style="display: none;">
-                                                        <div class="col-md-3 br-right d-flex align-items-start">
-                                                            <h6 class="my-0">Status </h6>
-                                                        </div>
-                                                        <div class="col-md-9 d-flex align-items-start" id="select_div">
-                                                            <style>
-                                                                .select_box_clr {
-                                                                    background-color: #8c95a126 !important;
-                                                                }
-
-                                                                .select_box_clr1 {
-                                                                    background-color: #ffffff !important;
-                                                                }
-                                                            </style>
-                                                            <select id="select_box" disabled name="current_status"
-                                                                class="floatLabel form-select mystyle select_box_clr"
-                                                                aria-placeholder="Employee">
-
-                                                                {% if data.current_status == "0" %}
-                                                                <option value="0">Available</option>
-
-                                                                {% elif data.current_status == "1" %}
-                                                                <option value="1">Price Quotation</option>
-
-                                                                {% elif data.current_status == "2" %}
-                                                                <option value="2">Sold</option>
-                                                                {% elif data.current_status == "3" %}
-                                                                <option value="3">Cancelled</option>
-                                                                {% endif %}
-
-                                                                {% if data.current_status == "0" %}
-
-                                                                {% else %}
-                                                                <option value="0">Available</option>
-                                                                {% endif %}
-
-                                                                {% if data.current_status == "1" %}
-
-                                                                {% else %}
-                                                                <option value="1">Price Quotation</option>
-                                                                {% endif %}
-                                                                {% if data.current_status == "2" %}
-
-                                                                {% else %}
-                                                                <option value="2">Sold</option>
-                                                                {% endif %}
-                                                                {% if data.current_status == "3" %}
-
-                                                                {% else %}
-                                                                <option value="3">Cancelled</option>
-                                                                {% endif %}
-
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-
-
-
+                                                    {% endif %}
 
                                                 </div>
                                             </div>
@@ -1017,7 +1230,84 @@
                                         }
                                         </style>
 
+<div class="paytab w-100">
+    <ul class="nav nav-tabs nav-pay" role="tablist">
+        <h5>Log</h5>
+    </ul>
+    <div class="tab-content text-muted pt-2">
 
+        <div class="tab-pane active show" role="tabpanel">
+            {% for j in history %}
+
+          
+            <div class="row msging schdul-box mt-1">
+                {% if j.user_type == "administrator" %}
+                <img src="{% static 'adminicon.jpg' %}" alt="">
+                {% else %}
+                {% if j.assigned_user_id.atatchment == '' %}
+                <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                {% else %}
+                {% if j.assigned_user_id.atatchment == None %}
+                {% if j.log_type == 'booking_submit' %}
+                {% if j.action_appy_user.atatchment == '' %}
+                <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                {% elif j.action_appy_user.atatchment == None %}
+                <img src="{% static 'adminicon.jpg' %}" alt="">
+
+                {% else %}
+
+                <img src="../media/{{j.action_appy_user.atatchment}}"
+                    alt="">
+                {% endif %}
+
+                {% else %}
+
+                {% endif %}
+
+                {% else %}
+                <img src="../media/{{j.assigned_user_id.atatchment}}"
+                    alt="">
+                {% endif %}
+                {% endif %}
+                {% endif %}
+                <div>
+                    <h5>{% if j.user_type == "administrator" %} {{j.user_type|title}}  {% else %} 
+                        
+                        
+                        <a href="user_edit?id={{j.action_appy_user.id}}">
+                            {{j.auth_user.username}}
+                        </a>
+                        {% endif %}   <span> {{j.dt}} {{j.tm}}</span></h5>
+                    <h6>{{j.d_text}}
+                    </h6>
+                    <h6><span>status : {{j.status_content}}</span></h6>
+                    {% if  j.log_type  == "booking_submit" %}
+                    <h6>Customer Name : {{j.booking_id.name}}</h6>
+                    <h6>Customer Phone : {{j.booking_id.phone}}</h6>
+                    <h6>Customer ID : {{j.booking_id.booking_id}}</h6>
+
+                    {% elif j.status_content == "Sold-->Cancelled" %}
+                    <h6>Customer Name : {{j.booking_id.name}}</h6>
+                    <h6>Customer Phone : {{j.booking_id.phone}}</h6>
+                    <h6>Customer ID : {{j.booking_id.booking_id}}</h6>
+
+                    {% endif %}
+                </div>
+
+            </div>
+
+           
+            {% endfor %}
+
+           
+            
+           
+
+        </div>
+    </div>
+</div>
 
 {% comment %}
                                         <div class="paytab w-100">
@@ -1188,11 +1478,6 @@
 {% if messages %}
 <script>
     {% for message in messages %}
-
-
-  
-
-
     message1 = "{{message}}"
     if (message1 == "error") {
         Swal.fire({
@@ -1202,10 +1487,6 @@
         })
 
     } else {
-
-
-        
-        
         Swal.fire(
             '',
             '{{ message }}',
@@ -1935,7 +2216,7 @@ modalConfirm(function(confirm){
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mw-100 w-50" role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">PlotView Image</h5>
@@ -1944,15 +2225,8 @@ modalConfirm(function(confirm){
           </button>
         </div>
         <div class="modal-body">
-            {% for i in data_plot_view_image %}
-
-   
-            <a href="#" class="btn_image_action" data-url="./media/{{i.attached_file}}">
-             <img width="35%" src="./media/{{i.attached_file}}">
-            </a>                                                            <!-- <p>Plot {{i.plot_type}}</p> -->
-         
-         
-                                                                        {% endfor %}
+          <img id="myImg" style="    width: 55%;" src="https://pv.sumoualasalah.com/media/plot_view_master_image/acacia_2.jpg">
+          <img id="myImg" style="    width: 55%;" src="https://pv.sumoualasalah.com/media/plot_view_master_image/acacia_2.jpg">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1965,7 +2239,7 @@ modalConfirm(function(confirm){
     .alert{
   display:none;
   position: fixed;
-  bottom: 81%;
+  bottom: 80%;
   right: 0px;
     }
     .alert .fa {
@@ -1984,7 +2258,7 @@ modalConfirm(function(confirm){
     
     
    $(".btn_image_action").click(function(){
-    
+   
     $("#exampleModalLong").modal('show');
    })
    $(".sendButton").click(function(){
