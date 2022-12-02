@@ -128,10 +128,11 @@
                                 <th class="sort" data-sort="company">
                                     U Type
                                 </th>
-                                
+                                {% if user_data.price_visibility == 1 %}
                                 <th class="sort" data-sort="company">
                                    Price
                                 </th>
+                                {% endif %}
                                 <th class="sort" data-sort="status">
                                     Status</th>
                                     
@@ -178,9 +179,11 @@
                                     {{i.UType}}
                                     {% endif %}
                                 </td>
+                                {% if user_data.price_visibility == 1 %}
                                 <td>
                                     {{i.Price}}
                                 </td>
+                                {% endif %}
                                 <td class="status">
                                     {% if i.current_status == "0" %}
                                     

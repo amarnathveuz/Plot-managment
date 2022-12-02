@@ -261,17 +261,22 @@
 
                                     <td class="customer_name">
                                         {% if i.phone == None %}
+                                        {% elif i.phone == '' %}
                                         {% else %}
                                         <i class="fa fa-phone m-1" style="font-size: 9px;"></i> {{i.phone}}
                                         {% endif %}
                                     </td>
 
                                     <td>
+
+                                        
                                         {% if i.email == None %}
 
                                         {% elif i.email == '' %}
 
-                                        {{i.email}}
+                                      {% else %}
+
+                                      {{i.email}}
 
                                         {% endif %}
                                        </td>

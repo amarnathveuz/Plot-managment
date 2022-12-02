@@ -1,4 +1,15 @@
 <!doctype html>
+
+
+{% if data_base_status == 1 %}
+
+
+{% block content1 %}
+
+{% endblock %}
+
+
+{% else %}
 <html lang="en">
     {% load static %}
     {% load notification %}
@@ -454,3 +465,5 @@
 </body>
 
 </html>
+
+{% endif %}

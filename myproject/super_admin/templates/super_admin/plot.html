@@ -5,6 +5,7 @@
 
 
 {% load static %}
+{% block content1 %}
 {% block content %}
 <html lang="en">
 
@@ -95,11 +96,11 @@
     font-size: 13px;" href="home">Dashboard</a> -->
         {% else %}
 
-       <!-- <a style="padding: 6px 8px;
+       <a style="padding: 6px 8px;
     background: #cd2020;
     color: white;
     float: right;
-    font-size: 13px;" href="logout">Logout</a> -->
+    font-size: 13px;" href="logout">Logout</a>
         {% endif %}
 
     <div class="row">
@@ -4307,3 +4308,5 @@ $("#preloader").fadeOut();
 
 </html>
 {%endblock%}
+
+{% endblock %}

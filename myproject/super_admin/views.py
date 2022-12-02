@@ -731,6 +731,7 @@ def property_update(request):
             if change_text == '':
                 pass
             else:
+                data_user_val = user_Details.objects.get(auth_user_id=request.user.id)
                 booking_log1 = booking_log.objects.create(
                     intractive_map_id_id = id,
                     auth_user = request.user,
@@ -738,6 +739,7 @@ def property_update(request):
                     d_text = change_text,
                     status_content = "updated",
                     log_type="field_update",
+                    action_appy_user_id = data_user_val.id
 
 
                 )
@@ -978,6 +980,35 @@ def update_user_action(request):
         if manager_nav_booking_cancel_permission == None:
             manager_nav_booking_cancel_permission = 0
         user_instance = user_Details.objects.get(id=updated_id)
+        user_manger = ""
+        try:
+            user_manger = user_manger_mapping.objects.get(user_id=user_instance)
+        except:
+            pass
+        if user_instance.user_type == "salesman":
+            if (user_instance.name != name or user_instance.user_type != user_type or user_instance.phone != phone or user_instance.mobile != mobile or user_instance.email != email or user_instance.emp_id != empid or user_instance.plot_list_view != plot_list_view or int(user_instance.price_visibility) != int(price_visibility) or user_instance.property_access != property_access or int(user_manger.manager_id.id) != int(manager) or int(user_instance.manager_nav_ploat_permission) != int(manager_nav_ploat_permission) or int(user_instance.manager_nav_user_permission) != int(manager_nav_user_permission) or int(user_instance.manager_nav_plot_edit_permission) != int(manager_nav_plot_edit_permission) or int(user_instance.manager_nav_customer_read_permission) != int(manager_nav_customer_read_permission) or int(user_instance.manager_nav_customer_write_permission) != int(manager_nav_customer_write_permission) or int(user_instance.manager_nav_customer_edit_permission) != int(manager_nav_customer_edit_permission) or int(user_instance.manager_nav_document_read_permission) != int(manager_nav_document_read_permission) or int(user_instance.manager_nav_document_write_permission) != int(manager_nav_document_write_permission) or int(user_instance.manager_nav_document_edit_permission) != int(manager_nav_document_edit_permission) or int(user_instance.manager_nav_booking_cancel_permission) != int(manager_nav_booking_cancel_permission) or password_select == "yes" or int(remove_status) == 1):
+                update_status = True
+            else:
+                update_status = False
+        elif user_instance.user_type == "manager":
+            if (user_instance.name != name or user_instance.user_type != user_type or user_instance.phone != phone or user_instance.mobile != mobile or user_instance.email != email or user_instance.emp_id != empid or user_instance.plot_list_view != plot_list_view or int(user_instance.price_visibility) != int(price_visibility) or user_instance.property_access != property_access or int(user_instance.manager_nav_ploat_permission) != int(manager_nav_ploat_permission) or int(user_instance.manager_nav_user_permission) != int(manager_nav_user_permission) or int(user_instance.manager_nav_plot_edit_permission) != int(manager_nav_plot_edit_permission) or int(user_instance.manager_nav_customer_read_permission) != int(manager_nav_customer_read_permission) or int(user_instance.manager_nav_customer_write_permission) != int(manager_nav_customer_write_permission) or int(user_instance.manager_nav_customer_edit_permission) != int(manager_nav_customer_edit_permission) or int(user_instance.manager_nav_document_read_permission) != int(manager_nav_document_read_permission) or int(user_instance.manager_nav_document_write_permission) != int(manager_nav_document_write_permission) or int(user_instance.manager_nav_document_edit_permission) != int(manager_nav_document_edit_permission) or int(user_instance.manager_nav_booking_cancel_permission) != int(manager_nav_booking_cancel_permission) or password_select == "yes" or int(remove_status) == 1):
+                update_status = True
+            else:
+                update_status = False
+        else:
+            if (user_instance.name != name or user_instance.user_type != user_type or user_instance.phone != phone or user_instance.mobile != mobile or user_instance.email != email or user_instance.emp_id != empid or password_select == "yes" or int(remove_status) == 1):
+                update_status = True
+            else:
+                update_status = False
+        if update_status == False:
+            try:
+                attachment = request.FILES['attachment']
+                data_update_attch = user_Details.objects.get(id=updated_id)
+                data_update_attch.atatchment = attachment
+                data_update_attch.save()
+            except:
+                messages.warning(request, "No Updates")
+                return redirect(request.META['HTTP_REFERER'])
         change_text = ''
         if user_instance.name == name:
             pass
@@ -999,13 +1030,7 @@ def update_user_action(request):
             pass
         else:
             change_text= change_text+'(Employee Id changed '+user_instance.emp_id+"--> "+empid+" )"
-        try:
-            attachment = request.FILES['attachment']
-            data_update_attch = user_Details.objects.get(id=updated_id)
-            data_update_attch.atatchment = attachment
-            data_update_attch.save()
-        except:
-            pass
+        
         if user_instance.email == email:
             if user_instance.emp_id == empid:
                 update_user_details = user_Details.objects.filter(id=updated_id).update(
@@ -1179,6 +1204,7 @@ def update_user_action(request):
             u = User.objects.get(id=user_data.auth_user.id)
             u.set_password(password)
             u.save()
+            change_text = change_text + '(Password has been updated '" )"
         if user_type == "salesman":
             user_data = user_Details.objects.get(id=updated_id)
             try:
@@ -1211,7 +1237,6 @@ def update_user_action(request):
             )
         messages.success(request,"updated")
         return redirect(request.META['HTTP_REFERER'])
-
 
 
 def login_action(request):
@@ -1301,9 +1326,10 @@ def plot(request):
         context = {
         'data':data,
         'user_data':user_data,
-        "data_bank":data_bank
+        "data_bank":data_bank,
+        'data_base_status':1
         }
-        return render(request,'super_admin/plot_sales_man.html',context)
+        return render(request,'super_admin/plot.html',context)
 
     else:
 
@@ -1313,6 +1339,10 @@ def plot(request):
         "data_bank":data_bank
         }
         return render(request,'super_admin/plot.html',context)
+
+
+
+
 
 @login_required(login_url='/')
 def booking_action(request):
@@ -1867,6 +1897,7 @@ def export_data_to_excel(request):
 @login_required(login_url='/')
 def plot_table_view(request):
     data = user_Details.objects.get(auth_user=request.user)
+    user_data = user_Details.objects.get(auth_user=request.user)
     if data.plot_list_view == "yes":
         page_obj = ""
         page_number = request.GET.get("page")
@@ -1878,7 +1909,8 @@ def plot_table_view(request):
             page_obj = data_paginator.page(1)
         context = {
             "data":data,
-            'page_obj': page_obj
+            'page_obj': page_obj,
+            'user_data':user_data
 
         }
         return render(request,'super_admin/plot_table_view.html',context)
@@ -2443,7 +2475,7 @@ def update_bankdetails_action_status(request):
 def customer_details_update_action(request):
     if request.method == "POST":
         id = request.POST.get("id",False)
-       
+        profile_pic = ""
         try:
             profile_pic = request.FILES['profile_pic']
             update_pro = Customer_details.objects.get(id=id)
@@ -2457,7 +2489,6 @@ def customer_details_update_action(request):
         street1 = request.POST.get("street1",False)
         city = request.POST.get("city",False)
         zip = request.POST.get("zip",False)
-        
         try:
             contract_certi = request.FILES['contract_certi']
             update_contract_certi = Customer_details.objects.get(id=id)
@@ -2467,13 +2498,9 @@ def customer_details_update_action(request):
             update_contract_certi1 =  user_request_plot.objects.get(customer_id_id=id,available_status=1)
             update_contract_certi1.contract_certi = contract_certi
             update_contract_certi1.save()
-
-            
-
-            
         except:
             pass
-        
+       
         try:
             other_document = request.FILES['other_document']
             update_other_certi = Customer_details.objects.get(id=id)
@@ -2487,10 +2514,34 @@ def customer_details_update_action(request):
             pass
         email = request.POST.get("email",False)
         bank = request.POST.get("bank",False)
+        update_customer_details = Customer_details.objects.get(id=id)
+        bank_split = bank.split("&")
+        user_bank = ""
+        try:
+            user_bank_data = Bank_details.objects.get(id=update_customer_details.bank_relation_id.id)
+            user_bank = user_bank_data.id
+        except:
+            pass
+        if (bank_split == ['', '']):
+            bank_split = ['', '']
+        elif (int(bank_split[0]) == user_bank):
+            bank_split = ['', '']
+        else:
+            update_customer_details.bank = bank_split[1]
+            update_customer_details.bank_relation_id_id = int(bank_split[0])
+            update_customer_details.save()    
+       
         street2 = request.POST.get("street2",False)
         satte = request.POST.get("satte",False)
         company_name = request.POST.get("company_name",False)
-        
+        if (update_customer_details.name != name or update_customer_details.phone != phone or update_customer_details.email != email or update_customer_details.customer_id != customer_id or update_customer_details.street1 != street1 or update_customer_details.street2 != street2 or update_customer_details.city != city or update_customer_details.satte != satte or update_customer_details.zip != zip or profile_pic != "" or bank_split != ['', '']):
+            update_status = True
+        else:
+            update_status = False
+        if update_status == False:
+            messages.warning(request, "No Updates")
+            return redirect(request.META['HTTP_REFERER'])
+       
         try:
             customer_doc_id = request.FILES['customer_doc_id']
             update_customer_certi = Customer_details.objects.get(id=id)
@@ -2502,7 +2553,7 @@ def customer_details_update_action(request):
             update_customer_certi1.save()
         except:
             pass
-        
+       
         try:
             tax_certificate = request.POST.get("tax_certificate",False)
             update_tax_certi = Customer_details.objects.get(id=id)
@@ -2514,13 +2565,13 @@ def customer_details_update_action(request):
             update_tax_certi1.save()
         except:
             pass
-        bank_split = bank.split("&")
+       
         customer_type = request.POST.get("customer_type",False)
         update_customer_details = Customer_details.objects.get(id=id)
         update_customer_details.name = name
         update_customer_details.phone = phone
         update_customer_details.customer_id = customer_id
-        update_customer_details.bank = bank_split[1]
+       
         update_customer_details.customer_type = customer_type
         update_customer_details.company_name = company_name
         update_customer_details.street1 = street1
@@ -2529,7 +2580,7 @@ def customer_details_update_action(request):
         update_customer_details.satte = satte
         update_customer_details.zip = zip
         update_customer_details.email = email
-        update_customer_details.bank_relation_id_id = int(bank_split[0])
+       
         update_customer_details.save()
        
         try:
@@ -2547,10 +2598,6 @@ def customer_details_update_action(request):
         messages.success(request,str("Updated"))
 
         return redirect(request.META['HTTP_REFERER'])
-
-
-
-
 
 
 

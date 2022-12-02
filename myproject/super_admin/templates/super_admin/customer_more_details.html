@@ -206,9 +206,12 @@
                                                  <h6 class="my-0">Phone</h6>
                                              </div>
                                              <div class="col-md-7 d-flex align-items-center">
-                                                 <input type="text" name="phone" class="form-control" placeholder=""
-                                                 {% if data.phone == None %} {% else %} value="{{data.phone}}" {% endif %}>
+                                                 <input maxlength="9" minlength="9" type="text" pattern="\d*" name="phone" class="form-control" placeholder=""
+                                                 {% if data.phone == None %} {% else %} value="{{data.phone}}" {% endif %} onkeyup="javascript:checkContents(this)">
+                                                 
+
                                              </div>
+                                             <div style="display:none;color:red;" class="form-control-feedback user_table1">*Phone should be 9 digits and start with 5</div>
 
                                          </div>
 
@@ -226,9 +229,11 @@
                                                  <h6 class="my-0">Customer Id</h6>
                                              </div>
                                              <div class="col-md-7 d-flex align-items-center">
-                                                 <input type="text"  name="customer_id" class="form-control" placeholder="" {% if data.customer_id == None %} {% else %} value="{{data.customer_id}}" {% endif %} 
-                                                     >
+                                                 <input  maxlength="10" minlength="10" type="text" name="customer_id" class="form-control" onkeyup="search_details(this)" placeholder="" {% if data.customer_id == None %} {% else %} value="{{data.customer_id}}" {% endif %} >
+                                                     
+
                                              </div>
+                                             <div style="display:none;color:red;" class="form-control-feedback user_table">*ID should be 10 digits...</div>
                                          </div>
                                          <div class="row">
                                              <div class="col-md-3 br-right d-flex align-items-start">
@@ -722,4 +727,29 @@
         $(".propic").show()
     }
 </script>
+
+<script type="text/javascript">
+    var checkContents = function(input) {
+       var text = input.value;
+       if(!/[5]/.test(text))
+          input.value = "";
+          if (input.value.length != 9) {
+     $(".user_table1").show()
+   }
+   else if(input.value.length == 9) {
+     $(".user_table1").hide()
+   }
+    }
+ </script>
+
+<script>
+    function search_details(status){
+    if (status.value.length != 10) {
+      $(".user_table").show()
+          }
+          else if (status.value.length == 10){
+          $(".user_table").hide()
+  }
+    }
+  </script>
         {% endblock %}
