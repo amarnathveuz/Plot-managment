@@ -1,12 +1,25 @@
+{% load static %}
 <div class="col-md-12">
     <h3 style="    font-size: 15px;">manager ({{data_total_manager|length}})</h3>
     {% for i in data_total_manager %}
     <div class='project-column mt-1'>
         <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
-        <div class="customer-bx">
-            <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+            <div class="customer-bx">
 
-                        </div>
+                {% if i.atatchment == '' %}
+                <div class="cust-img"
+                style="background-image: url({% static 'adminicon.jpg' %});"></div> 
+
+                {% elif i.atatchment == None %}
+
+                <div class="cust-img"
+                style="background-image: url({% static 'adminicon.jpg' %});"></div>
+
+                {% else %}
+
+                <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');"></div>
+
+                {% endif %}
             <div class="customer-content">
                 <h5>{{i.name}}</h5>
                 <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
@@ -30,10 +43,21 @@
     {% for i in data_total_salesman %}
     <div class='project-column mt-1'>
         <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
-        <div class="customer-bx">
-            <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+            <div class="customer-bx">
+                {% if i.atatchment == '' %}
+                <div class="cust-img"
+                style="background-image: url({% static 'adminicon.jpg' %});"></div> 
 
-                        </div>
+                {% elif i.atatchment == None %}
+
+                <div class="cust-img"
+                style="background-image: url({% static 'adminicon.jpg' %});"></div>
+
+                {% else %}
+
+                <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');"></div>
+
+                    {% endif %}
             <div class="customer-content">
                 <h5>{{i.name}}</h5>
                 <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>

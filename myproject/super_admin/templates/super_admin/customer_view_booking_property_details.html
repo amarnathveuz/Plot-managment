@@ -15,7 +15,7 @@
                 <div class="d-flex align-items-center justify-content-between px-2" >
             
                     <div class="col-md-4 px-0">
-                        <a href="create_property"><button type="button"
+                        <a style="display: none" href="create_property"><button type="button"
                                 class="btn btn-prim add-btn create-button"><i
                                     class="fas fa-plus"></i>
                                 Create
@@ -204,6 +204,7 @@
                                         
                                         
                                         <th class="sort"  data-sort="date">Phone</th>
+                                        <th class="sort"  data-sort="date">Email</th>
                                         <th class="sort" data-sort="date">Unit No</th>
                                         <!-- <th class="sort" data-sort="amount">Amount</th>
                                                     <th class="sort" data-sort="payment">Payment Method</th> -->
@@ -290,6 +291,15 @@
                                             {% endif %}
 
                                           
+                                        </td>
+                                        <td>
+                                           {% if  i.customer_email == None %}
+
+                                           {% elif i.customer_email == '' %}
+
+
+                                           {% else %} {{i.customer_email}}
+                                           {% endif %}
                                         </td>
                                         <td  class="product_name">{{i.property_mapping_id.UnitNo}}</td>
                                         <td  class="date">{{i.property_mapping_id.BlockNo}}</td>

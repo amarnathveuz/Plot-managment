@@ -538,10 +538,23 @@ def property_update(request):
         ds1 =  '{:20,.2f}'.format(int(Price))
         cv22 = str(ds1).replace(" ", "")
         customer_email = request.POST.get("customer_email")
+        
         if Bank == "select bank":
-            messages.error(request, "Select Bank")
-            return redirect(request.META['HTTP_REFERER'])
-       
+            print("heeeeeeeeeeeeeeeee")
+            try:
+                data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
+                print(data)
+                messages.error(request, "Select Bank")
+                return redirect(request.META['HTTP_REFERER'])
+            except:
+                data1 = intractive_map.objects.get(id=id)
+                print("data1::::::::::::::",str(data1.Bank))
+                Bank = data1.Bank
+            
+                print("Bank1111::::::::::",str(Bank))
+                pass
+            
+        
         bank_mapping_id = None
        
         try:
@@ -568,10 +581,25 @@ def property_update(request):
         print("attachment_file_cond::::::::::",str(attachment_file_cond))
 
         data = intractive_map.objects.get(id=id)
-        if (data.Name != Name or  data.customer_email != customer_email or str(data.UnitNo) != str(UnitNo) or data.BlockNo != BlockNo or data.Phoneno != Phoneno or data.customer_id != customer_id or data.UnitArea != float(UnitArea) or data.UType != UType or int(Price) != int(data.Price) or data.Bank != Bank or attachment_file_cond != [] ):
+        if Name == '':
+            Name = data.Name
+        if customer_email == '':
+            customer_email = data.customer_email
+        if Phoneno == '':
+            Phoneno = data.Phoneno
+        if customer_id == '':
+            customer_id = data.customer_id
+        if UType == '':
+            UType = data.UType
+        
+        
+        
+    
+        if (data.Name != Name or  data.customer_email != customer_email or str(data.UnitNo) != str(UnitNo) or data.BlockNo != BlockNo or data.Phoneno != Phoneno or data.customer_id != customer_id or data.UnitArea != float(UnitArea) or data.UType != UType or int(Price) != int(round(data.Price,0)) or data.Bank != Bank or attachment_file_cond != [] ):
             update_status = True
         else:
             update_status = False
+        
         if update_status == False :
             messages.error(request,"Not updated")
             return redirect(request.META['HTTP_REFERER'])
@@ -691,7 +719,9 @@ def property_update(request):
 
                 )
             try:
+
                 data = user_request_plot.objects.get(property_mapping_id_id=id,available_status=1)
+                data_update_customer = Customer_details.objects.filter(id=data.customer_id.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,email=customer_email)
                 update_user_request = user_request_plot.objects.filter(id=data.id).update(name=Name,phone=Phoneno,bank=Bank,bank_relation_id_id=bank_mapping_id,Price= Price,customer_email=customer_email)
             except:
                 pass
@@ -1774,6 +1804,7 @@ def rest_to_available_booking_action(request):
             arabic_status = data34.text
         except:
             pass
+        update_data1 = user_request_plot.objects.filter(property_mapping_id_id=map_instance.id,available_status=1).update(reset_to_availale=1,available_status=0)
         data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status,customer_email=None)
     
 
@@ -3055,6 +3086,7 @@ def approve_booking_action_new(request):
 
 
 def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
+    
     id  = id
     data = user_request_plot.objects.get(id=id)
     plot_name = data.property_mapping_id.BlockNo+str(data.property_mapping_id.UnitNo)
@@ -3087,6 +3119,7 @@ def rest_to_available_booking_action_new(id,user_type1,auth_user_id,plot_id):
         save_log = booking_log(booking_id_id=id,auth_user=auth_user_id,user_type="staff",d_text=text_content,status_content=status_content,log_type="booking_confirm",assigned_user_id_id=assigned_user_id,intractive_map_id_id=plot_id)
         save_log.save()
     data_update_plot_request = user_request_plot.objects.filter(id=id).update(reset_to_availale=1,available_status=0,read_status=1,booking_status=3)
+    
     arabic_status = None
     try:
         data34 = status_code.objects.get(status_code=0)
@@ -3105,13 +3138,13 @@ def cancel_booking_action(request):
     
     plot_instance = intractive_map.objects.get(id=id)
     try:
-        print("heyyyyyyyyyy")
         data_customer_details = Customer_details.objects.get(customer_id=plot_instance.customer_id)
-        print("heyyyyyyyyyy11")
         try:
             data_customer_request = user_request_plot.objects.get(customer_id_id=data_customer_details.id,property_mapping_id_id=id,available_status=1)
+            
             user_type = User.objects.get(id=request.user.id)
             user_type1 = user_type.is_superuser
+            update_data1 = user_request_plot.objects.filter(property_mapping_id_id=id,available_status=1).update(reset_to_availale=1,available_status=0)
             rest_to_available_booking_action_new(data_customer_request.id,user_type1,request.user,id)
             messages.success(request,"You successfully Reset to Available")
             return redirect(request.META['HTTP_REFERER'])
@@ -3123,6 +3156,7 @@ def cancel_booking_action(request):
             except:
                 pass
             data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status)
+            update_data1 = user_request_plot.objects.filter(property_mapping_id_id=id,available_status=1).update(reset_to_availale=1,available_status=0)
             current_status = plot_instance.booking_status
             if current_status == 1:
                 current_status = 'Price Quotation'
@@ -3160,12 +3194,9 @@ def cancel_booking_action(request):
         data_update = intractive_map.objects.filter(id=id).update(current_status=0,Bank='',customer_id='',Phoneno='',Name=None,Status=arabic_status)
         text_content = "Booking report cancel done"
         status_content = 'Price Quotation --> Reset to Available'
-        print("heyyyyyyyywwwwwwwwwsssss888ssssssssssss")
-        print("forrrr:::::::::::::",str(id))
+        update_data1 = user_request_plot.objects.filter(property_mapping_id_id=id,available_status=1).update(reset_to_availale=1,available_status=0)
         save_log = booking_log(auth_user=request.user,user_type=usertype1,d_text=text_content,status_content=status_content,log_type="booking_confirm",intractive_map_id_id=id)
-
         save_log.save()
-        print("heyyyyyyyywwwwwwwq4444444wwsssss888ssssssssssss")
         messages.success(request,"You successfully Reset to Available")
         return redirect(request.META['HTTP_REFERER'])
         pass
@@ -3246,6 +3277,8 @@ def plot_view_details(request):
                     resized_image = image.resize((233,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
+                    if  extesion == ".jpg":
+                        extesion = ".jpeg"
                     resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, extesion[1:], quality=90)
                     image_new1 = 'plot_view_master_image/resized'+plot_view1.name
                 elif checked1 == "same_plot1":
@@ -3269,6 +3302,8 @@ def plot_view_details(request):
                     resized_image = image.resize((233,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
+                    if  extesion == ".jpg":
+                        extesion = ".jpeg"
                     resized_image.save("media/plot_view_master_image/"+'resized'+plot_view1.name, extesion[1:], quality=90)
                     image_new1 = 'plot_view_master_image/resized'+plot_view1.name
 
@@ -3309,6 +3344,8 @@ def plot_view_details(request):
                     resized_image = image.resize((507,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
+                    if  extesion == ".jpg":
+                        extesion = ".jpeg"
                     resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name, extesion[1:], quality=90)
                     image_new2 = 'plot_view_master_image/resized'+plot_view2.name
                 elif checked2 == "same_plot2":
@@ -3330,6 +3367,8 @@ def plot_view_details(request):
                     resized_image = image.resize((507,397))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
+                    if  extesion == ".jpg":
+                        extesion = ".jpeg"
                     resized_image.save("media/plot_view_master_image/"+'resized'+plot_view2.name,extesion[1:], quality=90)
                     image_new2 = 'plot_view_master_image/resized'+plot_view2.name
 
@@ -3359,6 +3398,7 @@ def plot_view_details(request):
                 data = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view3")
                 import os
                 extesion = os.path.splitext(str(plot_view3))[1]
+                print("extesion::::::",extesion)
                 data1 = plot_view_master_image.objects.get(mapping_id_id=plot_view_id,plot_type="view3")
 
                 if checked3 == "above_plot3":
@@ -3368,6 +3408,8 @@ def plot_view_details(request):
                     resized_image = image.resize((268,349))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
+                    if  extesion == ".jpg":
+                        extesion = ".jpeg"
                     resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, extesion[1:], quality=90)
                     image_new3 = 'plot_view_master_image/resized'+plot_view3.name
                 elif checked3 == "same_plot3":
@@ -3381,6 +3423,7 @@ def plot_view_details(request):
             except:
                 import os
                 extesion = os.path.splitext(str(plot_view3))[1]
+                print("checked3:::::",str(checked3))
                 if checked3 == "above_plot3":
                  
                     image = Image.open(plot_view3)
@@ -3388,6 +3431,10 @@ def plot_view_details(request):
                     resized_image = image.resize((268,349))
                     print("resizeeeeeed:",resized_image.size)
                     from django.conf import settings
+                    print("plot_view3.name::::",str(extesion[1:]))
+                    if  extesion == ".jpg":
+                        extesion = ".jpeg"
+                    
                     resized_image.save("media/plot_view_master_image/"+'resized'+plot_view3.name, extesion[1:], quality=90)
                     image_new3 = 'plot_view_master_image/resized'+plot_view3.name
                 elif checked3 == "same_plot3":

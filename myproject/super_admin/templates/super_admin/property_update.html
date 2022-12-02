@@ -1194,33 +1194,27 @@
 <script src="{% static 'admin/js/jquery.min.js' %}"></script>
 
 {% if messages %}
-<script>
-    {% for message in messages %}
-
-
-  
-
-
-    message1 = "{{message}}"
-    if (message1 == "error") {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: "{{ message }}",
-        })
-
-    } else {
-
-
-        
-        
-        Swal.fire(
-            '',
-            '{{ message }}',
-            '{{message.tags}}'
-        )
-    }
-     {% endfor %}
+<script>  
+ {% for message in messages %}
+    var toastMixin = Swal.mixin({
+toast: true,
+icon: '{{message.tags}}',
+title: 'General Title',
+animation: false,
+position: 'top-right',
+showConfirmButton: false,
+timer: 2000,
+timerProgressBar: true,
+didOpen: (toast) => {
+toast.addEventListener('mouseenter', Swal.stopTimer)
+toast.addEventListener('mouseleave', Swal.resumeTimer)
+}
+});
+toastMixin.fire({
+animation: true,
+title: '{{message}}'
+});
+{% endfor %}
 </script>
 {% endif %}
 
@@ -1505,6 +1499,9 @@ $("#basiInput8").addClass("select_box_bank1")
         var customer_bank = $("#basiInput8").val()
         var customer_email = $("#b_customer_email").val()
         var plot_id = `{{data.id}}`
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+ 
         if (customer_name == '') {
            
             document.getElementById("name_id").style.display = "block";
@@ -1548,7 +1545,21 @@ $("#basiInput8").addClass("select_box_bank1")
         // }else if (customer_id.length == 10) {
         //     document.getElementById("customer_div").style.display = "none";
         
-        } else if (customer_bank == 'select bank') {
+        } 
+        
+        else if(customer_email == ''){
+           
+            document.getElementById("email_id").style.display = "block";
+            document.getElementById("email_id").innerHTML = "Please fill out email!";
+        }
+        else    if (!filter.test(customer_email)) {
+           
+        document.getElementById("email_id").style.display = "block";
+            document.getElementById("email_id").innerHTML = "Enter valid email ID!";
+ }
+ 
+        else if (customer_bank == 'select bank') {
+            document.getElementById("email_id").style.display = "none";
           
             document.getElementById("customerbank_div").style.display = "block";
             document.getElementById("customerbank_div").innerHTML = "Please fill out bank!";
@@ -1557,10 +1568,8 @@ $("#basiInput8").addClass("select_box_bank1")
             document.getElementById("customer_div").style.display = "none";
 
         }
-        else if(customer_email == ''){
-            document.getElementById("email_id").style.display = "block";
-            document.getElementById("email_id").innerHTML = "Please fill out email!";
-        }
+        
+       
         else  {
             document.getElementById("customer_div").style.display = "none";
             redirect_url = "admin_book_plot_action"

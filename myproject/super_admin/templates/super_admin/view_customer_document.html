@@ -414,12 +414,27 @@
           },
           success: function (data) {
               if(data['message'] == "success"){
-                  Swal.fire({
-                  icon: 'success',
-                  title: '',
-                  text: "Delete successfully"
-               
-               }).then(function() {
+                var toastMixin = Swal.mixin({
+  toast: true,
+  icon: 'success',
+  title: 'General Title',
+  animation: false,
+  position: 'top-right',
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+});
+   toastMixin.fire({
+      animation: true,
+      title: "Delete successfully"
+
+
+         
+         }).then(function() {
                 window.location = "view_customer_document?id={{id}}"
             });
              }

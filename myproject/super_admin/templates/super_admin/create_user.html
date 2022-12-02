@@ -71,13 +71,13 @@
                                        
                                         <div class="cust-name row">
                                             <div class="col-md-1">
-                                                <input  id="user_type1" type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> <label
+                                                <input required  id="user_type1" type="radio" onclick="visible_manager('manager')" name="user_type"  value="manager"> <label
                                                     for="Individual">Manager</label><br>
                                             </div>
                                             <div class="col">
-                                                <input  id="user_type1" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
+                                                <input  required id="user_type1" onclick="visible_manager('salesman')" name="user_type"  type="radio"  value="salesman"><label
                                                     for="company">Salesman</label>&nbsp;&nbsp;&nbsp;
-                                                    <input  id="user_type1" onclick="visible_admin('admin')" name="user_type"  type="radio"  value="admin"><label
+                                                    <input required  id="user_type1" onclick="visible_admin('admin')" name="user_type"  type="radio"  value="admin"><label
                                                     for="company">Admin</label><br>
                                             </div>
                                             
@@ -384,36 +384,27 @@ var user_type = ''
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {% if messages %}
-   <script>
-    {% for message in messages %}
-        message1 = "{{message}}"
-       
-
-      
-       
-        if(message1 == "error"){
-
-            Swal.fire({
-  icon: 'error',
-  title: 'Oops...',
-  text: "{{ message }}",
- 
-})
-
-
-
-        }
-        else{
-
-            Swal.fire(
-				  '',
-				  '{{ message }}',
-				  '{{message.tags}}'
-				)
-      
-        }
-    {% endfor %}
-   </script>
+<script> {% for message in messages %}
+    var toastMixin = Swal.mixin({
+toast: true,
+icon: '{{message.tags}}',
+title: 'General Title',
+animation: false,
+position: 'top-right',
+showConfirmButton: false,
+timer: 2000,
+timerProgressBar: true,
+didOpen: (toast) => {
+toast.addEventListener('mouseenter', Swal.stopTimer)
+toast.addEventListener('mouseleave', Swal.resumeTimer)
+}
+});
+toastMixin.fire({
+animation: true,
+title: '{{message}}'
+});
+{% endfor %}
+</script>
 {% endif %}
 
 <script>
@@ -503,11 +494,24 @@ function image_remove_action(){
                             document.forms["frmUser"].submit();
                         }
                         else{
-                            Swal.fire({
-                              icon: 'error',
-                              title: 'error...',
-                              text: 'Password Doesnot Match!',
-                            })
+                            var toastMixin = Swal.mixin({
+  toast: true,
+  icon: 'warning',
+  title: 'General Title',
+  animation: false,
+  position: 'top-right',
+  showConfirmButton: false,
+  timer: 1000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+});
+   toastMixin.fire({
+      animation: true,
+      title: "password Doesn't match"
+   });
                         }
                     }
                     else{

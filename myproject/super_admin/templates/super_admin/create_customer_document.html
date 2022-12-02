@@ -213,26 +213,27 @@
 
 {% if messages %}
 <script>
-    {% for message in messages %}
 
-    message1 = "{{message}}"
-
-
-    if (message1 == "error") {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: "{{ message }}",
-        })
-    } else {
-
-        Swal.fire(
-            '',
-            '{{ message }}',
-            '{{message.tags}}'
-        )
-    } 
-    {% endfor %}
+{% for message in messages %}
+    var toastMixin = Swal.mixin({
+toast: true,
+icon: '{{message.tags}}',
+title: 'General Title',
+animation: false,
+position: 'top-right',
+showConfirmButton: false,
+timer: 2000,
+timerProgressBar: true,
+didOpen: (toast) => {
+toast.addEventListener('mouseenter', Swal.stopTimer)
+toast.addEventListener('mouseleave', Swal.resumeTimer)
+}
+});
+toastMixin.fire({
+animation: true,
+title: '{{message}}'
+});
+{% endfor %}
 </script>
 
 {% endif %}

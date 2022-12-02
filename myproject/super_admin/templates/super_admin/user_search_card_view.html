@@ -1,10 +1,24 @@
+
+{% load static %}
 {% for i in data %}
                                     <div class='project-column'>
                                         <a href="user_edit?id={{i.id}}" style="text-decoration: none;color: black">
-                                        <div class="customer-bx">
-                                            <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');">
+                                            <div class="customer-bx">
 
-                                                        </div>
+                                                {% if i.atatchment == '' %}
+                                                <div class="cust-img"
+                                                style="background-image: url({% static 'adminicon.jpg' %});"></div> 
+        
+                                                {% elif i.atatchment == None %}
+        
+                                                <div class="cust-img"
+                                                style="background-image: url({% static 'adminicon.jpg' %});"></div>
+            
+                                                {% else %}
+    
+                                                <div class="cust-img" style="background-image: url('../media/{{i.atatchment}}');"></div>
+    
+                                                {% endif %}
                                             <div class="customer-content">
                                                 <h5>{{i.name}}</h5>
                                                 <span class="d-flex"><h6>Phone : </h6> {{i.phone}}</span>
